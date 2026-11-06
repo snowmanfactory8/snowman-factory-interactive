@@ -4125,7 +4125,7 @@
       const totalBadge = document.getElementById('tocTotalBadge');
       const subDesc = document.getElementById('tocSubDesc');
       const footer = document.querySelector('.toc-footer');
-      const isAdmin = !!window.isAdminMode;
+      const isAdmin = !!(window.isAdminMode || (typeof isAdminMode !== "undefined" && isAdminMode));
 
       if (!container) return;
 
@@ -5533,6 +5533,7 @@
 
     function enableAdminMode() {
       isAdminMode = true;
+      window.isAdminMode = true;
       document.body.classList.add('admin-mode-active');
       const toolbar = document.getElementById('adminToolbar');
       if (toolbar) toolbar.classList.add('visible');
@@ -5548,6 +5549,7 @@
 
     function exitAdminMode() {
       isAdminMode = false;
+      window.isAdminMode = false;
       document.body.classList.add('admin-mode-active');
       document.body.classList.remove('admin-mode-active');
       const toolbar = document.getElementById('adminToolbar');
