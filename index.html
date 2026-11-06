@@ -3142,7 +3142,7 @@
             브로슈어 목차
             <span id="tocTotalBadge" style="font-size: 10px; background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 1px 6px; border-radius: 4px; font-family: monospace;">P.1 / 4</span>
           </h3>
-          <p style="margin: 2px 0 0; font-size: 11px; color: #94a3b8;">클릭하여 바로 이동하거나, 위/아래 버튼으로 순서를 변경합니다.</p>
+          <p id="tocSubDesc" style="margin: 2px 0 0; font-size: 11px; color: #94a3b8;">목록을 클릭하여 해당 페이지로 바로 이동합니다.</p>
         </div>
       </div>
       <button onclick="closeTocPanel()" title="목차 닫기" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;" onmouseenter="this.style.background='rgba(239, 68, 68, 0.3)'; this.style.color='#fca5a5';" onmouseleave="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='#cbd5e1';">
@@ -4123,6 +4123,10 @@
     function renderTocList() {
       const container = document.getElementById('tocListContainer');
       const totalBadge = document.getElementById('tocTotalBadge');
+      const subDesc = document.getElementById('tocSubDesc');
+      const footer = document.querySelector('.toc-footer');
+      const isAdmin = !!window.isAdminMode;
+
       if (!container) return;
 
       const pages = getAllPages();
@@ -4130,6 +4134,16 @@
 
       if (totalBadge) {
         totalBadge.textContent = `P.${currentBrochurePage + 1} / ${totalBrochurePages}`;
+      }
+
+      if (subDesc) {
+        subDesc.textContent = isAdmin
+          ? '클릭하여 이동하거나, 위/아래 버튼 및 드래그로 순서를 변경합니다.'
+          : '목록을 클릭하여 해당 페이지로 바로 이동합니다.';
+      }
+
+      if (footer) {
+        footer.style.display = isAdmin ? 'flex' : 'none';
       }
 
       if (pages.length === 0) {
@@ -4143,8 +4157,27 @@
         const isFirst = (idx === 0);
         const isLast = (idx === pages.length - 1);
 
+        const dragAttrs = isAdmin
+          ? `draggable="true" ondragstart="handleTocDragStart(event, ${idx})" ondragover="handleTocDragOver(event)" ondrop="handleTocDrop(event, ${idx})" ondragend="handleTocDragEnd(event)"`
+          : `draggable="false"`;
+
+        const reorderActionsHtml = isAdmin ? `
+          <div class="toc-reorder-actions" onclick="event.stopPropagation()">
+            <button class="toc-order-btn" title="한 페이지 위로 이동" onclick="movePageUp(${idx})" ${isFirst ? 'disabled' : ''}>
+              <i data-lucide="chevron-up" style="width: 13px; height: 13px;"></i>
+            </button>
+            <button class="toc-order-btn" title="한 페이지 아래로 이동" onclick="movePageDown(${idx})" ${isLast ? 'disabled' : ''}>
+              <i data-lucide="chevron-down" style="width: 13px; height: 13px;"></i>
+            </button>
+          </div>
+        ` : `
+          <div style="opacity: 0.4; display: flex; align-items: center;">
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: #94a3b8;"></i>
+          </div>
+        `;
+
         return `
-          <div class="toc-item-card ${isActive ? 'active' : ''}" data-index="${idx}" onclick="handleTocItemClick(${idx})" draggable="true" ondragstart="handleTocDragStart(event, ${idx})" ondragover="handleTocDragOver(event)" ondrop="handleTocDrop(event, ${idx})" ondragend="handleTocDragEnd(event)">
+          <div class="toc-item-card ${isActive ? 'active' : ''}" data-index="${idx}" onclick="handleTocItemClick(${idx})" ${dragAttrs} style="${isAdmin ? 'cursor: grab;' : 'cursor: pointer;'}">
             
             <!-- Page Number Badge -->
             <div class="toc-num-badge">
@@ -4164,15 +4197,8 @@
               </div>
             </div>
 
-            <!-- Reorder Actions (Up / Down) -->
-            <div class="toc-reorder-actions" onclick="event.stopPropagation()">
-              <button class="toc-order-btn" title="한 페이지 위로 이동" onclick="movePageUp(${idx})" ${isFirst ? 'disabled' : ''}>
-                <i data-lucide="chevron-up" style="width: 13px; height: 13px;"></i>
-              </button>
-              <button class="toc-order-btn" title="한 페이지 아래로 이동" onclick="movePageDown(${idx})" ${isLast ? 'disabled' : ''}>
-                <i data-lucide="chevron-down" style="width: 13px; height: 13px;"></i>
-              </button>
-            </div>
+            <!-- Reorder Actions (Only in Admin Mode) -->
+            ${reorderActionsHtml}
 
           </div>
         `;
@@ -4194,6 +4220,10 @@
     // 페이지 순서 변경 (DOM Reordering)
     // -------------------------------------------------------------
     function movePage(fromIdx, toIdx) {
+      if (!window.isAdminMode) {
+        alert('페이지 순서 변경은 관리자 모드에서만 가능합니다.');
+        return;
+      }
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
