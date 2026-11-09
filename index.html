@@ -4163,6 +4163,156 @@
 
 
     // =============================================================
+    // -------------------------------------------------------------
+    // OBSIDIAN GRAPH VIEW CATEGORIES DATA
+    // -------------------------------------------------------------
+    let categoriesData = [
+      {
+        id: "bim",
+        name: "BIM",
+        sub: "디지털 트윈",
+        fullName: "BIM (Building Information Modeling)",
+        x: 180,
+        y: 125,
+        color: "#1e40af",
+        randomAngles: [35, 122, 215, 305],
+        children: [
+          { pos: "top-left", title: "BIM 정밀 모델링", en: "Integrated BIM 3D" },
+          { pos: "top-right", title: "설계 간섭체크", en: "Clash Detection" },
+          { pos: "bottom-left", title: "전환 BIM (조달청)", en: "PPS Standard BIM" },
+          { pos: "bottom-right", title: "시공 물량 산출", en: "Accurate QTO 5D" }
+        ],
+        annotations: [
+          { ko: "조달청 맞춤형 서비스 시설사업 기준 충족", en: "Public Procurement Service BIM Compliance" },
+          { ko: "건축·구조·MEP 전 분야 사전 간섭 100% 검출", en: "Multi-Disciplinary Clash Detection & Audit" },
+          { ko: "담바우 에너지공급센터 대상 수상 (2024)", en: "BIM AWARDS 2024 Grand Prize Winner" },
+          { ko: "네이버 1784 등 대형 프로젝트 레퍼런스", en: "Smart Building & Digital Twin Track Record" }
+        ],
+        project: "담바우 에너지공급센터 대상 수상(2024) / 네이버 1784 등 다수 프로젝트",
+        desc: "건축·구조·기계·전기 전 분야의 BIM 전환 및 설계 품질 자동 검증"
+      },
+      {
+        id: "scan",
+        name: "3D 스캐닝",
+        sub: "초정밀 역설계",
+        fullName: "3D LiDAR 스캐닝 & 역설계",
+        x: 500,
+        y: 125,
+        color: "#0e7490",
+        randomAngles: [22, 128, 205, 292],
+        children: [
+          { pos: "top-left", title: "LiDAR 1mm 오차", en: "High Precision Scan" },
+          { pos: "top-right", title: "Scan to BIM", en: "As-Built Reverse Eng." },
+          { pos: "bottom-left", title: "고밀도 점군 데이터", en: "Dense Point Cloud" },
+          { pos: "bottom-right", title: "시공 오차 정밀분석", en: "Deviation Analysis" }
+        ],
+        annotations: [
+          { ko: "1mm 단위 고밀도 3D LiDAR 현장 스캔", en: "High-Density Terrestrial Laser Scanning" },
+          { ko: "역설계를 통한 실측 준공 모델 구축", en: "Scan-to-BIM Reverse Engineering Workflow" },
+          { ko: "담바우 에너지공급센터 준공 현황 실측", en: "Mechanical & Piping Exact Position Scan" },
+          { ko: "메리어트 호텔 5개 타입 정합성 검증", en: "Luxury Hotel Renovation Quality Assurance" }
+        ],
+        project: "담바우 에너지공급센터 준공 현황 스캔 / 메리어트 호텔 5개 타입 정합성 검증",
+        desc: "1mm 단위 고밀도 3D LiDAR 스캔으로 시공 오차를 사전에 검출하고 디지털 자산화"
+      },
+      {
+        id: "xr",
+        name: "공간 컴퓨팅",
+        sub: "Spatial XR",
+        fullName: "공간 컴퓨팅 (AR · VR · MR)",
+        x: 820,
+        y: 125,
+        color: "#6d28d9",
+        randomAngles: [42, 138, 228, 318],
+        children: [
+          { pos: "top-left", title: "XR 시공 가이드", en: "Field AR Overlay" },
+          { pos: "top-right", title: "HoloLens 2 증강", en: "MS MR Headset Tech" },
+          { pos: "bottom-left", title: "디지털 트윈 아카이브", en: "Digital Twin Archive" },
+          { pos: "bottom-right", title: "가상 협업 메타버스", en: "Metaverse Collaboration" }
+        ],
+        annotations: [
+          { ko: "스마트 글래스를 통한 현장 시공 정보 증강", en: "Mixed Reality Hands-Free Inspection" },
+          { ko: "CAD/BIM 데이터와 실제 공간 1:1 정합", en: "1:1 Real-World Spatial Registration" },
+          { ko: "해성푸드원 스마트 식품공장 실증 완료", en: "Food Plant MEP Verification Deployment" },
+          { ko: "Uncommon Canvas 건축 IP 가상 전시", en: "Interactive Metaverse Architecture Archive" }
+        ],
+        project: "해성푸드원 식품공장 XR 정합성 실증 / Uncommon Canvas 건축 IP 협업 전시",
+        desc: "스마트 글래스를 통한 시공 가이드 오버레이 및 3차원 몰입형 실감 협업 환경"
+      },
+      {
+        id: "consulting",
+        name: "교육/컨설팅",
+        sub: "DX 가이드",
+        fullName: "교육 및 DX 표준 컨설팅",
+        x: 180,
+        y: 335,
+        color: "#c2410c",
+        randomAngles: [28, 114, 210, 302],
+        children: [
+          { pos: "top-left", title: "연성대 산학 협력", en: "Academia Partnership" },
+          { pos: "top-right", title: "BIM 표준 템플릿", en: "Standard Family Library" },
+          { pos: "bottom-left", title: "DX 전환 로드맵", en: "Digital Transformation" },
+          { pos: "bottom-right", title: "실무 밀착형 멘토링", en: "Hands-on Mentoring" }
+        ],
+        annotations: [
+          { ko: "연성대학교 산학 협력 패밀리 기업 협약", en: "University-Industry Research Partnership" },
+          { ko: "Revit 실무 프로세스 및 표준 템플릿 보급", en: "National Standard Family Deployment" },
+          { ko: "BIM 도입이 전무한 기업을 위한 0 to 1 가이드", en: "BIM Adoption 0 to 1 Step-by-Step" },
+          { ko: "중소 건축사 대상 1:1 실무 엔지니어링 전수", en: "Custom On-Site Engineering Coaching" }
+        ],
+        project: "연성대학교 산학 협력 컨설팅 / 중소 건축사 대상 Revit 실무 프로세스 전수",
+        desc: "BIM 도입이 0[ZERO]에 있는 파트너사를 위한 맞춤형 멘토링 및 실무 교육"
+      },
+      {
+        id: "simulation",
+        name: "시뮬레이션",
+        sub: "친환경 해석",
+        fullName: "친환경 에너지 BIM 시뮬레이션",
+        x: 500,
+        y: 335,
+        color: "#15803d",
+        randomAngles: [48, 134, 224, 324],
+        children: [
+          { pos: "top-left", title: "일조 & 음영 해석", en: "Solar & Shading Sim." },
+          { pos: "top-right", title: "배관망 유체 해석", en: "Piping CFD Network" },
+          { pos: "bottom-left", title: "산림에너지 자립마을", en: "Forest Energy Village" },
+          { pos: "bottom-right", title: "탄소 배출 절감", en: "Carbon Neutrality" }
+        ],
+        annotations: [
+          { ko: "BIM 기반 일조·음영 및 일사량 정밀 시뮬레이션", en: "High-Accuracy Solar Exposure Analysis" },
+          { ko: "친환경 열원 공급 배관망 유체 유동 해석", en: "District Heating Fluid Dynamic Simulation" },
+          { ko: "담바우 산림에너지자립마을 열원 배관망 실증", en: "National Eco-Village Energy Verification" },
+          { ko: "은빛홍삼 경로당 건축물 단열·탄소 배출 저감", en: "Building Envelope Thermal Efficiency" }
+        ],
+        project: "담바우 산림에너지자립마을 열원 공급 배관망 시뮬레이션 / 은빛홍삼 경로당 단열 해석",
+        desc: "BIM 기반 일조·음영 및 에너지 설비 가동 효율을 정밀 시뮬레이션"
+      },
+      {
+        id: "rnd",
+        name: "연구 (R&D)",
+        sub: "자동화 설계",
+        fullName: "디지털 건축 알고리즘 & 자동화 R&D",
+        x: 820,
+        y: 335,
+        color: "#334155",
+        randomAngles: [35, 124, 208, 314],
+        children: [
+          { pos: "top-left", title: "Dynamo 자동 설계", en: "Algorithmic Design" },
+          { pos: "top-right", title: "NEOM 시설물 패밀리", en: "NEOM Metro Families" },
+          { pos: "bottom-left", title: "모듈러 건축 R&D", en: "Off-Site Modular DfMA" },
+          { pos: "bottom-right", title: "파라메트릭 알고리즘", en: "Parametric Geometry" }
+        ],
+        annotations: [
+          { ko: "Dynamo 알고리즘 기반 반복 설계 자동화", en: "Computational Parametric Architecture" },
+          { ko: "NEOM 지하철 12개 타입 시설물 패밀리 구축", en: "NEOM Mega Project BIM Family Delivery" },
+          { ko: "농산어촌 유학마을 3개 타입 모듈주택 현상설계", en: "Prefab Modular House Competition Winner" },
+          { ko: "미래 건축을 위한 파라메트릭 특허 기술 개발", en: "Next-Gen Digital Construction IP" }
+        ],
+        project: "농산어촌 유학마을 3개 타입 모듈주택 현상설계 / NEOM 지하철 12개 타입 자동화",
+        desc: "파라메트릭 알고리즘을 통한 반복 설계 자동화 및 미래 모듈러 건축 선도"
+      }
+    ];
+
     // SOLUTION CATEGORY & NODE INLINE CMS ENGINE
     // =============================================================
     window.categoriesData = categoriesData;
@@ -4753,152 +4903,6 @@
     // DEFAULT CATEGORIES DATA BACKUP (초기 기본값 백업)
     window.DEFAULT_CATEGORIES_DATA = null;
 
-    let categoriesData = [
-      {
-        id: "bim",
-        name: "BIM",
-        sub: "디지털 트윈",
-        fullName: "BIM (Building Information Modeling)",
-        x: 180,
-        y: 125,
-        color: "#1e40af",
-        randomAngles: [35, 122, 215, 305],
-        children: [
-          { pos: "top-left", title: "BIM 정밀 모델링", en: "Integrated BIM 3D" },
-          { pos: "top-right", title: "설계 간섭체크", en: "Clash Detection" },
-          { pos: "bottom-left", title: "전환 BIM (조달청)", en: "PPS Standard BIM" },
-          { pos: "bottom-right", title: "시공 물량 산출", en: "Accurate QTO 5D" }
-        ],
-        annotations: [
-          { ko: "조달청 맞춤형 서비스 시설사업 기준 충족", en: "Public Procurement Service BIM Compliance" },
-          { ko: "건축·구조·MEP 전 분야 사전 간섭 100% 검출", en: "Multi-Disciplinary Clash Detection & Audit" },
-          { ko: "담바우 에너지공급센터 대상 수상 (2024)", en: "BIM AWARDS 2024 Grand Prize Winner" },
-          { ko: "네이버 1784 등 대형 프로젝트 레퍼런스", en: "Smart Building & Digital Twin Track Record" }
-        ],
-        project: "담바우 에너지공급센터 대상 수상(2024) / 네이버 1784 등 다수 프로젝트",
-        desc: "건축·구조·기계·전기 전 분야의 BIM 전환 및 설계 품질 자동 검증"
-      },
-      {
-        id: "scan",
-        name: "3D 스캐닝",
-        sub: "초정밀 역설계",
-        fullName: "3D LiDAR 스캐닝 & 역설계",
-        x: 500,
-        y: 125,
-        color: "#0e7490",
-        randomAngles: [22, 128, 205, 292],
-        children: [
-          { pos: "top-left", title: "LiDAR 1mm 오차", en: "High Precision Scan" },
-          { pos: "top-right", title: "Scan to BIM", en: "As-Built Reverse Eng." },
-          { pos: "bottom-left", title: "고밀도 점군 데이터", en: "Dense Point Cloud" },
-          { pos: "bottom-right", title: "시공 오차 정밀분석", en: "Deviation Analysis" }
-        ],
-        annotations: [
-          { ko: "1mm 단위 고밀도 3D LiDAR 현장 스캔", en: "High-Density Terrestrial Laser Scanning" },
-          { ko: "역설계를 통한 실측 준공 모델 구축", en: "Scan-to-BIM Reverse Engineering Workflow" },
-          { ko: "담바우 에너지공급센터 준공 현황 실측", en: "Mechanical & Piping Exact Position Scan" },
-          { ko: "메리어트 호텔 5개 타입 정합성 검증", en: "Luxury Hotel Renovation Quality Assurance" }
-        ],
-        project: "담바우 에너지공급센터 준공 현황 스캔 / 메리어트 호텔 5개 타입 정합성 검증",
-        desc: "1mm 단위 고밀도 3D LiDAR 스캔으로 시공 오차를 사전에 검출하고 디지털 자산화"
-      },
-      {
-        id: "xr",
-        name: "공간 컴퓨팅",
-        sub: "Spatial XR",
-        fullName: "공간 컴퓨팅 (AR · VR · MR)",
-        x: 820,
-        y: 125,
-        color: "#6d28d9",
-        randomAngles: [42, 138, 228, 318],
-        children: [
-          { pos: "top-left", title: "XR 시공 가이드", en: "Field AR Overlay" },
-          { pos: "top-right", title: "HoloLens 2 증강", en: "MS MR Headset Tech" },
-          { pos: "bottom-left", title: "디지털 트윈 아카이브", en: "Digital Twin Archive" },
-          { pos: "bottom-right", title: "가상 협업 메타버스", en: "Metaverse Collaboration" }
-        ],
-        annotations: [
-          { ko: "스마트 글래스를 통한 현장 시공 정보 증강", en: "Mixed Reality Hands-Free Inspection" },
-          { ko: "CAD/BIM 데이터와 실제 공간 1:1 정합", en: "1:1 Real-World Spatial Registration" },
-          { ko: "해성푸드원 스마트 식품공장 실증 완료", en: "Food Plant MEP Verification Deployment" },
-          { ko: "Uncommon Canvas 건축 IP 가상 전시", en: "Interactive Metaverse Architecture Archive" }
-        ],
-        project: "해성푸드원 식품공장 XR 정합성 실증 / Uncommon Canvas 건축 IP 협업 전시",
-        desc: "스마트 글래스를 통한 시공 가이드 오버레이 및 3차원 몰입형 실감 협업 환경"
-      },
-      {
-        id: "consulting",
-        name: "교육/컨설팅",
-        sub: "DX 가이드",
-        fullName: "교육 및 DX 표준 컨설팅",
-        x: 180,
-        y: 335,
-        color: "#c2410c",
-        randomAngles: [28, 114, 210, 302],
-        children: [
-          { pos: "top-left", title: "연성대 산학 협력", en: "Academia Partnership" },
-          { pos: "top-right", title: "BIM 표준 템플릿", en: "Standard Family Library" },
-          { pos: "bottom-left", title: "DX 전환 로드맵", en: "Digital Transformation" },
-          { pos: "bottom-right", title: "실무 밀착형 멘토링", en: "Hands-on Mentoring" }
-        ],
-        annotations: [
-          { ko: "연성대학교 산학 협력 패밀리 기업 협약", en: "University-Industry Research Partnership" },
-          { ko: "Revit 실무 프로세스 및 표준 템플릿 보급", en: "National Standard Family Deployment" },
-          { ko: "BIM 도입이 전무한 기업을 위한 0 to 1 가이드", en: "BIM Adoption 0 to 1 Step-by-Step" },
-          { ko: "중소 건축사 대상 1:1 실무 엔지니어링 전수", en: "Custom On-Site Engineering Coaching" }
-        ],
-        project: "연성대학교 산학 협력 컨설팅 / 중소 건축사 대상 Revit 실무 프로세스 전수",
-        desc: "BIM 도입이 0[ZERO]에 있는 파트너사를 위한 맞춤형 멘토링 및 실무 교육"
-      },
-      {
-        id: "simulation",
-        name: "시뮬레이션",
-        sub: "친환경 해석",
-        fullName: "친환경 에너지 BIM 시뮬레이션",
-        x: 500,
-        y: 335,
-        color: "#15803d",
-        randomAngles: [48, 134, 224, 324],
-        children: [
-          { pos: "top-left", title: "일조 & 음영 해석", en: "Solar & Shading Sim." },
-          { pos: "top-right", title: "배관망 유체 해석", en: "Piping CFD Network" },
-          { pos: "bottom-left", title: "산림에너지 자립마을", en: "Forest Energy Village" },
-          { pos: "bottom-right", title: "탄소 배출 절감", en: "Carbon Neutrality" }
-        ],
-        annotations: [
-          { ko: "BIM 기반 일조·음영 및 일사량 정밀 시뮬레이션", en: "High-Accuracy Solar Exposure Analysis" },
-          { ko: "친환경 열원 공급 배관망 유체 유동 해석", en: "District Heating Fluid Dynamic Simulation" },
-          { ko: "담바우 산림에너지자립마을 열원 배관망 실증", en: "National Eco-Village Energy Verification" },
-          { ko: "은빛홍삼 경로당 건축물 단열·탄소 배출 저감", en: "Building Envelope Thermal Efficiency" }
-        ],
-        project: "담바우 산림에너지자립마을 열원 공급 배관망 시뮬레이션 / 은빛홍삼 경로당 단열 해석",
-        desc: "BIM 기반 일조·음영 및 에너지 설비 가동 효율을 정밀 시뮬레이션"
-      },
-      {
-        id: "rnd",
-        name: "연구 (R&D)",
-        sub: "자동화 설계",
-        fullName: "디지털 건축 알고리즘 & 자동화 R&D",
-        x: 820,
-        y: 335,
-        color: "#334155",
-        randomAngles: [35, 124, 208, 314],
-        children: [
-          { pos: "top-left", title: "Dynamo 자동 설계", en: "Algorithmic Design" },
-          { pos: "top-right", title: "NEOM 시설물 패밀리", en: "NEOM Metro Families" },
-          { pos: "bottom-left", title: "모듈러 건축 R&D", en: "Off-Site Modular DfMA" },
-          { pos: "bottom-right", title: "파라메트릭 알고리즘", en: "Parametric Geometry" }
-        ],
-        annotations: [
-          { ko: "Dynamo 알고리즘 기반 반복 설계 자동화", en: "Computational Parametric Architecture" },
-          { ko: "NEOM 지하철 12개 타입 시설물 패밀리 구축", en: "NEOM Mega Project BIM Family Delivery" },
-          { ko: "농산어촌 유학마을 3개 타입 모듈주택 현상설계", en: "Prefab Modular House Competition Winner" },
-          { ko: "미래 건축을 위한 파라메트릭 특허 기술 개발", en: "Next-Gen Digital Construction IP" }
-        ],
-        project: "농산어촌 유학마을 3개 타입 모듈주택 현상설계 / NEOM 지하철 12개 타입 자동화",
-        desc: "파라메트릭 알고리즘을 통한 반복 설계 자동화 및 미래 모듈러 건축 선도"
-      }
-    ];
 
     let activeCategoryId = null;
 
