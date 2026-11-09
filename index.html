@@ -6431,13 +6431,11 @@
 
         showAdminToast('⏳ [2/4] GitHub 저장소의 최신 파일 상태를 확인하는 중...');
 
-        // 2. GitHub contents API로 최신 SHA 조회 (캐시 방지 타임스탬프 추가)
+        // 2. GitHub contents API로 최신 SHA 조회 (CORS 오류 방지를 위해 표준 헤더만 전송)
         const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html?ref=${branch}&_ts=${Date.now()}`, {
           signal: controller.signal,
           headers: {
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Cache-Control': 'no-cache, no-store, must-revalidate'
+            'Authorization': `token ${token}`
           }
         });
 
@@ -6472,7 +6470,6 @@
           signal: controller.signal,
           headers: {
             'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
