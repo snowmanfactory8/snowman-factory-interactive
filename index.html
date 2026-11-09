@@ -1564,44 +1564,15 @@
       letter-spacing: 0.5px;
     }
 
-    .cinema-category-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 1px 8px;
-      border-radius: 999px;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(8px);
-    }
-
     .cinema-main-title {
       font-size: 19px;
       font-weight: 900;
       color: #ffffff;
       letter-spacing: -0.4px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin: 0 0 2px 0;
+      line-height: 1.3;
+      display: block;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    }
-
-    .cinema-main-title .film-badge {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      color: #fbbf24;
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      padding: 2px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      backdrop-filter: blur(8px);
     }
 
     .cinema-sub-desc {
@@ -3009,20 +2980,21 @@
     .admin-mode-active .cinema-overlay-top .cinema-main-title,
     .admin-mode-active .cinema-overlay-top .cinema-sub-desc,
     .admin-mode-active .cinema-overlay-top .cinema-index-num,
-    .admin-mode-active .cinema-overlay-top .cinema-category-badge,
     .admin-mode-active .cinema-overlay-top .cinema-header-note span {
       cursor: text !important;
       user-select: text !important;
       -webkit-user-select: text !important;
       pointer-events: auto !important;
+      position: relative !important;
+      z-index: 60 !important;
       transition: outline 0.15s ease, background-color 0.15s ease;
       border-radius: 4px;
     }
 
     .admin-mode-active .cinema-overlay-top .cinema-title-text:hover,
+    .admin-mode-active .cinema-overlay-top .cinema-main-title:hover,
     .admin-mode-active .cinema-overlay-top .cinema-sub-desc:hover,
     .admin-mode-active .cinema-overlay-top .cinema-index-num:hover,
-    .admin-mode-active .cinema-overlay-top .cinema-category-badge:hover,
     .admin-mode-active .cinema-overlay-top .cinema-header-note span:hover {
       outline: 1.5px dashed rgba(41, 151, 255, 0.7) !important;
       outline-offset: 3px !important;
@@ -4160,12 +4132,8 @@
               <div class="cinema-titles-wrap">
                 <div class="cinema-top-meta">
                   <span class="cinema-index-num">PROJECT 17 • EXTENDED SHOWCASE</span>
-                  <span class="cinema-category-badge">BIM &amp; DIGITAL TWIN DOCUMENTARY</span>
                 </div>
-                <div class="cinema-main-title">
-                  <span class="cinema-title-text">담바우 에너지 공급센터 프로젝트 영상 기록</span>
-                  <span class="film-badge" contenteditable="false"><i data-lucide="video" style="width: 11px; height: 11px; vertical-align: -1px;"></i> OFFICIAL FILM</span>
-                </div>
+                <h2 class="cinema-main-title">담바우 에너지 공급센터 프로젝트 영상 기록</h2>
                 <p class="cinema-sub-desc">
                   3D LiDAR 정밀 스캐닝 및 1,200여 건 MEP 간섭 검출, 시설 완공까지의 실증 영상 아카이브
                 </p>
@@ -6528,6 +6496,12 @@
         indicator.textContent = `P.${currentBrochurePage + 1} / ${totalBrochurePages}`;
       }
 
+      // 페이지 전환 시 관리자 모드 상태면 모든 요소 편집 권한 즉시 재바인딩
+      if (window.isAdminMode) {
+        makeElementsEditable();
+        bindImageUploadHandlers();
+      }
+
       lucide.createIcons();
     }
 
@@ -6603,17 +6577,24 @@
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-category-badge, .cinema-note-text';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 특정 제외 클래스 건너뛰기
-        if (el.closest('svg') || el.classList.contains('cad-crosshair')) return;
+        if (el.closest('svg') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot')) return;
         el.setAttribute('contenteditable', 'true');
         el.setAttribute('spellcheck', 'false');
 
         // 입력 시 자동 임시 저장
         el.oninput = () => {
           debouncedAutoSave();
+        };
+
+        // 클릭 시 포커스 보장
+        el.onclick = (e) => {
+          if (!window.isAdminMode) return;
+          e.stopPropagation();
+          el.focus();
         };
       });
     }
@@ -7371,6 +7352,19 @@
         const sheet = document.getElementById('a4Sheet');
         if (sheet) {
           sheet.innerHTML = saved;
+          // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
+          sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
+
+          // cinema-main-title 구조 최적화 (단일 제목 h2화)
+          const oldCinemaTitle = sheet.querySelector('.cinema-main-title');
+          if (oldCinemaTitle && oldCinemaTitle.tagName !== 'H2') {
+            const h2 = document.createElement('h2');
+            h2.className = 'cinema-main-title';
+            const cleanText = oldCinemaTitle.innerText.replace(/OFFICIAL\s*FILM/gi, '').trim();
+            h2.textContent = cleanText || '담바우 에너지 공급센터 프로젝트 영상 기록';
+            oldCinemaTitle.replaceWith(h2);
+          }
+
           updateBrochureUI();
           if (typeof syncAllDividers === 'function') {
             syncAllDividers();
