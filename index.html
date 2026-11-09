@@ -4926,6 +4926,24 @@
 
     // Keyboard Arrow Keys & Modal Control
     window.addEventListener('keydown', (e) => {
+      // 텍스트 수정(contenteditable) 또는 입력 필드(input, textarea) 포커스 시 페이지 전환 차단 (스페이스바 띄어쓰기 및 방향키 커서 이동 보장)
+      const activeEl = document.activeElement;
+      const isEditing = activeEl && (
+        activeEl.isContentEditable ||
+        activeEl.tagName === 'INPUT' ||
+        activeEl.tagName === 'TEXTAREA' ||
+        activeEl.tagName === 'SELECT' ||
+        (activeEl.getAttribute && activeEl.getAttribute('contenteditable') === 'true') ||
+        (activeEl.closest && activeEl.closest('[contenteditable="true"]'))
+      );
+
+      if (isEditing) {
+        if (e.key === 'Escape') {
+          activeEl.blur();
+        }
+        return;
+      }
+
       if (e.key === 'Escape') {
         const vid = document.getElementById('dambauPromoVideo');
         if (vid && !vid.paused) {
