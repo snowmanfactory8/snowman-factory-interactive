@@ -2992,6 +2992,49 @@
       background: rgba(0, 113, 227, 0.08);
     }
 
+  
+    /* ============================================================ */
+    /* CINEMA / VIDEO MEDIA TEXT EDITABLE SYSTEM                    */
+    /* ============================================================ */
+    .cinema-overlay-top * {
+      box-sizing: border-box;
+    }
+
+    .admin-mode-active .cinema-overlay-top {
+      pointer-events: auto !important;
+      z-index: 20 !important;
+    }
+
+    .admin-mode-active .cinema-overlay-top .cinema-title-text,
+    .admin-mode-active .cinema-overlay-top .cinema-main-title,
+    .admin-mode-active .cinema-overlay-top .cinema-sub-desc,
+    .admin-mode-active .cinema-overlay-top .cinema-index-num,
+    .admin-mode-active .cinema-overlay-top .cinema-category-badge,
+    .admin-mode-active .cinema-overlay-top .cinema-header-note span {
+      cursor: text !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      pointer-events: auto !important;
+      transition: outline 0.15s ease, background-color 0.15s ease;
+      border-radius: 4px;
+    }
+
+    .admin-mode-active .cinema-overlay-top .cinema-title-text:hover,
+    .admin-mode-active .cinema-overlay-top .cinema-sub-desc:hover,
+    .admin-mode-active .cinema-overlay-top .cinema-index-num:hover,
+    .admin-mode-active .cinema-overlay-top .cinema-category-badge:hover,
+    .admin-mode-active .cinema-overlay-top .cinema-header-note span:hover {
+      outline: 1.5px dashed rgba(41, 151, 255, 0.7) !important;
+      outline-offset: 3px !important;
+      background: rgba(41, 151, 255, 0.15) !important;
+    }
+
+    .admin-mode-active .cinema-overlay-top [contenteditable="true"]:focus {
+      outline: 2px solid #0071e3 !important;
+      outline-offset: 3px !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -4112,7 +4155,7 @@
               현재 브라우저가 비디오 재생을 지원하지 않습니다.
             </video>
 
-            <!-- Top Floating HUD Overlay -->
+            <!-- Top Floating HUD Overlay (클릭하여 직접 텍스트 수정 가능) -->
             <div class="cinema-overlay-top">
               <div class="cinema-titles-wrap">
                 <div class="cinema-top-meta">
@@ -4120,17 +4163,17 @@
                   <span class="cinema-category-badge">BIM &amp; DIGITAL TWIN DOCUMENTARY</span>
                 </div>
                 <div class="cinema-main-title">
-                  담바우 에너지 공급센터 프로젝트 영상 기록
-                  <span class="film-badge"><i data-lucide="video" style="width: 11px; height: 11px; vertical-align: -1px;"></i> OFFICIAL FILM</span>
+                  <span class="cinema-title-text">담바우 에너지 공급센터 프로젝트 영상 기록</span>
+                  <span class="film-badge" contenteditable="false"><i data-lucide="video" style="width: 11px; height: 11px; vertical-align: -1px;"></i> OFFICIAL FILM</span>
                 </div>
-                <div class="cinema-sub-desc">
+                <p class="cinema-sub-desc">
                   3D LiDAR 정밀 스캐닝 및 1,200여 건 MEP 간섭 검출, 시설 완공까지의 실증 영상 아카이브
-                </div>
+                </p>
               </div>
               <div class="cinema-header-right">
                 <div class="cinema-header-note">
-                  <span class="cinema-rec-dot"></span>
-                  <span>1080P MASTER • BIM AWARDS 대상</span>
+                  <span class="cinema-rec-dot" contenteditable="false"></span>
+                  <span class="cinema-note-text">1080P MASTER • BIM AWARDS 대상</span>
                 </div>
               </div>
             </div>
@@ -6560,7 +6603,7 @@
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-category-badge, .cinema-note-text';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 특정 제외 클래스 건너뛰기
@@ -7355,6 +7398,18 @@
     // =============================================================
     function detectCurrentPageType(pageEl, pageIdx) {
       if (!pageEl) return { type: 'general', title: `페이지 ${pageIdx + 1}`, badge: '일반', color: '#8e8e93', desc: '기본 텍스트 및 레이아웃' };
+
+      // 0. 미디어 비디오 (Cinema) 페이지 판별
+      if (pageEl.querySelector('video') || pageEl.querySelector('.a4-page-cinema') || pageEl.getAttribute('data-layout') === 'video' || pageEl.getAttribute('data-layout') === 'cinema') {
+        return {
+          type: 'cinema',
+          title: '미디어 비디오 쇼케이스',
+          badge: 'Cinema Video',
+          color: '#ff375f',
+          desc: '풀스크린 1080P 영상, 상단 HUD 타이틀 및 설명 텍스트'
+        };
+      }
+      if (!pageEl) return { type: 'general', title: `페이지 ${pageIdx + 1}`, badge: '일반', color: '#8e8e93', desc: '기본 텍스트 및 레이아웃' };
       
       // 1. Solution 인터랙티브 맵 페이지 판별
       if (pageEl.id === 'page-2-content' || pageEl.querySelector('#solutionSvg') || pageEl.querySelector('.obsidian-solution-wrap')) {
@@ -7428,7 +7483,40 @@
       
       let actionsHTML = '';
       
-      if (info.type === 'solution') {
+      if (info.type === 'cinema') {
+        actionsHTML = `
+          <div style="background: rgba(255, 55, 95, 0.08); border: 0.5px solid rgba(255, 55, 95, 0.25); border-radius: var(--apple-radius-md); padding: 12px 14px; font-size: 12px; color: #f5f5f7; line-height: 1.45; margin-bottom: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-weight: 600; color: #ff375f;">
+              <i data-lucide="type" style="width: 14px; height: 14px;"></i>
+              <span>비디오 텍스트 직접 편집</span>
+            </div>
+            화면 상단의 <strong>프로젝트명, 영상 제목, 서브 설명, 어워드 뱃지</strong>를 마우스로 직접 클릭하여 바로 수정할 수 있습니다.
+          </div>
+
+          <button class="admin-btn primary" onclick="promptChangeVideoSource()" title="비디오 파일 경로(mp4) 또는 URL 교체">
+            <div class="btn-left">
+              <i data-lucide="video" style="width: 14px; height: 14px;"></i>
+              <span>비디오 영상 소스 교체</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 13px; height: 13px; opacity: 0.5;"></i>
+          </button>
+
+          <button class="admin-btn" onclick="triggerPageImagePicker()" title="비디오 로딩 전 표시되는 포스터 썸네일 사진 교체">
+            <div class="btn-left">
+              <i data-lucide="image" style="width: 14px; height: 14px; color: #2997ff;"></i>
+              <span>포스터 썸네일 교체</span>
+            </div>
+          </button>
+
+          <button class="admin-btn" onclick="showAdminSubview('changeLayout')" title="다른 레이아웃 템플릿으로 변경">
+            <div class="btn-left">
+              <i data-lucide="layout-template" style="width: 14px; height: 14px; color: #bf5af2;"></i>
+              <span>레이아웃 변경 (6종)</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 13px; height: 13px; opacity: 0.5;"></i>
+          </button>
+        `;
+      } else if (info.type === 'solution') {
         actionsHTML = `
           <button class="admin-btn primary" onclick="openCategoryEditModal()" title="상위/하위 카테고리 텍스트 편집 및 항목 추가/삭제">
             <div class="btn-left">
@@ -7871,7 +7959,35 @@
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
     }
 
-    window.bindProjectObjectControls = bindProjectObjectControls;
+
+    // 비디오 소스 교체 함수
+    function promptChangeVideoSource() {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+
+      const video = currentPage.querySelector('video');
+      if (!video) return;
+
+      const currentSrc = video.querySelector('source')?.getAttribute('src') || video.src || '';
+      const newSrc = prompt('새로운 비디오 파일 경로 또는 웹 URL(mp4)을 입력하세요:', currentSrc);
+      if (newSrc && newSrc.trim()) {
+        let source = video.querySelector('source');
+        if (!source) {
+          source = document.createElement('source');
+          source.type = 'video/mp4';
+          video.appendChild(source);
+        }
+        source.setAttribute('src', newSrc.trim());
+        video.src = newSrc.trim();
+        video.load();
+        if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+        if (window.showAdminToast) showAdminToast('비디오 소스가 성공적으로 변경되었습니다.');
+      }
+    }
+    window.promptChangeVideoSource = promptChangeVideoSource;
+
+        window.bindProjectObjectControls = bindProjectObjectControls;
     window.addProjectFeatureItem = addProjectFeatureItem;
     window.toggleProjectAwardBanner = toggleProjectAwardBanner;
     window.toggleProjectPillBadge = toggleProjectPillBadge;
