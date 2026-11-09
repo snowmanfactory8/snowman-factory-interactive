@@ -1759,6 +1759,77 @@
     }
 
     /* Right-Side Full-Height Admin Sidebar Panel (우측 풀하이트 패널) */
+    
+    /* ============================================================ */
+    /* CONTEXT-AWARE SMART ADMIN TOOLBAR STYLING                    */
+    /* ============================================================ */
+    .admin-context-card {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      margin-bottom: 4px;
+    }
+    .admin-context-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #34d399);
+      opacity: 0.9;
+    }
+    .admin-context-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .admin-context-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-family: 'Space Grotesk', monospace;
+    }
+    .admin-context-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      line-height: 1.25;
+    }
+    .admin-context-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      margin: 2px 0 0;
+      line-height: 1.35;
+    }
+    .admin-context-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 2px;
+    }
+    .admin-btn-group-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
     .admin-toolbar {
       position: fixed;
       top: 0;
@@ -2587,11 +2658,14 @@
 
       <!-- Quick Page Navigator -->
       <div class="admin-page-nav-row">
-        <button class="nav-arrow-btn" onclick="goToPrevBrochurePage()" title="이전 페이지">
+        <button class="nav-arrow-btn" onclick="goToPrevBrochurePage()" title="이전 페이지 (◀)">
           <i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i>
         </button>
-        <span class="admin-page-indicator" id="adminPageIndicator">P.1 / 4</span>
-        <button class="nav-arrow-btn" onclick="goToNextBrochurePage()" title="다음 페이지">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="admin-page-indicator" id="adminPageIndicator">P.1 / 4</span>
+          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: 'Space Grotesk', monospace; letter-spacing: 0.3px; border: 1px solid rgba(56,189,248,0.3); background: rgba(56,189,248,0.1); color: #38bdf8;">COVER</span>
+        </div>
+        <button class="nav-arrow-btn" onclick="goToNextBrochurePage()" title="다음 페이지 (▶)">
           <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
         </button>
       </div>
@@ -2602,61 +2676,42 @@
       
       <!-- SUBVIEW 1: MAIN MENU (기본 도구 목록) -->
       <div id="adminViewMain" style="display: flex; flex-direction: column; gap: 7px;">
-        <span class="admin-section-label">PAGE CONTROLS (페이지 조작)</span>
-        
-        <button class="admin-btn accent-cyan" onclick="openTocPanel()" title="전체 목차 확인 및 페이지 순서 변경">
+        <!-- 1. DYNAMIC CONTEXTUAL TOOL CONTAINER (현재 페이지 전용 도구) -->
+        <span class="admin-section-label" style="display: flex; align-items: center; justify-content: space-between;">
+          <span>ACTIVE PAGE TOOLS (현재 페이지 맞춤 도구)</span>
+          <span style="font-size: 9px; color: #38bdf8; text-transform: uppercase;">Smart Context</span>
+        </span>
+        <div id="adminContextTools">
+          <!-- Dynamically populated by renderAdminContextTools() -->
+        </div>
+
+        <!-- 2. GLOBAL PAGE MANAGEMENT (공통 페이지 조작) -->
+        <div class="admin-divider" style="margin: 8px 0 4px;"></div>
+        <span class="admin-section-label">PAGE MANAGEMENT (페이지 관리)</span>
+
+        <button class="admin-btn accent-cyan" onclick="openTocPanel()" title="전체 목차 확인 및 드래그/버튼으로 페이지 순서 변경">
           <div class="btn-left">
             <i data-lucide="list-ordered" style="width: 15px; height: 15px; color: #38bdf8;"></i>
             <span>목차 및 순서 변경</span>
           </div>
           <span style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-weight: 700;">TOC</span>
         </button>
-        
-        <button class="admin-btn primary" onclick="showAdminSubview('addPage')" title="새 페이지 추가 템플릿 선택">
-          <div class="btn-left">
-            <i data-lucide="plus-circle" style="width: 15px; height: 15px;"></i>
-            <span>페이지 추가</span>
-          </div>
-          <i data-lucide="chevron-right" style="width: 14px; height: 14px; opacity: 0.6;"></i>
-        </button>
 
-        <button class="admin-btn accent-cyan" onclick="showAdminSubview('changeLayout')" title="현재 페이지 레이아웃 실시간 변경">
-          <div class="btn-left">
-            <i data-lucide="layout-template" style="width: 15px; height: 15px;"></i>
-            <span>레이아웃 변경 (6종)</span>
-          </div>
-          <i data-lucide="chevron-right" style="width: 14px; height: 14px; opacity: 0.6;"></i>
-        </button>
+        <div class="admin-btn-group-2">
+          <button class="admin-btn primary" onclick="showAdminSubview('addPage')" title="새 페이지 추가 템플릿 선택">
+            <div class="btn-left">
+              <i data-lucide="plus-circle" style="width: 15px; height: 15px;"></i>
+              <span>페이지 추가</span>
+            </div>
+          </button>
 
-        <button class="admin-btn danger" onclick="deleteCurrentPage()" title="현재 페이지 삭제">
-          <div class="btn-left">
-            <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-            <span>페이지 삭제</span>
-          </div>
-        </button>
-
-        <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 데이터베이스 엑셀형 편집기">
-          <div class="btn-left">
-            <i data-lucide="database" style="width: 15px; height: 15px; color: #38bdf8;"></i>
-            <span>프로젝트 DB 관리</span>
-          </div>
-          <span style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-weight: 700;">EXCEL DB</span>
-        </button>
-
-        <button class="admin-btn" onclick="openCategoryEditModal()" title="Solution 페이지 상위/하위 카테고리 문자 편집 및 하위 항목 추가/삭제">
-          <div class="btn-left">
-            <i data-lucide="network" style="width: 15px; height: 15px;"></i>
-            <span>솔루션 노드 편집</span>
-          </div>
-          <span class="btn-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35);">EDIT</span>
-        </button>
-
-        <button class="admin-btn" onclick="openNodeColorModal()" title="솔루션 노드 색상 설정 (Theme 4 및 커스텀 컬러)">
-          <div class="btn-left">
-            <i data-lucide="palette" style="width: 15px; height: 15px;"></i>
-            <span>노드 색상</span>
-          </div>
-        </button>
+          <button class="admin-btn danger" onclick="deleteCurrentPage()" title="현재 페이지 삭제">
+            <div class="btn-left">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+              <span>페이지 삭제</span>
+            </div>
+          </button>
+        </div>
 
         <div class="admin-divider"></div>
         <span class="admin-section-label">SAVE &amp; PUBLISH (저장 및 배포)</span>
@@ -5953,6 +6008,7 @@
 
     // 동적 페이지 수 계산 및 내비게이션 UI 업데이트
     function updateBrochureUI() {
+      if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
       const solHeader = document.querySelector('#page-2-content .obsidian-header-row');
       if (solHeader) {
@@ -6879,7 +6935,267 @@
     
 
     // =============================================================
-    // SUPABASE REALTIME CLOUD CMS INTEGRATION
+
+    // =============================================================
+    // CONTEXT-AWARE SMART ADMIN TOOLBAR LOGIC
+    // =============================================================
+    function detectCurrentPageType(pageEl, pageIdx) {
+      if (!pageEl) return { type: 'general', title: `P.${pageIdx + 1} 일반 페이지`, badge: 'PAGE', color: '#64748b', desc: '기본 텍스트 및 레이아웃' };
+      
+      // 1. Solution 인터랙티브 맵 페이지 판별
+      if (pageEl.id === 'page-2-content' || pageEl.querySelector('#solutionSvg') || pageEl.querySelector('.obsidian-solution-wrap')) {
+        return {
+          type: 'solution',
+          title: '솔루션 맵 (Solutions)',
+          badge: 'SOLUTION MAP',
+          color: '#38bdf8',
+          desc: '4대 핵심 기술 노드, 하위 항목 및 색상/배치 체계'
+        };
+      }
+      
+      // 2. 간지 (Divider) 페이지 판별
+      if (pageEl.id && (pageEl.id.includes('divider') || pageEl.hasAttribute('data-category') || pageEl.querySelector('.divider-archive-list') || pageEl.classList.contains('category-divider-page'))) {
+        const cat = (pageEl.getAttribute('data-category') || 'bim').toLowerCase();
+        const catLabels = {
+          'bim': '01. BIM (디지털 트윈)',
+          'scan': '02. 3D 스캐닝 (LiDAR)',
+          'xr': '03. 공간 컴퓨팅 (XR)',
+          'simulation': '04. 친환경 시뮬레이션',
+          'consulting': '05. 교육 및 DX 컨설팅',
+          'rnd': '06. 미래건축 R&D'
+        };
+        return {
+          type: 'divider',
+          catKey: cat,
+          title: `간지 · ${catLabels[cat] || cat.toUpperCase()}`,
+          badge: `DIVIDER · ${cat.toUpperCase()}`,
+          color: '#c084fc',
+          desc: '선택된 카테고리의 최근 4개년 실적 아카이브 리스트'
+        };
+      }
+      
+      // 3. 표지 / 인트로 페이지 판별
+      if (pageIdx === 0 || pageEl.id === 'page-1-content' || pageEl.querySelector('.intro-hero-title')) {
+        return {
+          type: 'cover',
+          title: '브로슈어 표지 (Cover & Intro)',
+          badge: 'COVER / INTRO',
+          color: '#34d399',
+          desc: '대표 타이틀, 회사 슬로건 및 발행 연도'
+        };
+      }
+      
+      // 4. 프로젝트 상세 쇼케이스 판별
+      return {
+        type: 'project',
+        title: '프로젝트 상세 쇼케이스',
+        badge: 'PROJECT SHOWCASE',
+        color: '#fbbf24',
+        desc: '레이아웃 템플릿(6종) 및 대표 사진/성과 지표 편집'
+      };
+    }
+
+    function renderAdminContextTools() {
+      const container = document.getElementById('adminContextTools');
+      if (!container) return;
+      
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      const currentPage = allPages[currentBrochurePage];
+      const info = detectCurrentPageType(currentPage, currentBrochurePage);
+      
+      // 상단 헤더 뱃지 실시간 갱신
+      const headerBadge = document.getElementById('adminHeaderPageTypeBadge');
+      if (headerBadge) {
+        headerBadge.textContent = info.badge;
+        headerBadge.style.color = info.color;
+        headerBadge.style.borderColor = info.color + '66';
+        headerBadge.style.background = info.color + '1a';
+      }
+      
+      let actionsHTML = '';
+      
+      if (info.type === 'solution') {
+        actionsHTML = `
+          <button class="admin-btn primary" onclick="openCategoryEditModal()" title="상위/하위 카테고리 텍스트 편집 및 항목 추가/삭제">
+            <div class="btn-left">
+              <i data-lucide="network" style="width: 15px; height: 15px;"></i>
+              <span>솔루션 노드 편집</span>
+            </div>
+            <span class="btn-badge" style="background: rgba(56, 189, 248, 0.25); color: #38bdf8;">EDIT</span>
+          </button>
+
+          <button class="admin-btn" onclick="openNodeColorModal()" title="4가지 프리셋 테마 및 개별 노드 컬러 커스텀">
+            <div class="btn-left">
+              <i data-lucide="palette" style="width: 15px; height: 15px; color: #f472b6;"></i>
+              <span>노드 테마 색상 설정</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; opacity: 0.6;"></i>
+          </button>
+
+          <button class="admin-btn" onclick="quickRebalance360()" title="하위 노드들을 원 둘레에 360/N 도로 균등 재배치">
+            <div class="btn-left">
+              <i data-lucide="compass" style="width: 15px; height: 15px; color: #38bdf8;"></i>
+              <span>노드 360° 원형 균등 자동 정렬</span>
+            </div>
+            <span style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-weight: 700;">AUTO</span>
+          </button>
+        `;
+      } else if (info.type === 'divider') {
+        const cat = info.catKey || 'bim';
+        actionsHTML = `
+          <button class="admin-btn primary" onclick="openProjectDbModalForCategory('${cat}')" title="현재 간지(${cat.toUpperCase()}) 실적 DB를 열고 편집">
+            <div class="btn-left">
+              <i data-lucide="database" style="width: 15px; height: 15px; color: #c084fc;"></i>
+              <span>${cat.toUpperCase()} 실적 엑셀 DB 편집</span>
+            </div>
+            <span style="font-size: 9.5px; background: rgba(192, 132, 252, 0.25); color: #c084fc; padding: 1px 6px; border-radius: 4px; font-weight: 700;">EXCEL</span>
+          </button>
+
+          <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 5px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; color: #cbd5e1; font-weight: 600;">간지 대표 분야 변경:</span>
+              <span style="font-size: 10px; color: #a855f7; font-weight: 700;">즉시 반영</span>
+            </div>
+            <select onchange="changeCurrentDividerCategory(this.value)" style="background: #0b1120; border: 1px solid rgba(192, 132, 252, 0.45); color: #ffffff; padding: 6px 8px; border-radius: 6px; font-size: 12px; outline: none; width: 100%; cursor: pointer;">
+              <option value="bim" ${cat === 'bim' ? 'selected' : ''}>01. BIM (디지털 트윈)</option>
+              <option value="scan" ${cat === 'scan' ? 'selected' : ''}>02. 3D 스캐닝 (LiDAR)</option>
+              <option value="xr" ${cat === 'xr' ? 'selected' : ''}>03. 공간 컴퓨팅 (XR)</option>
+              <option value="simulation" ${cat === 'simulation' ? 'selected' : ''}>04. 친환경 시뮬레이션</option>
+              <option value="consulting" ${cat === 'consulting' ? 'selected' : ''}>05. 교육 및 DX 컨설팅</option>
+              <option value="rnd" ${cat === 'rnd' ? 'selected' : ''}>06. 미래건축 R&D</option>
+            </select>
+          </div>
+        `;
+      } else if (info.type === 'project') {
+        actionsHTML = `
+          <button class="admin-btn primary" onclick="showAdminSubview('changeLayout')" title="1열 전면형, 2열 분할형, 3단 그리드형 등 6종 템플릿 중 선택">
+            <div class="btn-left">
+              <i data-lucide="layout-template" style="width: 15px; height: 15px; color: #fbbf24;"></i>
+              <span>레이아웃 템플릿 변경 (6종)</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; opacity: 0.6;"></i>
+          </button>
+
+          <button class="admin-btn" onclick="triggerPageImagePicker()" title="현재 프로젝트 페이지의 대표 사진/도면 교체">
+            <div class="btn-left">
+              <i data-lucide="image" style="width: 15px; height: 15px; color: #38bdf8;"></i>
+              <span>대표 이미지 교체</span>
+            </div>
+            <span style="font-size: 9.5px; opacity: 0.7;">Upload</span>
+          </button>
+
+          <button class="admin-btn" onclick="openProjectDbModal()" title="전체 프로젝트 DB 관리창 열기">
+            <div class="btn-left">
+              <i data-lucide="table" style="width: 15px; height: 15px;"></i>
+              <span>전체 프로젝트 DB 관리</span>
+            </div>
+          </button>
+        `;
+      } else if (info.type === 'cover') {
+        actionsHTML = `
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #d1fae5; line-height: 1.45;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-weight: 700; color: #34d399;">
+              <i data-lucide="edit-3" style="width: 13px; height: 13px;"></i>
+              <span>표지 문구 직접 편집</span>
+            </div>
+            표지의 <strong>메인 타이틀, 회사 슬로건, 발행 정보</strong>를 마우스로 직접 클릭하여 바로 수정하실 수 있습니다.
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="admin-context-card">
+          <div class="admin-context-header">
+            <span class="admin-context-badge" style="background: ${info.color}22; color: ${info.color}; border: 1px solid ${info.color}55;">
+              ${info.badge}
+            </span>
+            <span style="font-size: 11px; color: #94a3b8; font-family: monospace; font-weight: 700;">PAGE ${currentBrochurePage + 1}</span>
+          </div>
+          <div>
+            <h4 class="admin-context-title">${info.title}</h4>
+            <p class="admin-context-desc">${info.desc}</p>
+          </div>
+          <div class="admin-context-actions">
+            ${actionsHTML}
+          </div>
+        </div>
+      `;
+      
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // 도우미 함수: 특정 카테고리로 필터링된 프로젝트 DB 열기
+    function openProjectDbModalForCategory(catKey) {
+      if (typeof openProjectDbModal === 'function') {
+        openProjectDbModal();
+        const filterSelect = document.getElementById('projectDbFilterCategory');
+        if (filterSelect) {
+          filterSelect.value = catKey;
+          if (typeof renderProjectDbTable === 'function') renderProjectDbTable();
+        }
+      }
+    }
+
+    // 도우미 함수: 현재 간지 페이지 카테고리 즉시 전환
+    function changeCurrentDividerCategory(newCat) {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+      currentPage.setAttribute('data-category', newCat);
+      if (typeof changeDividerCategory === 'function') {
+        changeDividerCategory(currentPage, newCat);
+      } else if (typeof syncDividerProjects === 'function') {
+        syncDividerProjects(currentPage);
+      }
+      renderAdminContextTools();
+      if (window.showAdminToast) showAdminToast(`간지 카테고리가 [${newCat.toUpperCase()}] 분야로 변경되었습니다.`);
+    }
+
+    // 도우미 함수: 360도 균등 재배치 퀵 액션
+    function quickRebalance360() {
+      if (Array.isArray(categoriesData)) {
+        categoriesData.forEach(cat => {
+          if (Array.isArray(cat.children) && cat.children.length > 0) {
+            const count = cat.children.length;
+            const r = 96;
+            const step = 360 / count;
+            cat.children.forEach((child, idx) => {
+              const deg = idx * step;
+              const rad = (deg - 90) * (Math.PI / 180);
+              child.x = Math.round(cat.x + r * Math.cos(rad));
+              child.y = Math.round(cat.y + r * Math.sin(rad));
+            });
+          }
+        });
+        if (typeof renderSolutionNodes === 'function') renderSolutionNodes();
+        if (typeof saveCategoriesDataToStorage === 'function') saveCategoriesDataToStorage();
+        if (window.showAdminToast) showAdminToast('모든 솔루션 노드가 360° 원형 균등 간격으로 자동 정렬되었습니다.');
+      }
+    }
+
+    // 도우미 함수: 현재 프로젝트 페이지 대표 이미지 교체 발동
+    function triggerPageImagePicker() {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+      const firstImg = currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
+      if (firstImg) {
+        firstImg.click();
+      } else {
+        const input = document.getElementById('adminImageFileInput');
+        if (input) input.click();
+      }
+    }
+
+    // Window 바인딩
+    window.detectCurrentPageType = detectCurrentPageType;
+    window.renderAdminContextTools = renderAdminContextTools;
+    window.openProjectDbModalForCategory = openProjectDbModalForCategory;
+    window.changeCurrentDividerCategory = changeCurrentDividerCategory;
+    window.quickRebalance360 = quickRebalance360;
+    window.triggerPageImagePicker = triggerPageImagePicker;
+
+        // SUPABASE REALTIME CLOUD CMS INTEGRATION
     // =============================================================
     const DEFAULT_SB_URL = 'https://yfuhblckexnewkzibkuh.supabase.co';
     const DEFAULT_SB_KEY = 'sb_publishable_zDXVUuAgZgjbE8H7xZ-38Q_rpnZrtRv';
