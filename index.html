@@ -15,6 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
@@ -2668,12 +2669,27 @@
           <span class="shortcut-tag">Ctrl+S</span>
         </button>
 
-        <button class="admin-btn success" id="btnPushToGithub" onclick="pushChangesToGitHub()" title="수정 사항을 GitHub에 즉시 커밋 & 푸시하여 GitHub Pages 실시간 배포">
+        <button class="admin-btn success" id="btnSaveToSupabase" onclick="saveToSupabase()" title="수정 사항을 Supabase 클라우드 DB에 즉시 저장 (0.1초 실시간 반영)">
+          <div class="btn-left">
+            <i data-lucide="cloud-upload" style="width: 15px; height: 15px; color: #38bdf8;"></i>
+            <span>클라우드 저장</span>
+          </div>
+          <span class="live-pill" style="background: #0284c7;">FAST</span>
+        </button>
+
+        <button class="admin-btn" onclick="openSupabaseSettingsModal()" title="Supabase 클라우드 데이터베이스 설정">
+          <div class="btn-left">
+            <i data-lucide="database" style="width: 15px; height: 15px; color: #34d399;"></i>
+            <span>Supabase 설정</span>
+          </div>
+        </button>
+
+        <button class="admin-btn" id="btnPushToGithub" onclick="pushChangesToGitHub()" title="수정 사항을 GitHub에 커밋 & 푸시하여 배포 (선택사항)" style="opacity: 0.75;">
           <div class="btn-left">
             <i data-lucide="git-pull-request" style="width: 15px; height: 15px;"></i>
             <span>GitHub 배포</span>
           </div>
-          <span class="live-pill">LIVE</span>
+          <span style="font-size: 9.5px; opacity: 0.7;">Git</span>
         </button>
 
         <button class="admin-btn" onclick="openGitHubSettingsModal()" title="GitHub 저장소 및 Personal Access Token 설정">
@@ -3167,6 +3183,38 @@
       <div class="admin-modal-footer" style="display: flex; justify-content: space-between;">
         <button class="admin-modal-btn cancel" onclick="resetToTheme4()">Theme 4 기본값 복원</button>
         <button class="admin-modal-btn confirm" onclick="closeNodeColorModal()">설정 완료</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase Cloud DB Settings Modal -->
+  <div id="supabaseSettingsModal" class="admin-modal-backdrop">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <div class="admin-modal-icon" style="background: #f0fdf4; color: #16a34a; border-color: #bbf7d0;">
+          <i data-lucide="database" style="width: 26px; height: 26px;"></i>
+        </div>
+        <h3>Supabase 클라우드 DB 연동 설정</h3>
+        <p>실시간 데이터베이스와 연동하여 배포 대기 없이 0.1초 만에 브로슈어를 즉시 갱신합니다.</p>
+      </div>
+      <div class="admin-modal-body">
+        <div style="margin-bottom: 14px;">
+          <label for="sbUrlInput">Supabase Project URL</label>
+          <input type="text" id="sbUrlInput" placeholder="https://xxxx.supabase.co" style="width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+        </div>
+        <div style="margin-bottom: 14px;">
+          <label for="sbKeyInput">Supabase Publishable / Anon API Key</label>
+          <input type="password" id="sbKeyInput" placeholder="sb_publishable_... 또는 eyJ..." style="width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
+          <p class="admin-hint" style="color: #64748b; font-size: 11px; margin-top: 5px;">
+            🔒 공개 Publishable Key는 브라우저 클라이언트 연동용 안전 키입니다.
+          </p>
+        </div>
+        <div id="sbConnectionStatusBox" style="display: none; padding: 10px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;"></div>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="admin-modal-btn cancel" onclick="testSupabaseConnectionUI()" style="margin-right: auto; background: rgba(56, 189, 248, 0.12); color: #0284c7; border: 1px solid rgba(56, 189, 248, 0.3);">연결 테스트</button>
+        <button class="admin-modal-btn cancel" onclick="closeSupabaseSettingsModal()">닫기</button>
+        <button class="admin-modal-btn confirm" onclick="saveSupabaseSettings()">설정 저장</button>
       </div>
     </div>
   </div>
@@ -4059,6 +4107,9 @@
 
     function saveProjectDbAndSync() {
       saveProjectDatabase(currentDbEditingList);
+      if (typeof saveToSupabase === 'function') {
+        saveToSupabase().catch(e => console.warn('[Supabase] Auto-sync DB failed:', e));
+      }
       syncAllDividers();
       closeProjectDbModal();
       if (window.showAdminToast) {
@@ -6826,6 +6877,288 @@
 
     // 수정본 HTML 다운로드 (영구 배포용)
     
+
+    // =============================================================
+    // SUPABASE REALTIME CLOUD CMS INTEGRATION
+    // =============================================================
+    const DEFAULT_SB_URL = 'https://yfuhblckexnewkzibkuh.supabase.co';
+    const DEFAULT_SB_KEY = 'sb_publishable_zDXVUuAgZgjbE8H7xZ-38Q_rpnZrtRv';
+
+    function getSupabaseClient() {
+      const url = localStorage.getItem('snowman_sb_url') || DEFAULT_SB_URL;
+      const key = localStorage.getItem('snowman_sb_key') || DEFAULT_SB_KEY;
+      if (!window.supabase || !window.supabase.createClient) {
+        console.warn('[Supabase] SDK not loaded yet');
+        return null;
+      }
+      if (!window.__sbClientInstance || window.__sbClientInstance._url !== url || window.__sbClientInstance._key !== key) {
+        try {
+          window.__sbClientInstance = window.supabase.createClient(url, key);
+          window.__sbClientInstance._url = url;
+          window.__sbClientInstance._key = key;
+        } catch (e) {
+          console.error('[Supabase] Failed to init client:', e);
+          return null;
+        }
+      }
+      return window.__sbClientInstance;
+    }
+
+    function openSupabaseSettingsModal() {
+      const modal = document.getElementById('supabaseSettingsModal');
+      const urlInput = document.getElementById('sbUrlInput');
+      const keyInput = document.getElementById('sbKeyInput');
+      if (urlInput) urlInput.value = localStorage.getItem('snowman_sb_url') || DEFAULT_SB_URL;
+      if (keyInput) keyInput.value = localStorage.getItem('snowman_sb_key') || DEFAULT_SB_KEY;
+      const statusBox = document.getElementById('sbConnectionStatusBox');
+      if (statusBox) statusBox.style.display = 'none';
+      if (modal) {
+        modal.classList.add('open');
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    function closeSupabaseSettingsModal() {
+      const modal = document.getElementById('supabaseSettingsModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function saveSupabaseSettings() {
+      const url = document.getElementById('sbUrlInput')?.value.trim();
+      const key = document.getElementById('sbKeyInput')?.value.trim();
+      if (!url || !key) {
+        alert('Supabase URL과 API Key를 모두 입력해 주세요.');
+        return;
+      }
+      localStorage.setItem('snowman_sb_url', url);
+      localStorage.setItem('snowman_sb_key', key);
+      window.__sbClientInstance = null;
+      closeSupabaseSettingsModal();
+      if (window.showAdminToast) showAdminToast('Supabase 설정이 저장되었습니다. 데이터를 불러옵니다.');
+      loadDataFromSupabase();
+    }
+
+    async function testSupabaseConnectionUI() {
+      const url = document.getElementById('sbUrlInput')?.value.trim();
+      const key = document.getElementById('sbKeyInput')?.value.trim();
+      const statusBox = document.getElementById('sbConnectionStatusBox');
+      if (!statusBox) return;
+      statusBox.style.display = 'block';
+      statusBox.style.background = '#f8fafc';
+      statusBox.style.color = '#64748b';
+      statusBox.textContent = '연결 상태 확인 중...';
+      try {
+        const client = window.supabase.createClient(url, key);
+        const { data, error } = await client.from('brochure_content').select('key').limit(1);
+        if (error) throw error;
+        statusBox.style.background = '#f0fdf4';
+        statusBox.style.color = '#16a34a';
+        statusBox.textContent = '✅ Supabase 클라우드 DB 연결 성공! (정상 통신)';
+      } catch (err) {
+        statusBox.style.background = '#fef2f2';
+        statusBox.style.color = '#ef4444';
+        statusBox.textContent = '❌ 연결 실패: ' + (err.message || err);
+      }
+    }
+
+    async function seedDefaultDataToSupabase() {
+      const client = getSupabaseClient();
+      if (!client) return;
+      try {
+        const catPayload = categoriesData.map(c => ({
+          id: c.id,
+          name: c.name,
+          sub: c.sub,
+          fullName: c.fullName,
+          children: c.children
+        }));
+        await client.from('brochure_content').upsert([
+          { key: 'categoriesData', value: catPayload, updated_at: new Date().toISOString() }
+        ]);
+        console.log('[Supabase] Initial categoriesData seeded to cloud');
+      } catch(e) { console.warn('[Supabase] Seed failed:', e); }
+    }
+
+    async function seedProjectsToSupabase() {
+      const client = getSupabaseClient();
+      if (!client) return;
+      try {
+        const currentProjects = (window.PROJECT_DATABASE && window.PROJECT_DATABASE.length > 0) 
+                                ? window.PROJECT_DATABASE 
+                                : (window.DEFAULT_PROJECT_DB || []);
+        if (currentProjects.length === 0) return;
+        const rows = currentProjects.map((p, idx) => ({
+          id: p.id || ('p_' + (idx + 100)),
+          category: p.category,
+          year: String(p.year || ''),
+          name: p.name,
+          desc_text: p.desc || '',
+          sort_order: idx + 1,
+          updated_at: new Date().toISOString()
+        }));
+        await client.from('brochure_projects').upsert(rows);
+        console.log('[Supabase] Initial ' + rows.length + ' projects seeded to cloud');
+      } catch(e) { console.warn('[Supabase] Project seed failed:', e); }
+    }
+
+    async function loadDataFromSupabase() {
+      const client = getSupabaseClient();
+      if (!client) return;
+
+      try {
+        // 1. brochure_content 조회 (카테고리 노드 및 테마 색상)
+        const { data: contentData, error: contentErr } = await client.from('brochure_content').select('*');
+        if (contentErr) {
+          console.warn('[Supabase] Failed to load brochure_content:', contentErr);
+        } else if (contentData && contentData.length > 0) {
+          let updatedCategory = false;
+          contentData.forEach(row => {
+            if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
+              row.value.forEach(savedCat => {
+                const target = categoriesData.find(c => c.id === savedCat.id);
+                if (target) {
+                  if (savedCat.name) target.name = savedCat.name;
+                  if (savedCat.sub !== undefined) target.sub = savedCat.sub;
+                  if (savedCat.fullName) target.fullName = savedCat.fullName;
+                  if (Array.isArray(savedCat.children)) {
+                    target.children = JSON.parse(JSON.stringify(savedCat.children));
+                  }
+                }
+              });
+              localStorage.setItem('snowman_categories_data_v1', JSON.stringify(row.value));
+              updatedCategory = true;
+            } else if (row.key === 'nodeColors' && row.value && typeof row.value === 'object') {
+              categoriesData.forEach(c => {
+                if (row.value[c.id]) c.color = row.value[c.id];
+              });
+              localStorage.setItem('snowman_node_colors_v1', JSON.stringify(row.value));
+              updatedCategory = true;
+            }
+          });
+          if (updatedCategory && typeof window.renderSolutionNodes === 'function') {
+            window.renderSolutionNodes();
+          }
+        } else {
+          // DB가 비어있는 경우 최초 1회 초기 기본값 시드 저장
+          seedDefaultDataToSupabase();
+        }
+
+        // 2. brochure_projects 조회 (프로젝트 실적 목록)
+        const { data: projData, error: projErr } = await client.from('brochure_projects').select('*').order('sort_order', { ascending: true });
+        if (projErr) {
+          console.warn('[Supabase] Failed to load brochure_projects:', projErr);
+        } else if (projData && projData.length > 0) {
+          const formatted = projData.map(p => ({
+            id: p.id,
+            category: p.category,
+            year: parseInt(p.year, 10) || p.year,
+            name: p.name,
+            desc: p.desc_text
+          }));
+          window.PROJECT_DATABASE = formatted;
+          localStorage.setItem('snowman_project_db', JSON.stringify(formatted));
+          if (typeof window.syncAllDividers === 'function') {
+            window.syncAllDividers();
+          }
+          if (typeof window.renderProjectDbTable === 'function') {
+            window.renderProjectDbTable();
+          }
+          console.log('[Supabase] Successfully synced ' + formatted.length + ' projects from Cloud DB');
+        } else {
+          seedProjectsToSupabase();
+        }
+      } catch (e) {
+        console.warn('[Supabase] Sync exception:', e);
+      }
+    }
+
+    async function saveToSupabase() {
+      const client = getSupabaseClient();
+      if (!client) {
+        alert('Supabase 클라이언트가 초기화되지 않았습니다. [Supabase 설정]을 확인해 주세요.');
+        openSupabaseSettingsModal();
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveToSupabase');
+      const origContent = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `
+          <div class="btn-left">
+            <span class="admin-spinner" style="width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #38bdf8; border-radius: 50%; display: inline-block; animation: adminSpin 0.7s linear infinite;"></span>
+            <span>클라우드 저장 중...</span>
+          </div>
+        `;
+      }
+
+      try {
+        // 1. 로컬 상태 먼저 브라우저 저장
+        if (typeof window.saveBrochureChanges === 'function') {
+          window.saveBrochureChanges(false);
+        }
+
+        // 2. 카테고리 데이터 저장
+        const catPayload = categoriesData.map(c => ({
+          id: c.id,
+          name: c.name,
+          sub: c.sub,
+          fullName: c.fullName,
+          children: c.children
+        }));
+
+        // 3. 노드 색상 저장
+        const colorMap = {};
+        categoriesData.forEach(c => { colorMap[c.id] = c.color; });
+
+        // 4. 프로젝트 실적 DB 저장
+        const currentProjects = (typeof getProjectDatabase === 'function') ? getProjectDatabase() : (window.PROJECT_DATABASE || []);
+        const projRows = currentProjects.map((p, idx) => ({
+          id: p.id || ('p_' + (idx + 100)),
+          category: p.category,
+          year: String(p.year || ''),
+          name: p.name,
+          desc_text: p.desc || '',
+          sort_order: idx + 1,
+          updated_at: new Date().toISOString()
+        }));
+
+        // 병렬 저장 실행
+        const [resContent, resColor, resProjects] = await Promise.all([
+          client.from('brochure_content').upsert({ key: 'categoriesData', value: catPayload, updated_at: new Date().toISOString() }),
+          client.from('brochure_content').upsert({ key: 'nodeColors', value: colorMap, updated_at: new Date().toISOString() }),
+          client.from('brochure_projects').upsert(projRows)
+        ]);
+
+        if (resContent.error) throw resContent.error;
+        if (resColor.error) throw resColor.error;
+        if (resProjects.error) throw resProjects.error;
+
+        if (window.showAdminToast) {
+          showAdminToast('🚀 Supabase 클라우드에 0.1초 만에 저장 완료!');
+        } else {
+          alert('Supabase 클라우드에 성공적으로 저장되었습니다!');
+        }
+      } catch (err) {
+        console.error('[Supabase] Save error:', err);
+        alert('Supabase 저장 중 오류가 발생했습니다: ' + (err.message || err));
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origContent;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    // Window 바인딩
+    window.openSupabaseSettingsModal = openSupabaseSettingsModal;
+    window.closeSupabaseSettingsModal = closeSupabaseSettingsModal;
+    window.saveSupabaseSettings = saveSupabaseSettings;
+    window.testSupabaseConnectionUI = testSupabaseConnectionUI;
+    window.saveToSupabase = saveToSupabase;
+    window.loadDataFromSupabase = loadDataFromSupabase;
+
     // -------------------------------------------------------------
     // GITHUB AUTOMATED COMMIT & PUSH SYSTEM
     // -------------------------------------------------------------
@@ -6891,6 +7224,11 @@
       editImgs.forEach(el => el.classList.remove('admin-editable-img'));
 
       // 2. [중요] GitHub 배포 버튼이 '전송 중...' 상태로 커밋되지 않도록 원래 깨끗한 상태로 강제 복원
+      const cloneSbBtn = cloneDoc.querySelector('#btnSaveToSupabase');
+      if (cloneSbBtn) {
+        cloneSbBtn.disabled = false;
+        cloneSbBtn.removeAttribute('disabled');
+      }
       const cloneBtn = cloneDoc.querySelector('#btnPushToGithub');
       if (cloneBtn) {
         cloneBtn.disabled = false;
@@ -7106,10 +7444,13 @@
 
     // 페이지 로드 시 기존 저장본 자동 복원 및 간지 프로젝트 목록 동기화
     window.addEventListener('DOMContentLoaded', () => {
+      loadDataFromSupabase();
       loadSavedCategoriesData();
       syncAllDividers();
       // 혹시라도 이전 커밋 잔재로 GitHub 푸시 버튼이 '전송 중...'이거나 disabled면 정상 복구
       const pushBtn = document.getElementById('btnPushToGithub');
+      const sbSaveBtn = document.getElementById('btnSaveToSupabase');
+      if (sbSaveBtn) sbSaveBtn.disabled = false;
       if (pushBtn) {
         pushBtn.disabled = false;
         pushBtn.removeAttribute('disabled');
