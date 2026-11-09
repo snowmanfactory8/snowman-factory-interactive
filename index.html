@@ -4325,20 +4325,29 @@
     // 3. 데이터베이스 로드 및 저장 함수
     // -------------------------------------------------------------
     function getProjectDatabase() {
+      if (window.PROJECT_DATABASE && Array.isArray(window.PROJECT_DATABASE)) {
+        return window.PROJECT_DATABASE;
+      }
       try {
         const saved = localStorage.getItem('snowman_project_db');
-        if (saved) {
+        if (saved !== null) {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed)) {
+            window.PROJECT_DATABASE = parsed;
+            return parsed;
+          }
         }
       } catch (e) {
         console.warn('Failed to parse saved project DB, using default:', e);
       }
-      return [...window.DEFAULT_PROJECT_DB];
+      const fallback = Array.isArray(window.DEFAULT_PROJECT_DB) ? JSON.parse(JSON.stringify(window.DEFAULT_PROJECT_DB)) : [];
+      window.PROJECT_DATABASE = fallback;
+      return fallback;
     }
 
     function saveProjectDatabase(db) {
       window.PROJECT_DATABASE = db;
+      window.DEFAULT_PROJECT_DB = JSON.parse(JSON.stringify(db));
       localStorage.setItem('snowman_project_db', JSON.stringify(db));
     }
 
@@ -4584,13 +4593,16 @@
 
     function saveProjectDbAndSync() {
       saveProjectDatabase(currentDbEditingList);
+      syncAllDividers();
+      if (typeof saveBrochureChanges === 'function') {
+        saveBrochureChanges(false);
+      }
       if (typeof saveToSupabase === 'function') {
         saveToSupabase().catch(e => console.warn('[Supabase] Auto-sync DB failed:', e));
       }
-      syncAllDividers();
       closeProjectDbModal();
       if (window.showAdminToast) {
-        showAdminToast('프로젝트 DB가 저장되고 모든 간지 페이지에 즉시 반영되었습니다.');
+        showAdminToast('✅ 프로젝트 실적 DB가 안전하게 저장되었습니다.');
       }
     }
 
@@ -8119,6 +8131,7 @@
           console.warn('[Supabase] Failed to load brochure_content:', contentErr);
         } else if (contentData && contentData.length > 0) {
           let updatedCategory = false;
+          let projectLoadedFromContent = false;
           contentData.forEach(row => {
             if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
               row.value.forEach(savedCat => {
@@ -8140,6 +8153,14 @@
               });
               localStorage.setItem('snowman_node_colors_v1', JSON.stringify(row.value));
               updatedCategory = true;
+            } else if (row.key === 'projectDatabase' && Array.isArray(row.value)) {
+              window.PROJECT_DATABASE = row.value;
+              window.DEFAULT_PROJECT_DB = JSON.parse(JSON.stringify(row.value));
+              localStorage.setItem('snowman_project_db', JSON.stringify(row.value));
+              projectLoadedFromContent = true;
+              if (typeof window.syncAllDividers === 'function') window.syncAllDividers();
+              if (typeof window.renderProjectDbTable === 'function') window.renderProjectDbTable();
+              console.log('[Supabase] Successfully synced ' + row.value.length + ' projects from brochure_content.projectDatabase');
             }
           });
           if (updatedCategory && typeof window.renderSolutionNodes === 'function') {
@@ -8150,7 +8171,8 @@
           seedDefaultDataToSupabase();
         }
 
-        // 2. brochure_projects 조회 (프로젝트 실적 목록)
+        // 2. brochure_projects 조회 (projectDatabase가 없는 경우 fallback)
+        if (!projectLoadedFromContent) {
         const { data: projData, error: projErr } = await client.from('brochure_projects').select('*').order('sort_order', { ascending: true });
         if (projErr) {
           console.warn('[Supabase] Failed to load brochure_projects:', projErr);
@@ -8173,6 +8195,7 @@
           console.log('[Supabase] Successfully synced ' + formatted.length + ' projects from Cloud DB');
         } else {
           seedProjectsToSupabase();
+        }
         }
       } catch (e) {
         console.warn('[Supabase] Sync exception:', e);
@@ -8234,7 +8257,19 @@
         const [resContent, resColor, resProjects] = await Promise.all([
           client.from('brochure_content').upsert({ key: 'categoriesData', value: catPayload, updated_at: new Date().toISOString() }),
           client.from('brochure_content').upsert({ key: 'nodeColors', value: colorMap, updated_at: new Date().toISOString() }),
-          client.from('brochure_projects').upsert(projRows)
+          client.from('brochure_content').upsert({ key: 'projectDatabase', value: currentProjects, updated_at: new Date().toISOString() }),
+          (async () => {
+            try {
+              await client.from('brochure_projects').delete().neq('id', '_dummy_never_');
+              if (projRows.length > 0) {
+                return await client.from('brochure_projects').insert(projRows);
+              }
+            } catch(e) {
+              console.warn('[Supabase] brochure_projects sync fallback to upsert:', e);
+              return await client.from('brochure_projects').upsert(projRows);
+            }
+            return { error: null };
+          })()
         ]);
 
         if (resContent.error) throw resContent.error;
@@ -8316,7 +8351,15 @@
     }
 
     // 현재 수정된 DOM을 깨끗한 HTML 문서로 생성
-        function generateCleanBrochureHTML() {
+    function generateCleanBrochureHTML() {
+      // 0. [핵심] 최신 프로젝트 DB 및 간지 동기화 선행 (정적 HTML에도 최신 실적 목록 구워넣기)
+      if (typeof syncAllDividers === 'function') {
+        syncAllDividers();
+      }
+      if (typeof saveBrochureChanges === 'function') {
+        saveBrochureChanges(false);
+      }
+
       const cloneDoc = document.documentElement.cloneNode(true);
 
       // 1. 편집 활성화 클래스 및 contenteditable 속성 일괄 제거 (깨끗한 뷰 상태로 커밋)
@@ -8365,7 +8408,28 @@
         if (el.id === 'tocSidebarPanel') el.classList.remove('active');
       });
 
-      return '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
+      let html = '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
+
+      // 4. [핵심] 최신 프로젝트 실적 DB 데이터를 소스 코드의 window.DEFAULT_PROJECT_DB 선언부에 영구 주입
+      const currentProjects = (typeof getProjectDatabase === 'function') ? getProjectDatabase() : (window.PROJECT_DATABASE || []);
+      if (Array.isArray(currentProjects)) {
+        const dbJsonStr = JSON.stringify(currentProjects, null, 2);
+        html = html.replace(
+          /window\.DEFAULT_PROJECT_DB\s*=\s*\[[\s\S]*?\];/m,
+          'window.DEFAULT_PROJECT_DB = ' + dbJsonStr + ';'
+        );
+      }
+
+      // 5. [핵심] 최신 categoriesData도 소스 코드의 let categoriesData 선언부에 영구 주입
+      if (Array.isArray(window.categoriesData) && window.categoriesData.length > 0) {
+        const catJsonStr = JSON.stringify(window.categoriesData, null, 2);
+        html = html.replace(
+          /let\s+categoriesData\s*=\s*\[[\s\S]*?\];/m,
+          'let categoriesData = ' + catJsonStr + ';'
+        );
+      }
+
+      return html;
     }
 
     async function pushChangesToGitHub() {
