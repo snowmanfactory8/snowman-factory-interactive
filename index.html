@@ -2405,7 +2405,7 @@
                         linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       background-size: 100% 100%, 24px 24px, 24px 24px;
       border-right: 1px solid rgba(56, 189, 248, 0.28);
-      box-shadow: 20px 0 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(14, 165, 233, 0.1);
+      box-shadow: none;
       z-index: 99995;
       display: flex;
       flex-direction: column;
@@ -2710,13 +2710,26 @@
     }
 
     /* 6. 좌측 목차 및 슬라이드 패널 (Keynote Navigator Style) */
+    /* 6. 좌측 목차 및 슬라이드 패널 (Keynote Navigator Style) - 숨김 시 그림자 완전 제거 */
     #tocSidebarPanel {
       background: rgba(28, 28, 30, 0.88) !important;
       backdrop-filter: var(--apple-material-blur) !important;
       -webkit-backdrop-filter: var(--apple-material-blur) !important;
       border-right: var(--apple-border) !important;
-      box-shadow: 20px 0 60px rgba(0, 0, 0, 0.5) !important;
+      box-shadow: none !important;
       color: #ffffff !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transform: translateX(-105%) !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, visibility 0.35s !important;
+    }
+    #tocSidebarPanel.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transform: translateX(0) !important;
+      box-shadow: 20px 0 60px rgba(0, 0, 0, 0.5) !important;
     }
 
     .toc-card {
