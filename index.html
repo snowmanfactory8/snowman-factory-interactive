@@ -4361,11 +4361,17 @@
 
     // 모달 열기
     function openCategoryEditModal(catId) {
+      console.log('[CategoryEditor] openCategoryEditModal called with catId:', catId);
       const modal = document.getElementById('categoryEditModal');
-      if (!modal) return;
+      if (!modal) {
+        console.error('[CategoryEditor] #categoryEditModal not found!');
+        return;
+      }
 
       currentEditingCatId = catId || currentEditingCatId || 'bim';
       modal.style.display = 'flex';
+      modal.style.opacity = '1';
+      modal.classList.add('open');
 
       renderCategoryEditTabs();
       loadCategoryDataIntoForm(currentEditingCatId);
@@ -4376,7 +4382,10 @@
     // 모달 닫기
     function closeCategoryEditModal() {
       const modal = document.getElementById('categoryEditModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+      }
     }
 
     // 6개 카테고리 선택 탭바 렌더링
