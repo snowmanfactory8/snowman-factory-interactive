@@ -3432,7 +3432,58 @@
 
               <!-- 4 Columns Grid: 2024, 2023, 2022, 2021 (Rendered Dynamically from Project DB) -->
               <div class="divider-projects-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;">
-                <!-- Populated dynamically by syncDividerProjects() -->
+                <div class="divider-year-col" style="display: flex; flex-direction: column;">
+                  <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+                    2024
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      대방역 에너지공급센터 BIM 용역 (한국건축문화대상 우수상)
+                    </div>
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      네이버 1784 제2사옥 디지털 트윈 모델링
+                    </div>
+                  </div>
+                </div>
+                <div class="divider-year-col" style="display: flex; flex-direction: column;">
+                  <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+                    2023
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      세종 스마트시티 국가시범도시 BIM 인프라 용역
+                    </div>
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      인천 청라 복합유통시설 골조/MEP BIM 전환설계
+                    </div>
+                  </div>
+                </div>
+                <div class="divider-year-col" style="display: flex; flex-direction: column;">
+                  <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+                    2022
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      판교 알파돔시티 복합시설 준공전환 BIM 구축
+                    </div>
+                  </div>
+                </div>
+                <div class="divider-year-col" style="display: flex; flex-direction: column;">
+                  <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+                    2021
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                      <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                      대전 정부통합전산소 증축공사 조달청 맞춤형 BIM 납품
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -3717,8 +3768,11 @@
     // 문서 내 특정 간지 페이지의 프로젝트 목록 동기화
     function syncDividerProjects(dividerElem) {
       if (!dividerElem) return;
-      const catKey = dividerElem.getAttribute('data-category') || 'bim';
-      const grid = dividerElem.querySelector('.divider-projects-grid');
+      const contentElem = dividerElem.classList.contains('a4-page-content')
+        ? dividerElem
+        : (dividerElem.closest('.a4-page-content') || dividerElem);
+      const catKey = contentElem.getAttribute('data-category') || dividerElem.getAttribute('data-category') || 'bim';
+      const grid = contentElem.querySelector('.divider-projects-grid') || dividerElem.querySelector('.divider-projects-grid');
       if (grid) {
         grid.innerHTML = generateDividerProjectsHTML(catKey);
       }
@@ -3726,11 +3780,13 @@
 
     // 문서 내 모든 간지 페이지 프로젝트 목록 일괄 동기화
     function syncAllDividers() {
-      const dividers = document.querySelectorAll('.a4-page-content[data-category], .a4-page-divider');
+      const dividers = document.querySelectorAll('.a4-page-content[data-category], .a4-page-divider, [data-category]');
       dividers.forEach(elem => {
         const pageContent = elem.classList.contains('a4-page-content') ? elem : elem.closest('.a4-page-content');
         if (pageContent) {
           syncDividerProjects(pageContent);
+        } else {
+          syncDividerProjects(elem);
         }
       });
     }
@@ -4026,6 +4082,13 @@
     window.syncAllDividers = syncAllDividers;
     window.syncDividerProjects = syncDividerProjects;
     window.generateDividerProjectsHTML = generateDividerProjectsHTML;
+
+    // 초기 로드 시 모든 간지 페이지 프로젝트 목록 자동 동기화
+    try {
+      syncAllDividers();
+    } catch (e) {
+      console.warn('Initial syncAllDividers warning:', e);
+    }
 
 
     
@@ -5500,6 +5563,13 @@
         renderObsidianGraph();
       }
 
+      // 간지 페이지(Section Divider) 활성화 시 최신 프로젝트 DB 자동 동기화
+      if (activePage && (activePage.querySelector('.divider-projects-grid') || activePage.getAttribute('data-category'))) {
+        if (typeof syncDividerProjects === 'function') {
+          syncDividerProjects(activePage);
+        }
+      }
+
       // 이전/다음 버튼 비활성화 상태
       if (btnPrev) btnPrev.disabled = (currentBrochurePage === 0);
       if (viewerPrevBtn) viewerPrevBtn.disabled = (currentBrochurePage === 0);
@@ -6141,7 +6211,8 @@
       if (type.startsWith('project')) {
         newPageDiv.innerHTML = getProjectLayoutHTML(type);
       } else if (type === 'divider' || type === 'category-divider') {
-        newPageDiv.innerHTML = getCategoryDividerHTML();
+        newPageDiv.setAttribute('data-category', 'bim');
+        newPageDiv.innerHTML = getCategoryDividerHTML({ category: 'bim' });
       } else if (type === 'gallery') {
         newPageDiv.innerHTML = `
           <div style="width: 100%; height: 100%; position: relative; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -6224,15 +6295,60 @@
       const featuresList = currentPage.querySelector('.project-features-list')?.innerHTML;
 
       // 3. 신규 레이아웃 HTML 생성 및 교체
-      const newInner = getProjectLayoutHTML(type, {
-        indexNum,
-        categoryBadge,
-        pillBadge,
-        heroTitle,
-        awardBanner,
-        featuresList,
-        images: existingImgs
-      });
+      let newInner = '';
+      if (type.startsWith('project')) {
+        newInner = getProjectLayoutHTML(type, {
+          indexNum,
+          categoryBadge,
+          pillBadge,
+          heroTitle,
+          awardBanner,
+          featuresList,
+          images: existingImgs
+        });
+      } else if (type === 'divider' || type === 'category-divider') {
+        const catKey = currentPage.getAttribute('data-category') || 'bim';
+        currentPage.setAttribute('data-category', catKey);
+        newInner = getCategoryDividerHTML({ category: catKey });
+      } else if (type === 'gallery') {
+        newInner = `
+          <div style="width: 100%; height: 100%; position: relative; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+            <img src="${existingImgs[0]?.src || 'assets/project_01/page_18_full.png'}" alt="메인 갤러리" class="admin-editable-img" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 30px 40px; background: linear-gradient(180deg, transparent 0%, rgba(15,23,42,0.85) 100%); color: #ffffff;">
+              <h3 style="font-size: 26px; font-weight: 800; margin-bottom: 6px;">전면 갤러리 타이틀 (클릭하여 수정)</h3>
+              <p style="font-size: 14px; color: #cbd5e1; max-width: 600px;">이곳에 프로젝트 비주얼에 대한 설명을 입력하세요. 이미지를 클릭하거나 Ctrl+V를 누르면 내 컴퓨터의 사진으로 즉시 교체됩니다.</p>
+            </div>
+          </div>
+        `;
+      } else if (type === 'video') {
+        newInner = `
+          <div class="a4-page-cinema">
+            <video class="cinema-full-video" controls playsinline>
+              <source src="assets/dambau_promo_1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+        `;
+      } else if (type === 'editorial') {
+        newInner = `
+          <div style="width: 100%; height: 100%; padding: 48px 56px; display: flex; flex-direction: column; background: #ffffff; justify-content: space-between;">
+            <div>
+              <div style="font-family: 'Space Grotesk', monospace; font-size: 11px; font-weight: 700; color: #0070f3; margin-bottom: 6px;">SECTION OVERVIEW</div>
+              <h2 style="font-size: 28px; font-weight: 900; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.5px;">새로운 에디토리얼 소개 페이지</h2>
+              <p style="font-size: 14px; color: #64748b; line-height: 1.6; max-width: 700px;">이 템플릿은 텍스트 중심의 소개나 제안 내용을 정리하기에 적합합니다. 모든 문장을 자유롭게 클릭하여 수정하세요.</p>
+            </div>
+            <div style="display: flex; gap: 32px; flex: 1; margin-top: 24px;">
+              <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">주요 핵심 역량</h4>
+                <p style="font-size: 13px; color: #475569; line-height: 1.6;">상세 설명을 입력할 수 있는 좌측 컬럼 영역입니다.</p>
+              </div>
+              <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">기대 효과 및 실적</h4>
+                <p style="font-size: 13px; color: #475569; line-height: 1.6;">상세 설명을 입력할 수 있는 우측 컬럼 영역입니다.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
 
       if (!newInner) {
         alert('지원되지 않는 레이아웃 형식입니다.');
@@ -6240,6 +6356,9 @@
       }
 
       currentPage.innerHTML = newInner;
+      if (type === 'divider' || type === 'category-divider') {
+        syncDividerProjects(currentPage);
+      }
 
       // 4. UI 갱신 및 핸들러 재바인딩
       if (isAdminMode) {
@@ -6306,6 +6425,9 @@
         if (sheet) {
           sheet.innerHTML = saved;
           updateBrochureUI();
+          if (typeof syncAllDividers === 'function') {
+            syncAllDividers();
+          }
         }
       }
     }
@@ -6591,8 +6713,9 @@
       }
     });
 
-    // 페이지 로드 시 기존 저장본 자동 복원
+    // 페이지 로드 시 기존 저장본 자동 복원 및 간지 프로젝트 목록 동기화
     window.addEventListener('DOMContentLoaded', () => {
+      syncAllDividers();
       // 혹시라도 이전 커밋 잔재로 GitHub 푸시 버튼이 '전송 중...'이거나 disabled면 정상 복구
       const pushBtn = document.getElementById('btnPushToGithub');
       if (pushBtn) {
