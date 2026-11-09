@@ -2575,7 +2575,293 @@
       color: #64748b;
     }
 
-</style>
+
+    /* ============================================================ */
+    /* GLOBAL APPLE HIG (HUMAN INTERFACE GUIDELINES) DESIGN SYSTEM  */
+    /* ============================================================ */
+    :root {
+      --apple-studio-desk: radial-gradient(circle at 50% 45%, #2c2c34 0%, #161619 100%);
+      --apple-bar-bg: rgba(24, 24, 27, 0.78);
+      --apple-material-blur: blur(40px) saturate(190%);
+      --apple-border: 0.5px solid rgba(255, 255, 255, 0.12);
+      --apple-border-light: 0.5px solid rgba(255, 255, 255, 0.08);
+      --apple-text-primary: #f5f5f7;
+      --apple-text-secondary: rgba(235, 235, 245, 0.65);
+      --apple-text-tertiary: rgba(235, 235, 245, 0.38);
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #0077ed;
+      --apple-green: #30d158;
+      --apple-red: #ff453a;
+      --apple-purple: #bf5af2;
+      --apple-card-bg: rgba(255, 255, 255, 0.05);
+      --apple-radius-capsule: 980px;
+      --apple-radius-modal: 20px;
+    }
+
+    /* 1. 하이엔드 스튜디오 데스크 & 뷰포트 배경 */
+    #brochure-viewer {
+      background: var(--apple-studio-desk) !important;
+      background-image: none !important;
+    }
+
+    /* 2. A4 브로슈어 시트: 애플 정밀 패키지 감성의 다중 섀도우 & 모서리 */
+    .a4-landscape-sheet {
+      border-radius: 12px !important;
+      box-shadow: 
+        0 40px 100px -20px rgba(0, 0, 0, 0.65),
+        0 20px 45px -15px rgba(0, 0, 0, 0.4),
+        0 0 0 0.5px rgba(255, 255, 255, 0.18) !important;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
+    }
+
+    /* 3. 상단 툴바: Frosted Translucent Glass Topbar */
+    header.motion-topbar {
+      height: 50px !important;
+      padding: 0 24px !important;
+      background: var(--apple-bar-bg) !important;
+      backdrop-filter: var(--apple-material-blur) !important;
+      -webkit-backdrop-filter: var(--apple-material-blur) !important;
+      border-bottom: var(--apple-border) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .top-brand-logo {
+      font-size: 17px !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.02em !important;
+    }
+
+    .tool-icon-btn {
+      color: var(--apple-text-secondary) !important;
+      border-radius: 8px !important;
+      padding: 7px !important;
+      transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+    .tool-icon-btn:hover {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      transform: scale(1.05);
+    }
+    .tool-icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* 4. 하단 툴바: Frosted Translucent Bottombar & Capsule Navigator */
+    .motion-bottombar {
+      height: 52px !important;
+      padding: 0 24px !important;
+      background: var(--apple-bar-bg) !important;
+      backdrop-filter: var(--apple-material-blur) !important;
+      -webkit-backdrop-filter: var(--apple-material-blur) !important;
+      border-top: var(--apple-border) !important;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .bottom-center-nav {
+      background: rgba(0, 0, 0, 0.35) !important;
+      border: var(--apple-border) !important;
+      border-radius: var(--apple-radius-capsule) !important;
+      padding: 4px 10px !important;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .page-step-btn {
+      color: var(--apple-text-secondary) !important;
+      border-radius: 50% !important;
+      width: 28px !important;
+      height: 28px !important;
+      transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+    .page-step-btn:hover {
+      background: rgba(255, 255, 255, 0.14) !important;
+      color: #ffffff !important;
+    }
+    .page-step-btn:active {
+      transform: scale(0.9);
+    }
+
+    .page-indicator-text {
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      letter-spacing: -0.015em !important;
+      color: #ffffff !important;
+    }
+
+    /* 5. 좌우 스테이지 플로팅 화살표: Apple Vision/Glass Orb */
+    .stage-arrow-btn {
+      width: 42px !important;
+      height: 42px !important;
+      background: rgba(36, 36, 40, 0.65) !important;
+      backdrop-filter: blur(25px) !important;
+      -webkit-backdrop-filter: blur(25px) !important;
+      border: var(--apple-border) !important;
+      color: var(--apple-text-primary) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+      transition: all 0.22s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+    .stage-arrow-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.18) !important;
+      color: #ffffff !important;
+      transform: translateY(-50%) scale(1.08) !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+    }
+    .stage-arrow-btn:active:not(:disabled) {
+      transform: translateY(-50%) scale(0.94) !important;
+    }
+
+    /* 6. 좌측 목차 및 슬라이드 패널 (Keynote Navigator Style) */
+    #tocSidebarPanel {
+      background: rgba(28, 28, 30, 0.88) !important;
+      backdrop-filter: var(--apple-material-blur) !important;
+      -webkit-backdrop-filter: var(--apple-material-blur) !important;
+      border-right: var(--apple-border) !important;
+      box-shadow: 20px 0 60px rgba(0, 0, 0, 0.5) !important;
+      color: #ffffff !important;
+    }
+
+    .toc-card {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: var(--apple-border-light) !important;
+      border-radius: 12px !important;
+      transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+    .toc-card:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      transform: translateY(-2px) !important;
+    }
+    .toc-card.active {
+      border-color: var(--apple-blue) !important;
+      box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.4) !important;
+      background: rgba(0, 113, 227, 0.14) !important;
+    }
+
+    /* 7. ALL MODALS: macOS / iPadOS System Sheets */
+    .admin-modal-backdrop, .service-modal-backdrop {
+      background: rgba(0, 0, 0, 0.55) !important;
+      backdrop-filter: blur(28px) !important;
+      -webkit-backdrop-filter: blur(28px) !important;
+      transition: opacity 0.25s ease !important;
+    }
+
+    .admin-modal-box, #projectDbModal > div, #excelPasteModal > div, .service-modal-content {
+      background: rgba(30, 30, 34, 0.92) !important;
+      backdrop-filter: blur(50px) saturate(200%) !important;
+      -webkit-backdrop-filter: blur(50px) saturate(200%) !important;
+      border: var(--apple-border) !important;
+      border-radius: var(--apple-radius-modal) !important;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Pretendard", sans-serif !important;
+    }
+
+    /* Modal Form Controls: Apple Styled Inputs & Selects */
+    .admin-modal-box input, 
+    .admin-modal-box select, 
+    .admin-modal-box textarea,
+    #projectDbModal input, 
+    #projectDbModal select, 
+    #excelPasteModal textarea,
+    #categoryEditModal input {
+      background: rgba(0, 0, 0, 0.3) !important;
+      border: var(--apple-border-light) !important;
+      border-radius: 9px !important;
+      color: #ffffff !important;
+      font-size: 13px !important;
+      padding: 9px 12px !important;
+      transition: all 0.18s ease !important;
+      outline: none !important;
+    }
+    .admin-modal-box input:focus, 
+    .admin-modal-box select:focus, 
+    .admin-modal-box textarea:focus,
+    #projectDbModal input:focus, 
+    #projectDbModal select:focus {
+      border-color: var(--apple-blue) !important;
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.35) !important;
+      background: rgba(0, 0, 0, 0.45) !important;
+    }
+
+    /* Modal Buttons: Apple Style Confirm / Cancel */
+    .admin-modal-btn.confirm {
+      background: var(--apple-blue) !important;
+      color: #ffffff !important;
+      border-radius: 980px !important;
+      font-weight: 600 !important;
+      padding: 8px 18px !important;
+      border: none !important;
+      box-shadow: 0 3px 10px rgba(0, 113, 227, 0.35) !important;
+      transition: all 0.18s ease !important;
+    }
+    .admin-modal-btn.confirm:hover {
+      background: var(--apple-blue-hover) !important;
+    }
+    .admin-modal-btn.confirm:active {
+      transform: scale(0.97);
+    }
+
+    .admin-modal-btn.cancel {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--apple-text-primary) !important;
+      border: var(--apple-border-light) !important;
+      border-radius: 980px !important;
+      font-weight: 500 !important;
+      padding: 8px 18px !important;
+      transition: all 0.18s ease !important;
+    }
+    .admin-modal-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.14) !important;
+    }
+
+    /* 8. APPLE DYNAMIC ISLAND STYLE TOAST (중앙 상단 미니 캡슐 알림) */
+    .admin-toast {
+      top: 22px !important;
+      bottom: auto !important;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(-25px) !important;
+      background: rgba(20, 20, 24, 0.92) !important;
+      backdrop-filter: blur(35px) !important;
+      -webkit-backdrop-filter: blur(35px) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.18) !important;
+      border-radius: var(--apple-radius-capsule) !important;
+      padding: 8px 20px !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5) !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      color: #ffffff !important;
+      letter-spacing: -0.01em !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 9px !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .admin-toast.visible, .admin-toast.show {
+      transform: translateX(-50%) translateY(0) !important;
+      opacity: 1 !important;
+    }
+
+    /* 9. 프로젝트 DB 모달 내 Numbers 스타일 테이블 */
+    #projectDbTable th {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-bottom: var(--apple-border) !important;
+      color: var(--apple-label-secondary) !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      padding: 10px 12px !important;
+    }
+    #projectDbTable td {
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+      padding: 8px 12px !important;
+      color: #ffffff !important;
+      font-size: 12.5px !important;
+    }
+    #projectDbTable tr:hover td {
+      background: rgba(255, 255, 255, 0.04) !important;
+    }
+
+  </style>
 </head>
 <body>
 
