@@ -2861,6 +2861,124 @@
       background: rgba(255, 255, 255, 0.04) !important;
     }
 
+  
+    /* ============================================================ */
+    /* PROJECT OBJECT DIRECT ADD / DELETE INTERFACES (APPLE HIG)    */
+    /* ============================================================ */
+    .admin-mode-active .project-feature-item,
+    .admin-mode-active .project-award-banner,
+    .admin-mode-active .project-pill-badge {
+      position: relative !important;
+      transition: outline 0.15s ease, background-color 0.15s ease;
+    }
+
+    .admin-mode-active .project-feature-item:hover,
+    .admin-mode-active .project-award-banner:hover,
+    .admin-mode-active .project-pill-badge:hover {
+      outline: 1.5px dashed rgba(0, 113, 227, 0.45) !important;
+      outline-offset: 4px !important;
+      border-radius: 6px !important;
+    }
+
+    /* Floating Delete Button on Hover (Apple Red Round Pill) */
+    .admin-obj-delete-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 20px;
+      height: 20px;
+      background: #ff453a;
+      border: 1.5px solid #ffffff;
+      border-radius: 50%;
+      color: #ffffff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      z-index: 100;
+      transition: all 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 0;
+      line-height: 1;
+    }
+    .admin-obj-delete-btn:hover {
+      transform: scale(1.18);
+      background: #ff3b30;
+    }
+    .admin-obj-delete-btn:active {
+      transform: scale(0.92);
+    }
+
+    .admin-mode-active .project-feature-item:hover > .admin-obj-delete-btn,
+    .admin-mode-active .project-award-banner:hover > .admin-obj-delete-btn,
+    .admin-mode-active .project-pill-badge:hover > .admin-obj-delete-btn,
+    .admin-mode-active .feature-bullets li:hover > .admin-obj-delete-btn {
+      display: flex !important;
+    }
+
+    .admin-mode-active .feature-bullets li {
+      position: relative !important;
+      padding-right: 20px;
+    }
+    .admin-mode-active .feature-bullets li .admin-obj-delete-btn {
+      top: 0px;
+      right: -4px;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Add Feature / Bullet Buttons in Page (Apple Dotted Pill) */
+    .admin-obj-add-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 12px;
+      margin-top: 8px;
+      background: rgba(0, 113, 227, 0.05);
+      border: 1.5px dashed rgba(0, 113, 227, 0.35);
+      border-radius: 9px;
+      color: #0071e3;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+      font-family: inherit;
+    }
+    .admin-mode-active .admin-obj-add-btn {
+      display: flex !important;
+    }
+    .admin-obj-add-btn:hover {
+      background: rgba(0, 113, 227, 0.12);
+      border-color: #0071e3;
+      transform: translateY(-1px);
+    }
+    .admin-obj-add-btn:active {
+      transform: scale(0.98);
+    }
+
+    .admin-bullet-add-btn {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      color: #0071e3;
+      background: transparent;
+      border: none;
+      padding: 3px 6px;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+    .admin-mode-active .admin-bullet-add-btn {
+      display: inline-flex !important;
+    }
+    .admin-bullet-add-btn:hover {
+      background: rgba(0, 113, 227, 0.08);
+    }
+
   </style>
 </head>
 <body>
@@ -6289,6 +6407,7 @@
     // 동적 페이지 수 계산 및 내비게이션 UI 업데이트
     function updateBrochureUI() {
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+      if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
       const solHeader = document.querySelector('#page-2-content .obsidian-header-row');
       if (solHeader) {
@@ -6424,6 +6543,7 @@
 
     // 텍스트 인라인 수정 활성화
     function makeElementsEditable() {
+      if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
@@ -7348,10 +7468,41 @@
           </div>
         `;
       } else if (info.type === 'project') {
+        const hasAward = currentPage && !!currentPage.querySelector('.project-award-banner')?.innerHTML.trim();
+        const hasPill = currentPage && !!currentPage.querySelector('.project-pill-badge')?.innerHTML.trim();
+
         actionsHTML = `
-          <button class="admin-btn primary" onclick="showAdminSubview('changeLayout')" title="1열 전면형, 2열 분할형, 3단 그리드형 등 6종 템플릿 중 선택">
+          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 2px;">객체 구성 요소 제어</div>
+          
+          <button class="admin-btn primary" onclick="addProjectFeatureItem()" title="새로운 솔루션/특징 카드 블록을 아래에 즉시 추가">
             <div class="btn-left">
-              <i data-lucide="layout-template" style="width: 14px; height: 14px;"></i>
+              <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+              <span>+ 특징 항목(Feature) 추가</span>
+            </div>
+            <span style="font-size: 10px; opacity: 0.7;">Add Block</span>
+          </button>
+
+          <div class="admin-btn-group-2">
+            <button class="admin-btn" onclick="toggleProjectAwardBanner()" title="어워드/인증 뱃지 추가 또는 삭제">
+              <div class="btn-left">
+                <i data-lucide="award" style="width: 13px; height: 13px; color: #ff9f0a;"></i>
+                <span>${hasAward ? '어워드 제거' : '+ 어워드 추가'}</span>
+              </div>
+            </button>
+
+            <button class="admin-btn" onclick="toggleProjectPillBadge()" title="상단 카테고리 캡슐 뱃지 추가 또는 삭제">
+              <div class="btn-left">
+                <i data-lucide="tag" style="width: 13px; height: 13px; color: #2997ff;"></i>
+                <span>${hasPill ? '필뱃지 제거' : '+ 필뱃지 추가'}</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="admin-divider" style="margin: 4px 0;"></div>
+
+          <button class="admin-btn" onclick="showAdminSubview('changeLayout')" title="1열 전면형, 2열 분할형, 3단 그리드형 등 6종 템플릿 중 선택">
+            <div class="btn-left">
+              <i data-lucide="layout-template" style="width: 14px; height: 14px; color: #bf5af2;"></i>
               <span>레이아웃 템플릿 변경 (6종)</span>
             </div>
             <i data-lucide="chevron-right" style="width: 13px; height: 13px; opacity: 0.5;"></i>
@@ -7359,9 +7510,10 @@
 
           <button class="admin-btn" onclick="triggerPageImagePicker()" title="현재 프로젝트 페이지의 대표 사진/도면 교체">
             <div class="btn-left">
-              <i data-lucide="image" style="width: 14px; height: 14px; color: #2997ff;"></i>
+              <i data-lucide="image" style="width: 14px; height: 14px; color: #30d158;"></i>
               <span>대표 이미지 교체</span>
             </div>
+            <span style="font-size: 9.5px; opacity: 0.6;">Upload</span>
           </button>
 
           <button class="admin-btn" onclick="openProjectDbModal()" title="전체 프로젝트 DB 관리창 열기">
@@ -7476,6 +7628,240 @@
     window.changeCurrentDividerCategory = changeCurrentDividerCategory;
     window.quickRebalance360 = quickRebalance360;
     window.triggerPageImagePicker = triggerPageImagePicker;
+
+    
+    // =============================================================
+    // PROJECT PAGE OBJECT MANIPULATION (ADD / DELETE) SYSTEM
+    // =============================================================
+    function bindProjectObjectControls() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+
+      // 1. 기존 삭제 버튼들 모두 정리 후 재부착
+      sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn').forEach(el => el.remove());
+
+      if (!window.isAdminMode) return;
+
+      // 2. Feature Items에 삭제 버튼 바인딩
+      sheet.querySelectorAll('.project-feature-item').forEach(item => {
+        const delBtn = createDeleteBtn(() => {
+          item.style.transition = 'all 0.25s ease';
+          item.style.opacity = '0';
+          item.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            item.remove();
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+            if (window.showAdminToast) showAdminToast('특징 항목이 삭제되었습니다.');
+          }, 200);
+        }, '이 특징 항목 삭제');
+        item.appendChild(delBtn);
+
+        // 하위 불릿 리스트에 불릿 추가 버튼 및 불릿별 삭제 버튼 바인딩
+        const bulletsUl = item.querySelector('.feature-bullets');
+        if (bulletsUl) {
+          bulletsUl.querySelectorAll('li').forEach(li => {
+            if (!li.querySelector('.admin-obj-delete-btn')) {
+              const liDelBtn = createDeleteBtn(() => {
+                li.remove();
+                if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+              }, '불릿 삭제', true);
+              li.appendChild(liDelBtn);
+            }
+          });
+
+          // 불릿 추가 버튼
+          const addBulletBtn = document.createElement('button');
+          addBulletBtn.className = 'admin-bullet-add-btn';
+          addBulletBtn.innerHTML = '<i data-lucide="plus" style="width: 11px; height: 11px;"></i><span>불릿 추가</span>';
+          addBulletBtn.onclick = (e) => {
+            e.stopPropagation();
+            const newLi = document.createElement('li');
+            newLi.textContent = '새로운 설명 내용을 입력하세요';
+            bulletsUl.appendChild(newLi);
+            if (typeof makeElementsEditable === 'function') makeElementsEditable();
+            bindProjectObjectControls();
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+            setTimeout(() => newLi.focus(), 50);
+          };
+          bulletsUl.parentNode.appendChild(addBulletBtn);
+        }
+      });
+
+      // 3. Award Banner에 삭제 버튼 바인딩
+      sheet.querySelectorAll('.project-award-banner').forEach(banner => {
+        if (banner.innerHTML.trim()) {
+          const delBtn = createDeleteBtn(() => {
+            banner.style.display = 'none';
+            banner.innerHTML = '';
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+            if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+            if (window.showAdminToast) showAdminToast('어워드 배너가 제거되었습니다.');
+          }, '어워드 배너 삭제');
+          banner.appendChild(delBtn);
+        }
+      });
+
+      // 4. Pill Badge에 삭제 버튼 바인딩
+      sheet.querySelectorAll('.project-pill-badge').forEach(badge => {
+        if (badge.innerHTML.trim()) {
+          const delBtn = createDeleteBtn(() => {
+            badge.style.display = 'none';
+            badge.innerHTML = '';
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+            if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+            if (window.showAdminToast) showAdminToast('상단 필 뱃지가 제거되었습니다.');
+          }, '필 뱃지 삭제');
+          badge.appendChild(delBtn);
+        }
+      });
+
+      // 5. 각 project-features-list 맨 아래에 "+ 특징 항목 추가" 인라인 버튼 추가
+      sheet.querySelectorAll('.project-features-list').forEach(list => {
+        const addBtn = document.createElement('button');
+        addBtn.className = 'admin-obj-add-btn';
+        addBtn.innerHTML = '<i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i><span>+ 새로운 특징/솔루션 항목 추가</span>';
+        addBtn.onclick = (e) => {
+          e.stopPropagation();
+          addProjectFeatureItem(list);
+        };
+        list.appendChild(addBtn);
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function createDeleteBtn(onClick, title = '삭제', isSmall = false) {
+      const btn = document.createElement('button');
+      btn.className = 'admin-obj-delete-btn';
+      btn.title = title;
+      btn.innerHTML = `<i data-lucide="x" style="width: ${isSmall ? 10 : 12}px; height: ${isSmall ? 10 : 12}px; stroke-width: 3;"></i>`;
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        onClick();
+      };
+      return btn;
+    }
+
+    // 특징 블록 추가 함수
+    function addProjectFeatureItem(targetList) {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+
+      const list = targetList || currentPage.querySelector('.project-features-list');
+      if (!list) return;
+
+      const newItem = document.createElement('div');
+      newItem.className = 'project-feature-item';
+      newItem.style.opacity = '0';
+      newItem.style.transform = 'translateY(10px)';
+      newItem.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+      newItem.innerHTML = `
+        <div class="feature-icon-box">
+          <i data-lucide="sparkles" style="width: 15px; height: 15px; stroke-width: 2.2;"></i>
+        </div>
+        <div class="feature-content">
+          <h4 class="feature-title">새 솔루션 항목 <span class="feature-en">NEW CAPABILITY</span></h4>
+          <ul class="feature-bullets">
+            <li>핵심 엔지니어링 기술 및 세부 스펙을 입력하세요</li>
+            <li>실증 데이터 또는 도입 효과를 작성하세요</li>
+          </ul>
+        </div>
+      `;
+
+      // 인라인 addBtn 앞에 삽입
+      const addBtn = list.querySelector('.admin-obj-add-btn');
+      if (addBtn) {
+        list.insertBefore(newItem, addBtn);
+      } else {
+        list.appendChild(newItem);
+      }
+
+      requestAnimationFrame(() => {
+        newItem.style.opacity = '1';
+        newItem.style.transform = 'translateY(0)';
+      });
+
+      if (typeof makeElementsEditable === 'function') makeElementsEditable();
+      bindProjectObjectControls();
+      if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      if (window.showAdminToast) showAdminToast('새로운 특징 항목이 추가되었습니다.');
+    }
+
+    // 어워드 배너 토글/추가 함수
+    function toggleProjectAwardBanner() {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+
+      let banner = currentPage.querySelector('.project-award-banner');
+      if (!banner) {
+        const leftPanel = currentPage.querySelector('.project-left-panel > div');
+        if (leftPanel) {
+          banner = document.createElement('div');
+          banner.className = 'project-award-banner';
+          leftPanel.appendChild(banner);
+        }
+      }
+
+      if (banner) {
+        if (!banner.innerHTML.trim() || banner.style.display === 'none') {
+          banner.style.display = 'inline-flex';
+          banner.innerHTML = '<i data-lucide="award" style="width: 14px; height: 14px; stroke-width: 2.5;"></i><span>우수 프로젝트 레퍼런스</span>';
+          if (window.showAdminToast) showAdminToast('어워드 배너가 추가되었습니다.');
+        } else {
+          banner.style.display = 'none';
+          banner.innerHTML = '';
+          if (window.showAdminToast) showAdminToast('어워드 배너가 숨김 처리되었습니다.');
+        }
+      }
+
+      if (typeof makeElementsEditable === 'function') makeElementsEditable();
+      bindProjectObjectControls();
+      if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+    }
+
+    // 필 뱃지 토글/추가 함수
+    function toggleProjectPillBadge() {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+
+      let badge = currentPage.querySelector('.project-pill-badge');
+      if (!badge) {
+        const leftPanel = currentPage.querySelector('.project-left-panel > div');
+        if (leftPanel) {
+          badge = document.createElement('div');
+          badge.className = 'project-pill-badge';
+          const title = leftPanel.querySelector('.project-hero-title');
+          if (title) leftPanel.insertBefore(badge, title);
+          else leftPanel.appendChild(badge);
+        }
+      }
+
+      if (badge) {
+        if (!badge.innerHTML.trim() || badge.style.display === 'none') {
+          badge.style.display = 'inline-flex';
+          badge.innerHTML = '<span class="pill-dot">●</span> <span>신규 프로젝트 쇼케이스</span>';
+          if (window.showAdminToast) showAdminToast('상단 필 뱃지가 추가되었습니다.');
+        } else {
+          badge.style.display = 'none';
+          badge.innerHTML = '';
+          if (window.showAdminToast) showAdminToast('상단 필 뱃지가 숨김 처리되었습니다.');
+        }
+      }
+
+      if (typeof makeElementsEditable === 'function') makeElementsEditable();
+      bindProjectObjectControls();
+      if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+    }
+
+    window.bindProjectObjectControls = bindProjectObjectControls;
+    window.addProjectFeatureItem = addProjectFeatureItem;
+    window.toggleProjectAwardBanner = toggleProjectAwardBanner;
+    window.toggleProjectPillBadge = toggleProjectPillBadge;
 
         // SUPABASE REALTIME CLOUD CMS INTEGRATION
     // =============================================================
@@ -7815,6 +8201,8 @@
       const body = cloneDoc.querySelector('body');
       if (body) body.classList.remove('admin-mode-active');
 
+      // 객체 추가/삭제 제어 버튼들 영구 제거
+      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn').forEach(b => b.remove());
       const editables = cloneDoc.querySelectorAll('[contenteditable]');
       editables.forEach(el => el.removeAttribute('contenteditable'));
 
