@@ -4455,6 +4455,10 @@
             <input type="text" value="${(child.title || '').replace(/"/g, '&quot;')}" placeholder="국문 타이틀 (예: 정밀 3D 모델링)" oninput="updateTempChildField(${idx}, 'title', this.value)" style="background: #1e293b; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; color: #ffffff; font-size: 12px; outline: none;">
             <input type="text" value="${(child.en || '').replace(/"/g, '&quot;')}" placeholder="영문 서브타이틀 (예: Integrated BIM 3D)" oninput="updateTempChildField(${idx}, 'en', this.value)" style="background: #1e293b; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; color: #94a3b8; font-size: 12px; outline: none;">
           </div>
+          <div style="display: flex; gap: 4px;">
+            <button onclick="moveCategoryEditChildRow(${idx}, -1)" title="순서 앞으로 (시계반대방향)" ${idx === 0 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px;">▲</button>
+            <button onclick="moveCategoryEditChildRow(${idx}, 1)" title="순서 뒤로 (시계방향)" ${idx === tempEditingChildren.length - 1 ? 'disabled style="opacity:0.25; cursor:not-allowed;"' : ''} style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px;">▼</button>
+          </div>
           <button onclick="deleteCategoryEditChildRow(${idx})" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; width: 28px; height: 28px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
           </button>
@@ -4477,6 +4481,15 @@
         title: "새 하위 카테고리",
         en: "New Sub Item"
       });
+      renderCategoryEditChildrenList();
+    }
+
+    // 하위 항목 순서 이동 (▲/▼)
+    function moveCategoryEditChildRow(idx, delta) {
+      const targetIdx = idx + delta;
+      if (targetIdx < 0 || targetIdx >= tempEditingChildren.length) return;
+      const item = tempEditingChildren.splice(idx, 1)[0];
+      tempEditingChildren.splice(targetIdx, 0, item);
       renderCategoryEditChildrenList();
     }
 
@@ -4552,6 +4565,7 @@
     window.switchCategoryEditTab = switchCategoryEditTab;
     window.updateTempChildField = updateTempChildField;
     window.addCategoryEditChildRow = addCategoryEditChildRow;
+    window.moveCategoryEditChildRow = moveCategoryEditChildRow;
     window.deleteCategoryEditChildRow = deleteCategoryEditChildRow;
     window.saveCategoryEditAndSync = saveCategoryEditAndSync;
     window.resetCurrentCategoryToDefault = resetCurrentCategoryToDefault;
@@ -5026,21 +5040,14 @@
           centralOuterOrbit.setAttribute('stroke', cat.color);
           edgesLayer.appendChild(centralOuterOrbit);
 
-          // 2) 가변 N개 하위 원형 노드 및 주변 주석 렌더링 (동적 원형 각도 자동 계산)
+          // 2) 가변 N개 하위 원형 노드 및 주변 주석 렌더링 (동심원 둘레 / 노드수 = 360/N 균등 자동 배치)
           const totalChildren = cat.children ? cat.children.length : 0;
-          cat.children.forEach((child, idx) => {
-            let angleDeg = 0;
-            if (totalChildren === 4 && child.pos) {
-              if (child.pos === "top-left") angleDeg = -140;
-              else if (child.pos === "top-right") angleDeg = -40;
-              else if (child.pos === "bottom-left") angleDeg = 140;
-              else if (child.pos === "bottom-right") angleDeg = 40;
-              else angleDeg = (idx * (360 / totalChildren)) - 90;
-            } else if (totalChildren > 0) {
-              // 1개(-90°), 2개(-180°, 0°), 3개(-90°, 30°, 150°), N개 균등 원형 분할
-              angleDeg = (idx * (360 / totalChildren)) - 90;
-            }
+          const stepAngle = totalChildren > 0 ? (360 / totalChildren) : 360;
+          // 좌우 대칭 기준 시작 각도: 짝수면 X자 대칭(-90 + step/2), 홀수면 12시 정점 대칭(-90)
+          const startAngle = (totalChildren % 2 === 0) ? (-90 + (stepAngle / 2)) : -90;
 
+          cat.children.forEach((child, idx) => {
+            const angleDeg = startAngle + (idx * stepAngle);
             const angleRad = (angleDeg * Math.PI) / 180;
             const isLeft = Math.cos(angleRad) < -0.01;
             const isTop = Math.sin(angleRad) < -0.01;
@@ -5186,12 +5193,12 @@
 
           const orbitRadius = 96;
           const totalChildren = cat.children ? cat.children.length : 0;
+          const stepAngle = totalChildren > 0 ? (360 / totalChildren) : 360;
+          const startAngle = (totalChildren % 2 === 0) ? (-90 + (stepAngle / 2)) : -90;
 
           (cat.children || []).forEach((child, idx) => {
-            const randAngleDeg = (cat.randomAngles && cat.randomAngles[idx] !== undefined)
-              ? cat.randomAngles[idx]
-              : (totalChildren > 0 ? (idx * (360 / totalChildren) + 35) : 35);
-            const randAngleRad = (randAngleDeg * Math.PI) / 180;
+            const angleDeg = startAngle + (idx * stepAngle);
+            const randAngleRad = (angleDeg * Math.PI) / 180;
             const dotX = cat.x + Math.cos(randAngleRad) * orbitRadius;
             const dotY = cat.y + Math.sin(randAngleRad) * orbitRadius;
 
