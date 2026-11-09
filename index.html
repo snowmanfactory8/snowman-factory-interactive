@@ -6367,7 +6367,7 @@
       editImgs.forEach(el => el.classList.remove('admin-editable-img'));
 
       // 2. [중요] GitHub 배포 버튼이 '전송 중...' 상태로 커밋되지 않도록 원래 깨끗한 상태로 강제 복원
-      const cloneBtn = cloneDoc.getElementById('btnPushToGithub');
+      const cloneBtn = cloneDoc.querySelector('#btnPushToGithub');
       if (cloneBtn) {
         cloneBtn.disabled = false;
         cloneBtn.removeAttribute('disabled');
