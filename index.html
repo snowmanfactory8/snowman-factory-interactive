@@ -6352,10 +6352,10 @@
     }
 
     // 현재 수정된 DOM을 깨끗한 HTML 문서로 생성
-    function generateCleanBrochureHTML() {
+        function generateCleanBrochureHTML() {
       const cloneDoc = document.documentElement.cloneNode(true);
 
-      // 편집 활성화 클래스 및 contenteditable 속성 일괄 제거 (깨끗한 뷰 상태로 커밋)
+      // 1. 편집 활성화 클래스 및 contenteditable 속성 일괄 제거 (깨끗한 뷰 상태로 커밋)
       cloneDoc.classList.remove('admin-mode-active');
       const body = cloneDoc.querySelector('body');
       if (body) body.classList.remove('admin-mode-active');
@@ -6366,10 +6366,30 @@
       const editImgs = cloneDoc.querySelectorAll('.admin-editable-img');
       editImgs.forEach(el => el.classList.remove('admin-editable-img'));
 
+      // 2. [중요] GitHub 배포 버튼이 '전송 중...' 상태로 커밋되지 않도록 원래 깨끗한 상태로 강제 복원
+      const cloneBtn = cloneDoc.getElementById('btnPushToGithub');
+      if (cloneBtn) {
+        cloneBtn.disabled = false;
+        cloneBtn.removeAttribute('disabled');
+        cloneBtn.innerHTML = `
+          <div class="btn-left">
+            <i data-lucide="git-pull-request" style="width: 15px; height: 15px;"></i>
+            <span>GitHub 배포</span>
+          </div>
+          <span class="live-pill">LIVE</span>
+        `;
+      }
+
+      // 3. 열려있을 수 있는 모달 및 패널 활성 클래스 정화
+      const activeBackdrops = cloneDoc.querySelectorAll('.admin-modal-backdrop.open, #tocBackdrop.active, #tocSidebarPanel.active');
+      activeBackdrops.forEach(el => {
+        el.classList.remove('open', 'active');
+        if (el.id === 'tocSidebarPanel') el.classList.remove('active');
+      });
+
       return '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
     }
 
-    // GitHub API를 통한 실시간 커밋 & 푸시
     async function pushChangesToGitHub() {
       const token = localStorage.getItem('snowman_gh_token');
       const repo = localStorage.getItem('snowman_gh_repo') || DEFAULT_GH_REPO;
@@ -6386,24 +6406,38 @@
       }
 
       const btn = document.getElementById('btnPushToGithub');
-      const origBtnContent = btn ? btn.innerHTML : '';
+      const origBtnContent = `
+        <div class="btn-left">
+          <i data-lucide="git-pull-request" style="width: 15px; height: 15px;"></i>
+          <span>GitHub 배포</span>
+        </div>
+        <span class="live-pill">LIVE</span>
+      `;
+
       if (btn) {
         btn.innerHTML = `<i data-lucide="loader" class="admin-spin" style="width: 15px; height: 15px;"></i> <span>전송 중...</span>`;
         btn.disabled = true;
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
       }
 
-      try {
-        showAdminToast('⏳ GitHub 저장소의 최신 파일 SHA를 확인하는 중...');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30초 안전 타임아웃
 
-        // 1. 깨끗한 HTML 문서 추출
+      try {
+        showAdminToast('⏳ [1/4] 깨끗한 HTML 문서를 생성하는 중...');
+
+        // 1. 깨끗한 HTML 문서 추출 (버튼 상태 정화 완료본)
         const cleanHtml = generateCleanBrochureHTML();
 
-        // 2. GitHub contents API로 기존 index.html의 SHA 조회
-        const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html?ref=${branch}`, {
+        showAdminToast('⏳ [2/4] GitHub 저장소의 최신 파일 상태를 확인하는 중...');
+
+        // 2. GitHub contents API로 최신 SHA 조회 (캐시 방지 타임스탬프 추가)
+        const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html?ref=${branch}&_ts=${Date.now()}`, {
+          signal: controller.signal,
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
           }
         });
 
@@ -6415,24 +6449,29 @@
           throw new Error('GitHub 토큰 인증에 실패했습니다. 올바른 repo 권한을 가진 토큰인지 확인해주세요.');
         }
 
-        // 3. UTF-8 -> Base64 안전 인코딩 (한글/특수문자 완벽 처리)
+        showAdminToast('⏳ [3/4] 고속 Base64 인코딩을 처리하는 중...');
+
+        // 3. UTF-8 -> Base64 초고속 청크(Chunked) 인코딩 (브라우저 멈춤 완전 해결)
         const utf8Bytes = new TextEncoder().encode(cleanHtml);
         let binaryStr = '';
         const len = utf8Bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-          binaryStr += String.fromCharCode(utf8Bytes[i]);
+        const chunkSize = 8192; // 8KB 블록 단위 처리
+        for (let i = 0; i < len; i += chunkSize) {
+          const chunk = utf8Bytes.subarray(i, Math.min(i + chunkSize, len));
+          binaryStr += String.fromCharCode.apply(null, chunk);
         }
         const base64Content = btoa(binaryStr);
 
         // 4. PUT /contents/index.html 로 커밋 & 푸시
-        showAdminToast('🚀 GitHub에 새로운 커밋을 생성하고 푸시하는 중...');
+        showAdminToast('🚀 [4/4] GitHub에 새 커밋을 생성하고 푸시하는 중...');
         const now = new Date();
         const timeStamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
         const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html`, {
           method: 'PUT',
+          signal: controller.signal,
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `token ${token}`,
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json'
           },
@@ -6444,27 +6483,28 @@
           })
         });
 
+        clearTimeout(timeoutId);
+
         if (!putRes.ok) {
           const errData = await putRes.json().catch(() => ({}));
           throw new Error(errData.message || `GitHub HTTP Error: ${putRes.status}`);
         }
 
-        const putResult = await putRes.json();
-        const commitUrl = putResult.commit ? putResult.commit.html_url : `https://github.com/${repo}`;
-
         // 로컬스토리지에도 현재 상태 자동 저장
         saveBrochureChanges(false);
 
         showAdminToast('🎉 GitHub 푸시 완료! GitHub Pages 실시간 배포가 시작되었습니다.');
-        alert(`🎉 GitHub 푸시가 완벽하게 성공했습니다!\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n• 커밋 시간: ${timeStamp}\n\nGitHub Pages가 변경 사항을 자동으로 감지하여 약 1분 내로 라이브 웹사이트를 최신으로 갱신합니다.`);
+        alert(`🎉 GitHub 푸시가 완벽하게 성공했습니다!\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n• 커밋 시간: ${timeStamp}\n\nGitHub Pages가 변경 사항을 자동으로 감지하여 약 1~2분 내로 라이브 웹사이트를 최신으로 갱신합니다.`);
       } catch (err) {
+        clearTimeout(timeoutId);
         console.error('GitHub Push Error:', err);
-        alert(`❌ GitHub 푸시 중 오류가 발생했습니다:\n${err.message}\n\n우측 [⚙️] 설정 버튼을 눌러 GitHub 토큰이 올바른지 확인해주세요.`);
+        const errMsg = err.name === 'AbortError' ? '네트워크 응답 시간이 초과되었습니다 (30초 타임아웃).' : err.message;
+        alert(`❌ GitHub 푸시 중 오류가 발생했습니다:\n${errMsg}\n\n우측 [⚙️ GitHub 설정] 버튼을 눌러 GitHub 토큰이 올바른지 확인해주세요.`);
       } finally {
         if (btn) {
           btn.innerHTML = origBtnContent;
           btn.disabled = false;
-          lucide.createIcons();
+          if (window.lucide) lucide.createIcons();
         }
       }
     }
@@ -6538,6 +6578,19 @@
 
     // 페이지 로드 시 기존 저장본 자동 복원
     window.addEventListener('DOMContentLoaded', () => {
+      // 혹시라도 이전 커밋 잔재로 GitHub 푸시 버튼이 '전송 중...'이거나 disabled면 정상 복구
+      const pushBtn = document.getElementById('btnPushToGithub');
+      if (pushBtn) {
+        pushBtn.disabled = false;
+        pushBtn.removeAttribute('disabled');
+        pushBtn.innerHTML = `
+          <div class="btn-left">
+            <i data-lucide="git-pull-request" style="width: 15px; height: 15px;"></i>
+            <span>GitHub 배포</span>
+          </div>
+          <span class="live-pill">LIVE</span>
+        `;
+      }
       loadSavedNodeColors();
       restoreBrochureChanges();
     });
