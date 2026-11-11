@@ -1153,15 +1153,164 @@
       border-radius: 3px;
     }
 
-    /* 3-Step Feature List (레퍼런스 이미지 하단 리스트와 1:1 매핑) */
+    /* 1. Project Meta Overview (Year, Category, Client) */
+    .project-meta-overview {
+      margin: 10px 0 12px 0;
+      width: 100%;
+    }
+
+    .project-overview-table {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 11.5px;
+      line-height: 1.45;
+    }
+
+    .project-overview-row {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .project-overview-label {
+      width: 70px;
+      min-width: 70px;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.3px;
+      user-select: none;
+    }
+
+    .project-overview-value {
+      flex: 1;
+      color: #1e293b;
+      font-weight: 500;
+      word-break: keep-all;
+    }
+
+    .project-overview-divider {
+      width: 100%;
+      height: 1px;
+      background: #e2e8f0;
+      margin-top: 12px;
+    }
+
+    /* 2. Project Description & Bullets Block */
+    .project-desc-block {
+      margin: 12px 0 10px 0;
+    }
+
+    .project-summary-desc {
+      font-size: 11.5px;
+      color: #334155;
+      line-height: 1.55;
+      margin: 0 0 10px 0;
+      word-break: keep-all;
+      font-weight: 450;
+    }
+
+    .project-desc-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .project-desc-bullets li {
+      font-size: 11px;
+      color: #475569;
+      line-height: 1.45;
+      padding-left: 12px;
+      position: relative;
+      word-break: keep-all;
+    }
+
+    .project-desc-bullets li::before {
+      content: '•';
+      position: absolute;
+      left: 2px;
+      top: -1px;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    /* 3. Features & Solutions List (순차적 정렬) */
     .project-features-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      border-top: 1px solid rgba(15, 23, 42, 0.08);
-      padding-top: 12px;
+      gap: 8px;
+      margin-top: 6px;
+      padding-top: 4px;
+    }
+
+    /* 4. Project Image Legend (좌측 하단 2x2 매트릭스 + 1~4번 설명 캡션) */
+    .project-image-legend {
+      margin-top: auto;
+      padding-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .legend-grid-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 17px);
+      grid-template-rows: repeat(2, 17px);
+      gap: 2px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .legend-cell {
+      width: 17px;
+      height: 17px;
+      border: 1.2px solid #94a3b8;
+      border-radius: 2px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
+      user-select: none;
+      box-sizing: border-box;
+    }
+
+    .legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
       flex: 1;
-      justify-content: space-evenly;
+      min-width: 0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      font-size: 10.5px;
+      line-height: 1.4;
+      color: #64748b;
+      word-break: keep-all;
+    }
+
+    .legend-item .legend-num {
+      font-family: 'Space Grotesk', monospace;
+      font-weight: 700;
+      color: #64748b;
+      flex-shrink: 0;
+    }
+
+    .legend-item .legend-text {
+      color: #475569;
+      font-weight: 500;
     }
 
     .project-feature-item {
@@ -5671,6 +5820,103 @@
   }
 ];
 
+    
+    // 프로젝트 페이지 레이아웃 업그레이드 함수 (새로운 개요, 설명, 이미지 범례 자동 마이그레이션)
+    function upgradeProjectPagesLayout() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+
+      const projectPages = sheet.querySelectorAll('.a4-page-project');
+      projectPages.forEach(page => {
+        const leftPanel = page.querySelector('.project-left-panel');
+        if (!leftPanel) return;
+
+        // 1. project-meta-overview가 없으면 제목 하단에 주입
+        if (!leftPanel.querySelector('.project-meta-overview')) {
+          const overviewDiv = document.createElement('div');
+          overviewDiv.className = 'project-meta-overview';
+          overviewDiv.innerHTML = `
+            <div class="project-overview-table">
+              <div class="project-overview-row">
+                <span class="project-overview-label">Year</span>
+                <span class="project-overview-value">2023</span>
+              </div>
+              <div class="project-overview-row">
+                <span class="project-overview-label">Category</span>
+                <div class="project-overview-value">
+                  <div>BIM(모델링)</div>
+                  <div>3D scan(정합성 검토)</div>
+                  <div>XR</div>
+                </div>
+              </div>
+              <div class="project-overview-row">
+                <span class="project-overview-label">Client</span>
+                <span class="project-overview-value">자리소건축사사무소</span>
+              </div>
+            </div>
+            <div class="project-overview-divider"></div>
+          `;
+
+          const heroTitle = leftPanel.querySelector('.project-hero-title');
+          const awardBanner = leftPanel.querySelector('.project-award-banner');
+          const targetAnchor = awardBanner || heroTitle;
+          if (targetAnchor && targetAnchor.parentNode) {
+            targetAnchor.parentNode.insertBefore(overviewDiv, targetAnchor.nextSibling);
+          } else {
+            leftPanel.prepend(overviewDiv);
+          }
+        }
+
+        // 2. project-desc-block이 없으면 개요 하단에 주입
+        if (!leftPanel.querySelector('.project-desc-block')) {
+          const descBlock = document.createElement('div');
+          descBlock.className = 'project-desc-block';
+          descBlock.innerHTML = `
+            <p class="project-summary-desc">
+              구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
+            </p>
+            <ul class="project-desc-bullets">
+              <li>Lidar 스캐너를 이용하여 현장 3D 스캔</li>
+              <li>CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
+              <li>BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
+              <li>정합성 오류 검토 보고서 작성</li>
+            </ul>
+          `;
+
+          const overview = leftPanel.querySelector('.project-meta-overview');
+          if (overview && overview.parentNode) {
+            overview.parentNode.insertBefore(descBlock, overview.nextSibling);
+          } else {
+            const featList = leftPanel.querySelector('.project-features-list');
+            if (featList && featList.parentNode) {
+              featList.parentNode.insertBefore(descBlock, featList);
+            }
+          }
+        }
+
+        // 3. project-image-legend가 없으면 좌측 최하단에 주입
+        if (!leftPanel.querySelector('.project-image-legend')) {
+          const legendDiv = document.createElement('div');
+          legendDiv.className = 'project-image-legend';
+          legendDiv.innerHTML = `
+            <div class="legend-grid-matrix">
+              <div class="legend-cell">1</div>
+              <div class="legend-cell">2</div>
+              <div class="legend-cell">3</div>
+              <div class="legend-cell">4</div>
+            </div>
+            <div class="legend-list">
+              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text">스캔 데이터 ISO</span></div>
+              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text">정합성 검토 보고서</span></div>
+              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text">건축/구조 Revit 모델</span></div>
+              <div class="legend-item"><span class="legend-num">4.</span> <span class="legend-text">MEP Revit 모델</span></div>
+            </div>
+          `;
+          leftPanel.appendChild(legendDiv);
+        }
+      });
+    }
+
     // SOLUTION CATEGORY & NODE INLINE CMS ENGINE
     // =============================================================
     window.categoriesData = categoriesData;
@@ -7260,6 +7506,7 @@
 
     // 동적 페이지 수 계산 및 내비게이션 UI 업데이트
     function updateBrochureUI() {
+      if (typeof upgradeProjectPagesLayout === 'function') upgradeProjectPagesLayout();
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
       if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
@@ -7407,7 +7654,7 @@
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .project-overview-value, .project-overview-label, .project-summary-desc, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 특정 제외 클래스 건너뛰기
@@ -7669,10 +7916,11 @@
         return (defaults.images[idx] && defaults.images[idx].alt) ? defaults.images[idx].alt : fallback;
       };
 
-      // 좌측 공통 설명 패널
+      // 좌측 공통 설명 패널 (사용자 요청: 개요 + 설명/특징 순차 정렬 + 좌측 하단 이미지 범례)
       const leftPanelHTML = `
         <div class="project-left-panel">
-          <div>
+          <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+            <!-- 1. Top Meta Header & Title -->
             <div class="project-top-meta-bar">
               <span class="project-index-num">${defaults.indexNum}</span>
               <span style="color: #cbd5e1; font-size: 11px;">/</span>
@@ -7687,9 +7935,63 @@
             <div class="project-award-banner">
               ${defaults.awardBanner}
             </div>
+
+            <!-- 2. Project Overview (Year, Category, Client) + Divider (요청 1번 이미지 반영) -->
+            <div class="project-meta-overview">
+              <div class="project-overview-table">
+                <div class="project-overview-row">
+                  <span class="project-overview-label">Year</span>
+                  <span class="project-overview-value">${defaults.overviewYear || '2023'}</span>
+                </div>
+                <div class="project-overview-row">
+                  <span class="project-overview-label">Category</span>
+                  <div class="project-overview-value">
+                    ${defaults.overviewCategory || '<div>BIM(모델링)</div><div>3D scan(정합성 검토)</div><div>XR</div>'}
+                  </div>
+                </div>
+                <div class="project-overview-row">
+                  <span class="project-overview-label">Client</span>
+                  <span class="project-overview-value">${defaults.overviewClient || '자리소건축사사무소'}</span>
+                </div>
+              </div>
+              <div class="project-overview-divider"></div>
+            </div>
+
+            <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
+            <div class="project-desc-block">
+              <p class="project-summary-desc">
+                ${defaults.summaryDesc || '구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행'}
+              </p>
+              <ul class="project-desc-bullets">
+                ${defaults.descBullets || `
+                  <li>Lidar 스캐너를 이용하여 현장 3D 스캔</li>
+                  <li>CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
+                  <li>BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
+                  <li>정합성 오류 검토 보고서 작성</li>
+                `}
+              </ul>
+            </div>
+
+            <!-- 4. 특징 및 솔루션 카드 리스트 (순차적 정렬) -->
+            <div class="project-features-list">
+              ${defaults.featuresList}
+            </div>
           </div>
-          <div class="project-features-list">
-            ${defaults.featuresList}
+
+          <!-- 5. 좌측 하단 이미지별 설명 범례 (2x2 다이어그램 + 1~4번 설명) (요청 2, 3번 이미지 반영) -->
+          <div class="project-image-legend">
+            <div class="legend-grid-matrix">
+              <div class="legend-cell">1</div>
+              <div class="legend-cell">2</div>
+              <div class="legend-cell">3</div>
+              <div class="legend-cell">4</div>
+            </div>
+            <div class="legend-list">
+              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text">${defaults.legend1 || '스캔 데이터 ISO'}</span></div>
+              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text">${defaults.legend2 || '정합성 검토 보고서'}</span></div>
+              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text">${defaults.legend3 || '건축/구조 Revit 모델'}</span></div>
+              <div class="legend-item"><span class="legend-num">4.</span> <span class="legend-text">${defaults.legend4 || 'MEP Revit 모델'}</span></div>
+            </div>
           </div>
         </div>
       `;
