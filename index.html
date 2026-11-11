@@ -2107,6 +2107,62 @@ b;
       --apple-radius-capsule: 980px;
     }
 
+    /* ------------------------------------------------------------- */
+    /* SECTION DIVIDER BACKGROUND IMAGE EDIT INTERACTION */
+    /* ------------------------------------------------------------- */
+    .divider-bg-wrap {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 54%;
+      opacity: 0.32;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      mask-image: linear-gradient(to left, black 35%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);
+      transition: all 0.25s ease;
+    }
+    body.admin-mode-active .divider-bg-wrap,
+    body.admin-mode-active .divider-bg-img {
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+    body.admin-mode-active .divider-bg-wrap:hover {
+      opacity: 0.65 !important;
+      outline: 2px dashed #38bdf8;
+      outline-offset: -4px;
+    }
+    .divider-bg-edit-btn {
+      display: none;
+      position: absolute;
+      right: 28px;
+      top: 24px;
+      z-index: 30;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+      align-items: center;
+      gap: 6px;
+    }
+    body.admin-mode-active .divider-bg-edit-btn {
+      display: inline-flex;
+    }
+    .divider-bg-edit-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+
     .admin-toolbar {
       position: fixed;
       top: 0;
@@ -4396,8 +4452,12 @@ b;
         <div class="a4-page-content" id="custom-page-1794203670411" data-category="bim" style="display: none;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+            <span>배경 이미지 교체</span>
+          </button>
+          <div class="divider-bg-wrap">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">
@@ -4718,8 +4778,12 @@ b;
         </div><div class="a4-page-content" id="custom-page-1794191473848" data-category="scan" style="display: none;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+            <span>배경 이미지 교체</span>
+          </button>
+          <div class="divider-bg-wrap">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">02</div>
@@ -5209,8 +5273,12 @@ b;
         </div><div class="a4-page-content" id="custom-page-1794208863202" data-category="rnd" style="display: none;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+            <span>배경 이미지 교체</span>
+          </button>
+          <div class="divider-bg-wrap">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">06</div>
@@ -8491,6 +8559,17 @@ b;
       const reader = new FileReader();
       reader.onload = function(e) {
         targetImg.src = e.target.result;
+
+        // 간지 배경 이미지일 경우 카테고리 메타데이터도 함께 동기화
+        if (targetImg.classList.contains('divider-bg-img')) {
+          const catPage = targetImg.closest('.a4-page-content') || targetImg.closest('.a4-page-divider');
+          const catKey = catPage ? catPage.getAttribute('data-category') : null;
+          if (catKey && window.CATEGORY_META && window.CATEGORY_META[catKey]) {
+            window.CATEGORY_META[catKey].bgImg = targetImg.src;
+          }
+          successMsg = '🎉 간지 배경 이미지가 성공적으로 교체되었습니다.';
+        }
+
         saveBrochureChanges(false);
         showAdminToast(successMsg);
         // 녹색 선택 테두리 1.5초 후 자연스럽게 제거
@@ -9138,8 +9217,12 @@ b;
       return `
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
-            <img src="${meta.bgImg}" alt="카테고리 비주얼" class="admin-editable-img divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);">
+          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
+            <i data-lucide="image" style="width: 13px; height: 13px;"></i>
+            <span>배경 이미지 교체</span>
+          </button>
+          <div class="divider-bg-wrap">
+            <img src="${meta.bgImg}" alt="카테고리 비주얼" class="admin-editable-img divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">
@@ -9621,7 +9704,15 @@ b;
       } else if (info.type === 'divider') {
         const cat = info.catKey || 'bim';
         actionsHTML = `
-          <button class="admin-btn primary" onclick="openProjectDbModalForCategory('${cat}')" title="현재 간지(${cat.toUpperCase()}) 실적 DB를 열고 편집">
+          <button class="admin-btn primary" onclick="triggerPageImagePicker()" title="간지 우측 배경 비주얼 이미지를 내 컴퓨터 사진으로 교체 (클릭, 파일 선택, Ctrl+V 붙여넣기 지원)">
+            <div class="btn-left">
+              <i data-lucide="image" style="width: 14px; height: 14px; color: #38bdf8;"></i>
+              <span>간지 배경 이미지 교체</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 13px; height: 13px; opacity: 0.5;"></i>
+          </button>
+
+          <button class="admin-btn" onclick="openProjectDbModalForCategory('${cat}')" title="현재 간지(${cat.toUpperCase()}) 실적 DB를 열고 편집">
             <div class="btn-left">
               <i data-lucide="table" style="width: 14px; height: 14px;"></i>
               <span>${cat.toUpperCase()} 실적 엑셀 DB 편집</span>
@@ -9804,12 +9895,18 @@ b;
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
-      const firstImg = currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
-      if (firstImg) {
-        firstImg.click();
+      // 간지 페이지라면 .divider-bg-img 우선 타겟팅
+      const targetImg = currentPage.querySelector('.divider-bg-img') || currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
+      if (targetImg) {
+        selectTargetImage(targetImg);
+        const fileInput = document.getElementById('adminImageFileInput');
+        if (fileInput) {
+          fileInput.value = '';
+          fileInput.click();
+        }
       } else {
-        const input = document.getElementById('adminImageFileInput');
-        if (input) input.click();
+        const fileInput = document.getElementById('adminImageFileInput');
+        if (fileInput) fileInput.click();
       }
     }
 
@@ -10518,7 +10615,7 @@ b;
       // 2. 인라인 편집 contenteditable 및 스타일/클래스 완전 박멸
       cloneDoc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
       cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img'));
-      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(b => b.remove());
+      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(b => b.remove());
       cloneDoc.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
       });
