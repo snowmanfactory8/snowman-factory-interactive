@@ -3383,9 +3383,9 @@ b;
   <!-- ================================================================ -->
   <!-- PHASE 0: INTRO SCREEN (맨 처음 구현했던 멋진 3D 히어로 페이지)     -->
   <!-- ================================================================ -->
-  <div id="intro-screen" class="hide-intro">
+  <div id="intro-screen">
     <!-- WebGL Canvas for Point Cloud -->
-    <canvas id="intro-canvas" width="1278" height="930" style="width: 1158px; height: 843px;"></canvas>
+    <canvas id="intro-canvas"></canvas>
     <div class="intro-overlay"></div>
 
     <!-- CAD Crosshairs -->
@@ -10177,6 +10177,12 @@ b;
         el.classList.remove('open', 'active');
         if (el.id === 'tocSidebarPanel') el.classList.remove('active');
       });
+
+      // 3.5. [중요] 첫 방문자를 위해 인트로 화면의 hide-intro 및 잔여 토스트를 항상 깨끗한 초기 상태로 복원
+      const cloneIntro = cloneDoc.querySelector('#intro-screen');
+      if (cloneIntro) cloneIntro.classList.remove('hide-intro');
+      const cloneToast = cloneDoc.querySelector('#adminToast');
+      if (cloneToast) cloneToast.classList.remove('show');
 
       let html = '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
 
