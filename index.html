@@ -1764,17 +1764,18 @@ b;
       margin: 0 auto;
     }
 
-    .lightbox-title:hover {
-      border-color: rgba(56, 189, 248, 0.45);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .lightbox-title:focus {
-      outline: none;
-      border-color: #38bdf8;
-      background: rgba(15, 23, 42, 0.9);
+    .lightbox-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
       color: #ffffff;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: block;
+      width: fit-content;
+      max-width: 90%;
+      word-break: keep-all;
+      margin: 0 auto;
     }
 
     .lightbox-desc {
@@ -1783,11 +1784,6 @@ b;
       line-height: 1.5;
       padding: 4px 12px;
       border-radius: 6px;
-      border: 1px dashed transparent;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: text !important;
-      user-select: text !important;
-      -webkit-user-select: text !important;
       display: block;
       width: fit-content;
       max-width: 90%;
@@ -1795,13 +1791,24 @@ b;
       margin: 0 auto;
     }
 
-    .lightbox-desc:hover {
+    body.admin-mode-active .lightbox-title,
+    body.admin-mode-active .lightbox-desc {
+      cursor: text !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      border: 1px dashed transparent;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.admin-mode-active .lightbox-title:hover,
+    body.admin-mode-active .lightbox-desc:hover {
       border-color: rgba(56, 189, 248, 0.45);
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff;
     }
 
-    .lightbox-desc:focus {
+    body.admin-mode-active .lightbox-title:focus,
+    body.admin-mode-active .lightbox-desc:focus {
       outline: none;
       border-color: #38bdf8;
       background: rgba(15, 23, 42, 0.9);
@@ -4490,15 +4497,15 @@ b;
           <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
             <!-- 1. Top Meta Header & Title -->
             <div class="project-top-meta-bar">
-              <span class="project-index-num" spellcheck="false" contenteditable="false">PROJECT</span>
+              <span class="project-index-num" spellcheck="false">PROJECT</span>
               <span style="color: #cbd5e1; font-size: 11px;">/</span>
-              <span class="project-category-badge" spellcheck="false" contenteditable="false" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
+              <span class="project-category-badge" spellcheck="false" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
             </div>
-            <h2 class="project-hero-title" spellcheck="false" contenteditable="true">
+            <h2 class="project-hero-title" spellcheck="false">
               담바우마을 에너지공급센터 BIM용역<br>
             </h2>
             <div class="project-award-banner" style="display: inline-flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false" contenteditable="true">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
             </div>
 
             <!-- 2. Project Overview (Year, Client DB 연동 전용, Scope 페이지 내 수정 작성) -->
@@ -4506,21 +4513,21 @@ b;
               <div class="project-overview-table">
                 <!-- 1) Year (DB 연동 - 페이지 수정 금지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="false">Year</span>
-                  <span class="project-overview-value overview-year" contenteditable="false" data-field="year" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
+                  <span class="project-overview-label">Year</span>
+                  <span class="project-overview-value overview-year" data-field="year" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
                 </div>
                 <!-- 2) Client (DB 연동 - 페이지 수정 금지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="false">Client</span>
-                  <span class="project-overview-value overview-client" contenteditable="false" data-field="client" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
+                  <span class="project-overview-label">Client</span>
+                  <span class="project-overview-value overview-client" data-field="client" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
                 </div>
                 <!-- 3) Scope (페이지 내 직접 수정 작성 유지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="false">Scope</span>
-                  <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
-                    <div contenteditable="true">BIM(모델링)</div>
-                    <div contenteditable="true">3D scan(정합성 검토)</div>
-                    <div contenteditable="true">XR</div>
+                  <span class="project-overview-label">Scope</span>
+                  <div class="project-overview-value overview-scope" data-field="scope">
+                    <div>BIM(모델링)</div>
+                    <div>3D scan(정합성 검토)</div>
+                    <div>XR</div>
                   </div>
                 </div>
               </div>
@@ -4529,14 +4536,14 @@ b;
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc" spellcheck="false" contenteditable="true">
+              <p class="project-summary-desc" spellcheck="false">
                 구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
               </p>
               <ul class="project-desc-bullets">
-                <li spellcheck="false" contenteditable="true">Lidar 스캐너를 이용하여 현장 3D 스캔</li>
-                <li spellcheck="false" contenteditable="true">CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
-                <li spellcheck="false" contenteditable="true">BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
-                <li spellcheck="false" contenteditable="true">정합성 오류 검토 보고서 작성</li>
+                <li spellcheck="false">Lidar 스캐너를 이용하여 현장 3D 스캔</li>
+                <li spellcheck="false">CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
+                <li spellcheck="false">BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
+                <li spellcheck="false">정합성 오류 검토 보고서 작성</li>
               </ul>
             </div>
           </div>
@@ -4549,9 +4556,9 @@ b;
               <div class="legend-cell">3</div>
             </div>
             <div class="legend-list">
-              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text" spellcheck="false" contenteditable="true">스캔 데이터 ISO</span></div>
-              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text" spellcheck="false" contenteditable="true">현장 전경 및 실측</span></div>
-              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text" spellcheck="false" contenteditable="true">건축/설비 상세 모델</span></div>
+              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span></div>
+              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text" spellcheck="false">현장 전경 및 실측</span></div>
+              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text" spellcheck="false">건축/설비 상세 모델</span></div>
             </div>
           </div>
         </div>
@@ -6573,7 +6580,7 @@ b;
       }
 
       updateBrochureUI();
-      makeElementsEditable(); // Initial boot call
+      document.querySelectorAll("#a4Sheet [contenteditable]").forEach(el => el.removeAttribute("contenteditable"));
       renderTocList();
 
       // 브라우저 저장소에 변경된 순서 자동 영구 반영
@@ -7160,43 +7167,63 @@ b;
       // 3. 라이트박스 뷰 적용
       lightboxImg.src = src;
 
-      // [핵심] 라이트박스 화면에서 타이틀 직접 수정 가능하게 활성화 + 좌측 하단 범례 실시간 양방향 연동
-      if (lightboxTitle) {
-        lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
-        lightboxTitle.setAttribute('contenteditable', 'true');
-        lightboxTitle.setAttribute('spellcheck', 'false');
+      // [원칙 준수] 라이트박스 화면의 타이틀 및 세부 설명은 관리자 모드(isAdminMode)에서만 수정 가능!
+      if (window.isAdminMode) {
+        if (lightboxTitle) {
+          lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
+          lightboxTitle.setAttribute('contenteditable', 'true');
+          lightboxTitle.setAttribute('spellcheck', 'false');
+          lightboxTitle.title = '클릭하여 제목 수정 (좌측 하단 범례 자동 연동)';
 
-        lightboxTitle.oninput = () => {
-          const newTitle = lightboxTitle.innerText.trim();
-          if (currentActiveLightboxCard) {
-            const page = currentActiveLightboxCard.closest('.a4-page-project');
-            if (page) {
-              const allCards = Array.from(page.querySelectorAll('.project-right-visual .media-card'));
-              const cardIdx = allCards.indexOf(currentActiveLightboxCard);
-              if (cardIdx !== -1) {
-                const legendItems = page.querySelectorAll('.project-image-legend .legend-item .legend-text');
-                if (legendItems[cardIdx]) {
-                  legendItems[cardIdx].innerText = newTitle;
+          lightboxTitle.oninput = () => {
+            const newTitle = lightboxTitle.innerText.trim();
+            if (currentActiveLightboxCard) {
+              const page = currentActiveLightboxCard.closest('.a4-page-project');
+              if (page) {
+                const allCards = Array.from(page.querySelectorAll('.project-right-visual .media-card'));
+                const cardIdx = allCards.indexOf(currentActiveLightboxCard);
+                if (cardIdx !== -1) {
+                  const legendItems = page.querySelectorAll('.project-image-legend .legend-item .legend-text');
+                  if (legendItems[cardIdx]) {
+                    legendItems[cardIdx].innerText = newTitle;
+                  }
                 }
               }
             }
-          }
-          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
-        };
-      }
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+          };
+        }
 
-      if (lightboxDesc) {
-        lightboxDesc.textContent = desc || '세부 설명을 입력하세요 (클릭하여 직접 수정 가능)';
-        lightboxDesc.setAttribute('contenteditable', 'true');
-        lightboxDesc.setAttribute('spellcheck', 'false');
+        if (lightboxDesc) {
+          lightboxDesc.textContent = desc || '세부 설명을 입력하세요 (클릭하여 직접 수정 가능)';
+          lightboxDesc.setAttribute('contenteditable', 'true');
+          lightboxDesc.setAttribute('spellcheck', 'false');
+          lightboxDesc.title = '클릭하여 세부 설명 수정';
 
-        // 세부 설명 인라인 편집 시 해당 카드에 즉시 저장 및 자동 저장
-        lightboxDesc.oninput = () => {
-          if (currentActiveLightboxCard) {
-            currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
-          }
-          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
-        };
+          lightboxDesc.oninput = () => {
+            if (currentActiveLightboxCard) {
+              currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
+            }
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+          };
+        }
+      } else {
+        // 일반 뷰어 모드: 순수 읽기 전용 (수정 절대 불가)
+        if (lightboxTitle) {
+          lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
+          lightboxTitle.removeAttribute('contenteditable');
+          lightboxTitle.removeAttribute('spellcheck');
+          lightboxTitle.removeAttribute('title');
+          lightboxTitle.oninput = null;
+        }
+
+        if (lightboxDesc) {
+          lightboxDesc.textContent = desc || '';
+          lightboxDesc.removeAttribute('contenteditable');
+          lightboxDesc.removeAttribute('spellcheck');
+          lightboxDesc.removeAttribute('title');
+          lightboxDesc.oninput = null;
+        }
       }
 
       imageLightbox.classList.add('show');
@@ -7912,9 +7939,16 @@ b;
 
     // 텍스트 인라인 수정 활성화
     function makeElementsEditable() {
-      if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
+
+      // [철저한 원칙] 관리자 모드가 아니면 어떠한 편집 권한도 부여하지 않고 모든 contenteditable 제거!
+      if (!window.isAdminMode) {
+        sheet.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+        return;
+      }
+
+      if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
 
       const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
