@@ -1410,17 +1410,17 @@
 
     /* 3컷 (Focus): 좌측 대형 포커스 + 우측 상하 2단 */
     .legend-matrix-focus {
-      grid-template-columns: 22px 12px;
+      grid-template-columns: 17px 17px;
       grid-template-rows: 17px 17px;
     }
     .legend-matrix-focus .legend-cell:nth-child(1) {
       grid-row: 1 / span 2;
-      width: 22px;
+      width: 17px;
       height: 36px;
     }
     .legend-matrix-focus .legend-cell:nth-child(2),
     .legend-matrix-focus .legend-cell:nth-child(3) {
-      width: 12px;
+      width: 17px;
       height: 17px;
     }
 
@@ -2099,62 +2099,6 @@ b;
       --apple-radius-md: 11px;
       --apple-radius-lg: 16px;
       --apple-radius-capsule: 980px;
-    }
-
-    /* ------------------------------------------------------------- */
-    /* SECTION DIVIDER BACKGROUND IMAGE EDIT INTERACTION */
-    /* ------------------------------------------------------------- */
-    .divider-bg-wrap {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 54%;
-      opacity: 0.32;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      mask-image: linear-gradient(to left, black 35%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);
-      transition: all 0.25s ease;
-    }
-    body.admin-mode-active .divider-bg-wrap,
-    body.admin-mode-active .divider-bg-img {
-      pointer-events: auto !important;
-      cursor: pointer !important;
-    }
-    body.admin-mode-active .divider-bg-wrap:hover {
-      opacity: 0.65 !important;
-      outline: 2px dashed #38bdf8;
-      outline-offset: -4px;
-    }
-    .divider-bg-edit-btn {
-      display: none;
-      position: absolute;
-      right: 28px;
-      top: 24px;
-      z-index: 30;
-      background: rgba(15, 23, 42, 0.88);
-      border: 1px solid rgba(56, 189, 248, 0.5);
-      color: #38bdf8;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-      transition: all 0.2s ease;
-      align-items: center;
-      gap: 6px;
-    }
-    body.admin-mode-active .divider-bg-edit-btn {
-      display: inline-flex;
-    }
-    .divider-bg-edit-btn:hover {
-      background: #0284c7;
-      color: #ffffff;
-      border-color: #38bdf8;
-      transform: translateY(-1px);
     }
 
     .admin-toolbar {
@@ -3355,140 +3299,10 @@ b;
     body:not(.admin-mode-active) .admin-obj-del-bar-btn,
     body:not(.admin-mode-active) .admin-obj-delete-btn,
     body:not(.admin-mode-active) .admin-obj-add-btn,
-    body:not(.admin-mode-active) .admin-bullet-add-btn,
-    body:not(.admin-mode-active) .divider-bg-edit-btn,
-    body:not(.admin-mode-active) #adminToast,
-    body:not(.admin-mode-active) .admin-toast {
+    body:not(.admin-mode-active) .admin-bullet-add-btn {
       display: none !important;
       visibility: hidden !important;
       pointer-events: none !important;
-      opacity: 0 !important;
-    }
-
-    /* 관리자 조작 버튼 및 배지: 텍스트 드래그/선택 파란 박스 방지 */
-    .admin-obj-del-bar-btn,
-    .admin-desc-bullets-action-bar,
-    .admin-obj-delete-btn,
-    .admin-obj-add-btn,
-    .admin-bullet-add-btn,
-    .divider-bg-edit-btn,
-    .admin-btn,
-    #adminToast {
-      user-select: none !important;
-      -webkit-user-select: none !important;
-    }
-
-    /* 뷰어 모드 잔재 아웃라인 및 포커스 링 완전 박멸 */
-    body:not(.admin-mode-active) * {
-      outline: none !important;
-    }
-    body:not(.admin-mode-active) [contenteditable] {
-      outline: none !important;
-      border-color: transparent !important;
-      cursor: default !important;
-    }
-
-    /* 관리자 모드 포커스 해제 시 아웃라인/배경색 즉시 소멸 */
-    .project-left-panel [contenteditable="true"]:not(:focus),
-    body.admin-mode-active [contenteditable="true"]:not(:focus) {
-      outline: none !important;
-      background: transparent !important;
-    }
-
-    /* 커스텀 프로젝트 실적 드롭다운 (Windows OS 테마 버그 원천 차단) */
-    .custom-proj-dropdown-wrap {
-      position: relative;
-      flex: 1;
-      min-width: 0;
-    }
-    .custom-proj-dropdown-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      background: #0f172a;
-      border: 0.5px solid rgba(255, 255, 255, 0.22);
-      color: #f8fafc;
-      padding: 6px 9px;
-      border-radius: var(--apple-radius-sm);
-      font-size: 11.5px;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-      user-select: none;
-    }
-    .custom-proj-dropdown-btn:hover {
-      background: #1e293b;
-      border-color: rgba(56, 189, 248, 0.5);
-    }
-    .custom-proj-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 8px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-      z-index: 1200;
-      max-height: 260px;
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-    .custom-proj-dropdown-menu.open {
-      display: flex;
-    }
-    .custom-proj-search-box {
-      padding: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(15, 23, 42, 0.95);
-    }
-    .custom-proj-search-input {
-      width: 100%;
-      box-sizing: border-box;
-      background: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #ffffff;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      outline: none;
-    }
-    .custom-proj-search-input:focus {
-      border-color: #38bdf8;
-    }
-    .custom-proj-list {
-      overflow-y: auto;
-      max-height: 210px;
-      padding: 4px;
-    }
-    .custom-proj-item {
-      padding: 6px 8px;
-      font-size: 11.5px;
-      color: #f1f5f9;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      line-height: 1.35;
-      word-break: keep-all;
-      transition: background 0.12s ease;
-      user-select: none;
-    }
-    .custom-proj-item:hover {
-      background: #1e293b;
-      color: #38bdf8;
-    }
-    .custom-proj-item.selected {
-      background: #0284c7;
-      color: #ffffff;
-      font-weight: 700;
     }
 
     .admin-bullet-add-btn {
@@ -3599,7 +3413,7 @@ b;
     <footer class="intro-footer">
       <div class="status-hud">
         <div>SYS: <span id="sysStatusText">POINT CLOUD ENGINE ACTIVE</span></div>
-        <div>COORDS: <span id="introCoordDisplay">X: 9.820 | Y: -8.331 | Z: 25.463</span></div>
+        <div>COORDS: <span id="introCoordDisplay">X: 8.983 | Y: -7.700 | Z: 25.655</span></div>
         <div>SCAN RESOLUTION: <span>1mm HIGH PRECISION</span></div>
       </div>
       <div style="font-family: 'Space Grotesk', monospace; font-size: 11px; color: #94a3b8; letter-spacing: 1px;">
@@ -3626,7 +3440,7 @@ b;
           <div style="width: 8px; height: 8px; border-radius: 50%; background: #34c759; box-shadow: 0 0 8px rgba(52, 199, 89, 0.6);"></div>
           <span style="font-size: 13px; font-weight: 600; color: #f5f5f7; letter-spacing: -0.02em;">편집 모드</span>
         </div>
-        <button onclick="exitAdminMode()" title="편집 모드 종료" style="background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.12); color: rgba(235, 235, 245, 0.7); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background='rgba(255, 255, 255, 0.18)'; this.style.color='#ffffff';" onmouseleave="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='rgba(235, 235, 245, 0.7)';">
+        <button onclick="exitAdminMode()" title="편집 모드 종료" style="background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.12); color: rgba(235, 235, 245, 0.7); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s;" onmouseenter="this.style.background='rgba(255, 255, 255, 0.18)'; this.style.color='#ffffff';" onmouseleave="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='rgba(235, 235, 245, 0.7)';">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
         </button>
       </div>
@@ -3637,8 +3451,8 @@ b;
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="admin-page-indicator" id="adminPageIndicator">P.2 / 9</span>
-          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">Solutions</span>
+          <span class="admin-page-indicator" id="adminPageIndicator">P.6 / 9</span>
+          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">SCAN</span>
         </div>
         <button class="nav-arrow-btn" onclick="goToNextBrochurePage()" title="다음 페이지 (▶)">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
@@ -3660,40 +3474,39 @@ b;
         <div class="admin-context-card">
           <div class="admin-context-header">
             <span class="admin-context-badge">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: #2997ff; display: inline-block;"></span>
-              <span>Solutions</span>
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #af52de; display: inline-block;"></span>
+              <span>SCAN</span>
             </span>
-            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 2</span>
+            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 6</span>
           </div>
           <div>
-            <h4 class="admin-context-title">솔루션 맵</h4>
-            <p class="admin-context-desc">4대 핵심 기술 노드, 하위 항목 및 색상 체계</p>
+            <h4 class="admin-context-title">3D 스캐닝 (LiDAR) 실적 간지</h4>
+            <p class="admin-context-desc">선택된 카테고리의 최근 4개년 실적 아카이브 리스트</p>
           </div>
           <div class="admin-context-actions">
             
-          <button class="admin-btn primary" onclick="openCategoryEditModal()" title="상위/하위 카테고리 텍스트 편집 및 항목 추가/삭제">
+          <button class="admin-btn primary" onclick="openProjectDbModalForCategory('scan')" title="현재 간지(SCAN) 실적 DB를 열고 편집">
             <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="network" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
-              <span>솔루션 노드 편집</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="table" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-table"><path d="M12 3v18"></path><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path></svg>
+              <span>SCAN 실적 엑셀 DB 편집</span>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
           </button>
 
-          <button class="admin-btn" onclick="openNodeColorModal()" title="4가지 프리셋 테마 및 개별 노드 컬러 커스텀">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="palette" aria-hidden="true" style="width: 14px; height: 14px; color: #ff375f;" class="lucide lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
-              <span>노드 테마 색상</span>
+          <div style="background: rgba(0, 0, 0, 0.22); border: 0.5px solid rgba(255, 255, 255, 0.08); border-radius: var(--apple-radius-md); padding: 9px 12px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; color: var(--apple-label-secondary); font-weight: 500;">분야 선택</span>
+              <span style="font-size: 10px; color: var(--apple-label-tertiary);">즉시 변경</span>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
-          </button>
-
-          <button class="admin-btn" onclick="quickRebalance360()" title="하위 노드들을 원 둘레에 360/N 도로 균등 재배치">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="compass" aria-hidden="true" style="width: 14px; height: 14px; color: #2997ff;" class="lucide lucide-compass"><circle cx="12" cy="12" r="10"></circle><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path></svg>
-              <span>360° 원형 균등 자동 정렬</span>
-            </div>
-            <span style="font-size: 10px; opacity: 0.5;">자동</span>
-          </button>
+            <select onchange="changeCurrentDividerCategory(this.value)" style="background: rgb(15, 23, 42); border: 0.5px solid rgba(255, 255, 255, 0.22); color: rgb(248, 250, 252); padding: 6px 10px; border-radius: var(--apple-radius-sm); font-size: 12px; width: 100%; cursor: pointer; color-scheme: dark;">
+              <option style="background: #0f172a; color: #f8fafc;" value="bim">01. BIM (디지털 트윈)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="scan" selected="">02. 3D 스캐닝 (LiDAR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="xr">03. 공간 컴퓨팅 (XR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="simulation">04. 친환경 시뮬레이션</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="consulting">05. 교육 및 DX 컨설팅</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </div>
         
           </div>
         </div>
@@ -4005,7 +3818,7 @@ b;
             <p style="margin: 3px 0 0; font-size: 11.5px; color: #94a3b8;">각 솔루션 간지 페이지에 연도별로 연동되는 프로젝트 목록을 엑셀처럼 자유롭게 추가·수정·관리합니다.</p>
           </div>
         </div>
-        <button onclick="closeProjectDbModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;" onmouseenter="this.style.background='rgba(239, 68, 68, 0.3)'; this.style.color='#fca5a5';" onmouseleave="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='#cbd5e1';">
+        <button onclick="closeProjectDbModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: rgb(203, 213, 225); width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;" onmouseenter="this.style.background='rgba(239, 68, 68, 0.3)'; this.style.color='#fca5a5';" onmouseleave="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.color='#cbd5e1';">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width: 16px; height: 16px;" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
         </button>
       </div>
@@ -4068,19 +3881,265 @@ b;
             </tr>
           </thead>
           <tbody id="projectDbTableBody">
-          <tr>
-            <td colspan="5" style="text-align: center; padding: 30px; color: #64748b;">
-              등록된 프로젝트가 없거나 검색 조건과 일치하는 항목이 없습니다.
-            </td>
-          </tr>
-        </tbody>
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">1</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2026" onchange="updateProjectDbField('p_1794379519021', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379519021', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="서대문구 구립신가경로당 그린리모델링 역설계 용역" onchange="updateProjectDbField('p_1794379519021', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="사이다건축사사무소" onchange="updateProjectDbField('p_1794379519021', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379519021')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">2</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2026" onchange="updateProjectDbField('p_1794379319132', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379319132', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="강화군 제3장학관 3D 스캐닝 및 역설계 용역" onchange="updateProjectDbField('p_1794379319132', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="강화군청" onchange="updateProjectDbField('p_1794379319132', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379319132')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">3</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2025" onchange="updateProjectDbField('p_1794379498204', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379498204', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="은빛 홍삼 경로당 그린리모델링 역설계 용역" onchange="updateProjectDbField('p_1794379498204', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="사이다건축사사무소" onchange="updateProjectDbField('p_1794379498204', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379498204')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">4</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2025" onchange="updateProjectDbField('p_1794379293390', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379293390', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="강화군 제2장학관 3D 스캐닝 및 역설계 용역" onchange="updateProjectDbField('p_1794379293390', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="강화군청" onchange="updateProjectDbField('p_1794379293390', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379293390')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">5</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2024" onchange="updateProjectDbField('p_1794379563067', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379563067', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="새 프로젝트 실적" onchange="updateProjectDbField('p_1794379563067', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="" onchange="updateProjectDbField('p_1794379563067', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379563067')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">6</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2024" onchange="updateProjectDbField('p_1794379271471', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379271471', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="보라매병원 중정 역설계 및 증축공사 실시설계" onchange="updateProjectDbField('p_1794379271471', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="플라건축사사무소" onchange="updateProjectDbField('p_1794379271471', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379271471')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">7</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2024" onchange="updateProjectDbField('p_206', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_206', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="페어필드바이메리어트 호텔 3D 스캔 용역" onchange="updateProjectDbField('p_206', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="플라건축사사무소" onchange="updateProjectDbField('p_206', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_206')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s; background: transparent;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">8</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2023" onchange="updateProjectDbField('p_1794379426825', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_1794379426825', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="해성푸드원 식품공장 3D 스캔 및 BIM 용역" onchange="updateProjectDbField('p_1794379426825', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="자리소건축사사무소" onchange="updateProjectDbField('p_1794379426825', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_1794379426825')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.07); transition: background 0.15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'">
+          <td style="padding: 8px 10px; color: #64748b; text-align: center; font-family: monospace;">9</td>
+          <td style="padding: 8px 12px;">
+            <input type="number" value="2023" onchange="updateProjectDbField('p_201', 'year', this.value)" style="width: 75px; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(56, 189, 248); font-weight: 700; padding: 4px 8px; border-radius: 4px; font-family: monospace;">
+          </td>
+          <td style="padding: 8px 12px;">
+            <select onchange="updateProjectDbField('p_201', 'category', this.value)" style="width: 100%; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(241, 245, 249); padding: 4px 6px; border-radius: 4px; font-size: 11.5px;">
+              <option value="bim">01. BIM</option>
+              <option value="scan" selected="">02. 3D 스캐닝</option>
+              <option value="xr">03. 공간 컴퓨팅</option>
+              <option value="simulation">04. 시뮬레이션</option>
+              <option value="consulting">05. 교육/컨설팅</option>
+              <option value="rnd">06. 미래건축 R&amp;D</option>
+            </select>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="보라매병원 대강당 3D 스캔 용역" onchange="updateProjectDbField('p_201', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(255, 255, 255); padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="보라매병원" onchange="updateProjectDbField('p_201', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.16); color: rgb(248, 250, 252); font-size: 11.5px; padding: 4px 8px; border-radius: 4px;">
+          </td>
+          <td style="padding: 8px 8px; text-align: center;">
+            <button onclick="deleteProjectDbRow('p_201')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
         </table>
       </div>
 
       <!-- Modal Footer -->
       <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.95);">
         <div style="font-size: 12px; color: #64748b;">
-          총 <span id="projectDbTotalCount" style="color: #38bdf8; font-weight: 700;">0</span>건 등록됨 (수정 후 반드시 [저장 및 간지 반영]을 눌러주세요)
+          총 <span id="projectDbTotalCount" style="color: #38bdf8; font-weight: 700;">25</span>건 등록됨 (수정 후 반드시 [저장 및 간지 반영]을 눌러주세요)
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
           <button onclick="closeProjectDbModal()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; padding: 8px 16px; border-radius: 6px; font-size: 12.5px; font-weight: 600; cursor: pointer;">
@@ -4472,7 +4531,7 @@ b;
               <img src="assets/logo.png" alt="SNOWMAN FACTORY" class="cover-logo-img" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
             </div>
           </div>
-        </div><div class="a4-page-content" id="page-2-content" style="display: flex;">
+        </div><div class="a4-page-content" id="page-2-content" style="display: none;">
           <div class="a4-page-solutions">
             
             <!-- Header Row (Only Title: Solutions) -->
@@ -4594,12 +4653,8 @@ b;
         <div class="a4-page-content" id="custom-page-1794203670411" data-category="bim" style="display: none;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
-            <span>배경 이미지 교체</span>
-          </button>
-          <div class="divider-bg-wrap">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">
@@ -4808,6 +4863,19 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -4831,6 +4899,19 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -4941,15 +5022,11 @@ b;
             </div>
 
           </div>
-        </div><div class="a4-page-content" id="custom-page-1794191473848" data-category="scan" style="display: none;">
+        </div><div class="a4-page-content" id="custom-page-1794191473848" data-category="scan" style="display: flex;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
-            <span>배경 이미지 교체</span>
-          </button>
-          <div class="divider-bg-wrap">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">02</div>
@@ -4973,9 +5050,9 @@ b;
 
           <div style="position: relative; z-index: 5; margin-top: 14px; max-width: 720px;">
             <p class="divider-en-title" style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #38bdf8; text-transform: uppercase; margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif;" spellcheck="false">3D SCANNING &amp; REVERSE ENGINEERING</p>
-            <h2 class="divider-main-title" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px 0; color: #ffffff; letter-spacing: -0.8px;" spellcheck="false">3D 스캐닝 &amp; 역설계<br></h2>
+            <h2 class="divider-main-title" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px 0; color: #ffffff; letter-spacing: -0.8px;" spellcheck="false">3D&nbsp; 스캐닝 &amp; 역설계<br></h2>
             <div style="width: 52px; height: 3px; background: linear-gradient(90deg, #38bdf8, #0ea5e9); border-radius: 2px; margin-bottom: 16px;"></div>
-            <p class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">현장 오차 ±1.2mm 이내의 초정밀 3차원 지상 레이저 스캐닝을 통해&nbsp;</p><div>복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</div><p spellcheck="false"></p>
+            <p class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">현장 오차 ±1.2mm 이내의 초정밀 3차원 지상 레이저 스캐닝을 통해 복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</p><div>복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</div><p spellcheck="false"><br></p>
           </div>
 
           <div class="divider-projects-container" style="position: relative; z-index: 5; margin-top: auto; padding-top: 36px; width: 100%;">
@@ -4990,18 +5067,61 @@ b;
             <div class="divider-projects-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;">
           <div class="divider-year-col" style="display: flex; flex-direction: column;">
             <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+              2026
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              
+              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                양주시 보건소 그린리모델링 역설계 용역
+              </div>
+            
+              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                서대문구 구립신가경로당 그린리모델링 역설계 용역
+              </div>
+            
+              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                강화군 제3장학관 3D 스캐닝 및 역설계 용역
+              </div>
+            
+            </div>
+          </div>
+        
+          <div class="divider-year-col" style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
+              2025
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              
+              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                은빛 홍삼 경로당 그린리모델링 역설계 용역
+              </div>
+            
+              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
+                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
+                강화군 제2장학관 3D 스캐닝 및 역설계 용역
+              </div>
+            
+            </div>
+          </div>
+        
+          <div class="divider-year-col" style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
               2024
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px;">
               
               <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
                 <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                담바우 수목원 리조트 본관 고밀도 점군 실측 역설계
+                보라매병원 중정 역설계 및 증축공사 실시설계
               </div>
             
               <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
                 <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                삼성엔지니어링 플랜트 파이프랙 3D LiDAR 스캔
+                페어필드바이메리어트 호텔 3D 스캔 용역
               </div>
             
             </div>
@@ -5015,40 +5135,12 @@ b;
               
               <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
                 <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                인천 파라다이스시티 &amp; 메리어트 호텔 5개 타입 정밀 실측
+                해성푸드원 식품공장 3D 스캔 및 BIM 용역
               </div>
             
               <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
                 <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                동대문 DDP 비정형 외장 패널 3차원 변위 정밀 계측
-              </div>
-            
-            </div>
-          </div>
-        
-          <div class="divider-year-col" style="display: flex; flex-direction: column;">
-            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
-              2022
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              
-              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
-                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                여의도 파크원 오피스타워 복합설비 배관망 Scan-to-BIM
-              </div>
-            
-            </div>
-          </div>
-        
-          <div class="divider-year-col" style="display: flex; flex-direction: column;">
-            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; border-bottom: 2px solid rgba(56, 189, 248, 0.4); padding-bottom: 4px; display: inline-block;">
-              2021
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              
-              <div style="font-size: 13px; font-weight: 500; color: #e2e8f0; line-height: 1.55; word-break: keep-all; padding-left: 10px; position: relative;">
-                <span style="position: absolute; left: 0; color: #38bdf8; font-weight: 900; line-height: 1;">·</span>
-                성수동 복합문화공간 리노베이션 준공도면 역설계 용역
+                보라매병원 대강당 3D 스캔 용역
               </div>
             
             </div>
@@ -5169,6 +5261,19 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -5197,6 +5302,19 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -5389,6 +5507,19 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -5471,6 +5602,19 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       </div>
       
             <div class="project-right-visual">
@@ -5493,12 +5637,8 @@ b;
         </div><div class="a4-page-content" id="custom-page-1794208863202" data-category="rnd" style="display: none;">
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
-            <span>배경 이미지 교체</span>
-          </button>
-          <div class="divider-bg-wrap">
-            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img admin-editable-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
+            <img src="assets/project_01/point_cloud.png" alt="카테고리 비주얼" class="divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">06</div>
@@ -5721,6 +5861,55 @@ b;
     // -------------------------------------------------------------
     window.DEFAULT_PROJECT_DB = [
   {
+    "id": "p_1794379563067",
+    "year": 2026,
+    "category": "scan",
+    "name": "양주시 보건소 그린리모델링 역설계 용역",
+    "client": "사이다건축사사무소"
+  },
+  {
+    "id": "p_1794379519021",
+    "year": 2026,
+    "category": "scan",
+    "name": "서대문구 구립신가경로당 그린리모델링 역설계 용역",
+    "client": "사이다건축사사무소"
+  },
+  {
+    "id": "p_1794379498204",
+    "year": 2025,
+    "category": "scan",
+    "name": "은빛 홍삼 경로당 그린리모델링 역설계 용역",
+    "client": "사이다건축사사무소"
+  },
+  {
+    "id": "p_1794379426825",
+    "year": 2023,
+    "category": "scan",
+    "name": "해성푸드원 식품공장 3D 스캔 및 BIM 용역",
+    "client": "자리소건축사사무소"
+  },
+  {
+    "id": "p_1794379319132",
+    "year": 2026,
+    "category": "scan",
+    "name": "강화군 제3장학관 3D 스캐닝 및 역설계 용역",
+    "client": "강화군청"
+  },
+  {
+    "id": "p_1794379293390",
+    "year": 2025,
+    "category": "scan",
+    "name": "강화군 제2장학관 3D 스캐닝 및 역설계 용역",
+    "client": "강화군청"
+  },
+  {
+    "id": "p_1794379271471",
+    "year": 2024,
+    "category": "scan",
+    "name": "보라매병원 중정 역설계 및 증축공사 실시설계",
+    "client": "플라건축사사무소"
+  },
+  {
     "id": "p_1794209130514",
     "name": "FOM 고밀형 음압병동 설계안 BIM용역",
     "year": 2024,
@@ -5742,44 +5931,18 @@ b;
   {
     "id": "p_201",
     "desc": "",
-    "name": "담바우 수목원 리조트 본관 고밀도 점군 실측 역설계",
-    "year": 2024,
-    "category": "scan"
-  },
-  {
-    "id": "p_202",
-    "desc": "",
-    "name": "삼성엔지니어링 플랜트 파이프랙 3D LiDAR 스캔",
-    "year": 2024,
-    "category": "scan"
-  },
-  {
-    "id": "p_203",
-    "desc": "",
-    "name": "인천 파라다이스시티 &amp; 메리어트 호텔 5개 타입 정밀 실측",
+    "name": "보라매병원 대강당 3D 스캔 용역",
     "year": 2023,
-    "category": "scan"
-  },
-  {
-    "id": "p_204",
-    "desc": "",
-    "name": "동대문 DDP 비정형 외장 패널 3차원 변위 정밀 계측",
-    "year": 2023,
-    "category": "scan"
-  },
-  {
-    "id": "p_205",
-    "desc": "",
-    "name": "여의도 파크원 오피스타워 복합설비 배관망 Scan-to-BIM",
-    "year": 2022,
-    "category": "scan"
+    "category": "scan",
+    "client": "보라매병원"
   },
   {
     "id": "p_206",
     "desc": "",
-    "name": "성수동 복합문화공간 리노베이션 준공도면 역설계 용역",
-    "year": 2021,
-    "category": "scan"
+    "name": "페어필드바이메리어트 호텔 3D 스캔 용역",
+    "year": 2024,
+    "category": "scan",
+    "client": "플라건축사사무소"
   },
   {
     "id": "p_301",
@@ -8640,9 +8803,6 @@ b;
     function updateBrochureUI() {
       if (typeof upgradeProjectPagesLayout === 'function') upgradeProjectPagesLayout();
       if (typeof syncAllProjectPagesWithDb === 'function') syncAllProjectPagesWithDb();
-      if (typeof syncProjectLegendForPage === 'function') {
-        document.querySelectorAll('.a4-page-project').forEach(p => syncProjectLegendForPage(p));
-      }
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
       if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
@@ -8924,17 +9084,6 @@ b;
       const reader = new FileReader();
       reader.onload = function(e) {
         targetImg.src = e.target.result;
-
-        // 간지 배경 이미지일 경우 카테고리 메타데이터도 함께 동기화
-        if (targetImg.classList.contains('divider-bg-img')) {
-          const catPage = targetImg.closest('.a4-page-content') || targetImg.closest('.a4-page-divider');
-          const catKey = catPage ? catPage.getAttribute('data-category') : null;
-          if (catKey && window.CATEGORY_META && window.CATEGORY_META[catKey]) {
-            window.CATEGORY_META[catKey].bgImg = targetImg.src;
-          }
-          successMsg = '🎉 간지 배경 이미지가 성공적으로 교체되었습니다.';
-        }
-
         saveBrochureChanges(false);
         showAdminToast(successMsg);
         // 녹색 선택 테두리 1.5초 후 자연스럽게 제거
@@ -9146,81 +9295,6 @@ b;
           </div>
         </div>
       `;
-    }
-
-    // 프로젝트 페이지의 우측 실제 비주얼 구성(템플릿/카드)과 좌측 범례 100% 일치 동기화기
-    function syncProjectLegendForPage(page) {
-      if (!page) return;
-      const leftPanel = page.querySelector('.project-left-panel');
-      const visualPanel = page.querySelector('.project-right-visual');
-      if (!leftPanel || !visualPanel) return;
-
-      // 1. 실제 우측 레이아웃 타입 분석
-      let detectedLayout = visualPanel.getAttribute('data-layout') || '';
-      const cards = visualPanel.querySelectorAll('.media-card');
-      const cardCount = cards.length;
-
-      if (!detectedLayout) {
-        if (visualPanel.classList.contains('project-grid2x2') || visualPanel.querySelector('.visual-grid-2x2') || cardCount === 4) {
-          detectedLayout = 'project-grid2x2';
-        } else if (visualPanel.classList.contains('project-focus') || (cardCount === 3 && visualPanel.style.flexDirection === 'row')) {
-          detectedLayout = 'project-focus';
-        } else if (visualPanel.classList.contains('project-split2-rows') || (cardCount === 2 && visualPanel.style.gridTemplateRows)) {
-          detectedLayout = 'project-split2-rows';
-        } else if (visualPanel.classList.contains('project-split2-cols') || (cardCount === 2 && visualPanel.style.gridTemplateColumns)) {
-          detectedLayout = 'project-split2-cols';
-        } else if (visualPanel.classList.contains('project-minimal') || cardCount === 1) {
-          detectedLayout = 'project-minimal';
-        } else {
-          detectedLayout = (cardCount === 2) ? 'project-split2-rows' : (cardCount === 4 ? 'project-grid2x2' : 'project-classic');
-        }
-        visualPanel.setAttribute('data-layout', detectedLayout);
-      }
-
-      // 2. 기존 사용자 캡션 수집
-      const existingLegend = leftPanel.querySelector('.project-image-legend');
-      const existingCaptions = existingLegend 
-        ? Array.from(existingLegend.querySelectorAll('.legend-item .legend-text')).map(el => el.innerText.trim()).filter(Boolean)
-        : [];
-
-      // 3. 우측 카드의 제목(라이트박스 파라미터나 alt)도 참고하여 빈 캡션 보강
-      cards.forEach((card, idx) => {
-        if (!existingCaptions[idx]) {
-          const img = card.querySelector('img');
-          const alt = img ? img.getAttribute('alt') : '';
-          if (alt && !alt.includes('프로젝트') && !alt.includes('메인')) {
-            existingCaptions[idx] = alt;
-          }
-        }
-      });
-
-      // 4. 새로운 범례 HTML 생성
-      const freshLegendHTML = generateProjectLegendHTML(detectedLayout, existingCaptions);
-
-      if (existingLegend) {
-        const curLegendType = existingLegend.getAttribute('data-layout-legend');
-        const curCellCount = existingLegend.querySelectorAll('.legend-cell').length;
-        // 레이아웃 타입이나 셀 개수가 불일치하면 전체 교체
-        if (curLegendType !== detectedLayout || curCellCount !== cardCount) {
-          existingLegend.outerHTML = freshLegendHTML;
-        }
-      } else {
-        const wrap = document.createElement('div');
-        wrap.innerHTML = freshLegendHTML.trim();
-        leftPanel.appendChild(wrap.firstElementChild);
-      }
-
-      // 5. 관리자 모드 시 contenteditable 및 포커스 해제 자동 저장 적용
-      if (window.isAdminMode) {
-        const targetLegend = leftPanel.querySelector('.project-image-legend');
-        if (targetLegend) {
-          targetLegend.querySelectorAll('.legend-text').forEach(t => {
-            t.setAttribute('contenteditable', 'true');
-            t.oninput = () => { if (typeof debouncedAutoSave === 'function') debouncedAutoSave(); };
-            t.onblur = () => { t.style.outline = 'none'; if (typeof debouncedAutoSave === 'function') debouncedAutoSave(); };
-          });
-        }
-      }
     }
 
     
@@ -9674,12 +9748,8 @@ b;
       return `
         <div class="a4-page-divider" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #080d1a; color: #ffffff; display: flex; flex-direction: column; justify-content: flex-start; padding: 50px 58px; box-sizing: border-box; background-image: radial-gradient(circle at 10% 25%, rgba(0,112,243,0.16) 0%, transparent 45%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 100% 100%, 32px 32px, 32px 32px;">
           
-          <button type="button" class="divider-bg-edit-btn" onclick="triggerPageImagePicker()" title="간지 배경 이미지 교체 (클릭 또는 파일 투척)">
-            <i data-lucide="image" style="width: 13px; height: 13px;"></i>
-            <span>배경 이미지 교체</span>
-          </button>
-          <div class="divider-bg-wrap">
-            <img src="${meta.bgImg}" alt="카테고리 비주얼" class="admin-editable-img divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);" title="클릭: 간지 배경 이미지 선택 | Ctrl+V: 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+          <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 54%; opacity: 0.32; pointer-events: none; mix-blend-mode: screen; mask-image: linear-gradient(to left, black 35%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 35%, transparent 100%);">
+            <img src="${meta.bgImg}" alt="카테고리 비주얼" class="admin-editable-img divider-bg-img" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.2);">
           </div>
 
           <div class="divider-watermark-num" style="position: absolute; left: 38px; top: 32px; font-size: 135px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.035); line-height: 1; pointer-events: none; user-select: none;">
@@ -9905,21 +9975,7 @@ b;
         return;
       }
 
-      if (type.startsWith('project')) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newInner.trim();
-        const rootPage = tempDiv.querySelector('.a4-page-project');
-        if (rootPage) {
-          currentPage.innerHTML = rootPage.innerHTML;
-          const visual = currentPage.querySelector('.project-right-visual');
-          if (visual) visual.setAttribute('data-layout', type);
-        } else {
-          currentPage.innerHTML = newInner;
-        }
-        syncProjectLegendForPage(currentPage);
-      } else {
-        currentPage.innerHTML = newInner;
-      }
+      currentPage.innerHTML = newInner;
       if (type === 'divider' || type === 'category-divider') {
         syncDividerProjects(currentPage);
       }
@@ -9975,15 +10031,9 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      // [핵심] 관리자 조작 버튼 및 아웃라인을 완벽히 정화한 복제본을 저장 (뷰어 모드 잔재 원천 차단)
-      const clone = sheet.cloneNode(true);
-      clone.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(b => b.remove());
-      clone.querySelectorAll('*').forEach(el => {
-        if (el.style && el.style.outline) el.style.outline = '';
-      });
-
-      localStorage.setItem('snowman_brochure_sheet_v5', clone.innerHTML);
-      if (showMessage && typeof showAdminToast === 'function') {
+      // contenteditable 임시 제거본을 저장하지 않고 내부 HTML 그대로 보관
+      localStorage.setItem('snowman_brochure_sheet_v5', sheet.innerHTML);
+      if (showMessage) {
         showAdminToast('✅ 브라우저에 모든 변경사항이 안전하게 저장되었습니다.');
       }
     }
@@ -9994,8 +10044,7 @@ b;
         const sheet = document.getElementById('a4Sheet');
         if (sheet) {
           sheet.innerHTML = saved;
-          // 구버전 캐시/로컬스토리지 잔재에서 관리자 버튼 및 삭제 객체 완전 박멸
-          sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(el => el.remove());
+          // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
           sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
 
           // cinema-main-title 구조 최적화 (단일 제목 h2화)
@@ -10182,15 +10231,7 @@ b;
       } else if (info.type === 'divider') {
         const cat = info.catKey || 'bim';
         actionsHTML = `
-          <button class="admin-btn primary" onclick="triggerPageImagePicker()" title="간지 우측 배경 비주얼 이미지를 내 컴퓨터 사진으로 교체 (클릭, 파일 선택, Ctrl+V 붙여넣기 지원)">
-            <div class="btn-left">
-              <i data-lucide="image" style="width: 14px; height: 14px; color: #38bdf8;"></i>
-              <span>간지 배경 이미지 교체</span>
-            </div>
-            <i data-lucide="chevron-right" style="width: 13px; height: 13px; opacity: 0.5;"></i>
-          </button>
-
-          <button class="admin-btn" onclick="openProjectDbModalForCategory('${cat}')" title="현재 간지(${cat.toUpperCase()}) 실적 DB를 열고 편집">
+          <button class="admin-btn primary" onclick="openProjectDbModalForCategory('${cat}')" title="현재 간지(${cat.toUpperCase()}) 실적 DB를 열고 편집">
             <div class="btn-left">
               <i data-lucide="table" style="width: 14px; height: 14px;"></i>
               <span>${cat.toUpperCase()} 실적 엑셀 DB 편집</span>
@@ -10218,37 +10259,16 @@ b;
         const hasPill = currentPage && !!currentPage.querySelector('.project-pill-badge')?.innerHTML.trim();
 
         actionsHTML = `
-          <!-- 프로젝트 DB 연동 UI (Windows OS 호환 완벽 다크 드롭다운) -->
+          <!-- 프로젝트 DB 연동 UI -->
           <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 3px;">연동된 프로젝트 실적 DB</div>
-          <div style="display: flex; gap: 6px; margin-bottom: 8px; position: relative;">
-            <div class="custom-proj-dropdown-wrap">
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1; background: #0f172a; border: 0.5px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11.5px; outline: none; cursor: pointer; color-scheme: dark;">
               ${(() => {
                 const db = getProjectDatabase();
                 const curId = currentPage ? currentPage.getAttribute('data-project-id') : '';
-                const curProj = db.find(p => p.id === curId) || db[0];
-                const curLabel = curProj ? `${curProj.year} [${(curProj.category||'').toUpperCase()}] ${curProj.name}` : '프로젝트 선택...';
-                return `
-                  <button type="button" class="custom-proj-dropdown-btn" id="btnCustomProjDropdown" onclick="toggleCustomProjDropdown(event)" title="연동할 프로젝트 선택">
-                    <span id="customProjDropdownLabel" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${curLabel}</span>
-                    <i data-lucide="chevron-down" style="width: 12px; height: 12px; flex-shrink: 0; opacity: 0.7;"></i>
-                  </button>
-                  <div class="custom-proj-dropdown-menu" id="customProjDropdownMenu" onclick="event.stopPropagation()">
-                    <div class="custom-proj-search-box">
-                      <input type="text" id="customProjSearchInput" class="custom-proj-search-input" placeholder="프로젝트명 검색..." oninput="filterCustomProjDropdown(this.value)">
-                    </div>
-                    <div class="custom-proj-list" id="customProjList">
-                      ${db.map(p => `
-                        <div class="custom-proj-item ${p.id === curId ? 'selected' : ''}" data-id="${p.id}" onclick="selectCustomProjItem('${p.id}')">
-                          <span style="color: #38bdf8; font-family: monospace; font-size: 11px; font-weight: 700; flex-shrink: 0;">${p.year}</span>
-                          <span style="font-size: 10px; color: #94a3b8; font-weight: 700; flex-shrink: 0;">[${(p.category||'').toUpperCase()}]</span>
-                          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</span>
-                        </div>
-                      `).join('')}
-                    </div>
-                  </div>
-                `;
+                return db.map(p => `<option value="${p.id}" ${p.id === curId ? 'selected' : ''} style="background: #0f172a; color: #f8fafc;">${p.year} [${(p.category||'').toUpperCase()}] ${p.name}</option>`).join('');
               })()}
-            </div>
+            </select>
             <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 엑셀 DB 열기" style="padding: 5px 9px; flex-shrink: 0; min-width: 0;">
               <i data-lucide="table" style="width: 13px; height: 13px; color: #38bdf8;"></i>
             </button>
@@ -10340,55 +10360,7 @@ b;
       if (window.lucide) lucide.createIcons();
     }
 
-    // 커스텀 프로젝트 드롭다운 제어 함수군 (Windows OS 셀렉트 깨짐 완벽 방지)
-    function toggleCustomProjDropdown(e) {
-      if (e) e.stopPropagation();
-      const menu = document.getElementById('customProjDropdownMenu');
-      if (!menu) return;
-      const isOpen = menu.classList.contains('open');
-      document.querySelectorAll('.custom-proj-dropdown-menu').forEach(m => m.classList.remove('open'));
-      if (!isOpen) {
-        menu.classList.add('open');
-        const input = document.getElementById('customProjSearchInput');
-        if (input) {
-          input.value = '';
-          input.focus();
-          filterCustomProjDropdown('');
-        }
-      }
-    }
-
-    function filterCustomProjDropdown(query) {
-      const q = (query || '').toLowerCase().trim();
-      const items = document.querySelectorAll('#customProjList .custom-proj-item');
-      items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
-      });
-    }
-
-    function selectCustomProjItem(projId) {
-      const menu = document.getElementById('customProjDropdownMenu');
-      if (menu) menu.classList.remove('open');
-      if (typeof linkProjectPageToDb === 'function') {
-        linkProjectPageToDb(projId);
-      }
-      if (typeof renderAdminContextTools === 'function') {
-        renderAdminContextTools();
-      }
-    }
-
-    // 문서 전역 클릭 시 커스텀 드롭다운 자동 닫힘
-    document.addEventListener('click', (e) => {
-      const menu = document.getElementById('customProjDropdownMenu');
-      if (menu && menu.classList.contains('open')) {
-        if (!e.target.closest('.custom-proj-dropdown-wrap')) {
-          menu.classList.remove('open');
-        }
-      }
-    });
-
-    // 도우미 함수: 특정 카테고리로 필터링된 프로젝트 DB 열기
+        // 도우미 함수: 특정 카테고리로 필터링된 프로젝트 DB 열기
     function openProjectDbModalForCategory(catKey) {
       if (typeof openProjectDbModal === 'function') {
         openProjectDbModal();
@@ -10442,18 +10414,12 @@ b;
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
-      // 간지 페이지라면 .divider-bg-img 우선 타겟팅
-      const targetImg = currentPage.querySelector('.divider-bg-img') || currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
-      if (targetImg) {
-        selectTargetImage(targetImg);
-        const fileInput = document.getElementById('adminImageFileInput');
-        if (fileInput) {
-          fileInput.value = '';
-          fileInput.click();
-        }
+      const firstImg = currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
+      if (firstImg) {
+        firstImg.click();
       } else {
-        const fileInput = document.getElementById('adminImageFileInput');
-        if (fileInput) fileInput.click();
+        const input = document.getElementById('adminImageFileInput');
+        if (input) input.click();
       }
     }
 
@@ -10909,13 +10875,13 @@ b;
       if (!client) return;
 
       try {
-        let projectLoadedFromContent = false;
         // 1. brochure_content 조회 (카테고리 노드 및 테마 색상)
         const { data: contentData, error: contentErr } = await client.from('brochure_content').select('*');
         if (contentErr) {
           console.warn('[Supabase] Failed to load brochure_content:', contentErr);
         } else if (contentData && contentData.length > 0) {
           let updatedCategory = false;
+          let projectLoadedFromContent = false;
           contentData.forEach(row => {
             if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
               row.value.forEach(savedCat => {
@@ -11162,7 +11128,7 @@ b;
       // 2. 인라인 편집 contenteditable 및 스타일/클래스 완전 박멸
       cloneDoc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
       cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img'));
-      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(b => b.remove());
+      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(b => b.remove());
       cloneDoc.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
       });
@@ -11447,16 +11413,7 @@ b;
 
       // 부트 시 정적 토스트 잔재 무조건 제거
       const initialToast = document.getElementById('adminToast');
-      if (initialToast) {
-        initialToast.classList.remove('show', 'visible');
-        const initialText = document.getElementById('adminToastText');
-        if (initialText) initialText.textContent = '';
-      }
-
-      // 부트 시 관리자 버튼 잔재 완전 박멸 (순수 뷰어 모드 보장)
-      if (typeof cleanAdminControls === 'function') {
-        cleanAdminControls();
-      }
+      if (initialToast) initialToast.classList.remove('show');
 
     
       // [원칙] 모든 접속자는 항상 순수 뷰어 모드(인트로 히어로)로 안전하게 진입
