@@ -1740,16 +1740,41 @@ b;
     }
 
     .lightbox-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.2px;
+      color: #ffffff;
+      margin-bottom: 4px;
     }
 
     .lightbox-desc {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 4px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px dashed transparent;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: text !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      display: inline-block;
+      max-width: 90%;
+      word-break: keep-all;
+    }
+
+    .lightbox-desc:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .lightbox-desc:focus {
+      outline: none;
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
     }
 
     .lightbox-close-btn {
@@ -4896,7 +4921,8 @@ b;
       <img src="" alt="확대 뷰" class="lightbox-img" id="lightboxImg">
       <div class="lightbox-caption-bar">
         <div class="lightbox-title" id="lightboxTitle">이미지 제목</div>
-        <div class="lightbox-desc" id="lightboxDesc">설명 및 세부 정보</div>
+        <div class="lightbox-desc" id="lightboxDesc" contenteditable="true" spellcheck="false" title="클릭하여 세부 설명 수정">설명 및 세부 정보</div>
+        <div style="font-size: 10px; color: #64748b; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.3px;">• 제목: 좌측 하단 범례 자동 연동 • 세부 설명: 클릭하여 직접 수정</div>
       </div>
     </div>
   </div>
@@ -7050,11 +7076,73 @@ b;
     const lightboxTitle = document.getElementById('lightboxTitle');
     const lightboxDesc = document.getElementById('lightboxDesc');
 
-    function openLightbox(src, title, desc) {
+    let currentActiveLightboxCard = null;
+
+    function openLightbox(cardOrSrc, fallbackTitle, fallbackDesc) {
       if (!imageLightbox || !lightboxImg) return;
+
+      let src = '';
+      let title = fallbackTitle || '';
+      let desc = fallbackDesc || '';
+      let cardElem = null;
+
+      // 1. 파라미터 또는 이벤트로부터 클릭된 카드(.media-card) 탐색
+      if (typeof cardOrSrc === 'string') {
+        src = cardOrSrc;
+      } else if (cardOrSrc && cardOrSrc.nodeType) {
+        cardElem = cardOrSrc.closest('.media-card') || cardOrSrc;
+        const img = cardElem.querySelector('img');
+        src = img ? (img.getAttribute('src') || img.src) : '';
+      }
+
+      if (!cardElem && window.event) {
+        const target = window.event.target || window.event.currentTarget;
+        if (target && target.closest) {
+          cardElem = target.closest('.media-card');
+        }
+      }
+
+      currentActiveLightboxCard = cardElem;
+
+      // 2. 프로젝트 페이지 내의 카드인 경우: 좌측 하단 범례(.project-image-legend)와 실시간 100% 동기화!
+      if (cardElem) {
+        const page = cardElem.closest('.a4-page-project');
+        if (page) {
+          const allCards = Array.from(page.querySelectorAll('.project-right-visual .media-card'));
+          const cardIdx = allCards.indexOf(cardElem);
+
+          if (cardIdx !== -1) {
+            // 좌측 하단 이미지별 설명 범례 캡션 요소들
+            const legendItems = page.querySelectorAll('.project-image-legend .legend-item .legend-text');
+            if (legendItems[cardIdx] && legendItems[cardIdx].innerText.trim()) {
+              title = legendItems[cardIdx].innerText.trim();
+            }
+          }
+        }
+
+        // 카드가 가지고 있는 고유 세부 설명이 있으면 우선 로드
+        if (cardElem.getAttribute('data-lightbox-desc')) {
+          desc = cardElem.getAttribute('data-lightbox-desc');
+        }
+      }
+
+      // 3. 라이트박스 뷰 적용
       lightboxImg.src = src;
-      if (lightboxTitle) lightboxTitle.textContent = title || '';
-      if (lightboxDesc) lightboxDesc.textContent = desc || '';
+      if (lightboxTitle) lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
+      if (lightboxDesc) {
+        lightboxDesc.textContent = desc || '세부 설명을 입력하세요 (클릭하여 직접 수정 가능)';
+        lightboxDesc.setAttribute('contenteditable', 'true');
+        lightboxDesc.setAttribute('spellcheck', 'false');
+
+        // 세부 설명 인라인 편집 시 해당 카드에 즉시 저장 및 자동 저장
+        lightboxDesc.oninput = () => {
+          if (currentActiveLightboxCard) {
+            currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
+          }
+          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+        };
+      }
+
       imageLightbox.classList.add('show');
       lucide.createIcons();
     }
@@ -7062,7 +7150,14 @@ b;
     function closeLightbox(e) {
       if (!imageLightbox) return;
       if (e && e.target !== imageLightbox && !e.target.closest('.lightbox-close-btn')) return;
+
+      if (lightboxDesc && currentActiveLightboxCard) {
+        currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
+        if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      }
+
       imageLightbox.classList.remove('show');
+      currentActiveLightboxCard = null;
     }
 
     // Keyboard Arrow Keys & Modal Control
