@@ -3679,7 +3679,7 @@ b;
   <!-- EXCEL-STYLE PROJECT DATABASE MANAGEMENT MODAL (프로젝트 DB 관리 모달) -->
   <!-- ============================================================ -->
   <div id="projectDbModal" class="admin-modal-backdrop" style="display: none; position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); z-index: 100000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
-    <div style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 14px; width: 100%; max-width: 980px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(14, 165, 233, 0.15); overflow: hidden; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 14px; width: 100%; max-width: 1120px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(14, 165, 233, 0.15); overflow: hidden; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
       
       <!-- Modal Header -->
       <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.95);">
@@ -4410,24 +4410,22 @@ b;
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false" contenteditable="true">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
             </div>
 
-            <!-- 2. Project Overview (Year, Category, Client) + Divider (요청 1번 이미지 반영) -->
+            <!-- 2. Project Overview (Year, Scope, Client) + Divider (DB 연동) -->
             <div class="project-meta-overview">
               <div class="project-overview-table">
                 <div class="project-overview-row">
                   <span class="project-overview-label" contenteditable="true">Year</span>
-                  <span class="project-overview-value" contenteditable="true">2023</span>
+                  <span class="project-overview-value overview-year" contenteditable="true" data-field="year">${defaults.overviewYear || '2023'}</span>
                 </div>
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Category</span>
-                  <div class="project-overview-value" contenteditable="true">
-                    <div contenteditable="true">BIM(모델링)</div>
-                    <div contenteditable="true">3D scan(정합성 검토)</div>
-                    <div contenteditable="true">XR</div>
+                  <span class="project-overview-label" contenteditable="true">Scope</span>
+                  <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
+                    ${defaults.overviewScope || '<div>BIM(모델링)</div><div>3D scan(정합성 검토)</div><div>XR</div>'}
                   </div>
                 </div>
                 <div class="project-overview-row">
                   <span class="project-overview-label" contenteditable="true">Client</span>
-                  <span class="project-overview-value" contenteditable="true">자리소건축사사무소</span>
+                  <span class="project-overview-value overview-client" contenteditable="true" data-field="client">${defaults.overviewClient || '사이다건축사사무소'}</span>
                 </div>
               </div>
               <div class="project-overview-divider"></div>
@@ -5301,8 +5299,14 @@ b;
               <option value="rnd" ${item.category === 'rnd' ? 'selected' : ''}>06. 미래건축 R&amp;D</option>
             </select>
           </td>
-          <td style="padding: 8px 12px;">
-            <input type="text" value="${item.name.replace(/"/g, '&quot;')}" onchange="updateProjectDbField('${item.id}', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #ffffff; padding: 4px 8px; border-radius: 4px; outline: none; font-size: 12.5px;">
+          <td style="padding: 8px 10px;">
+            <input type="text" value="${(item.name || '').replace(/"/g, '&quot;')}" onchange="updateProjectDbField('${item.id}', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #ffffff; padding: 4px 8px; border-radius: 4px; outline: none; font-size: 12px;">
+          </td>
+          <td style="padding: 8px 10px;">
+            <textarea onchange="updateProjectDbField('${item.id}', 'scope', this.value)" rows="2" placeholder="줄바꿈으로 구분&#10;BIM(모델링)&#10;3D scan(정합성 검토)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #f8fafc; font-size: 11px; padding: 4px 6px; border-radius: 4px; outline: none; resize: vertical; font-family: inherit; line-height: 1.3;">${item.scope || ''}</textarea>
+          </td>
+          <td style="padding: 8px 10px;">
+            <input type="text" value="${(item.client || '').replace(/"/g, '&quot;')}" onchange="updateProjectDbField('${item.id}', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #f8fafc; font-size: 11.5px; padding: 4px 8px; border-radius: 4px; outline: none;">
           </td>
           <td style="padding: 8px 8px; text-align: center;">
             <button onclick="deleteProjectDbRow('${item.id}')" title="삭제" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
@@ -5883,7 +5887,7 @@ b;
                 <span class="project-overview-value">2023</span>
               </div>
               <div class="project-overview-row">
-                <span class="project-overview-label">Category</span>
+                <span class="project-overview-label" contenteditable="true">Scope</span>
                 <div class="project-overview-value">
                   <div>BIM(모델링)</div>
                   <div>3D scan(정합성 검토)</div>
@@ -5892,7 +5896,7 @@ b;
               </div>
               <div class="project-overview-row">
                 <span class="project-overview-label">Client</span>
-                <span class="project-overview-value">자리소건축사사무소</span>
+                <span class="project-overview-value">사이다건축사사무소</span>
               </div>
             </div>
             <div class="project-overview-divider"></div>
@@ -7557,6 +7561,7 @@ b;
     // 동적 페이지 수 계산 및 내비게이션 UI 업데이트
     function updateBrochureUI() {
       if (typeof upgradeProjectPagesLayout === 'function') upgradeProjectPagesLayout();
+      if (typeof syncAllProjectPagesWithDb === 'function') syncAllProjectPagesWithDb();
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
       if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
@@ -8009,6 +8014,139 @@ b;
       `;
     }
 
+    
+    // 프로젝트 페이지 개요(Year, Scope, Client)와 프로젝트 DB 실시간 연동 엔진
+    function formatScopeToHTML(scopeText) {
+      if (!scopeText) return '<div>BIM(모델링)</div>';
+      const lines = scopeText.split('\n').map(l => l.trim()).filter(Boolean);
+      if (lines.length === 0) return '<div>BIM(모델링)</div>';
+      return lines.map(line => `<div contenteditable="true">${line}</div>`).join('');
+    }
+
+    function syncAllProjectPagesWithDb() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+      const db = getProjectDatabase();
+
+      sheet.querySelectorAll('.a4-page-project').forEach(page => {
+        let projId = page.getAttribute('data-project-id');
+        let matchedItem = null;
+
+        if (projId) {
+          matchedItem = db.find(p => p.id === projId);
+        }
+
+        // ID가 없으면 제목으로 매칭
+        if (!matchedItem) {
+          const title = (page.querySelector('.project-hero-title')?.innerText || '').replace(/\s+/g, ' ').trim();
+          matchedItem = db.find(p => title && (p.name.includes(title) || title.includes(p.name)));
+          if (matchedItem) {
+            page.setAttribute('data-project-id', matchedItem.id);
+          }
+        }
+
+        // 기본 매칭 폴백: p_101
+        if (!matchedItem && page.querySelector('.project-top-meta-bar')?.innerText.includes('BIM')) {
+          matchedItem = db.find(p => p.id === 'p_101') || db[0];
+          if (matchedItem) page.setAttribute('data-project-id', matchedItem.id);
+        }
+
+        if (matchedItem) {
+          // Year 동기화
+          const yearElem = page.querySelector('.project-overview-value.overview-year, [data-field="year"]');
+          if (yearElem && matchedItem.year) {
+            yearElem.innerText = matchedItem.year;
+          }
+
+          // Scope 동기화 (기존 Category -> Scope)
+          const scopeElem = page.querySelector('.project-overview-value.overview-scope, [data-field="scope"]');
+          if (scopeElem && matchedItem.scope) {
+            scopeElem.innerHTML = formatScopeToHTML(matchedItem.scope);
+          }
+
+          // Client 동기화
+          const clientElem = page.querySelector('.project-overview-value.overview-client, [data-field="client"]');
+          if (clientElem && matchedItem.client) {
+            clientElem.innerText = matchedItem.client;
+          }
+        }
+      });
+
+      bindProjectOverviewDbSync();
+    }
+
+    // 프로젝트 페이지 개요 직접 편집 시 DB 양방향 자동 반영 리스너
+    function bindProjectOverviewDbSync() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+
+      sheet.querySelectorAll('.a4-page-project').forEach(page => {
+        const projId = page.getAttribute('data-project-id');
+        if (!projId) return;
+
+        const yearElem = page.querySelector('.overview-year, [data-field="year"]');
+        const scopeElem = page.querySelector('.overview-scope, [data-field="scope"]');
+        const clientElem = page.querySelector('.overview-client, [data-field="client"]');
+
+        const syncToDb = () => {
+          const db = getProjectDatabase();
+          const item = db.find(p => p.id === projId);
+          if (item) {
+            if (yearElem) item.year = parseInt(yearElem.innerText, 10) || item.year || 2023;
+            if (clientElem) item.client = clientElem.innerText.trim();
+            if (scopeElem) {
+              const lines = Array.from(scopeElem.childNodes)
+                .map(n => n.innerText || n.textContent)
+                .filter(Boolean)
+                .map(t => t.trim())
+                .filter(Boolean);
+              if (lines.length > 0) item.scope = lines.join('\n');
+            }
+            saveProjectDatabase(db);
+            syncAllDividers();
+          }
+        };
+
+        if (yearElem) yearElem.onblur = syncToDb;
+        if (scopeElem) scopeElem.onblur = syncToDb;
+        if (clientElem) clientElem.onblur = syncToDb;
+      });
+    }
+
+    // 관리자 툴바에서 프로젝트 DB 실적을 현재 페이지에 링크
+    function linkProjectPageToDb(projId) {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage || !projId) return;
+
+      const db = getProjectDatabase();
+      const item = db.find(p => p.id === projId);
+      if (!item) return;
+
+      currentPage.setAttribute('data-project-id', item.id);
+
+      // 제목 반영
+      const titleElem = currentPage.querySelector('.project-hero-title');
+      if (titleElem && item.name) {
+        titleElem.innerHTML = item.name + '<br>';
+      }
+
+      // 개요 표 반영
+      const yearElem = currentPage.querySelector('.overview-year, [data-field="year"]');
+      if (yearElem) yearElem.innerText = item.year || 2023;
+
+      const scopeElem = currentPage.querySelector('.overview-scope, [data-field="scope"]');
+      if (scopeElem) scopeElem.innerHTML = formatScopeToHTML(item.scope);
+
+      const clientElem = currentPage.querySelector('.overview-client, [data-field="client"]');
+      if (clientElem) clientElem.innerText = item.client || '사이다건축사사무소';
+
+      if (typeof makeElementsEditable === 'function') makeElementsEditable();
+      if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
+      if (window.showAdminToast) showAdminToast('프로젝트 DB [' + item.name + ']와 연동되었습니다.');
+    }
+
     // 6종 프로젝트 레이아웃 HTML 생성 엔진 (기존 텍스트 및 이미지 데이터 보존 지원)
     function getProjectLayoutHTML(type, data = {}) {
       const defaults = {
@@ -8089,14 +8227,14 @@ b;
                   <span class="project-overview-value">${defaults.overviewYear || '2023'}</span>
                 </div>
                 <div class="project-overview-row">
-                  <span class="project-overview-label">Category</span>
+                  <span class="project-overview-label" contenteditable="true">Scope</span>
                   <div class="project-overview-value">
                     ${defaults.overviewCategory || '<div>BIM(모델링)</div><div>3D scan(정합성 검토)</div><div>XR</div>'}
                   </div>
                 </div>
                 <div class="project-overview-row">
                   <span class="project-overview-label">Client</span>
-                  <span class="project-overview-value">${defaults.overviewClient || '자리소건축사사무소'}</span>
+                  <span class="project-overview-value">${defaults.overviewClient || '사이다건축사사무소'}</span>
                 </div>
               </div>
               <div class="project-overview-divider"></div>
@@ -8798,6 +8936,23 @@ b;
         const hasPill = currentPage && !!currentPage.querySelector('.project-pill-badge')?.innerHTML.trim();
 
         actionsHTML = `
+          <!-- 프로젝트 DB 연동 UI -->
+          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 3px;">연동된 프로젝트 실적 DB</div>
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1; background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.14); color: #ffffff; padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11px; outline: none; cursor: pointer;">
+              ${(() => {
+                const db = getProjectDatabase();
+                const curId = currentPage ? currentPage.getAttribute('data-project-id') : '';
+                return db.map(p => `<option value="${p.id}" ${p.id === curId ? 'selected' : ''}>${p.year} [${(p.category||'').toUpperCase()}] ${p.name}</option>`).join('');
+              })()}
+            </select>
+            <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 엑셀 DB 열기" style="padding: 5px 9px; flex-shrink: 0; min-width: 0;">
+              <i data-lucide="table" style="width: 13px; height: 13px; color: #38bdf8;"></i>
+            </button>
+          </div>
+
+          <div class="admin-divider" style="margin: 4px 0;"></div>
+
           <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 2px;">프로젝트 내용 및 뱃지 제어</div>
           
           <div class="admin-btn-group-2">
