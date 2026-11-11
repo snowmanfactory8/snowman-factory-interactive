@@ -1286,11 +1286,10 @@
     .project-left-panel [contenteditable="true"],
     .project-left-panel h2,
     .project-left-panel p,
-    .project-left-panel span,
+    .project-left-panel span:not(.project-overview-label):not(.overview-year):not(.overview-client),
     .project-left-panel li,
-    .project-overview-value,
-    .project-overview-value *,
-    .project-overview-label,
+    .overview-scope,
+    .overview-scope *,
     .project-summary-desc,
     .project-desc-bullets li,
     .legend-text {
@@ -1298,6 +1297,23 @@
       user-select: text !important;
       -webkit-user-select: text !important;
       pointer-events: auto !important;
+    }
+
+    /* Year & Client 는 DB 연동 전용 (페이지 내 직접 수정 금지) */
+    .overview-year,
+    .overview-client,
+    [data-field="year"],
+    [data-field="client"],
+    .project-overview-label {
+      cursor: default !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      outline: none !important;
+    }
+    .overview-year:hover,
+    .overview-client:hover {
+      background: rgba(56, 189, 248, 0.08) !important;
+      border-radius: 3px !important;
     }
 
     .project-left-panel [contenteditable="true"]:hover {
@@ -4411,24 +4427,26 @@ b;
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false" contenteditable="true">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
             </div>
 
-            <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client만 DB 연동) -->
+            <!-- 2. Project Overview (Year, Client DB 연동 전용, Scope 페이지 내 수정 작성) -->
             <div class="project-meta-overview">
               <div class="project-overview-table">
-                <!-- 1) Year (DB 연동) -->
+                <!-- 1) Year (DB 연동 - 페이지 수정 금지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Year</span>
-                  <span class="project-overview-value overview-year" contenteditable="true" data-field="year">${defaults.overviewYear || '2023'}</span>
+                  <span class="project-overview-label" contenteditable="false">Year</span>
+                  <span class="project-overview-value overview-year" contenteditable="false" data-field="year" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
                 </div>
-                <!-- 2) Client (DB 연동) -->
+                <!-- 2) Client (DB 연동 - 페이지 수정 금지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Client</span>
-                  <span class="project-overview-value overview-client" contenteditable="true" data-field="client">${defaults.overviewClient || '사이다건축사사무소'}</span>
+                  <span class="project-overview-label" contenteditable="false">Client</span>
+                  <span class="project-overview-value overview-client" contenteditable="false" data-field="client" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
                 </div>
-                <!-- 3) Scope (페이지 내 직접 수정 작성) -->
+                <!-- 3) Scope (페이지 내 직접 수정 작성 유지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Scope</span>
+                  <span class="project-overview-label" contenteditable="false">Scope</span>
                   <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
-                    ${defaults.overviewScope || '<div contenteditable="true">BIM(모델링)</div><div contenteditable="true">3D scan(정합성 검토)</div><div contenteditable="true">XR</div>'}
+                    <div contenteditable="true">BIM(모델링)</div>
+                    <div contenteditable="true">3D scan(정합성 검토)</div>
+                    <div contenteditable="true">XR</div>
                   </div>
                 </div>
               </div>
@@ -7710,11 +7728,22 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .project-overview-value, .project-overview-value div, .project-overview-label, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num, .project-category-badge, .project-index-num';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num, .project-category-badge, .project-index-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 버튼, 컨트롤 제외
         if (el.closest('svg') || el.closest('button') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot') || el.classList.contains('admin-obj-delete-btn')) return;
+        
+        // Year 와 Client 및 라벨은 DB 연동 전용 (페이지 직접 수정 금지)
+        if (el.classList.contains('overview-year') || el.classList.contains('overview-client') || el.classList.contains('project-overview-label') || el.hasAttribute('data-field') && (el.getAttribute('data-field') === 'year' || el.getAttribute('data-field') === 'client')) {
+          el.setAttribute('contenteditable', 'false');
+          el.onclick = () => {
+            if (window.isAdminMode && window.showAdminToast) {
+              showAdminToast('Year와 Client는 프로젝트 DB에서 연동됩니다. 우측 패널의 [DB 엑셀 편집]을 이용하세요.');
+            }
+          };
+          return;
+        }
         
         el.setAttribute('contenteditable', 'true');
         el.setAttribute('spellcheck', 'false');
@@ -8207,26 +8236,24 @@ b;
               ${defaults.awardBanner}
             </div>
 
-            <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client만 DB 연동) -->
+            <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client DB 연동 전용, Scope 페이지 내 직접 작성) -->
             <div class="project-meta-overview">
               <div class="project-overview-table">
-                <!-- 1) Year (DB 연동) -->
+                <!-- 1) Year (DB 연동 전용) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Year</span>
-                  <span class="project-overview-value overview-year" contenteditable="true" data-field="year">2023</span>
+                  <span class="project-overview-label" contenteditable="false">Year</span>
+                  <span class="project-overview-value overview-year" contenteditable="false" data-field="year" title="프로젝트 DB 연동 항목">${defaults.overviewYear || '2023'}</span>
                 </div>
-                <!-- 2) Client (DB 연동) -->
+                <!-- 2) Client (DB 연동 전용) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Client</span>
-                  <span class="project-overview-value overview-client" contenteditable="true" data-field="client">사이다건축사사무소</span>
+                  <span class="project-overview-label" contenteditable="false">Client</span>
+                  <span class="project-overview-value overview-client" contenteditable="false" data-field="client" title="프로젝트 DB 연동 항목">${defaults.overviewClient || '사이다건축사사무소'}</span>
                 </div>
-                <!-- 3) Scope (페이지 내 직접 수정 작성) -->
+                <!-- 3) Scope (페이지 내 직접 수정 작성 유지) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Scope</span>
+                  <span class="project-overview-label" contenteditable="false">Scope</span>
                   <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
-                    <div contenteditable="true">BIM(모델링)</div>
-                    <div contenteditable="true">3D scan(정합성 검토)</div>
-                    <div contenteditable="true">XR</div>
+                    ${defaults.overviewScope || '<div contenteditable="true">BIM(모델링)</div><div contenteditable="true">3D scan(정합성 검토)</div><div contenteditable="true">XR</div>'}
                   </div>
                 </div>
               </div>
