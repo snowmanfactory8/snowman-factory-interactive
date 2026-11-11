@@ -1745,6 +1745,29 @@ b;
       letter-spacing: -0.2px;
       color: #ffffff;
       margin-bottom: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px dashed transparent;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: text !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      display: inline-block;
+      max-width: 90%;
+      word-break: keep-all;
+    }
+
+    .lightbox-title:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .lightbox-title:focus {
+      outline: none;
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
     }
 
     .lightbox-desc {
@@ -4920,9 +4943,11 @@ b;
       </button>
       <img src="" alt="확대 뷰" class="lightbox-img" id="lightboxImg">
       <div class="lightbox-caption-bar">
-        <div class="lightbox-title" id="lightboxTitle">이미지 제목</div>
+        <div class="lightbox-title" id="lightboxTitle" contenteditable="true" spellcheck="false" title="클릭하여 제목 수정 (좌측 하단 범례 실시간 자동 연동)">이미지 제목</div>
         <div class="lightbox-desc" id="lightboxDesc" contenteditable="true" spellcheck="false" title="클릭하여 세부 설명 수정">설명 및 세부 정보</div>
-        <div style="font-size: 10px; color: #64748b; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.3px;">• 제목: 좌측 하단 범례 자동 연동 • 세부 설명: 클릭하여 직접 수정</div>
+        <div style="font-size: 10.5px; color: #94a3b8; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.3px;">
+          <span style="color: #38bdf8; font-weight: 600;">• 제목:</span> 클릭하여 수정 (좌측 하단 범례 자동 연동) &nbsp;•&nbsp; <span style="color: #38bdf8; font-weight: 600;">세부 설명:</span> 클릭하여 직접 수정
+        </div>
       </div>
     </div>
   </div>
@@ -7128,7 +7153,32 @@ b;
 
       // 3. 라이트박스 뷰 적용
       lightboxImg.src = src;
-      if (lightboxTitle) lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
+
+      // [핵심] 라이트박스 화면에서 타이틀 직접 수정 가능하게 활성화 + 좌측 하단 범례 실시간 양방향 연동
+      if (lightboxTitle) {
+        lightboxTitle.textContent = title || '프로젝트 비주얼 상세';
+        lightboxTitle.setAttribute('contenteditable', 'true');
+        lightboxTitle.setAttribute('spellcheck', 'false');
+
+        lightboxTitle.oninput = () => {
+          const newTitle = lightboxTitle.innerText.trim();
+          if (currentActiveLightboxCard) {
+            const page = currentActiveLightboxCard.closest('.a4-page-project');
+            if (page) {
+              const allCards = Array.from(page.querySelectorAll('.project-right-visual .media-card'));
+              const cardIdx = allCards.indexOf(currentActiveLightboxCard);
+              if (cardIdx !== -1) {
+                const legendItems = page.querySelectorAll('.project-image-legend .legend-item .legend-text');
+                if (legendItems[cardIdx]) {
+                  legendItems[cardIdx].innerText = newTitle;
+                }
+              }
+            }
+          }
+          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+        };
+      }
+
       if (lightboxDesc) {
         lightboxDesc.textContent = desc || '세부 설명을 입력하세요 (클릭하여 직접 수정 가능)';
         lightboxDesc.setAttribute('contenteditable', 'true');
@@ -7151,8 +7201,28 @@ b;
       if (!imageLightbox) return;
       if (e && e.target !== imageLightbox && !e.target.closest('.lightbox-close-btn')) return;
 
-      if (lightboxDesc && currentActiveLightboxCard) {
-        currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
+      if (currentActiveLightboxCard) {
+        // 타이틀 최종 동기화
+        if (lightboxTitle) {
+          const finalTitle = lightboxTitle.innerText.trim();
+          const page = currentActiveLightboxCard.closest('.a4-page-project');
+          if (page) {
+            const allCards = Array.from(page.querySelectorAll('.project-right-visual .media-card'));
+            const cardIdx = allCards.indexOf(currentActiveLightboxCard);
+            if (cardIdx !== -1) {
+              const legendItems = page.querySelectorAll('.project-image-legend .legend-item .legend-text');
+              if (legendItems[cardIdx]) {
+                legendItems[cardIdx].innerText = finalTitle;
+              }
+            }
+          }
+        }
+
+        // 세부 설명 최종 저장
+        if (lightboxDesc) {
+          currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
+        }
+
         if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
       }
 
