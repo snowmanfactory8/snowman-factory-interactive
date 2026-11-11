@@ -3405,7 +3405,7 @@ b;
   <!-- ============================================================ -->
   
   <!-- Right-Side Full-Height Admin Sidebar Panel (우측 풀하이트 패널) -->
-  <aside id="adminToolbar" class="admin-toolbar visible">
+  <aside id="adminToolbar" class="admin-toolbar">
     
     <!-- Panel Header (Apple Inspired) -->
     <div class="admin-panel-header">
@@ -7948,20 +7948,24 @@ b;
         return;
       }
 
-      if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
-
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
+      // 1. 모든 텍스트 엘리먼트에 안전하게 contenteditable="true" 우선 부여
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 버튼, 컨트롤 제외
-        if (el.closest('svg') || el.closest('button') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot') || el.classList.contains('admin-obj-delete-btn')) return;
+        if (el.closest('svg') || el.closest('button') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot') || el.classList.contains('admin-obj-delete-btn') || el.classList.contains('admin-obj-add-btn') || el.classList.contains('admin-bullet-add-btn')) return;
         
         // Top Meta Bar(PROJECT / CATEGORY) 및 Year/Client 는 DB 연동/읽기 전용 (페이지 직접 수정 금지)
-        if (el.classList.contains('project-index-num') || el.classList.contains('project-category-badge') || el.closest('.project-top-meta-bar') || el.classList.contains('overview-year') || el.classList.contains('overview-client') || el.classList.contains('project-overview-label') || el.hasAttribute('data-field') && (el.getAttribute('data-field') === 'year' || el.getAttribute('data-field') === 'client')) {
+        const isYearOrClient = el.classList.contains('overview-year') || el.classList.contains('overview-client') || (el.hasAttribute('data-field') && (el.getAttribute('data-field') === 'year' || el.getAttribute('data-field') === 'client'));
+        const isMetaBar = el.classList.contains('project-index-num') || el.classList.contains('project-category-badge') || el.closest('.project-top-meta-bar') || el.classList.contains('project-overview-label');
+
+        if (isYearOrClient || isMetaBar) {
           el.setAttribute('contenteditable', 'false');
           el.onclick = () => {
             if (window.isAdminMode && window.showAdminToast) {
-              showAdminToast('Year와 Client는 프로젝트 DB에서 연동됩니다. 우측 패널의 [DB 엑셀 편집]을 이용하세요.');
+              if (isYearOrClient) {
+                showAdminToast('Year와 Client는 프로젝트 DB에서 연동됩니다. 우측 패널의 [DB 엑셀 편집]을 이용하세요.');
+              }
             }
           };
           return;
@@ -7980,6 +7984,13 @@ b;
           el.style.outline = '2px solid #0071e3';
         };
       });
+
+      // 2. 관리자 오브젝트 컨트롤 바인딩 (예외 격리)
+      try {
+        if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
+      } catch (err) {
+        console.error('bindProjectObjectControls error:', err);
+      }
     }
 
     // -------------------------------------------------------------
@@ -9380,6 +9391,19 @@ b;
     // =============================================================
     // PROJECT PAGE OBJECT MANIPULATION (ADD / DELETE) SYSTEM
     // =============================================================
+    
+    function createDeleteBtn(onClick, title = '삭제', isSmall = false) {
+      const btn = document.createElement('button');
+      btn.className = 'admin-obj-delete-btn';
+      btn.title = title;
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${isSmall ? 10 : 12}" height="${isSmall ? 10 : 12}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`;
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        if (typeof onClick === 'function') onClick();
+      };
+      return btn;
+    }
+
     function bindProjectObjectControls() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
@@ -10308,6 +10332,12 @@ b;
       }
       loadSavedNodeColors();
       restoreBrochureChanges();
+    
+      try {
+        if (localStorage.getItem('snowman_admin_mode') === 'true') {
+          enableAdminMode();
+        }
+      } catch (e) {}
     });
 
   </script>
