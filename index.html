@@ -946,7 +946,24 @@
         min-width: 125px;
         padding: 10px 12px;
       }
-      .project-top-meta-bar { margin-bottom: 4px; padding-bottom: 4px; }
+      
+    /* Project Top Meta Bar (PROJECT / BIM) Read-Only & DB Connected */
+    .project-top-meta-bar,
+    .project-index-num,
+    .project-category-badge {
+      cursor: default !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      outline: none !important;
+    }
+    .project-category-badge {
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .project-top-meta-bar:hover .project-category-badge {
+      color: #0070f3 !important;
+    }
+
+    .project-top-meta-bar { margin-bottom: 4px; padding-bottom: 4px; }
       .project-pill-badge { font-size: 8.5px; padding: 1px 6px; margin-bottom: 4px; }
       .project-hero-title { font-size: clamp(10px, 2.2vw, 16px); margin-bottom: 4px; line-height: 1.2; }
       .project-award-banner { font-size: 8px; padding: 2px 5px; margin-bottom: 5px; }
@@ -4416,9 +4433,9 @@ b;
           <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
             <!-- 1. Top Meta Header & Title -->
             <div class="project-top-meta-bar">
-              <span class="project-index-num" spellcheck="false" contenteditable="true">PROJECT</span>
+              <span class="project-index-num" spellcheck="false" contenteditable="false">PROJECT</span>
               <span style="color: #cbd5e1; font-size: 11px;">/</span>
-              <span class="project-category-badge" spellcheck="false" contenteditable="true">BIM</span>
+              <span class="project-category-badge" spellcheck="false" contenteditable="false" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
             </div>
             <h2 class="project-hero-title" spellcheck="false" contenteditable="true">
               담바우마을 에너지공급센터 BIM용역<br>
@@ -7728,14 +7745,14 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num, .project-category-badge, .project-index-num';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 버튼, 컨트롤 제외
         if (el.closest('svg') || el.closest('button') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot') || el.classList.contains('admin-obj-delete-btn')) return;
         
-        // Year 와 Client 및 라벨은 DB 연동 전용 (페이지 직접 수정 금지)
-        if (el.classList.contains('overview-year') || el.classList.contains('overview-client') || el.classList.contains('project-overview-label') || el.hasAttribute('data-field') && (el.getAttribute('data-field') === 'year' || el.getAttribute('data-field') === 'client')) {
+        // Top Meta Bar(PROJECT / CATEGORY) 및 Year/Client 는 DB 연동/읽기 전용 (페이지 직접 수정 금지)
+        if (el.classList.contains('project-index-num') || el.classList.contains('project-category-badge') || el.closest('.project-top-meta-bar') || el.classList.contains('overview-year') || el.classList.contains('overview-client') || el.classList.contains('project-overview-label') || el.hasAttribute('data-field') && (el.getAttribute('data-field') === 'year' || el.getAttribute('data-field') === 'client')) {
           el.setAttribute('contenteditable', 'false');
           el.onclick = () => {
             if (window.isAdminMode && window.showAdminToast) {
@@ -8053,6 +8070,20 @@ b;
       return lines.map(line => `<div contenteditable="true">${line}</div>`).join('');
     }
 
+    
+    // 프로젝트 카테고리 표시명 변환기 (DB 연동)
+    function getCategoryDisplayName(catKey) {
+      const map = {
+        'bim': 'BIM',
+        'scan': '3D SCAN',
+        'xr': 'XR',
+        'simulation': 'SIMULATION',
+        'consulting': 'DX CONSULTING',
+        'rnd': 'FUTURE R&D'
+      };
+      return map[(catKey || '').toLowerCase()] || (catKey || 'BIM').toUpperCase();
+    }
+
     function syncAllProjectPagesWithDb() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
@@ -8082,6 +8113,12 @@ b;
         }
 
         if (matchedItem) {
+          // 카테고리 뱃지 동기화 (DB 연동)
+          const categoryBadgeElem = page.querySelector('.project-category-badge');
+          if (categoryBadgeElem && matchedItem.category) {
+            categoryBadgeElem.textContent = getCategoryDisplayName(matchedItem.category);
+          }
+
           // Year 동기화 (DB 연동)
           const yearElem = page.querySelector('.project-overview-value.overview-year, [data-field="year"]');
           if (yearElem && matchedItem.year) {
@@ -8147,6 +8184,12 @@ b;
       const titleElem = currentPage.querySelector('.project-hero-title');
       if (titleElem && item.name) {
         titleElem.innerHTML = item.name + '<br>';
+      }
+
+      // 상단 카테고리 뱃지 반영 (DB 연동)
+      const categoryBadgeElem = currentPage.querySelector('.project-category-badge');
+      if (categoryBadgeElem && item.category) {
+        categoryBadgeElem.textContent = getCategoryDisplayName(item.category);
       }
 
       // 개요 표 반영 (Year, Client만 DB 연동)
@@ -8225,9 +8268,9 @@ b;
           <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
             <!-- 1. Top Meta Header & Title -->
             <div class="project-top-meta-bar">
-              <span class="project-index-num">${defaults.indexNum}</span>
-              <span style="color: #cbd5e1; font-size: 11px;">/</span>
-              <span class="project-category-badge">${defaults.categoryBadge}</span>
+              <span class="project-index-num" contenteditable="false">${defaults.indexNum || 'PROJECT'}</span>
+              <span style="color: #cbd5e1; font-size: 11px;" contenteditable="false">/</span>
+              <span class="project-category-badge" contenteditable="false" title="프로젝트 실적 DB 카테고리 연동 항목">${getCategoryDisplayName(defaults.category || defaults.categoryBadge || 'BIM')}</span>
             </div>
             <h2 class="project-hero-title">
               ${defaults.heroTitle}
