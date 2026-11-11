@@ -4175,9 +4175,9 @@ b;
   </div>
 
   <!-- Admin Toast Notification -->
-  <div id="adminToast" class="admin-toast show">
+  <div id="adminToast" class="admin-toast">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" style="width: 16px; height: 16px;" class="lucide lucide-check-circle"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
-    <span id="adminToastText">⏳ [1/4] 깨끗한 HTML 문서를 생성하는 중...</span>
+    <span id="adminToastText">알림 메시지</span>
   </div>
 
   <!-- Hidden Image File Input for Click-to-Upload -->
@@ -6075,15 +6075,30 @@ b;
         leftPanel.querySelectorAll('.project-pill-badge').forEach(el => el.remove());
         leftPanel.querySelectorAll('.project-features-list').forEach(el => el.remove());
 
-        // 4. 레이아웃 템플릿에 맞춘 project-image-legend 동적 보정/주입
+        // 4. 레이아웃 템플릿에 맞춘 project-image-legend 동적 보정/주입 (스마트 감지)
         const visualPanel = page.querySelector('.project-right-visual');
         let currentLayoutType = 'project-classic';
         if (visualPanel) {
-          if (visualPanel.classList.contains('project-grid2x2')) currentLayoutType = 'project-grid2x2';
-          else if (visualPanel.classList.contains('project-focus')) currentLayoutType = 'project-focus';
-          else if (visualPanel.classList.contains('project-split2-rows')) currentLayoutType = 'project-split2-rows';
-          else if (visualPanel.classList.contains('project-split2-cols')) currentLayoutType = 'project-split2-cols';
-          else if (visualPanel.classList.contains('project-minimal')) currentLayoutType = 'project-minimal';
+          const dl = visualPanel.getAttribute('data-layout');
+          if (dl) {
+            currentLayoutType = dl;
+          } else if (visualPanel.classList.contains('project-grid2x2') || visualPanel.querySelector('.visual-grid-2x2')) {
+            currentLayoutType = 'project-grid2x2';
+          } else if (visualPanel.classList.contains('project-focus') || (visualPanel.style.display === 'flex' && visualPanel.style.flexDirection === 'row')) {
+            currentLayoutType = 'project-focus';
+          } else if (visualPanel.classList.contains('project-split2-rows') || (visualPanel.style.gridTemplateRows && visualPanel.style.gridTemplateRows.includes('1fr 1fr'))) {
+            currentLayoutType = 'project-split2-rows';
+          } else if (visualPanel.classList.contains('project-split2-cols') || (visualPanel.style.gridTemplateColumns && visualPanel.style.gridTemplateColumns.includes('1fr 1fr'))) {
+            currentLayoutType = 'project-split2-cols';
+          } else if (visualPanel.classList.contains('project-minimal') || page.querySelector('.project-minimal')) {
+            currentLayoutType = 'project-minimal';
+          } else {
+            const cardCount = visualPanel.querySelectorAll('.media-card').length;
+            if (cardCount === 4) currentLayoutType = 'project-grid2x2';
+            else if (cardCount === 2) currentLayoutType = 'project-split2-rows';
+            else if (cardCount === 1) currentLayoutType = 'project-minimal';
+            else currentLayoutType = 'project-classic';
+          }
         }
 
         const existingLegendEl = leftPanel.querySelector('.project-image-legend');
@@ -7893,6 +7908,10 @@ b;
       if (indicator) {
         indicator.textContent = `P.${currentBrochurePage + 1} / ${totalBrochurePages}`;
       }
+      window.currentBrochurePage = currentBrochurePage;
+      window.goToPage = goToPage;
+      window.changeCurrentPageLayout = changeCurrentPageLayout;
+      window.getAllPages = getAllPages;
 
       // 페이지 전환 시 관리자 모드 상태면 모든 요소 편집 권한 즉시 재바인딩
       if (window.isAdminMode) {
@@ -8583,7 +8602,7 @@ b;
         return `
           <div class="a4-page-project">
             ${leftPanelHTML}
-            <div class="project-right-visual">
+            <div class="project-right-visual project-classic" data-layout="project-classic">
               <div class="media-card top-hero-card" onclick="openLightbox(this.querySelector('img').src, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼')">
                 <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></div>
                 <img src="${getImg(0, defaultImg1)}" alt="${getAlt(0, '프로젝트 메인 조감도')}" class="admin-editable-img" loading="lazy">
@@ -8608,7 +8627,7 @@ b;
         return `
           <div class="a4-page-project">
             ${leftPanelHTML}
-            <div class="project-right-visual">
+            <div class="project-right-visual project-grid2x2" data-layout="project-grid2x2">
               <div class="visual-grid-2x2">
                 <div class="media-card grid-cell" onclick="openLightbox(this.querySelector('img').src, '3D 모델링', '설비 및 건축 통합 모델')">
                   <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
@@ -8637,7 +8656,7 @@ b;
         return `
           <div class="a4-page-project">
             ${leftPanelHTML}
-            <div class="project-right-visual" style="display: flex; flex-direction: row; gap: 2px;">
+            <div class="project-right-visual project-focus" data-layout="project-focus" style="display: flex; flex-direction: row; gap: 2px;">
               <div class="media-card" style="flex: 2.1; height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '프로젝트 메인 뷰', '종합 조감도 및 메인 렌더링')">
                 <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></div>
                 <img src="${getImg(0, defaultImgFull)}" alt="${getAlt(0, '메인 렌더링')}" class="admin-editable-img" loading="lazy">
@@ -8662,7 +8681,7 @@ b;
         return `
           <div class="a4-page-project">
             ${leftPanelHTML}
-            <div class="project-right-visual" style="display: grid; grid-template-rows: 1fr 1fr; gap: 2px;">
+            <div class="project-right-visual project-split2-rows" data-layout="project-split2-rows" style="display: grid; grid-template-rows: 1fr 1fr; gap: 2px;">
               <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '상단 와이드 실측 뷰', '현장 LiDAR 3차원 점군 데이터')">
                 <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></div>
                 <img src="${getImg(0, defaultImg1)}" alt="${getAlt(0, '상단 실측 점군')}" class="admin-editable-img" loading="lazy">
@@ -8681,7 +8700,7 @@ b;
         return `
           <div class="a4-page-project">
             ${leftPanelHTML}
-            <div class="project-right-visual" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 100%; height: 100%; min-height: 0;">
+            <div class="project-right-visual project-split2-cols" data-layout="project-split2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 100%; height: 100%; min-height: 0;">
               <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '좌측 분할 뷰', '좌측 비교 컷')">
                 <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></div>
                 <img src="${getImg(0, defaultImg1)}" alt="${getAlt(0, '좌측 이미지')}" class="admin-editable-img" loading="lazy">
@@ -8902,22 +8921,29 @@ b;
       const categoryBadge = currentPage.querySelector('.project-category-badge')?.innerText;
       const heroTitle = currentPage.querySelector('.project-hero-title')?.innerHTML || currentPage.querySelector('h3')?.innerText;
       const awardBanner = currentPage.querySelector('.project-award-banner')?.innerHTML;
+      const overviewYear = currentPage.querySelector('.overview-year, [data-field="year"]')?.innerText;
+      const overviewClient = currentPage.querySelector('.overview-client, [data-field="client"]')?.innerText;
+      const overviewScope = currentPage.querySelector('.overview-scope, [data-field="scope"]')?.innerHTML;
       const summaryDesc = currentPage.querySelector('.project-summary-desc')?.innerHTML;
       const descBullets = currentPage.querySelector('.project-desc-bullets')?.innerHTML;
 
-      // 기존 이미지 범례 캡션 추출
+      // 기존 이미지 범례 캡션 추출 (레이아웃 변경 시 보존!)
       const legendCaptions = Array.from(currentPage.querySelectorAll('.legend-item .legend-text')).map(el => el.innerText.trim()).filter(Boolean);
 
-      // 3. 신규 레이아웃 HTML 생성 및 교체
+      // 3. 신규 레이아웃 HTML 생성 및 교체 (기존 작성 데이터 100% 보존)
       let newInner = '';
       if (type.startsWith('project')) {
         newInner = getProjectLayoutHTML(type, {
           indexNum,
           categoryBadge,
-          pillBadge,
           heroTitle,
           awardBanner,
-          featuresList,
+          overviewYear,
+          overviewClient,
+          overviewScope,
+          summaryDesc,
+          descBullets,
+          legendCaptions,
           images: existingImgs
         });
       } else if (type === 'divider' || type === 'category-divider') {
@@ -10381,6 +10407,11 @@ b;
       }
       loadSavedNodeColors();
       restoreBrochureChanges();
+
+      // 부트 시 정적 토스트 잔재 무조건 제거
+      const initialToast = document.getElementById('adminToast');
+      if (initialToast) initialToast.classList.remove('show');
+
     
       try {
         if (localStorage.getItem('snowman_admin_mode') === 'true') {
