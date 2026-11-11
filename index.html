@@ -5075,21 +5075,24 @@ b;
             
             </div><div class="project-meta-overview">
             <div class="project-overview-table">
+              <!-- 1) Year (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label">Year</span>
-                <span class="project-overview-value" spellcheck="false">2023</span>
+                <span class="project-overview-label" contenteditable="false">Year</span>
+                <span class="project-overview-value overview-year" data-field="year" contenteditable="false" spellcheck="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
               </div>
+              <!-- 2) Client (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label">Scope</span>
-                <div class="project-overview-value">
-                  <div>BIM(모델링)</div>
-                  <div>3D scan(정합성 검토)</div>
-                  <div>XR</div>
+                <span class="project-overview-label" contenteditable="false">Client</span>
+                <span class="project-overview-value overview-client" data-field="client" contenteditable="false" spellcheck="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
+              </div>
+              <!-- 3) Scope (페이지 내 직접 수정 가능) -->
+              <div class="project-overview-row">
+                <span class="project-overview-label" contenteditable="false">Scope</span>
+                <div class="project-overview-value overview-scope" data-field="scope" contenteditable="true">
+                  <div spellcheck="false">BIM(모델링)</div>
+                  <div spellcheck="false">3D scan(정합성 검토)</div>
+                  <div spellcheck="false">XR</div>
                 </div>
-              </div>
-              <div class="project-overview-row">
-                <span class="project-overview-label">Client</span>
-                <span class="project-overview-value" spellcheck="false">사이다건축사사무소</span>
               </div>
             </div>
             <div class="project-overview-divider"></div>
@@ -5292,21 +5295,24 @@ b;
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">우수 프로젝트 레퍼런스</span>
             </div><div class="project-meta-overview">
             <div class="project-overview-table">
+              <!-- 1) Year (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label">Year</span>
-                <span class="project-overview-value" spellcheck="false">2023</span>
+                <span class="project-overview-label" contenteditable="false">Year</span>
+                <span class="project-overview-value overview-year" data-field="year" contenteditable="false" spellcheck="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
               </div>
+              <!-- 2) Client (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label">Scope</span>
-                <div class="project-overview-value">
-                  <div>BIM(모델링)</div>
-                  <div>3D scan(정합성 검토)</div>
-                  <div>XR</div>
+                <span class="project-overview-label" contenteditable="false">Client</span>
+                <span class="project-overview-value overview-client" data-field="client" contenteditable="false" spellcheck="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
+              </div>
+              <!-- 3) Scope (페이지 내 직접 수정 가능) -->
+              <div class="project-overview-row">
+                <span class="project-overview-label" contenteditable="false">Scope</span>
+                <div class="project-overview-value overview-scope" data-field="scope" contenteditable="true">
+                  <div spellcheck="false">BIM(모델링)</div>
+                  <div spellcheck="false">3D scan(정합성 검토)</div>
+                  <div spellcheck="false">XR</div>
                 </div>
-              </div>
-              <div class="project-overview-row">
-                <span class="project-overview-label">Client</span>
-                <span class="project-overview-value" spellcheck="false">사이다건축사사무소</span>
               </div>
             </div>
             <div class="project-overview-divider"></div>
@@ -5872,27 +5878,39 @@ b;
     // 3. 데이터베이스 로드 및 저장 함수
     // -------------------------------------------------------------
     function getProjectDatabase() {
+      let list = null;
       if (window.PROJECT_DATABASE && Array.isArray(window.PROJECT_DATABASE)) {
-        return window.PROJECT_DATABASE;
-      }
-      try {
-        const saved = localStorage.getItem('snowman_project_db');
-        if (saved !== null) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
-            window.PROJECT_DATABASE = parsed;
-            return parsed;
+        list = window.PROJECT_DATABASE;
+      } else {
+        try {
+          const saved = localStorage.getItem('snowman_project_db');
+          if (saved !== null) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) {
+              list = parsed;
+            }
           }
+        } catch (e) {
+          console.warn('Failed to parse saved project DB, using default:', e);
         }
-      } catch (e) {
-        console.warn('Failed to parse saved project DB, using default:', e);
+        if (!list) {
+          list = Array.isArray(window.DEFAULT_PROJECT_DB) ? JSON.parse(JSON.stringify(window.DEFAULT_PROJECT_DB)) : [];
+        }
       }
-      const fallback = Array.isArray(window.DEFAULT_PROJECT_DB) ? JSON.parse(JSON.stringify(window.DEFAULT_PROJECT_DB)) : [];
-      window.PROJECT_DATABASE = fallback;
-      return fallback;
+      // 모든 항목에 Client 기본값 보장 (DB 연동)
+      list.forEach(p => {
+        if (!p.client) p.client = '사이다건축사사무소';
+      });
+      window.PROJECT_DATABASE = list;
+      return list;
     }
 
     function saveProjectDatabase(db) {
+      if (Array.isArray(db)) {
+        db.forEach(p => {
+          if (!p.client) p.client = '사이다건축사사무소';
+        });
+      }
       window.PROJECT_DATABASE = db;
       window.DEFAULT_PROJECT_DB = JSON.parse(JSON.stringify(db));
       localStorage.setItem('snowman_project_db', JSON.stringify(db));
@@ -6144,6 +6162,9 @@ b;
     function saveProjectDbAndSync() {
       saveProjectDatabase(currentDbEditingList);
       syncAllDividers();
+      if (typeof syncAllProjectPagesWithDb === 'function') {
+        syncAllProjectPagesWithDb();
+      }
       if (typeof saveBrochureChanges === 'function') {
         saveBrochureChanges(false);
       }
@@ -6668,21 +6689,24 @@ b;
           overviewDiv.className = 'project-meta-overview';
           overviewDiv.innerHTML = `
             <div class="project-overview-table">
+              <!-- 1) Year (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label">Year</span>
-                <span class="project-overview-value">2023</span>
+                <span class="project-overview-label" contenteditable="false">Year</span>
+                <span class="project-overview-value overview-year" data-field="year" contenteditable="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">2023</span>
               </div>
+              <!-- 2) Client (DB 연동 - 페이지 직접 수정 불가) -->
               <div class="project-overview-row">
-                <span class="project-overview-label" contenteditable="true">Scope</span>
-                <div class="project-overview-value">
+                <span class="project-overview-label" contenteditable="false">Client</span>
+                <span class="project-overview-value overview-client" data-field="client" contenteditable="false" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">사이다건축사사무소</span>
+              </div>
+              <!-- 3) Scope (페이지 내 직접 수정 가능) -->
+              <div class="project-overview-row">
+                <span class="project-overview-label" contenteditable="false">Scope</span>
+                <div class="project-overview-value overview-scope" data-field="scope" contenteditable="true">
                   <div>BIM(모델링)</div>
                   <div>3D scan(정합성 검토)</div>
                   <div>XR</div>
                 </div>
-              </div>
-              <div class="project-overview-row">
-                <span class="project-overview-label">Client</span>
-                <span class="project-overview-value">사이다건축사사무소</span>
               </div>
             </div>
             <div class="project-overview-divider"></div>
@@ -6695,6 +6719,54 @@ b;
             targetAnchor.parentNode.insertBefore(overviewDiv, targetAnchor.nextSibling);
           } else {
             leftPanel.prepend(overviewDiv);
+          }
+        }
+
+        // 1-1. 기존 및 신규 project-overview-table 내 항목 순서를 무조건 [Year -> Client -> Scope]로 정규화
+        const overviewTable = leftPanel.querySelector('.project-overview-table');
+        if (overviewTable) {
+          const rows = Array.from(overviewTable.querySelectorAll('.project-overview-row'));
+          let yearRow = null, clientRow = null, scopeRow = null;
+
+          rows.forEach(row => {
+            const labelElem = row.querySelector('.project-overview-label');
+            const labelText = (labelElem ? labelElem.innerText : '').trim().toLowerCase();
+            const valElem = row.querySelector('.project-overview-value');
+
+            if (labelText === 'year') {
+              yearRow = row;
+              if (labelElem) labelElem.setAttribute('contenteditable', 'false');
+              if (valElem) {
+                valElem.classList.add('overview-year');
+                valElem.setAttribute('data-field', 'year');
+                valElem.setAttribute('contenteditable', 'false');
+                valElem.title = '프로젝트 DB 연동 항목 (페이지 직접 수정 불가)';
+              }
+            } else if (labelText === 'client') {
+              clientRow = row;
+              if (labelElem) labelElem.setAttribute('contenteditable', 'false');
+              if (valElem) {
+                valElem.classList.add('overview-client');
+                valElem.setAttribute('data-field', 'client');
+                valElem.setAttribute('contenteditable', 'false');
+                valElem.title = '프로젝트 DB 연동 항목 (페이지 직접 수정 불가)';
+              }
+            } else if (labelText === 'scope') {
+              scopeRow = row;
+              if (labelElem) labelElem.setAttribute('contenteditable', 'false');
+              if (valElem) {
+                valElem.classList.add('overview-scope');
+                valElem.setAttribute('data-field', 'scope');
+                valElem.setAttribute('contenteditable', 'true');
+              }
+            }
+          });
+
+          // Year -> Client -> Scope 순서로 DOM 재배치
+          if (yearRow && clientRow && scopeRow) {
+            overviewTable.appendChild(yearRow);
+            overviewTable.appendChild(clientRow);
+            overviewTable.appendChild(scopeRow);
           }
         }
 
@@ -9209,52 +9281,59 @@ b;
             categoryBadgeElem.textContent = getCategoryDisplayName(matchedItem.category);
           }
 
-          // Year 동기화 (DB 연동)
+          // 1) Year 동기화 (DB 연동 - 자동 표기 및 수정 불가)
           const yearElem = page.querySelector('.project-overview-value.overview-year, [data-field="year"]');
-          if (yearElem && matchedItem.year) {
-            yearElem.innerText = matchedItem.year;
+          if (yearElem) {
+            if (matchedItem.year) yearElem.innerText = matchedItem.year;
+            yearElem.setAttribute('contenteditable', 'false');
+            yearElem.title = '프로젝트 DB 연동 항목 (페이지 직접 수정 불가)';
           }
 
-          // Client 동기화 (DB 연동)
+          // 2) Client 동기화 (DB 연동 - 자동 표기 및 수정 불가)
           const clientElem = page.querySelector('.project-overview-value.overview-client, [data-field="client"]');
-          if (clientElem && matchedItem.client) {
-            clientElem.innerText = matchedItem.client;
+          if (clientElem) {
+            clientElem.innerText = matchedItem.client || '사이다건축사사무소';
+            clientElem.setAttribute('contenteditable', 'false');
+            clientElem.title = '프로젝트 DB 연동 항목 (페이지 직접 수정 불가)';
           }
 
-          // Scope는 페이지 내에서 독립적으로 수정/작성되므로 DB 값으로 덮어쓰지 않고 페이지 내 값 보존
+          // 3) Scope는 페이지 내에서 독립적으로 직접 수정 작성 가능 (DB 값으로 덮어쓰지 않고 페이지 고유 내용 보존)
+          const scopeElem = page.querySelector('.project-overview-value.overview-scope, [data-field="scope"]');
+          if (scopeElem && window.isAdminMode) {
+            scopeElem.setAttribute('contenteditable', 'true');
+            scopeElem.querySelectorAll('*').forEach(child => child.setAttribute('contenteditable', 'true'));
+          }
         }
       });
 
       bindProjectOverviewDbSync();
     }
 
-    // 프로젝트 페이지 개요 직접 편집 시 DB 양방향 자동 반영 리스너
+    // 프로젝트 페이지 개요 이벤트 리스너 (Year/Client는 읽기전용 안내, Scope는 인라인 편집 자동저장)
     function bindProjectOverviewDbSync() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
       sheet.querySelectorAll('.a4-page-project').forEach(page => {
-        const projId = page.getAttribute('data-project-id');
-        if (!projId) return;
-
         const yearElem = page.querySelector('.overview-year, [data-field="year"]');
         const scopeElem = page.querySelector('.overview-scope, [data-field="scope"]');
         const clientElem = page.querySelector('.overview-client, [data-field="client"]');
 
-        const syncToDb = () => {
-          const db = getProjectDatabase();
-          const item = db.find(p => p.id === projId);
-          if (item) {
-            if (yearElem) item.year = parseInt(yearElem.innerText, 10) || item.year || 2023;
-            if (clientElem) item.client = clientElem.innerText.trim();
-            saveProjectDatabase(db);
-            syncAllDividers();
-          }
-        };
+        [yearElem, clientElem].forEach(el => {
+          if (!el) return;
+          el.setAttribute('contenteditable', 'false');
+          el.onclick = () => {
+            if (window.isAdminMode && window.showAdminToast) {
+              showAdminToast('💡 Year와 Client는 프로젝트 DB에서 자동 연동되는 읽기 전용 항목입니다.');
+            }
+          };
+        });
 
-        if (yearElem) yearElem.onblur = syncToDb;
-        if (scopeElem) scopeElem.onblur = syncToDb;
-        if (clientElem) clientElem.onblur = syncToDb;
+        if (scopeElem) {
+          scopeElem.oninput = () => {
+            if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+          };
+        }
       });
     }
 
@@ -9282,14 +9361,24 @@ b;
         categoryBadgeElem.textContent = getCategoryDisplayName(item.category);
       }
 
-      // 개요 표 반영 (Year, Client만 DB 연동)
+      // 개요 표 반영 (Year, Client만 DB 연동, 수정 불가)
       const yearElem = currentPage.querySelector('.overview-year, [data-field="year"]');
-      if (yearElem) yearElem.innerText = item.year || 2023;
+      if (yearElem) {
+        yearElem.innerText = item.year || 2023;
+        yearElem.setAttribute('contenteditable', 'false');
+      }
 
       const clientElem = currentPage.querySelector('.overview-client, [data-field="client"]');
-      if (clientElem) clientElem.innerText = item.client || '사이다건축사사무소';
+      if (clientElem) {
+        clientElem.innerText = item.client || '사이다건축사사무소';
+        clientElem.setAttribute('contenteditable', 'false');
+      }
 
-      // Scope는 페이지 고유 내용이므로 DB 선택 시에도 기존 페이지 작성 내용 보존
+      // Scope는 페이지 내 직접 수정 가능
+      const scopeElem = currentPage.querySelector('.overview-scope, [data-field="scope"]');
+      if (scopeElem && window.isAdminMode) {
+        scopeElem.setAttribute('contenteditable', 'true');
+      }
 
       if (typeof makeElementsEditable === 'function') makeElementsEditable();
       if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
