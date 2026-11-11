@@ -3679,7 +3679,7 @@ b;
   <!-- EXCEL-STYLE PROJECT DATABASE MANAGEMENT MODAL (프로젝트 DB 관리 모달) -->
   <!-- ============================================================ -->
   <div id="projectDbModal" class="admin-modal-backdrop" style="display: none; position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(8px); z-index: 100000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
-    <div style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 14px; width: 100%; max-width: 1120px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(14, 165, 233, 0.15); overflow: hidden; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 14px; width: 100%; max-width: 980px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(14, 165, 233, 0.15); overflow: hidden; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
       
       <!-- Modal Header -->
       <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(15, 23, 42, 0.95);">
@@ -3749,10 +3749,11 @@ b;
         <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left;">
           <thead>
             <tr style="border-bottom: 2px solid rgba(56, 189, 248, 0.4); background: #0f172a; position: sticky; top: 0; z-index: 2;">
-              <th style="padding: 10px 10px; color: #94a3b8; font-weight: 700; width: 45px; text-align: center;">No.</th>
-              <th style="padding: 10px 12px; color: #38bdf8; font-weight: 700; width: 100px;">연도 (Year)</th>
-              <th style="padding: 10px 12px; color: #38bdf8; font-weight: 700; width: 180px;">카테고리</th>
-              <th style="padding: 10px 12px; color: #38bdf8; font-weight: 700;">프로젝트명 (Project Title)</th>
+              <th style="padding: 10px 8px; color: #94a3b8; font-weight: 700; width: 45px; text-align: center;">No.</th>
+              <th style="padding: 10px 10px; color: #38bdf8; font-weight: 700; width: 90px;">연도 (Year)</th>
+              <th style="padding: 10px 10px; color: #38bdf8; font-weight: 700; width: 140px;">카테고리</th>
+              <th style="padding: 10px 10px; color: #38bdf8; font-weight: 700; min-width: 200px;">프로젝트명 (Project Title)</th>
+              <th style="padding: 10px 10px; color: #38bdf8; font-weight: 700; width: 170px;">발주처 (Client)</th>
               <th style="padding: 10px 8px; color: #94a3b8; font-weight: 700; width: 55px; text-align: center;">관리</th>
             </tr>
           </thead>
@@ -4410,22 +4411,25 @@ b;
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false" contenteditable="true">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
             </div>
 
-            <!-- 2. Project Overview (Year, Scope, Client) + Divider (DB 연동) -->
+            <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client만 DB 연동) -->
             <div class="project-meta-overview">
               <div class="project-overview-table">
+                <!-- 1) Year (DB 연동) -->
                 <div class="project-overview-row">
                   <span class="project-overview-label" contenteditable="true">Year</span>
                   <span class="project-overview-value overview-year" contenteditable="true" data-field="year">${defaults.overviewYear || '2023'}</span>
                 </div>
-                <div class="project-overview-row">
-                  <span class="project-overview-label" contenteditable="true">Scope</span>
-                  <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
-                    ${defaults.overviewScope || '<div>BIM(모델링)</div><div>3D scan(정합성 검토)</div><div>XR</div>'}
-                  </div>
-                </div>
+                <!-- 2) Client (DB 연동) -->
                 <div class="project-overview-row">
                   <span class="project-overview-label" contenteditable="true">Client</span>
                   <span class="project-overview-value overview-client" contenteditable="true" data-field="client">${defaults.overviewClient || '사이다건축사사무소'}</span>
+                </div>
+                <!-- 3) Scope (페이지 내 직접 수정 작성) -->
+                <div class="project-overview-row">
+                  <span class="project-overview-label" contenteditable="true">Scope</span>
+                  <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
+                    ${defaults.overviewScope || '<div contenteditable="true">BIM(모델링)</div><div contenteditable="true">3D scan(정합성 검토)</div><div contenteditable="true">XR</div>'}
+                  </div>
                 </div>
               </div>
               <div class="project-overview-divider"></div>
@@ -5301,9 +5305,6 @@ b;
           </td>
           <td style="padding: 8px 10px;">
             <input type="text" value="${(item.name || '').replace(/"/g, '&quot;')}" onchange="updateProjectDbField('${item.id}', 'name', this.value)" placeholder="프로젝트명 입력" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #ffffff; padding: 4px 8px; border-radius: 4px; outline: none; font-size: 12px;">
-          </td>
-          <td style="padding: 8px 10px;">
-            <textarea onchange="updateProjectDbField('${item.id}', 'scope', this.value)" rows="2" placeholder="줄바꿈으로 구분&#10;BIM(모델링)&#10;3D scan(정합성 검토)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #f8fafc; font-size: 11px; padding: 4px 6px; border-radius: 4px; outline: none; resize: vertical; font-family: inherit; line-height: 1.3;">${item.scope || ''}</textarea>
           </td>
           <td style="padding: 8px 10px;">
             <input type="text" value="${(item.client || '').replace(/"/g, '&quot;')}" onchange="updateProjectDbField('${item.id}', 'client', this.value)" placeholder="사이다건축사사무소" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.16); color: #f8fafc; font-size: 11.5px; padding: 4px 8px; border-radius: 4px; outline: none;">
@@ -8052,23 +8053,19 @@ b;
         }
 
         if (matchedItem) {
-          // Year 동기화
+          // Year 동기화 (DB 연동)
           const yearElem = page.querySelector('.project-overview-value.overview-year, [data-field="year"]');
           if (yearElem && matchedItem.year) {
             yearElem.innerText = matchedItem.year;
           }
 
-          // Scope 동기화 (기존 Category -> Scope)
-          const scopeElem = page.querySelector('.project-overview-value.overview-scope, [data-field="scope"]');
-          if (scopeElem && matchedItem.scope) {
-            scopeElem.innerHTML = formatScopeToHTML(matchedItem.scope);
-          }
-
-          // Client 동기화
+          // Client 동기화 (DB 연동)
           const clientElem = page.querySelector('.project-overview-value.overview-client, [data-field="client"]');
           if (clientElem && matchedItem.client) {
             clientElem.innerText = matchedItem.client;
           }
+
+          // Scope는 페이지 내에서 독립적으로 수정/작성되므로 DB 값으로 덮어쓰지 않고 페이지 내 값 보존
         }
       });
 
@@ -8094,14 +8091,6 @@ b;
           if (item) {
             if (yearElem) item.year = parseInt(yearElem.innerText, 10) || item.year || 2023;
             if (clientElem) item.client = clientElem.innerText.trim();
-            if (scopeElem) {
-              const lines = Array.from(scopeElem.childNodes)
-                .map(n => n.innerText || n.textContent)
-                .filter(Boolean)
-                .map(t => t.trim())
-                .filter(Boolean);
-              if (lines.length > 0) item.scope = lines.join('\n');
-            }
             saveProjectDatabase(db);
             syncAllDividers();
           }
@@ -8131,15 +8120,14 @@ b;
         titleElem.innerHTML = item.name + '<br>';
       }
 
-      // 개요 표 반영
+      // 개요 표 반영 (Year, Client만 DB 연동)
       const yearElem = currentPage.querySelector('.overview-year, [data-field="year"]');
       if (yearElem) yearElem.innerText = item.year || 2023;
 
-      const scopeElem = currentPage.querySelector('.overview-scope, [data-field="scope"]');
-      if (scopeElem) scopeElem.innerHTML = formatScopeToHTML(item.scope);
-
       const clientElem = currentPage.querySelector('.overview-client, [data-field="client"]');
       if (clientElem) clientElem.innerText = item.client || '사이다건축사사무소';
+
+      // Scope는 페이지 고유 내용이므로 DB 선택 시에도 기존 페이지 작성 내용 보존
 
       if (typeof makeElementsEditable === 'function') makeElementsEditable();
       if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
@@ -8219,22 +8207,27 @@ b;
               ${defaults.awardBanner}
             </div>
 
-            <!-- 2. Project Overview (Year, Category, Client) + Divider (요청 1번 이미지 반영) -->
+            <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client만 DB 연동) -->
             <div class="project-meta-overview">
               <div class="project-overview-table">
+                <!-- 1) Year (DB 연동) -->
                 <div class="project-overview-row">
-                  <span class="project-overview-label">Year</span>
-                  <span class="project-overview-value">${defaults.overviewYear || '2023'}</span>
+                  <span class="project-overview-label" contenteditable="true">Year</span>
+                  <span class="project-overview-value overview-year" contenteditable="true" data-field="year">2023</span>
                 </div>
+                <!-- 2) Client (DB 연동) -->
+                <div class="project-overview-row">
+                  <span class="project-overview-label" contenteditable="true">Client</span>
+                  <span class="project-overview-value overview-client" contenteditable="true" data-field="client">사이다건축사사무소</span>
+                </div>
+                <!-- 3) Scope (페이지 내 직접 수정 작성) -->
                 <div class="project-overview-row">
                   <span class="project-overview-label" contenteditable="true">Scope</span>
-                  <div class="project-overview-value">
-                    ${defaults.overviewCategory || '<div>BIM(모델링)</div><div>3D scan(정합성 검토)</div><div>XR</div>'}
+                  <div class="project-overview-value overview-scope" contenteditable="true" data-field="scope">
+                    <div contenteditable="true">BIM(모델링)</div>
+                    <div contenteditable="true">3D scan(정합성 검토)</div>
+                    <div contenteditable="true">XR</div>
                   </div>
-                </div>
-                <div class="project-overview-row">
-                  <span class="project-overview-label">Client</span>
-                  <span class="project-overview-value">${defaults.overviewClient || '사이다건축사사무소'}</span>
                 </div>
               </div>
               <div class="project-overview-divider"></div>
