@@ -3569,7 +3569,7 @@ b;
   <!-- ================================================================ -->
   <!-- PHASE 0: INTRO SCREEN (맨 처음 구현했던 멋진 3D 히어로 페이지)     -->
   <!-- ================================================================ -->
-  <div id="intro-screen">
+  <div id="intro-screen" class="">
     <!-- WebGL Canvas for Point Cloud -->
     <canvas id="intro-canvas" width="1278" height="930" style="width: 1158px; height: 843px;"></canvas>
     <div class="intro-overlay"></div>
@@ -3605,7 +3605,7 @@ b;
     <footer class="intro-footer">
       <div class="status-hud">
         <div>SYS: <span id="sysStatusText">POINT CLOUD ENGINE ACTIVE</span></div>
-        <div>COORDS: <span id="introCoordDisplay">X: 9.377 | Y: -7.209 | Z: 25.804</span></div>
+        <div>COORDS: <span id="introCoordDisplay">X: 9.820 | Y: -8.331 | Z: 25.463</span></div>
         <div>SCAN RESOLUTION: <span>1mm HIGH PRECISION</span></div>
       </div>
       <div style="font-family: 'Space Grotesk', monospace; font-size: 11px; color: #94a3b8; letter-spacing: 1px;">
@@ -3643,8 +3643,8 @@ b;
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="admin-page-indicator" id="adminPageIndicator">P.1 / 9</span>
-          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">Cover</span>
+          <span class="admin-page-indicator" id="adminPageIndicator">P.2 / 9</span>
+          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">Solutions</span>
         </div>
         <button class="nav-arrow-btn" onclick="goToNextBrochurePage()" title="다음 페이지 (▶)">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
@@ -3666,24 +3666,40 @@ b;
         <div class="admin-context-card">
           <div class="admin-context-header">
             <span class="admin-context-badge">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: #30d158; display: inline-block;"></span>
-              <span>Cover</span>
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #2997ff; display: inline-block;"></span>
+              <span>Solutions</span>
             </span>
-            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 1</span>
+            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 2</span>
           </div>
           <div>
-            <h4 class="admin-context-title">브로슈어 표지</h4>
-            <p class="admin-context-desc">메인 타이틀, 회사 슬로건 및 발행 연도</p>
+            <h4 class="admin-context-title">솔루션 맵</h4>
+            <p class="admin-context-desc">4대 핵심 기술 노드, 하위 항목 및 색상 체계</p>
           </div>
           <div class="admin-context-actions">
             
-          <div style="background: rgba(255, 255, 255, 0.04); border: 0.5px solid rgba(255, 255, 255, 0.08); border-radius: var(--apple-radius-md); padding: 12px 14px; font-size: 12px; color: var(--apple-label-secondary); line-height: 1.5;">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-weight: 600; color: #ffffff;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="edit-3" aria-hidden="true" style="width: 13px; height: 13px; color: #30d158;" class="lucide lucide-edit-3"><path d="M13 21h8"></path><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path></svg>
-              <span>직접 편집 가이드</span>
+          <button class="admin-btn primary" onclick="openCategoryEditModal()" title="상위/하위 카테고리 텍스트 편집 및 항목 추가/삭제">
+            <div class="btn-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="network" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-network"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
+              <span>솔루션 노드 편집</span>
             </div>
-            화면의 텍스트를 직접 클릭하여 브로슈어 타이틀과 슬로건을 즉시 수정할 수 있습니다.
-          </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+
+          <button class="admin-btn" onclick="openNodeColorModal()" title="4가지 프리셋 테마 및 개별 노드 컬러 커스텀">
+            <div class="btn-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="palette" aria-hidden="true" style="width: 14px; height: 14px; color: #ff375f;" class="lucide lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
+              <span>노드 테마 색상</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+
+          <button class="admin-btn" onclick="quickRebalance360()" title="하위 노드들을 원 둘레에 360/N 도로 균등 재배치">
+            <div class="btn-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="compass" aria-hidden="true" style="width: 14px; height: 14px; color: #2997ff;" class="lucide lucide-compass"><circle cx="12" cy="12" r="10"></circle><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path></svg>
+              <span>360° 원형 균등 자동 정렬</span>
+            </div>
+            <span style="font-size: 10px; opacity: 0.5;">자동</span>
+          </button>
         
           </div>
         </div>
@@ -4005,7 +4021,7 @@ b;
         
         <!-- Left: Filters & Search -->
         <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 320px;">
-          <select id="projectDbFilterCategory" onchange="renderProjectDbTable()" style="background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.18); color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 12px; outline: none;">
+          <select id="projectDbFilterCategory" onchange="renderProjectDbTable()" style="background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.18); color: rgb(241, 245, 249); padding: 6px 10px; border-radius: 6px; font-size: 12px;">
             <option value="ALL">전체 카테고리 보기</option>
             <option value="bim">01. BIM (디지털 트윈)</option>
             <option value="scan">02. 3D 스캐닝 (초정밀 역설계)</option>
@@ -4016,7 +4032,7 @@ b;
           </select>
 
           <div style="position: relative; flex: 1;">
-            <input type="text" id="projectDbSearchInput" oninput="renderProjectDbTable()" placeholder="프로젝트명 검색..." style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.18); color: #ffffff; padding: 6px 10px 6px 28px; border-radius: 6px; font-size: 12px; outline: none;">
+            <input type="text" id="projectDbSearchInput" oninput="renderProjectDbTable()" placeholder="프로젝트명 검색..." style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgba(255, 255, 255, 0.18); color: rgb(255, 255, 255); padding: 6px 10px 6px 28px; border-radius: 6px; font-size: 12px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" aria-hidden="true" style="position: absolute; left: 8px; top: 7px; width: 14px; height: 14px; color: #64748b;" class="lucide lucide-search"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
           </div>
         </div>
@@ -4102,7 +4118,7 @@ b;
       <textarea id="excelPasteTextarea" rows="8" placeholder="예시:
 2024	bim	담바우 에너지공급센터 BIM 용역
 2024	bim	네이버 1784 제2사옥 디지털 트윈 모델링
-2023	scan	인천 파라다이스시티 &amp; 메리어트 호텔 역설계" style="width: 100%; box-sizing: border-box; background: #080d1a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: #ffffff; padding: 10px; font-family: monospace; font-size: 12px; line-height: 1.5; outline: none;"></textarea>
+2023	scan	인천 파라다이스시티 &amp; 메리어트 호텔 역설계" style="width: 100%; box-sizing: border-box; background: rgb(8, 13, 26); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: rgb(255, 255, 255); padding: 10px; font-family: monospace; font-size: 12px; line-height: 1.5;"></textarea>
       
       <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
         <button onclick="closeExcelPasteModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer;">취소</button>
@@ -4147,16 +4163,16 @@ b;
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
               <label style="display: block; font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 5px;">메인 타이틀 (중앙 큰 글자)</label>
-              <input type="text" id="catEditMainName" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 8px 10px; color: #ffffff; font-size: 13px; font-weight: 700; outline: none;">
+              <input type="text" id="catEditMainName" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgb(51, 65, 85); border-radius: 6px; padding: 8px 10px; color: rgb(255, 255, 255); font-size: 13px; font-weight: 700;">
             </div>
             <div>
               <label style="display: block; font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 5px;">서브 타이틀 (하단 작은 글자)</label>
-              <input type="text" id="catEditSubName" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 8px 10px; color: #ffffff; font-size: 13px; outline: none;">
+              <input type="text" id="catEditSubName" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgb(51, 65, 85); border-radius: 6px; padding: 8px 10px; color: rgb(255, 255, 255); font-size: 13px;">
             </div>
           </div>
           <div style="margin-top: 10px;">
             <label style="display: block; font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 5px;">전체 명칭 / 풀네임 (상단 헤더 표시용)</label>
-            <input type="text" id="catEditFullName" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 8px 10px; color: #ffffff; font-size: 12.5px; outline: none;">
+            <input type="text" id="catEditFullName" style="width: 100%; box-sizing: border-box; background: rgb(15, 23, 42); border: 1px solid rgb(51, 65, 85); border-radius: 6px; padding: 8px 10px; color: rgb(255, 255, 255); font-size: 12.5px;">
           </div>
         </div>
 
@@ -4414,7 +4430,7 @@ b;
     <main class="a4-stage">
       
       <!-- Side Nav Arrows -->
-      <button class="stage-arrow-btn left" id="viewerPrevBtn" onclick="prevPage()" title="이전 페이지" disabled="">
+      <button class="stage-arrow-btn left" id="viewerPrevBtn" onclick="prevPage()" title="이전 페이지">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 26px; height: 26px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
       </button>
       <button class="stage-arrow-btn right" id="viewerNextBtn" onclick="nextPage()" title="다음 페이지">
@@ -4432,7 +4448,7 @@ b;
         <!-- ============================================================ -->
         <!-- A4 PAGE 2: OBSIDIAN GRAPH SYSTEM (지명원 P.02 & 네트워크 인포그래픽) -->
         <!-- ============================================================ -->
-        <div class="a4-page-content" id="page-1-content" style="display: flex;">
+        <div class="a4-page-content" id="page-1-content" style="display: none;">
           <div class="a4-page-cover">
             
             <div class="cover-center-content">
@@ -4460,13 +4476,13 @@ b;
               <img src="assets/logo.png" alt="SNOWMAN FACTORY" class="cover-logo-img" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
             </div>
           </div>
-        </div><div class="a4-page-content" id="page-2-content" style="display: none;">
+        </div><div class="a4-page-content" id="page-2-content" style="display: flex;">
           <div class="a4-page-solutions">
             
             <!-- Header Row (Only Title: Solutions) -->
             <div class="obsidian-header-row" style="margin-bottom: 8px; padding-bottom: 12px; border-bottom: 1.5px solid #0f172a;">
           <div class="obsidian-titles-wrap">
-            <h2 class="obsidian-main-title" style="font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: #0f172a; margin: 0; line-height: 1.2;" spellcheck="false">
+            <h2 class="obsidian-main-title" style="font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: #0f172a; margin: 0; line-height: 1.2;">
               Solutions
             </h2>
           </div>
@@ -4784,6 +4800,18 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -4791,22 +4819,34 @@ b;
           <div class="legend-list">
             
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">1.</span>
+            <span class="legend-num">1.</span>
             <span class="legend-text" spellcheck="false">스캔 데이터라요</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">2.</span>
+            <span class="legend-num">2.</span>
             <span class="legend-text" spellcheck="false">현장 전경 및 실측</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">3.</span>
+            <span class="legend-num">3.</span>
             <span class="legend-text" spellcheck="false">건축/설비 상세 모델</span>
           </div>
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -5118,6 +5158,18 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -5125,27 +5177,39 @@ b;
           <div class="legend-list">
             
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">1.</span>
+            <span class="legend-num">1.</span>
             <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">2.</span>
+            <span class="legend-num">2.</span>
             <span class="legend-text" spellcheck="false">정합성 검토 보고서</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">3.</span>
+            <span class="legend-num">3.</span>
             <span class="legend-text" spellcheck="false">건축/구조 Revit 모델</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">4.</span>
+            <span class="legend-num">4.</span>
             <span class="legend-text" spellcheck="false">MEP Revit 모델</span>
           </div>
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -5311,6 +5375,18 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -5318,22 +5394,34 @@ b;
           <div class="legend-list">
             
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">1.</span>
+            <span class="legend-num">1.</span>
             <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">2.</span>
+            <span class="legend-num">2.</span>
             <span class="legend-text" spellcheck="false">정합성 검토 보고서</span>
           </div>
         
           <div class="legend-item">
-            <span class="legend-num" spellcheck="false">3.</span>
+            <span class="legend-num">3.</span>
             <span class="legend-text" spellcheck="false">건축/구조 Revit 모델</span>
           </div>
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -5512,7 +5600,7 @@ b;
         <button class="page-step-btn" id="btnFirst" onclick="goToPage(0)" title="표지(01)로">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>
         </button>
-        <button class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지" disabled="">
+        <button class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
 
