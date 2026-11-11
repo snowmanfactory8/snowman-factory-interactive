@@ -1247,7 +1247,37 @@
       padding-top: 4px;
     }
 
-    /* 4. Project Image Legend (좌측 하단 2x2 매트릭스 + 1~4번 설명 캡션) */
+    
+    /* Project Pill Badge & Feature Cards Removal */
+    .project-pill-badge {
+      display: none !important;
+    }
+    .project-features-list {
+      display: none !important;
+    }
+
+    /* Admin controls for desc bullets */
+    .admin-mode-active .project-desc-bullets li {
+      position: relative !important;
+      padding-right: 22px;
+      transition: background 0.15s ease;
+    }
+    .admin-mode-active .project-desc-bullets li:hover {
+      background: rgba(0, 113, 227, 0.05);
+      border-radius: 4px;
+    }
+    .admin-mode-active .project-desc-bullets li .admin-obj-delete-btn {
+      top: 50% !important;
+      right: 2px !important;
+      transform: translateY(-50%) !important;
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .admin-mode-active .project-desc-bullets li:hover > .admin-obj-delete-btn {
+      display: flex !important;
+    }
+
+    /* 4. Project Image Legend (레이아웃 템플릿 연동 다이어그램 + 캡션) */
     .project-image-legend {
       margin-top: auto;
       padding-top: 14px;
@@ -1257,18 +1287,90 @@
       width: 100%;
     }
 
-    .legend-grid-matrix {
+    .legend-grid-matrix,
+    .legend-matrix {
+      width: 36px;
+      height: 36px;
       display: grid;
-      grid-template-columns: repeat(2, 17px);
-      grid-template-rows: repeat(2, 17px);
       gap: 2px;
       flex-shrink: 0;
       margin-top: 2px;
+      box-sizing: border-box;
+    }
+
+    /* 4컷: 2x2 그리드 */
+    .legend-matrix-grid2x2 {
+      grid-template-columns: 17px 17px;
+      grid-template-rows: 17px 17px;
+    }
+    .legend-matrix-grid2x2 .legend-cell {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* 3컷 (Classic): 상단 와이드 1컷 + 하단 2분할 */
+    .legend-matrix-classic {
+      grid-template-columns: 17px 17px;
+      grid-template-rows: 17px 17px;
+    }
+    .legend-matrix-classic .legend-cell:nth-child(1) {
+      grid-column: 1 / span 2;
+      width: 36px;
+      height: 17px;
+    }
+    .legend-matrix-classic .legend-cell:nth-child(2),
+    .legend-matrix-classic .legend-cell:nth-child(3) {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* 3컷 (Focus): 좌측 대형 포커스 + 우측 상하 2단 */
+    .legend-matrix-focus {
+      grid-template-columns: 17px 17px;
+      grid-template-rows: 17px 17px;
+    }
+    .legend-matrix-focus .legend-cell:nth-child(1) {
+      grid-row: 1 / span 2;
+      width: 17px;
+      height: 36px;
+    }
+    .legend-matrix-focus .legend-cell:nth-child(2),
+    .legend-matrix-focus .legend-cell:nth-child(3) {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* 2컷 (Split2 Rows): 상하 2단 */
+    .legend-matrix-split2-rows {
+      grid-template-columns: 36px;
+      grid-template-rows: 17px 17px;
+    }
+    .legend-matrix-split2-rows .legend-cell {
+      width: 36px;
+      height: 17px;
+    }
+
+    /* 2컷 (Split2 Cols): 좌우 2분할 */
+    .legend-matrix-split2-cols {
+      grid-template-columns: 17px 17px;
+      grid-template-rows: 36px;
+    }
+    .legend-matrix-split2-cols .legend-cell {
+      width: 17px;
+      height: 36px;
+    }
+
+    /* 1컷 (Minimal): 단일 전면/와이드 */
+    .legend-matrix-minimal {
+      grid-template-columns: 36px;
+      grid-template-rows: 36px;
+    }
+    .legend-matrix-minimal .legend-cell {
+      width: 36px;
+      height: 36px;
     }
 
     .legend-cell {
-      width: 17px;
-      height: 17px;
       border: 1.2px solid #94a3b8;
       border-radius: 2px;
       background: #ffffff;
@@ -1305,6 +1407,9 @@
       font-family: 'Space Grotesk', monospace;
       font-weight: 700;
       color: #64748b;
+      flex-shrink: 0;
+    }
+b;
       flex-shrink: 0;
     }
 
@@ -4259,35 +4364,12 @@
               <span style="color: #cbd5e1; font-size: 11px;" spellcheck="false">/</span>
               <span class="project-category-badge" spellcheck="false">BIM</span>
             </div>
-            <div class="project-pill-badge" style="display: none;"></div>
+            
             <h2 class="project-hero-title" spellcheck="false">
               담바우마을 에너지공급센터 BIM용역<br></h2>
             <div class="project-award-banner" style="display: inline-flex;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span></div>
           </div>
-          <div class="project-features-list">
-            
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layers" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">정밀 3D 모델링 <span class="feature-en" spellcheck="false">PRECISION MODELING</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">현장 정밀 실측 기반 고도화 모델 구축</li>
-                <li spellcheck="false">설계 간섭 및 시공 리스크 사전 차단</li>
-              </ul>
-            </div>
-          </div>
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cpu" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-cpu"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">디지털 트윈 연계 <span class="feature-en" spellcheck="false">DIGITAL TWIN</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">실시간 센서 데이터 통합 모니터링</li>
-                <li spellcheck="false">운영 유지관리(FM) 최적화 시스템</li>
-              </ul>
-            </div>
-          </div>
-        
-          </div>
+          
         </div>
       
             <div class="project-right-visual">
@@ -4459,11 +4541,7 @@
               <span style="color: #cbd5e1; font-size: 11px;" spellcheck="false">/</span>
               <span class="project-category-badge" spellcheck="false">3D SCAN</span>
             </div>
-            <div class="project-pill-badge">
-              
-              <span class="pill-dot" spellcheck="false">●</span> <span spellcheck="false">신규 프로젝트 쇼케이스</span>
             
-            </div>
             <h2 class="project-hero-title" spellcheck="false">
               
               보라매병원 대강당 3D 스캔 용역
@@ -4475,36 +4553,7 @@
             
             </div>
           </div>
-          <div class="project-features-list">
-            
-            
-            
-            
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layers" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">정밀 3D 모델링 <span class="feature-en" spellcheck="false">PRECISION MODELING</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">현장 정밀 실측 기반 고도화 모델 구축</li>
-                <li spellcheck="false">설계 간섭 및 시공 리스크 사전 차단</li>
-              </ul>
-            </div>
-          </div>
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cpu" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-cpu"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">디지털 트윈 연계 <span class="feature-en" spellcheck="false">DIGITAL TWIN</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">실시간 센서 데이터 통합 모니터링</li>
-                <li spellcheck="false">운영 유지관리(FM) 최적화 시스템</li>
-              </ul>
-            </div>
-          </div>
-        
           
-          
-          
-          </div>
         </div>
       
             <div class="project-right-visual">
@@ -4538,38 +4587,13 @@
               <span style="color: #cbd5e1; font-size: 11px;" spellcheck="false">/</span>
               <span class="project-category-badge" spellcheck="false">ARCHITECTURE &amp; BIM</span>
             </div>
-            <div class="project-pill-badge">
-              <span class="pill-dot" spellcheck="false">●</span> <span spellcheck="false">신규 프로젝트 쇼케이스</span>
-            </div>
+            
             <h2 class="project-hero-title" spellcheck="false">`</h2>
             <div class="project-award-banner">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">우수 프로젝트 레퍼런스</span>
             </div>
           </div>
-          <div class="project-features-list">
-            
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layers" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">정밀 3D 모델링 <span class="feature-en" spellcheck="false">PRECISION MODELING</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">현장 정밀 실측 기반 고도화 모델 구축</li>
-                <li spellcheck="false">설계 간섭 및 시공 리스크 사전 차단</li>
-              </ul>
-            </div>
-          </div>
-          <div class="project-feature-item">
-            <div class="feature-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cpu" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 2.2;" class="lucide lucide-cpu"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg></div>
-            <div class="feature-content">
-              <h4 class="feature-title" spellcheck="false">디지털 트윈 연계 <span class="feature-en" spellcheck="false">DIGITAL TWIN</span></h4>
-              <ul class="feature-bullets">
-                <li spellcheck="false">실시간 센서 데이터 통합 모니터링</li>
-                <li spellcheck="false">운영 유지관리(FM) 최적화 시스템</li>
-              </ul>
-            </div>
-          </div>
-        
-          </div>
+          
         </div>
       
             <div class="project-right-visual">
@@ -5821,25 +5845,33 @@
           }
         }
 
-        // 3. project-image-legend가 없으면 좌측 최하단에 주입
-        if (!leftPanel.querySelector('.project-image-legend')) {
-          const legendDiv = document.createElement('div');
-          legendDiv.className = 'project-image-legend';
-          legendDiv.innerHTML = `
-            <div class="legend-grid-matrix">
-              <div class="legend-cell">1</div>
-              <div class="legend-cell">2</div>
-              <div class="legend-cell">3</div>
-              <div class="legend-cell">4</div>
-            </div>
-            <div class="legend-list">
-              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text">스캔 데이터 ISO</span></div>
-              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text">정합성 검토 보고서</span></div>
-              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text">건축/구조 Revit 모델</span></div>
-              <div class="legend-item"><span class="legend-num">4.</span> <span class="legend-text">MEP Revit 모델</span></div>
-            </div>
-          `;
-          leftPanel.appendChild(legendDiv);
+        // 3. 기존 불필요한 필뱃지 및 특징 카드 블록 제거
+        leftPanel.querySelectorAll('.project-pill-badge').forEach(el => el.remove());
+        leftPanel.querySelectorAll('.project-features-list').forEach(el => el.remove());
+
+        // 4. 레이아웃 템플릿에 맞춘 project-image-legend 동적 보정/주입
+        const visualPanel = page.querySelector('.project-right-visual');
+        let currentLayoutType = 'project-classic';
+        if (visualPanel) {
+          if (visualPanel.classList.contains('project-grid2x2')) currentLayoutType = 'project-grid2x2';
+          else if (visualPanel.classList.contains('project-focus')) currentLayoutType = 'project-focus';
+          else if (visualPanel.classList.contains('project-split2-rows')) currentLayoutType = 'project-split2-rows';
+          else if (visualPanel.classList.contains('project-split2-cols')) currentLayoutType = 'project-split2-cols';
+          else if (visualPanel.classList.contains('project-minimal')) currentLayoutType = 'project-minimal';
+        }
+
+        const existingLegendEl = leftPanel.querySelector('.project-image-legend');
+        const existingCaptions = existingLegendEl 
+          ? Array.from(existingLegendEl.querySelectorAll('.legend-item .legend-text')).map(e => e.innerText.trim()).filter(Boolean)
+          : [];
+
+        const freshLegendHTML = generateProjectLegendHTML(currentLayoutType, existingCaptions);
+        if (existingLegendEl) {
+          existingLegendEl.outerHTML = freshLegendHTML;
+        } else {
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = freshLegendHTML.trim();
+          leftPanel.appendChild(wrapper.firstElementChild);
         }
       });
     }
@@ -7797,6 +7829,96 @@
       }
     }
 
+    
+    // 레이아웃 템플릿별 좌측 하단 이미지 범례(다이어그램 + 캡션) 동적 생성기
+    function generateProjectLegendHTML(layoutType = 'project-classic', existingCaptions = []) {
+      const type = (layoutType || '').toLowerCase();
+      let matrixClass = 'legend-matrix-classic';
+      let count = 3;
+      let defaultCaptions = [
+        '스캔 데이터 ISO',
+        '현장 실측 및 정합성 검토',
+        '건축/설비 상세 Revit 모델'
+      ];
+
+      if (type.includes('grid2x2')) {
+        matrixClass = 'legend-matrix-grid2x2';
+        count = 4;
+        defaultCaptions = [
+          '스캔 데이터 ISO',
+          '정합성 검토 보고서',
+          '건축/구조 Revit 모델',
+          'MEP Revit 모델'
+        ];
+      } else if (type.includes('focus')) {
+        matrixClass = 'legend-matrix-focus';
+        count = 3;
+        defaultCaptions = [
+          '정밀 실측 메인 비주얼',
+          '구조 및 간섭 검토',
+          '완공 모델링 보고서'
+        ];
+      } else if (type.includes('split2-rows')) {
+        matrixClass = 'legend-matrix-split2-rows';
+        count = 2;
+        defaultCaptions = [
+          '현장 실측 스캔 데이터',
+          '고정밀 BIM 모델링'
+        ];
+      } else if (type.includes('split2-cols')) {
+        matrixClass = 'legend-matrix-split2-cols';
+        count = 2;
+        defaultCaptions = [
+          '현장 실측 스캔 데이터',
+          '고정밀 BIM 모델링'
+        ];
+      } else if (type.includes('minimal')) {
+        matrixClass = 'legend-matrix-minimal';
+        count = 1;
+        defaultCaptions = [
+          '프로젝트 대표 조감도 및 모델'
+        ];
+      } else {
+        // classic & default (3컷)
+        matrixClass = 'legend-matrix-classic';
+        count = 3;
+        defaultCaptions = [
+          '스캔 데이터 ISO',
+          '정합성 검토 보고서',
+          '건축/구조 Revit 모델'
+        ];
+      }
+
+      // 셀 생성
+      let cellsHTML = '';
+      for (let i = 1; i <= count; i++) {
+        cellsHTML += `<div class="legend-cell">${i}</div>`;
+      }
+
+      // 캡션 리스트 생성 (기존 캡션 보존 지원)
+      let itemsHTML = '';
+      for (let i = 0; i < count; i++) {
+        const text = (existingCaptions && existingCaptions[i]) ? existingCaptions[i] : (defaultCaptions[i] || `비주얼 ${i + 1} 설명`);
+        itemsHTML += `
+          <div class="legend-item">
+            <span class="legend-num">${i + 1}.</span>
+            <span class="legend-text" spellcheck="false">${text}</span>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="project-image-legend" data-layout-legend="${type}">
+          <div class="legend-matrix ${matrixClass}">
+            ${cellsHTML}
+          </div>
+          <div class="legend-list">
+            ${itemsHTML}
+          </div>
+        </div>
+      `;
+    }
+
     // 6종 프로젝트 레이아웃 HTML 생성 엔진 (기존 텍스트 및 이미지 데이터 보존 지원)
     function getProjectLayoutHTML(type, data = {}) {
       const defaults = {
@@ -7844,6 +7966,15 @@
       };
 
       // 좌측 공통 설명 패널 (사용자 요청: 개요 + 설명/특징 순차 정렬 + 좌측 하단 이미지 범례)
+      const existingCaptions = defaults.legendCaptions || [
+        defaults.legend1,
+        defaults.legend2,
+        defaults.legend3,
+        defaults.legend4
+      ].filter(Boolean);
+
+      const legendHTML = generateProjectLegendHTML(type, existingCaptions);
+
       const leftPanelHTML = `
         <div class="project-left-panel">
           <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
@@ -7852,9 +7983,6 @@
               <span class="project-index-num">${defaults.indexNum}</span>
               <span style="color: #cbd5e1; font-size: 11px;">/</span>
               <span class="project-category-badge">${defaults.categoryBadge}</span>
-            </div>
-            <div class="project-pill-badge">
-              ${defaults.pillBadge}
             </div>
             <h2 class="project-hero-title">
               ${defaults.heroTitle}
@@ -7898,28 +8026,10 @@
                 `}
               </ul>
             </div>
-
-            <!-- 4. 특징 및 솔루션 카드 리스트 (순차적 정렬) -->
-            <div class="project-features-list">
-              ${defaults.featuresList}
-            </div>
           </div>
 
-          <!-- 5. 좌측 하단 이미지별 설명 범례 (2x2 다이어그램 + 1~4번 설명) (요청 2, 3번 이미지 반영) -->
-          <div class="project-image-legend">
-            <div class="legend-grid-matrix">
-              <div class="legend-cell">1</div>
-              <div class="legend-cell">2</div>
-              <div class="legend-cell">3</div>
-              <div class="legend-cell">4</div>
-            </div>
-            <div class="legend-list">
-              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text">${defaults.legend1 || '스캔 데이터 ISO'}</span></div>
-              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text">${defaults.legend2 || '정합성 검토 보고서'}</span></div>
-              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text">${defaults.legend3 || '건축/구조 Revit 모델'}</span></div>
-              <div class="legend-item"><span class="legend-num">4.</span> <span class="legend-text">${defaults.legend4 || 'MEP Revit 모델'}</span></div>
-            </div>
-          </div>
+          <!-- 4. 좌측 하단 이미지별 설명 범례 (레이아웃 템플릿 연동) -->
+          ${legendHTML}
         </div>
       `;
 
@@ -8245,10 +8355,13 @@
       // 2. 기존 텍스트 및 메타 정보 추출
       const indexNum = currentPage.querySelector('.project-index-num')?.innerText;
       const categoryBadge = currentPage.querySelector('.project-category-badge')?.innerText;
-      const pillBadge = currentPage.querySelector('.project-pill-badge')?.innerHTML;
       const heroTitle = currentPage.querySelector('.project-hero-title')?.innerHTML || currentPage.querySelector('h3')?.innerText;
       const awardBanner = currentPage.querySelector('.project-award-banner')?.innerHTML;
-      const featuresList = currentPage.querySelector('.project-features-list')?.innerHTML;
+      const summaryDesc = currentPage.querySelector('.project-summary-desc')?.innerHTML;
+      const descBullets = currentPage.querySelector('.project-desc-bullets')?.innerHTML;
+
+      // 기존 이미지 범례 캡션 추출
+      const legendCaptions = Array.from(currentPage.querySelectorAll('.legend-item .legend-text')).map(el => el.innerText.trim()).filter(Boolean);
 
       // 3. 신규 레이아웃 HTML 생성 및 교체
       let newInner = '';
@@ -8595,31 +8708,22 @@
         const hasPill = currentPage && !!currentPage.querySelector('.project-pill-badge')?.innerHTML.trim();
 
         actionsHTML = `
-          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 2px;">객체 구성 요소 제어</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 2px;">프로젝트 내용 및 뱃지 제어</div>
           
-          <button class="admin-btn primary" onclick="addProjectFeatureItem()" title="새로운 솔루션/특징 카드 블록을 아래에 즉시 추가">
+          <button class="admin-btn primary" onclick="addProjectDescBullet()" title="새로운 내용 불릿 항목을 리스트에 즉시 추가">
             <div class="btn-left">
               <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
-              <span>+ 특징 항목(Feature) 추가</span>
+              <span>+ 내용 항목 추가</span>
             </div>
-            <span style="font-size: 10px; opacity: 0.7;">Add Block</span>
+            <span style="font-size: 10px; opacity: 0.7;">Add Bullet</span>
           </button>
 
-          <div class="admin-btn-group-2">
-            <button class="admin-btn" onclick="toggleProjectAwardBanner()" title="어워드/인증 뱃지 추가 또는 삭제">
-              <div class="btn-left">
-                <i data-lucide="award" style="width: 13px; height: 13px; color: #ff9f0a;"></i>
-                <span>${hasAward ? '어워드 제거' : '+ 어워드 추가'}</span>
-              </div>
-            </button>
-
-            <button class="admin-btn" onclick="toggleProjectPillBadge()" title="상단 카테고리 캡슐 뱃지 추가 또는 삭제">
-              <div class="btn-left">
-                <i data-lucide="tag" style="width: 13px; height: 13px; color: #2997ff;"></i>
-                <span>${hasPill ? '필뱃지 제거' : '+ 필뱃지 추가'}</span>
-              </div>
-            </button>
-          </div>
+          <button class="admin-btn" onclick="toggleProjectAwardBanner()" title="인증/어워드 뱃지 추가 또는 삭제">
+            <div class="btn-left">
+              <i data-lucide="award" style="width: 13px; height: 13px; color: #ff9f0a;"></i>
+              <span>${hasAward ? '뱃지 제거' : '+ 뱃지 추가'}</span>
+            </div>
+          </button>
 
           <div class="admin-divider" style="margin: 4px 0;"></div>
 
@@ -8810,7 +8914,7 @@
         }
       });
 
-      // 3. Award Banner에 삭제 버튼 바인딩
+      // 3. Award Banner(뱃지)에 삭제 버튼 바인딩
       sheet.querySelectorAll('.project-award-banner').forEach(banner => {
         if (banner.innerHTML.trim()) {
           const delBtn = createDeleteBtn(() => {
@@ -8818,34 +8922,39 @@
             banner.innerHTML = '';
             if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
             if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
-            if (window.showAdminToast) showAdminToast('어워드 배너가 제거되었습니다.');
-          }, '어워드 배너 삭제');
+            if (window.showAdminToast) showAdminToast('뱃지가 제거되었습니다.');
+          }, '뱃지 삭제');
           banner.appendChild(delBtn);
         }
       });
 
-      // 4. Pill Badge에 삭제 버튼 바인딩
-      sheet.querySelectorAll('.project-pill-badge').forEach(badge => {
-        if (badge.innerHTML.trim()) {
-          const delBtn = createDeleteBtn(() => {
-            badge.style.display = 'none';
-            badge.innerHTML = '';
+      // 4. 프로젝트 내용 불릿(project-desc-bullets) li에 개별 삭제 버튼 바인딩
+      sheet.querySelectorAll('.project-desc-bullets li').forEach(li => {
+        // 기존 중복 방지
+        li.querySelectorAll('.admin-obj-delete-btn').forEach(b => b.remove());
+        const delBtn = createDeleteBtn(() => {
+          li.style.transition = 'all 0.2s ease';
+          li.style.opacity = '0';
+          li.style.transform = 'translateX(-6px)';
+          setTimeout(() => {
+            li.remove();
             if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
-            if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
-            if (window.showAdminToast) showAdminToast('상단 필 뱃지가 제거되었습니다.');
-          }, '필 뱃지 삭제');
-          badge.appendChild(delBtn);
-        }
+            if (window.showAdminToast) showAdminToast('내용 항목이 삭제되었습니다.');
+          }, 200);
+        }, '내용 항목 삭제', true);
+        li.appendChild(delBtn);
       });
 
-      // 5. 각 project-features-list 맨 아래에 "+ 특징 항목 추가" 인라인 버튼 추가
-      sheet.querySelectorAll('.project-features-list').forEach(list => {
+      // 5. 각 project-desc-bullets 맨 아래에 "+ 내용 항목 추가" 인라인 버튼 추가
+      sheet.querySelectorAll('.project-desc-bullets').forEach(list => {
+        // 기존 인라인 버튼 제거
+        list.querySelectorAll('.admin-obj-add-btn').forEach(b => b.remove());
         const addBtn = document.createElement('button');
         addBtn.className = 'admin-obj-add-btn';
-        addBtn.innerHTML = '<i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i><span>+ 새로운 특징/솔루션 항목 추가</span>';
+        addBtn.innerHTML = '<i data-lucide="plus-circle" style="width: 12px; height: 12px;"></i><span>+ 내용 항목 추가</span>';
         addBtn.onclick = (e) => {
           e.stopPropagation();
-          addProjectFeatureItem(list);
+          addProjectDescBullet(list);
         };
         list.appendChild(addBtn);
       });
@@ -8853,62 +8962,39 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    function createDeleteBtn(onClick, title = '삭제', isSmall = false) {
-      const btn = document.createElement('button');
-      btn.className = 'admin-obj-delete-btn';
-      btn.title = title;
-      btn.innerHTML = `<i data-lucide="x" style="width: ${isSmall ? 10 : 12}px; height: ${isSmall ? 10 : 12}px; stroke-width: 3;"></i>`;
-      btn.onclick = (e) => {
-        e.stopPropagation();
-        onClick();
-      };
-      return btn;
-    }
-
-    // 특징 블록 추가 함수
-    function addProjectFeatureItem(targetList) {
+    // 프로젝트 내용(불릿) 항목 추가 함수
+    function addProjectDescBullet(targetList) {
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
 
-      const list = targetList || currentPage.querySelector('.project-features-list');
+      const list = targetList || currentPage.querySelector('.project-desc-bullets');
       if (!list) return;
 
-      const newItem = document.createElement('div');
-      newItem.className = 'project-feature-item';
-      newItem.style.opacity = '0';
-      newItem.style.transform = 'translateY(10px)';
-      newItem.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-      newItem.innerHTML = `
-        <div class="feature-icon-box">
-          <i data-lucide="sparkles" style="width: 15px; height: 15px; stroke-width: 2.2;"></i>
-        </div>
-        <div class="feature-content">
-          <h4 class="feature-title">새 솔루션 항목 <span class="feature-en">NEW CAPABILITY</span></h4>
-          <ul class="feature-bullets">
-            <li>핵심 엔지니어링 기술 및 세부 스펙을 입력하세요</li>
-            <li>실증 데이터 또는 도입 효과를 작성하세요</li>
-          </ul>
-        </div>
-      `;
+      const newLi = document.createElement('li');
+      newLi.setAttribute('spellcheck', 'false');
+      newLi.textContent = '새로운 프로젝트 내용 또는 세부 스펙을 입력하세요';
+      newLi.style.opacity = '0';
+      newLi.style.transform = 'translateY(6px)';
+      newLi.style.transition = 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
 
       // 인라인 addBtn 앞에 삽입
       const addBtn = list.querySelector('.admin-obj-add-btn');
       if (addBtn) {
-        list.insertBefore(newItem, addBtn);
+        list.insertBefore(newLi, addBtn);
       } else {
-        list.appendChild(newItem);
+        list.appendChild(newLi);
       }
 
       requestAnimationFrame(() => {
-        newItem.style.opacity = '1';
-        newItem.style.transform = 'translateY(0)';
+        newLi.style.opacity = '1';
+        newLi.style.transform = 'translateY(0)';
       });
 
       if (typeof makeElementsEditable === 'function') makeElementsEditable();
       bindProjectObjectControls();
       if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
-      if (window.showAdminToast) showAdminToast('새로운 특징 항목이 추가되었습니다.');
+      if (window.showAdminToast) showAdminToast('내용 항목이 추가되었습니다.');
     }
 
     // 어워드 배너 토글/추가 함수
