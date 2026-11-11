@@ -3279,6 +3279,18 @@ b;
       transform: scale(0.98);
     }
 
+    
+    /* Admin Bullet Action Bar & Delete Bar Button - Hide completely when NOT in admin mode */
+    body:not(.admin-mode-active) .admin-desc-bullets-action-bar,
+    body:not(.admin-mode-active) .admin-obj-del-bar-btn,
+    body:not(.admin-mode-active) .admin-obj-delete-btn,
+    body:not(.admin-mode-active) .admin-obj-add-btn,
+    body:not(.admin-mode-active) .admin-bullet-add-btn {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
     .admin-bullet-add-btn {
       display: none;
       align-items: center;
@@ -7924,14 +7936,20 @@ b;
     function exitAdminMode() {
       isAdminMode = false;
       window.isAdminMode = false;
-      document.body.classList.add('admin-mode-active');
+      try { localStorage.removeItem('snowman_admin_mode'); } catch (e) {}
       document.body.classList.remove('admin-mode-active');
       const toolbar = document.getElementById('adminToolbar');
       if (toolbar) toolbar.classList.remove('visible');
 
-      // contenteditable 제거
-      const editables = document.querySelectorAll('#a4Sheet [contenteditable="true"]');
+      // 1. 모든 contenteditable 제거
+      const editables = document.querySelectorAll('#a4Sheet [contenteditable]');
       editables.forEach(el => el.removeAttribute('contenteditable'));
+
+      // 2. 관리자 조작 버튼 및 액션바 완전 박멸
+      cleanAdminControls();
+
+      // 3. UI 갱신 (뷰어 모드로 정화)
+      updateBrochureUI();
 
       saveBrochureChanges(false);
       showAdminToast('관리자 편집 모드를 종료했습니다.');
@@ -9404,6 +9422,12 @@ b;
       return btn;
     }
 
+    
+    function cleanAdminControls() {
+      const sheet = document.getElementById('a4Sheet') || document.body;
+      sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(el => el.remove());
+    }
+
     function bindProjectObjectControls() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
@@ -9529,6 +9553,7 @@ b;
 
     // 프로젝트 내용(불릿) 항목 추가 함수
     function addProjectDescBullet(targetList) {
+      if (!window.isAdminMode) return;
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
@@ -9566,6 +9591,7 @@ b;
 
     // 프로젝트 내용(불릿) 항목 삭제 함수
     function removeProjectDescBullet(targetList) {
+      if (!window.isAdminMode) return;
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
