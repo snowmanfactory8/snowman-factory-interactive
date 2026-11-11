@@ -1277,6 +1277,43 @@
       display: flex !important;
     }
 
+    
+    /* Project Page Editable Text Focus & Interaction (Apple HIG) */
+    .project-left-panel,
+    .project-left-panel * {
+      pointer-events: auto !important;
+    }
+    .project-left-panel [contenteditable="true"],
+    .project-left-panel h2,
+    .project-left-panel p,
+    .project-left-panel span,
+    .project-left-panel li,
+    .project-overview-value,
+    .project-overview-value *,
+    .project-overview-label,
+    .project-summary-desc,
+    .project-desc-bullets li,
+    .legend-text {
+      cursor: text !important;
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      pointer-events: auto !important;
+    }
+
+    .project-left-panel [contenteditable="true"]:hover {
+      outline: 1.5px dashed rgba(0, 113, 227, 0.45) !important;
+      outline-offset: 3px !important;
+      background: rgba(0, 113, 227, 0.03) !important;
+      border-radius: 4px !important;
+    }
+
+    .project-left-panel [contenteditable="true"]:focus {
+      outline: 2px solid #0071e3 !important;
+      outline-offset: 3px !important;
+      background: rgba(0, 113, 227, 0.06) !important;
+      border-radius: 4px !important;
+    }
+
     /* 4. Project Image Legend (레이아웃 템플릿 연동 다이어그램 + 캡션) */
     .project-image-legend {
       margin-top: auto;
@@ -4359,18 +4396,70 @@ b;
           <div class="a4-page-project">
             
         <div class="project-left-panel">
-          <div>
+          <div class="project-left-body" style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+            <!-- 1. Top Meta Header & Title -->
             <div class="project-top-meta-bar">
-              <span class="project-index-num" spellcheck="false">PROJECT</span>
-              <span style="color: #cbd5e1; font-size: 11px;" spellcheck="false">/</span>
-              <span class="project-category-badge" spellcheck="false">BIM</span>
+              <span class="project-index-num" spellcheck="false" contenteditable="true">PROJECT</span>
+              <span style="color: #cbd5e1; font-size: 11px;">/</span>
+              <span class="project-category-badge" spellcheck="false" contenteditable="true">BIM</span>
             </div>
-            
-            <h2 class="project-hero-title" spellcheck="false">
-              담바우마을 에너지공급센터 BIM용역<br></h2>
-            <div class="project-award-banner" style="display: inline-flex;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span></div>
+            <h2 class="project-hero-title" spellcheck="false" contenteditable="true">
+              담바우마을 에너지공급센터 BIM용역<br>
+            </h2>
+            <div class="project-award-banner" style="display: inline-flex;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false" contenteditable="true">2024 BIM AWARDS 대상<br>(Small and Medium sized Project 부분)</span>
+            </div>
+
+            <!-- 2. Project Overview (Year, Category, Client) + Divider (요청 1번 이미지 반영) -->
+            <div class="project-meta-overview">
+              <div class="project-overview-table">
+                <div class="project-overview-row">
+                  <span class="project-overview-label" contenteditable="true">Year</span>
+                  <span class="project-overview-value" contenteditable="true">2023</span>
+                </div>
+                <div class="project-overview-row">
+                  <span class="project-overview-label" contenteditable="true">Category</span>
+                  <div class="project-overview-value" contenteditable="true">
+                    <div contenteditable="true">BIM(모델링)</div>
+                    <div contenteditable="true">3D scan(정합성 검토)</div>
+                    <div contenteditable="true">XR</div>
+                  </div>
+                </div>
+                <div class="project-overview-row">
+                  <span class="project-overview-label" contenteditable="true">Client</span>
+                  <span class="project-overview-value" contenteditable="true">자리소건축사사무소</span>
+                </div>
+              </div>
+              <div class="project-overview-divider"></div>
+            </div>
+
+            <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
+            <div class="project-desc-block">
+              <p class="project-summary-desc" spellcheck="false" contenteditable="true">
+                구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
+              </p>
+              <ul class="project-desc-bullets">
+                <li spellcheck="false" contenteditable="true">Lidar 스캐너를 이용하여 현장 3D 스캔</li>
+                <li spellcheck="false" contenteditable="true">CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
+                <li spellcheck="false" contenteditable="true">BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
+                <li spellcheck="false" contenteditable="true">정합성 오류 검토 보고서 작성</li>
+              </ul>
+            </div>
           </div>
-          
+
+          <!-- 4. 좌측 하단 이미지별 설명 범례 (Classic 3컷 연동) -->
+          <div class="project-image-legend" data-layout-legend="project-classic">
+            <div class="legend-matrix legend-matrix-classic">
+              <div class="legend-cell">1</div>
+              <div class="legend-cell">2</div>
+              <div class="legend-cell">3</div>
+            </div>
+            <div class="legend-list">
+              <div class="legend-item"><span class="legend-num">1.</span> <span class="legend-text" spellcheck="false" contenteditable="true">스캔 데이터 ISO</span></div>
+              <div class="legend-item"><span class="legend-num">2.</span> <span class="legend-text" spellcheck="false" contenteditable="true">현장 전경 및 실측</span></div>
+              <div class="legend-item"><span class="legend-num">3.</span> <span class="legend-text" spellcheck="false" contenteditable="true">건축/설비 상세 모델</span></div>
+            </div>
+          </div>
         </div>
       
             <div class="project-right-visual">
@@ -6387,6 +6476,7 @@ b;
       }
 
       updateBrochureUI();
+      makeElementsEditable(); // Initial boot call
       renderTocList();
 
       // 브라우저 저장소에 변경된 순서 자동 영구 반영
@@ -7614,24 +7704,23 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .project-overview-value, .project-overview-label, .project-summary-desc, .legend-text, .legend-num';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .project-overview-value, .project-overview-value div, .project-overview-label, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num, .project-category-badge, .project-index-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
-        // SVG 내부나 특정 제외 클래스 건너뛰기
-        if (el.closest('svg') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot')) return;
+        // SVG 내부나 버튼, 컨트롤 제외
+        if (el.closest('svg') || el.closest('button') || el.classList.contains('cad-crosshair') || el.classList.contains('cinema-rec-dot') || el.classList.contains('admin-obj-delete-btn')) return;
+        
         el.setAttribute('contenteditable', 'true');
         el.setAttribute('spellcheck', 'false');
 
-        // 입력 시 자동 임시 저장
+        // 입력 시 자동 저장
         el.oninput = () => {
-          debouncedAutoSave();
+          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
         };
 
-        // 클릭 시 포커스 보장
-        el.onclick = (e) => {
-          if (!window.isAdminMode) return;
-          e.stopPropagation();
-          el.focus();
+        // 네이티브 캐럿 배치 및 포커스 보장
+        el.onfocus = () => {
+          el.style.outline = '2px solid #0071e3';
         };
       });
     }
