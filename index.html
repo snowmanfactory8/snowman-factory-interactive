@@ -7997,10 +7997,10 @@ b;
           if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
         };
 
-        // 네이티브 캐럿 배치 및 포커스 보장
-        el.onfocus = () => {
-          el.style.outline = '2px solid #0071e3';
-        };
+        // 인라인 outline 잔재 깨끗하게 제거 (포커스는 CSS :focus 가 순수하게 담당)
+        el.style.outline = '';
+        el.onfocus = null;
+        el.onblur = null;
       });
 
       // 2. 관리자 오브젝트 컨트롤 바인딩 (예외 격리)
@@ -9426,6 +9426,9 @@ b;
     function cleanAdminControls() {
       const sheet = document.getElementById('a4Sheet') || document.body;
       sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(el => el.remove());
+      sheet.querySelectorAll('*').forEach(el => {
+        if (el.style.outline) el.style.outline = '';
+      });
     }
 
     function bindProjectObjectControls() {
@@ -9715,7 +9718,7 @@ b;
     window.promptChangeVideoSource = promptChangeVideoSource;
 
         window.bindProjectObjectControls = bindProjectObjectControls;
-    window.addProjectFeatureItem = addProjectFeatureItem;
+    if (typeof addProjectDescBullet === "function") window.addProjectDescBullet = addProjectDescBullet;
     window.toggleProjectAwardBanner = toggleProjectAwardBanner;
     window.toggleProjectPillBadge = toggleProjectPillBadge;
 
