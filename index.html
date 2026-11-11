@@ -1416,17 +1416,17 @@
 
     /* 3컷 (Focus): 좌측 대형 포커스 + 우측 상하 2단 */
     .legend-matrix-focus {
-      grid-template-columns: 17px 17px;
+      grid-template-columns: 22px 12px;
       grid-template-rows: 17px 17px;
     }
     .legend-matrix-focus .legend-cell:nth-child(1) {
       grid-row: 1 / span 2;
-      width: 17px;
+      width: 22px;
       height: 36px;
     }
     .legend-matrix-focus .legend-cell:nth-child(2),
     .legend-matrix-focus .legend-cell:nth-child(3) {
-      width: 17px;
+      width: 12px;
       height: 17px;
     }
 
@@ -3361,10 +3361,140 @@ b;
     body:not(.admin-mode-active) .admin-obj-del-bar-btn,
     body:not(.admin-mode-active) .admin-obj-delete-btn,
     body:not(.admin-mode-active) .admin-obj-add-btn,
-    body:not(.admin-mode-active) .admin-bullet-add-btn {
+    body:not(.admin-mode-active) .admin-bullet-add-btn,
+    body:not(.admin-mode-active) .divider-bg-edit-btn,
+    body:not(.admin-mode-active) #adminToast,
+    body:not(.admin-mode-active) .admin-toast {
       display: none !important;
       visibility: hidden !important;
       pointer-events: none !important;
+      opacity: 0 !important;
+    }
+
+    /* 관리자 조작 버튼 및 배지: 텍스트 드래그/선택 파란 박스 방지 */
+    .admin-obj-del-bar-btn,
+    .admin-desc-bullets-action-bar,
+    .admin-obj-delete-btn,
+    .admin-obj-add-btn,
+    .admin-bullet-add-btn,
+    .divider-bg-edit-btn,
+    .admin-btn,
+    #adminToast {
+      user-select: none !important;
+      -webkit-user-select: none !important;
+    }
+
+    /* 뷰어 모드 잔재 아웃라인 및 포커스 링 완전 박멸 */
+    body:not(.admin-mode-active) * {
+      outline: none !important;
+    }
+    body:not(.admin-mode-active) [contenteditable] {
+      outline: none !important;
+      border-color: transparent !important;
+      cursor: default !important;
+    }
+
+    /* 관리자 모드 포커스 해제 시 아웃라인/배경색 즉시 소멸 */
+    .project-left-panel [contenteditable="true"]:not(:focus),
+    body.admin-mode-active [contenteditable="true"]:not(:focus) {
+      outline: none !important;
+      background: transparent !important;
+    }
+
+    /* 커스텀 프로젝트 실적 드롭다운 (Windows OS 테마 버그 원천 차단) */
+    .custom-proj-dropdown-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+    }
+    .custom-proj-dropdown-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: #0f172a;
+      border: 0.5px solid rgba(255, 255, 255, 0.22);
+      color: #f8fafc;
+      padding: 6px 9px;
+      border-radius: var(--apple-radius-sm);
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .custom-proj-dropdown-btn:hover {
+      background: #1e293b;
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+    .custom-proj-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      z-index: 1200;
+      max-height: 260px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .custom-proj-dropdown-menu.open {
+      display: flex;
+    }
+    .custom-proj-search-box {
+      padding: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 23, 42, 0.95);
+    }
+    .custom-proj-search-input {
+      width: 100%;
+      box-sizing: border-box;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      outline: none;
+    }
+    .custom-proj-search-input:focus {
+      border-color: #38bdf8;
+    }
+    .custom-proj-list {
+      overflow-y: auto;
+      max-height: 210px;
+      padding: 4px;
+    }
+    .custom-proj-item {
+      padding: 6px 8px;
+      font-size: 11.5px;
+      color: #f1f5f9;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.35;
+      word-break: keep-all;
+      transition: background 0.12s ease;
+      user-select: none;
+    }
+    .custom-proj-item:hover {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+    .custom-proj-item.selected {
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 700;
     }
 
     .admin-bullet-add-btn {
@@ -4199,7 +4329,7 @@ b;
   <!-- Admin Toast Notification -->
   <div id="adminToast" class="admin-toast">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" style="width: 16px; height: 16px;" class="lucide lucide-check-circle"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
-    <span id="adminToastText">⏳ [1/4] 깨끗한 HTML 문서를 생성하는 중...</span>
+    <span id="adminToastText">알림 메시지</span>
   </div>
 
   <!-- Hidden Image File Input for Click-to-Upload -->
@@ -8281,6 +8411,9 @@ b;
     function updateBrochureUI() {
       if (typeof upgradeProjectPagesLayout === 'function') upgradeProjectPagesLayout();
       if (typeof syncAllProjectPagesWithDb === 'function') syncAllProjectPagesWithDb();
+      if (typeof syncProjectLegendForPage === 'function') {
+        document.querySelectorAll('.a4-page-project').forEach(p => syncProjectLegendForPage(p));
+      }
       if (typeof renderAdminContextTools === 'function') renderAdminContextTools();
       if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       // Solutions 페이지 헤더: 오직 제목 "Solutions"만 나오도록 강제 동기화 (구버전 캐시/로컬스토리지 잔재 완벽 정화)
@@ -8781,6 +8914,81 @@ b;
           </div>
         </div>
       `;
+    }
+
+    // 프로젝트 페이지의 우측 실제 비주얼 구성(템플릿/카드)과 좌측 범례 100% 일치 동기화기
+    function syncProjectLegendForPage(page) {
+      if (!page) return;
+      const leftPanel = page.querySelector('.project-left-panel');
+      const visualPanel = page.querySelector('.project-right-visual');
+      if (!leftPanel || !visualPanel) return;
+
+      // 1. 실제 우측 레이아웃 타입 분석
+      let detectedLayout = visualPanel.getAttribute('data-layout') || '';
+      const cards = visualPanel.querySelectorAll('.media-card');
+      const cardCount = cards.length;
+
+      if (!detectedLayout) {
+        if (visualPanel.classList.contains('project-grid2x2') || visualPanel.querySelector('.visual-grid-2x2') || cardCount === 4) {
+          detectedLayout = 'project-grid2x2';
+        } else if (visualPanel.classList.contains('project-focus') || (cardCount === 3 && visualPanel.style.flexDirection === 'row')) {
+          detectedLayout = 'project-focus';
+        } else if (visualPanel.classList.contains('project-split2-rows') || (cardCount === 2 && visualPanel.style.gridTemplateRows)) {
+          detectedLayout = 'project-split2-rows';
+        } else if (visualPanel.classList.contains('project-split2-cols') || (cardCount === 2 && visualPanel.style.gridTemplateColumns)) {
+          detectedLayout = 'project-split2-cols';
+        } else if (visualPanel.classList.contains('project-minimal') || cardCount === 1) {
+          detectedLayout = 'project-minimal';
+        } else {
+          detectedLayout = (cardCount === 2) ? 'project-split2-rows' : (cardCount === 4 ? 'project-grid2x2' : 'project-classic');
+        }
+        visualPanel.setAttribute('data-layout', detectedLayout);
+      }
+
+      // 2. 기존 사용자 캡션 수집
+      const existingLegend = leftPanel.querySelector('.project-image-legend');
+      const existingCaptions = existingLegend 
+        ? Array.from(existingLegend.querySelectorAll('.legend-item .legend-text')).map(el => el.innerText.trim()).filter(Boolean)
+        : [];
+
+      // 3. 우측 카드의 제목(라이트박스 파라미터나 alt)도 참고하여 빈 캡션 보강
+      cards.forEach((card, idx) => {
+        if (!existingCaptions[idx]) {
+          const img = card.querySelector('img');
+          const alt = img ? img.getAttribute('alt') : '';
+          if (alt && !alt.includes('프로젝트') && !alt.includes('메인')) {
+            existingCaptions[idx] = alt;
+          }
+        }
+      });
+
+      // 4. 새로운 범례 HTML 생성
+      const freshLegendHTML = generateProjectLegendHTML(detectedLayout, existingCaptions);
+
+      if (existingLegend) {
+        const curLegendType = existingLegend.getAttribute('data-layout-legend');
+        const curCellCount = existingLegend.querySelectorAll('.legend-cell').length;
+        // 레이아웃 타입이나 셀 개수가 불일치하면 전체 교체
+        if (curLegendType !== detectedLayout || curCellCount !== cardCount) {
+          existingLegend.outerHTML = freshLegendHTML;
+        }
+      } else {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = freshLegendHTML.trim();
+        leftPanel.appendChild(wrap.firstElementChild);
+      }
+
+      // 5. 관리자 모드 시 contenteditable 및 포커스 해제 자동 저장 적용
+      if (window.isAdminMode) {
+        const targetLegend = leftPanel.querySelector('.project-image-legend');
+        if (targetLegend) {
+          targetLegend.querySelectorAll('.legend-text').forEach(t => {
+            t.setAttribute('contenteditable', 'true');
+            t.oninput = () => { if (typeof debouncedAutoSave === 'function') debouncedAutoSave(); };
+            t.onblur = () => { t.style.outline = 'none'; if (typeof debouncedAutoSave === 'function') debouncedAutoSave(); };
+          });
+        }
+      }
     }
 
     
@@ -9448,7 +9656,21 @@ b;
         return;
       }
 
-      currentPage.innerHTML = newInner;
+      if (type.startsWith('project')) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = newInner.trim();
+        const rootPage = tempDiv.querySelector('.a4-page-project');
+        if (rootPage) {
+          currentPage.innerHTML = rootPage.innerHTML;
+          const visual = currentPage.querySelector('.project-right-visual');
+          if (visual) visual.setAttribute('data-layout', type);
+        } else {
+          currentPage.innerHTML = newInner;
+        }
+        syncProjectLegendForPage(currentPage);
+      } else {
+        currentPage.innerHTML = newInner;
+      }
       if (type === 'divider' || type === 'category-divider') {
         syncDividerProjects(currentPage);
       }
@@ -9504,9 +9726,15 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      // contenteditable 임시 제거본을 저장하지 않고 내부 HTML 그대로 보관
-      localStorage.setItem('snowman_brochure_sheet_v5', sheet.innerHTML);
-      if (showMessage) {
+      // [핵심] 관리자 조작 버튼 및 아웃라인을 완벽히 정화한 복제본을 저장 (뷰어 모드 잔재 원천 차단)
+      const clone = sheet.cloneNode(true);
+      clone.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(b => b.remove());
+      clone.querySelectorAll('*').forEach(el => {
+        if (el.style && el.style.outline) el.style.outline = '';
+      });
+
+      localStorage.setItem('snowman_brochure_sheet_v5', clone.innerHTML);
+      if (showMessage && typeof showAdminToast === 'function') {
         showAdminToast('✅ 브라우저에 모든 변경사항이 안전하게 저장되었습니다.');
       }
     }
@@ -9517,7 +9745,8 @@ b;
         const sheet = document.getElementById('a4Sheet');
         if (sheet) {
           sheet.innerHTML = saved;
-          // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
+          // 구버전 캐시/로컬스토리지 잔재에서 관리자 버튼 및 삭제 객체 완전 박멸
+          sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .divider-bg-edit-btn').forEach(el => el.remove());
           sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
 
           // cinema-main-title 구조 최적화 (단일 제목 h2화)
@@ -9740,16 +9969,37 @@ b;
         const hasPill = currentPage && !!currentPage.querySelector('.project-pill-badge')?.innerHTML.trim();
 
         actionsHTML = `
-          <!-- 프로젝트 DB 연동 UI -->
+          <!-- 프로젝트 DB 연동 UI (Windows OS 호환 완벽 다크 드롭다운) -->
           <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 3px;">연동된 프로젝트 실적 DB</div>
-          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1; background: #0f172a; border: 0.5px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11.5px; outline: none; cursor: pointer; color-scheme: dark;">
+          <div style="display: flex; gap: 6px; margin-bottom: 8px; position: relative;">
+            <div class="custom-proj-dropdown-wrap">
               ${(() => {
                 const db = getProjectDatabase();
                 const curId = currentPage ? currentPage.getAttribute('data-project-id') : '';
-                return db.map(p => `<option value="${p.id}" ${p.id === curId ? 'selected' : ''} style="background: #0f172a; color: #f8fafc;">${p.year} [${(p.category||'').toUpperCase()}] ${p.name}</option>`).join('');
+                const curProj = db.find(p => p.id === curId) || db[0];
+                const curLabel = curProj ? `${curProj.year} [${(curProj.category||'').toUpperCase()}] ${curProj.name}` : '프로젝트 선택...';
+                return `
+                  <button type="button" class="custom-proj-dropdown-btn" id="btnCustomProjDropdown" onclick="toggleCustomProjDropdown(event)" title="연동할 프로젝트 선택">
+                    <span id="customProjDropdownLabel" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${curLabel}</span>
+                    <i data-lucide="chevron-down" style="width: 12px; height: 12px; flex-shrink: 0; opacity: 0.7;"></i>
+                  </button>
+                  <div class="custom-proj-dropdown-menu" id="customProjDropdownMenu" onclick="event.stopPropagation()">
+                    <div class="custom-proj-search-box">
+                      <input type="text" id="customProjSearchInput" class="custom-proj-search-input" placeholder="프로젝트명 검색..." oninput="filterCustomProjDropdown(this.value)">
+                    </div>
+                    <div class="custom-proj-list" id="customProjList">
+                      ${db.map(p => `
+                        <div class="custom-proj-item ${p.id === curId ? 'selected' : ''}" data-id="${p.id}" onclick="selectCustomProjItem('${p.id}')">
+                          <span style="color: #38bdf8; font-family: monospace; font-size: 11px; font-weight: 700; flex-shrink: 0;">${p.year}</span>
+                          <span style="font-size: 10px; color: #94a3b8; font-weight: 700; flex-shrink: 0;">[${(p.category||'').toUpperCase()}]</span>
+                          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</span>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                `;
               })()}
-            </select>
+            </div>
             <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 엑셀 DB 열기" style="padding: 5px 9px; flex-shrink: 0; min-width: 0;">
               <i data-lucide="table" style="width: 13px; height: 13px; color: #38bdf8;"></i>
             </button>
@@ -9841,7 +10091,55 @@ b;
       if (window.lucide) lucide.createIcons();
     }
 
-        // 도우미 함수: 특정 카테고리로 필터링된 프로젝트 DB 열기
+    // 커스텀 프로젝트 드롭다운 제어 함수군 (Windows OS 셀렉트 깨짐 완벽 방지)
+    function toggleCustomProjDropdown(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('customProjDropdownMenu');
+      if (!menu) return;
+      const isOpen = menu.classList.contains('open');
+      document.querySelectorAll('.custom-proj-dropdown-menu').forEach(m => m.classList.remove('open'));
+      if (!isOpen) {
+        menu.classList.add('open');
+        const input = document.getElementById('customProjSearchInput');
+        if (input) {
+          input.value = '';
+          input.focus();
+          filterCustomProjDropdown('');
+        }
+      }
+    }
+
+    function filterCustomProjDropdown(query) {
+      const q = (query || '').toLowerCase().trim();
+      const items = document.querySelectorAll('#customProjList .custom-proj-item');
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
+      });
+    }
+
+    function selectCustomProjItem(projId) {
+      const menu = document.getElementById('customProjDropdownMenu');
+      if (menu) menu.classList.remove('open');
+      if (typeof linkProjectPageToDb === 'function') {
+        linkProjectPageToDb(projId);
+      }
+      if (typeof renderAdminContextTools === 'function') {
+        renderAdminContextTools();
+      }
+    }
+
+    // 문서 전역 클릭 시 커스텀 드롭다운 자동 닫힘
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('customProjDropdownMenu');
+      if (menu && menu.classList.contains('open')) {
+        if (!e.target.closest('.custom-proj-dropdown-wrap')) {
+          menu.classList.remove('open');
+        }
+      }
+    });
+
+    // 도우미 함수: 특정 카테고리로 필터링된 프로젝트 DB 열기
     function openProjectDbModalForCategory(catKey) {
       if (typeof openProjectDbModal === 'function') {
         openProjectDbModal();
@@ -10362,13 +10660,13 @@ b;
       if (!client) return;
 
       try {
+        let projectLoadedFromContent = false;
         // 1. brochure_content 조회 (카테고리 노드 및 테마 색상)
         const { data: contentData, error: contentErr } = await client.from('brochure_content').select('*');
         if (contentErr) {
           console.warn('[Supabase] Failed to load brochure_content:', contentErr);
         } else if (contentData && contentData.length > 0) {
           let updatedCategory = false;
-          let projectLoadedFromContent = false;
           contentData.forEach(row => {
             if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
               row.value.forEach(savedCat => {
@@ -10900,7 +11198,16 @@ b;
 
       // 부트 시 정적 토스트 잔재 무조건 제거
       const initialToast = document.getElementById('adminToast');
-      if (initialToast) initialToast.classList.remove('show');
+      if (initialToast) {
+        initialToast.classList.remove('show', 'visible');
+        const initialText = document.getElementById('adminToastText');
+        if (initialText) initialText.textContent = '';
+      }
+
+      // 부트 시 관리자 버튼 잔재 완전 박멸 (순수 뷰어 모드 보장)
+      if (typeof cleanAdminControls === 'function') {
+        cleanAdminControls();
+      }
 
     
       // [원칙] 모든 접속자는 항상 순수 뷰어 모드(인트로 히어로)로 안전하게 진입
