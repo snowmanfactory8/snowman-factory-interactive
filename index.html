@@ -319,6 +319,10 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
+    :root {
+      --sheet-scale: 1;
+    }
+
     /* A4 Stage Area with 3D Depth */
     main.a4-stage {
       flex: 1;
@@ -327,8 +331,11 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      padding: 20px 80px;
+      padding: 0;
+      margin: 0;
       perspective: 2500px;
+      overflow: hidden;
+      box-sizing: border-box;
     }
 
     .stage-arrow-btn {
@@ -359,21 +366,50 @@
     .stage-arrow-btn.left { left: 24px; }
     .stage-arrow-btn.right { right: 24px; }
 
-    /* The Authentic Brochure Landscape Sheet (원본 지명원 780pt x 540pt 규격 고정) */
+    /* A4 Proportional Scaler Wrapper (모바일/태블릿/데스크톱 100% 동일 비례 벡터 스케일링) */
+    .a4-sheet-scaler {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(1170px * var(--sheet-scale, 1));
+      height: calc(810px * var(--sheet-scale, 1));
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
+      transition: width 0.12s ease-out, height 0.12s ease-out, transform 0.25s ease;
+      transform-origin: center center;
+      touch-action: pan-y pinch-zoom;
+    }
+
+    .a4-sheet-scaler.zoomed {
+      transform: scale(1.6);
+      z-index: 100;
+    }
+
+    /* The Authentic Brochure Landscape Sheet (1170px x 810px 기준 규격 고정) */
     .a4-landscape-sheet {
-      aspect-ratio: 780 / 540;
-      width: min(86vw, calc((100vh - 130px) * (780 / 540)));
-      height: auto;
-      max-width: 1220px;
+      width: 1170px !important;
+      height: 810px !important;
+      min-width: 1170px !important;
+      min-height: 810px !important;
+      max-width: 1170px !important;
+      max-height: 810px !important;
+      transform: scale(var(--sheet-scale, 1));
+      transform-origin: center center;
       background: #ffffff;
-      border-radius: 6px;
+      border-radius: 12px;
       box-shadow: 
-        0 25px 65px -15px rgba(0, 0, 0, 0.65),
-        0 10px 25px -5px rgba(0, 0, 0, 0.45);
+        0 40px 100px -20px rgba(0, 0, 0, 0.65),
+        0 20px 45px -15px rgba(0, 0, 0, 0.4),
+        0 0 0 0.5px rgba(255, 255, 255, 0.18) !important;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
+      transition: transform 0.12s ease-out;
+      margin: 0;
     }
 
     /* Page Content Panels */
@@ -934,39 +970,6 @@
     }
     .modal-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #334155; }
 
-    /* ---------------------------------------------------------------- */
-    /* RESPONSIVE & MOBILE ADAPTATION SYSTEM (모바일 비율 완벽 보존)     */
-    /* ---------------------------------------------------------------- */
-    @media (max-width: 900px) {
-      .top-tools-center { display: none; }
-      .top-brand-logo { font-size: 15px; }
-      header.motion-topbar { padding: 0 16px; height: 46px; }
-      footer.motion-bottombar { padding: 0 16px; height: 48px; }
-      main.a4-stage { padding: 10px 12px; }
-      .stage-arrow-btn { display: none; } /* 모바일에서는 터치 스와이프 및 하단 내비게이션 사용 */
-      
-      /* A4 황금 비율(13:9 = 780/540) 절대 유지 */
-      .a4-landscape-sheet {
-        aspect-ratio: 780 / 540 !important;
-        width: min(96vw, calc((100vh - 110px) * (780 / 540))) !important;
-        height: auto !important;
-        border-radius: 6px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-      }
-
-      /* Page 1 (Cover) 스케일링 */
-      .a4-page-cover { padding: 20px 24px; }
-      .cover-snowman-avatar { width: clamp(80px, 18vw, 150px); height: clamp(80px, 18vw, 150px); margin-bottom: 12px; }
-      .cover-brand-title { font-size: clamp(20px, 4.5vw, 32px); }
-      .cover-logo-img { max-width: 150px; margin-top: 8px; }
-
-      /* Page 3 (Project) 스케일링 */
-      .project-left-panel {
-        width: 38%;
-        min-width: 125px;
-        padding: 10px 12px;
-      }
-      
     /* Project Top Meta Bar (PROJECT / BIM) Read-Only & DB Connected */
     .project-top-meta-bar,
     .project-index-num,
@@ -983,17 +986,16 @@
       color: #0070f3 !important;
     }
 
-    .project-top-meta-bar { margin-bottom: 4px; padding-bottom: 4px; }
-      .project-pill-badge { font-size: 8.5px; padding: 1px 6px; margin-bottom: 4px; }
-      .project-hero-title { font-size: clamp(10px, 2.2vw, 16px); margin-bottom: 4px; line-height: 1.2; }
-      .project-award-banner { font-size: 8px; padding: 2px 5px; margin-bottom: 5px; }
-      .project-features-list { gap: 4px; padding-top: 6px; }
-      .project-feature-item { gap: 6px; padding-bottom: 4px; }
-      .feature-icon-box { width: 18px; height: 18px; border-radius: 4px; }
-      .feature-icon-box svg { width: 11px; height: 11px; }
-      .feature-title { font-size: 8.5px; margin-bottom: 1px; }
-      .feature-en { font-size: 7px; }
-      .feature-bullets li { font-size: 7.5px; line-height: 1.2; padding-left: 5px; }
+    /* ---------------------------------------------------------------- */
+    /* RESPONSIVE & MOBILE ADAPTATION SYSTEM (모바일 비율 완벽 보존)     */
+    /* ---------------------------------------------------------------- */
+    @media (max-width: 900px) {
+      .top-tools-center { display: none; }
+      .top-brand-logo { font-size: 15px; }
+      header.motion-topbar { padding: 0 16px; height: 46px; }
+      footer.motion-bottombar { padding: 0 16px; height: 48px; }
+      main.a4-stage { padding: 0; }
+      .stage-arrow-btn { display: none; } /* 모바일에서는 터치 스와이프 및 하단 내비게이션 사용 */
 
       /* Page 4 (Video) */
       .cinema-full-video {
@@ -1004,11 +1006,8 @@
       }
     }
 
-    /* 초소형 모바일 기기 (max-width: 480px) 추가 스케일링 */
+    /* 초소형 모바일 기기 (max-width: 480px) */
     @media (max-width: 480px) {
-      .project-left-panel { width: 40%; padding: 6px 8px; }
-      .feature-bullets { display: none; } /* 초소형 세로 화면에서는 가독성을 위해 아이콘+타이틀 위주 노출 */
-      .project-award-banner { display: none; }
       .intro-brand-name { font-size: 32px; }
       .intro-slogan { font-size: 14px; }
       #intro-screen { padding: 24px 20px; }
@@ -1018,12 +1017,7 @@
     @media (max-height: 500px) and (orientation: landscape) {
       header.motion-topbar { height: 38px; padding: 0 12px; }
       footer.motion-bottombar { height: 40px; padding: 0 12px; }
-      main.a4-stage { padding: 4px 8px; }
-      .a4-landscape-sheet {
-        height: calc(100vh - 84px) !important;
-        width: calc((100vh - 84px) * (780 / 540)) !important;
-        max-width: 98vw;
-      }
+      main.a4-stage { padding: 0; }
     }
 
     /* 모바일 가로 회전 권장 토스트 배너 */
@@ -4437,8 +4431,10 @@ b;
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 26px; height: 26px;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
       </button>
 
-      <!-- The A4 Sheet Box -->
-      <div class="a4-landscape-sheet" id="a4Sheet">
+      <!-- The A4 Sheet Scaler Wrapper -->
+      <div class="a4-sheet-scaler" id="a4SheetScaler">
+        <!-- The A4 Sheet Box -->
+        <div class="a4-landscape-sheet" id="a4Sheet">
         
         <!-- ============================================================ -->
         <!-- A4 PAGE 1: COVER (지명원 표지 원본 레이아웃)                 -->
@@ -5585,8 +5581,10 @@ b;
 
         </div>
       </div>
+      <!-- End of #a4Sheet -->
 
       </div>
+      <!-- End of #a4SheetScaler -->
 
     </main>
 
@@ -8328,9 +8326,10 @@ b;
       closeRotateToast();
     }, 7000);
 
-    // Mobile Touch Swipe Handling (좌우 넘김 스와이프)
+    // Mobile Touch Swipe & Double-Tap Handling (좌우 넘김 스와이프 및 더블탭 줌)
     let touchStartX = 0;
     let touchStartY = 0;
+    let lastTapTime = 0;
     const a4Stage = document.querySelector('main.a4-stage');
     if (a4Stage) {
       a4Stage.addEventListener('touchstart', (e) => {
@@ -8343,8 +8342,28 @@ b;
         const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchEndX - touchStartX;
         const diffY = touchEndY - touchStartY;
-        // 수평 스와이프 거리가 40px 이상이고 수직 이동보다 클 때
+
+        // 더블 탭 확대/축소 토글 (제자리 탭이고 300ms 이내 2연속 탭일 때)
+        const now = Date.now();
+        if (Math.abs(diffX) < 15 && Math.abs(diffY) < 15) {
+          if (now - lastTapTime < 320 && now - lastTapTime > 60) {
+            const scaler = document.getElementById('a4SheetScaler');
+            if (scaler) {
+              scaler.classList.toggle('zoomed');
+            }
+            lastTapTime = 0;
+            return;
+          }
+          lastTapTime = now;
+        }
+
+        // 수평 스와이프 거리가 40px 이상이고 수직 이동보다 클 때 (페이지 이동)
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+          // 줌 상태일 때는 스와이프로 줌 해제
+          const scaler = document.getElementById('a4SheetScaler');
+          if (scaler && scaler.classList.contains('zoomed')) {
+            scaler.classList.remove('zoomed');
+          }
           if (diffX < 0) {
             nextPage(); // 왼쪽으로 쓸어넘기면 다음 페이지
           } else {
@@ -8353,6 +8372,56 @@ b;
         }
       }, { passive: true });
     }
+
+    // -------------------------------------------------------------
+    // 모바일/태블릿/데스크톱 반응형 벡터 비례 스케일링 엔진
+    // 캔버스 기준 해상도: 1170px * 810px (13:9 A4 랜드스케이프 규격 고정)
+    // 모바일 환경에서도 글씨, 여백, 아이콘, 이미지가 100% 동일한 비례로 축소 렌더링
+    // -------------------------------------------------------------
+    function updateBrochureScale() {
+      const stage = document.querySelector('main.a4-stage');
+      const scaler = document.getElementById('a4SheetScaler');
+      const sheet = document.getElementById('a4Sheet');
+      if (!stage || !sheet) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      const stageW = stageRect.width || window.innerWidth;
+      const stageH = stageRect.height || (window.innerHeight - 96);
+
+      const isMobile = window.innerWidth <= 768;
+      // 화면 가장자리 패딩: 모바일에서는 가용 공간을 최대화하여 가독성 확보
+      const padX = isMobile ? 16 : 48;
+      const padY = isMobile ? 12 : 36;
+
+      const availW = Math.max(100, stageW - padX);
+      const availH = Math.max(100, stageH - padY);
+
+      const baseW = 1170;
+      const baseH = 810;
+
+      let scale = Math.min(availW / baseW, availH / baseH);
+      // 최소 0.20, 데스크톱 최대 1.05
+      scale = Math.min(Math.max(scale, 0.2), 1.05);
+
+      const scaleStr = scale.toFixed(4);
+      document.documentElement.style.setProperty('--sheet-scale', scaleStr);
+      if (scaler) {
+        scaler.style.setProperty('--sheet-scale', scaleStr);
+      }
+    }
+
+    // 창 크기 변경 및 모바일 화면 회전 시 실시간 반응
+    window.addEventListener('resize', updateBrochureScale, { passive: true });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(updateBrochureScale, 100);
+      setTimeout(updateBrochureScale, 300);
+    });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateBrochureScale);
+    } else {
+      updateBrochureScale();
+    }
+    window.addEventListener('load', updateBrochureScale);
   
     // =============================================================
         // -------------------------------------------------------------
@@ -8579,6 +8648,9 @@ b;
       }
 
       lucide.createIcons();
+      if (typeof updateBrochureScale === 'function') {
+        updateBrochureScale();
+      }
     }
 
     // -------------------------------------------------------------
