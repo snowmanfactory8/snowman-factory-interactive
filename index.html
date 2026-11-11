@@ -36,6 +36,26 @@
       user-select: none;
     }
 
+    /* Select & Option Dropdown Cross-Browser Theme Fix (전체 드롭다운 가독성 보장) */
+    select {
+      color-scheme: dark !important;
+    }
+    select option {
+      background-color: #0f172a !important;
+      color: #f8fafc !important;
+      font-size: 12px !important;
+      padding: 6px 10px !important;
+    }
+    select option:checked {
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+    }
+    select option:hover {
+      background-color: #1e293b !important;
+      color: #38bdf8 !important;
+    }
+
     html, body {
       width: 100vw;
       height: 100vh;
@@ -3484,13 +3504,13 @@ b;
               <span style="font-size: 11px; color: var(--apple-label-secondary); font-weight: 500;">분야 선택</span>
               <span style="font-size: 10px; color: var(--apple-label-tertiary);">즉시 변경</span>
             </div>
-            <select onchange="changeCurrentDividerCategory(this.value)" style="background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.14); color: #ffffff; padding: 6px 10px; border-radius: var(--apple-radius-sm); font-size: 12px; outline: none; width: 100%; cursor: pointer;">
-              <option value="bim" selected="">01. BIM (디지털 트윈)</option>
-              <option value="scan">02. 3D 스캐닝 (LiDAR)</option>
-              <option value="xr">03. 공간 컴퓨팅 (XR)</option>
-              <option value="simulation">04. 친환경 시뮬레이션</option>
-              <option value="consulting">05. 교육 및 DX 컨설팅</option>
-              <option value="rnd">06. 미래건축 R&amp;D</option>
+            <select onchange="changeCurrentDividerCategory(this.value)" style="background: #0f172a; border: 0.5px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 6px 10px; border-radius: var(--apple-radius-sm); font-size: 12px; outline: none; width: 100%; cursor: pointer; color-scheme: dark;">
+              <option style="background: #0f172a; color: #f8fafc;" value="bim" selected="">01. BIM (디지털 트윈)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="scan">02. 3D 스캐닝 (LiDAR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="xr">03. 공간 컴퓨팅 (XR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="simulation">04. 친환경 시뮬레이션</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="consulting">05. 교육 및 DX 컨설팅</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="rnd">06. 미래건축 R&amp;D</option>
             </select>
           </div>
         
@@ -9218,13 +9238,13 @@ b;
               <span style="font-size: 11px; color: var(--apple-label-secondary); font-weight: 500;">분야 선택</span>
               <span style="font-size: 10px; color: var(--apple-label-tertiary);">즉시 변경</span>
             </div>
-            <select onchange="changeCurrentDividerCategory(this.value)" style="background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.14); color: #ffffff; padding: 6px 10px; border-radius: var(--apple-radius-sm); font-size: 12px; outline: none; width: 100%; cursor: pointer;">
-              <option value="bim" ${cat === 'bim' ? 'selected' : ''}>01. BIM (디지털 트윈)</option>
-              <option value="scan" ${cat === 'scan' ? 'selected' : ''}>02. 3D 스캐닝 (LiDAR)</option>
-              <option value="xr" ${cat === 'xr' ? 'selected' : ''}>03. 공간 컴퓨팅 (XR)</option>
-              <option value="simulation" ${cat === 'simulation' ? 'selected' : ''}>04. 친환경 시뮬레이션</option>
-              <option value="consulting" ${cat === 'consulting' ? 'selected' : ''}>05. 교육 및 DX 컨설팅</option>
-              <option value="rnd" ${cat === 'rnd' ? 'selected' : ''}>06. 미래건축 R&D</option>
+            <select onchange="changeCurrentDividerCategory(this.value)" style="background: #0f172a; border: 0.5px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 6px 10px; border-radius: var(--apple-radius-sm); font-size: 12px; outline: none; width: 100%; cursor: pointer; color-scheme: dark;">
+              <option style="background: #0f172a; color: #f8fafc;" value="bim" ${cat === 'bim' ? 'selected' : ''}>01. BIM (디지털 트윈)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="scan" ${cat === 'scan' ? 'selected' : ''}>02. 3D 스캐닝 (LiDAR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="xr" ${cat === 'xr' ? 'selected' : ''}>03. 공간 컴퓨팅 (XR)</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="simulation" ${cat === 'simulation' ? 'selected' : ''}>04. 친환경 시뮬레이션</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="consulting" ${cat === 'consulting' ? 'selected' : ''}>05. 교육 및 DX 컨설팅</option>
+              <option style="background: #0f172a; color: #f8fafc;" value="rnd" ${cat === 'rnd' ? 'selected' : ''}>06. 미래건축 R&D</option>
             </select>
           </div>
         `;
@@ -9236,11 +9256,11 @@ b;
           <!-- 프로젝트 DB 연동 UI -->
           <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 3px;">연동된 프로젝트 실적 DB</div>
           <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1; background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.14); color: #ffffff; padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11px; outline: none; cursor: pointer;">
+            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1; background: #0f172a; border: 0.5px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11.5px; outline: none; cursor: pointer; color-scheme: dark;">
               ${(() => {
                 const db = getProjectDatabase();
                 const curId = currentPage ? currentPage.getAttribute('data-project-id') : '';
-                return db.map(p => `<option value="${p.id}" ${p.id === curId ? 'selected' : ''}>${p.year} [${(p.category||'').toUpperCase()}] ${p.name}</option>`).join('');
+                return db.map(p => `<option value="${p.id}" ${p.id === curId ? 'selected' : ''} style="background: #0f172a; color: #f8fafc;">${p.year} [${(p.category||'').toUpperCase()}] ${p.name}</option>`).join('');
               })()}
             </select>
             <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 엑셀 DB 열기" style="padding: 5px 9px; flex-shrink: 0; min-width: 0;">
