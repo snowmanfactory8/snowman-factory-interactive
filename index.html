@@ -10132,20 +10132,46 @@ b;
 
       const cloneDoc = document.documentElement.cloneNode(true);
 
-      // 1. 편집 활성화 클래스 및 contenteditable 속성 일괄 제거 (깨끗한 뷰 상태로 커밋)
+      // 1. [핵심] 관리자 모드 활성 클래스 및 툴바 완전 비활성화 (순수 뷰어 모드로 정화)
       cloneDoc.classList.remove('admin-mode-active');
       const body = cloneDoc.querySelector('body');
-      if (body) body.classList.remove('admin-mode-active');
+      if (body) {
+        body.classList.remove('admin-mode-active');
+      }
 
-      // 객체 추가/삭제 제어 버튼들 영구 제거
-      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn').forEach(b => b.remove());
-      const editables = cloneDoc.querySelectorAll('[contenteditable]');
-      editables.forEach(el => el.removeAttribute('contenteditable'));
+      // 관리자 사이드바 툴바 닫힘 강제
+      const toolbar = cloneDoc.querySelector('#adminToolbar');
+      if (toolbar) {
+        toolbar.classList.remove('visible');
+      }
 
-      const editImgs = cloneDoc.querySelectorAll('.admin-editable-img');
-      editImgs.forEach(el => el.classList.remove('admin-editable-img'));
+      // 2. 인라인 편집 contenteditable 및 스타일/클래스 완전 박멸
+      cloneDoc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img'));
+      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(b => b.remove());
+      cloneDoc.querySelectorAll('*').forEach(el => {
+        if (el.style && el.style.outline) el.style.outline = '';
+      });
 
-      // 2. [중요] GitHub 배포 버튼이 '전송 중...' 상태로 커밋되지 않도록 원래 깨끗한 상태로 강제 복원
+      // 3. 인트로 화면 및 알림 토스트 기본 뷰어 상태 복원
+      const cloneIntro = cloneDoc.querySelector('#intro-screen');
+      if (cloneIntro) cloneIntro.classList.remove('hide-intro');
+      const cloneToast = cloneDoc.querySelector('#adminToast');
+      if (cloneToast) {
+        cloneToast.classList.remove('show');
+        const toastText = cloneToast.querySelector('#adminToastText');
+        if (toastText) toastText.textContent = '알림 메시지';
+      }
+
+      // 4. 모든 모달, 백드롭, 사이드바 열림 상태 완전 닫힘 강제
+      cloneDoc.querySelectorAll('.admin-modal-backdrop, .modal-overlay, #adminLoginModal, #categoryEditModal, #projectDbModal, #addPageModal, #ghSettingsModal, #tocSidebarPanel, #tocBackdrop').forEach(el => {
+        el.classList.remove('open', 'active', 'show');
+        if (el.id === 'categoryEditModal' || el.id === 'projectDbModal') {
+          el.style.display = 'none';
+        }
+      });
+
+      // 5. GitHub 배포 버튼 원래 깨끗한 상태로 복원
       const cloneSbBtn = cloneDoc.querySelector('#btnSaveToSupabase');
       if (cloneSbBtn) {
         cloneSbBtn.disabled = false;
@@ -10163,26 +10189,6 @@ b;
           <span class="live-pill">LIVE</span>
         `;
       }
-
-      // 2.5. [중요] 최신 솔루션 카테고리/노드 모달 및 패널 비활성화
-      const editModal = cloneDoc.querySelector('#categoryEditModal');
-      if (editModal) {
-        editModal.classList.remove('open');
-        editModal.style.display = 'none';
-      }
-
-      // 3. 열려있을 수 있는 모달 및 패널 활성 클래스 정화
-      const activeBackdrops = cloneDoc.querySelectorAll('.admin-modal-backdrop.open, #tocBackdrop.active, #tocSidebarPanel.active');
-      activeBackdrops.forEach(el => {
-        el.classList.remove('open', 'active');
-        if (el.id === 'tocSidebarPanel') el.classList.remove('active');
-      });
-
-      // 3.5. [중요] 첫 방문자를 위해 인트로 화면의 hide-intro 및 잔여 토스트를 항상 깨끗한 초기 상태로 복원
-      const cloneIntro = cloneDoc.querySelector('#intro-screen');
-      if (cloneIntro) cloneIntro.classList.remove('hide-intro');
-      const cloneToast = cloneDoc.querySelector('#adminToast');
-      if (cloneToast) cloneToast.classList.remove('show');
 
       let html = '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
 
@@ -10242,10 +10248,21 @@ b;
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30초 안전 타임아웃
 
       try {
+        // [핵심] 배포 직전 DOM을 임시 뷰어 상태로 전환하여 관리자 모드 잔재 원천 차단
+        const wasAdminMode = (typeof isAdminMode !== 'undefined') ? isAdminMode : false;
+        if (wasAdminMode && typeof exitAdminMode === 'function') {
+          exitAdminMode();
+        }
+
         showAdminToast('⏳ [1/4] 깨끗한 HTML 문서를 생성하는 중...');
 
-        // 1. 깨끗한 HTML 문서 추출 (버튼 상태 정화 완료본)
+        // 1. 완전히 정화된 뷰어 상태에서 배포용 HTML 문서 추출
         const cleanHtml = generateCleanBrochureHTML();
+
+        // HTML 추출 완료 후, 관리자 본인의 화면은 다시 편집 모드로 복구
+        if (wasAdminMode && typeof enableAdminMode === 'function') {
+          enableAdminMode();
+        }
 
         showAdminToast('⏳ [2/4] GitHub 저장소의 최신 파일 상태를 확인하는 중...');
 
@@ -10419,10 +10436,10 @@ b;
       if (initialToast) initialToast.classList.remove('show');
 
     
+      // [원칙] 모든 접속자는 항상 순수 뷰어 모드(인트로 히어로)로 안전하게 진입
+      // 관리자 편집은 우측 상단 자물쇠 버튼을 눌러 비밀번호(admin1234) 입력 시에만 활성화됩니다.
       try {
-        if (localStorage.getItem('snowman_admin_mode') === 'true') {
-          enableAdminMode();
-        }
+        localStorage.removeItem('snowman_admin_mode');
       } catch (e) {}
     });
 
