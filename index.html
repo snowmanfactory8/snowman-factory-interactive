@@ -7162,14 +7162,8 @@ b;
         <div style="display: flex; align-items: stretch; gap: 8px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px 10px;">
           <span style="font-family: monospace; font-size: 11px; font-weight: 800; color: #38bdf8; min-width: 24px; padding-top: 6px;">#${idx + 1}</span>
           <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-              <input type="text" value="${(child.title || '').replace(/"/g, '&quot;')}" placeholder="노드 국문 타이틀 (예: 정밀 3D 모델링)" oninput="updateTempChildField(${idx}, 'title', this.value)" style="background: #1e293b; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; color: #ffffff; font-size: 12px; font-weight: 600; outline: none;">
-              <input type="text" value="${(child.en || '').replace(/"/g, '&quot;')}" placeholder="노드 영문 서브타이틀 (예: Integrated BIM 3D)" oninput="updateTempChildField(${idx}, 'en', this.value)" style="background: #1e293b; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; color: #94a3b8; font-size: 12px; outline: none;">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-              <input type="text" value="${(anno.ko || '').replace(/"/g, '&quot;')}" placeholder="설명글 국문 (예: 조달청 맞춤형 서비스 기준 충족)" oninput="updateTempAnnotationField(${idx}, 'ko', this.value)" style="background: #131c31; border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 5px; padding: 5px 8px; color: #e2e8f0; font-size: 11.5px; outline: none;">
-              <input type="text" value="${(anno.en || '').replace(/"/g, '&quot;')}" placeholder="설명글 영문 (예: Public Procurement Service Compliance)" oninput="updateTempAnnotationField(${idx}, 'en', this.value)" style="background: #131c31; border: 1px solid rgba(56, 189, 248, 0.22); border-radius: 5px; padding: 5px 8px; color: #94a3b8; font-size: 11.5px; outline: none;">
-            </div>
+            <input type="text" value="${(child.title || '').replace(/"/g, '&quot;')}" placeholder="노드 타이틀 (예: 정밀 3D 모델링)" oninput="updateTempChildField(${idx}, 'title', this.value)" style="background: #1e293b; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; color: #ffffff; font-size: 12px; font-weight: 600; outline: none;">
+            <input type="text" value="${(anno.ko || '').replace(/"/g, '&quot;')}" placeholder="하위 노드 설명글 (예: 조달청 맞춤형 서비스 기준 충족)" oninput="updateTempAnnotationField(${idx}, 'ko', this.value)" style="background: #131c31; border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 5px; padding: 5px 8px; color: #e2e8f0; font-size: 11.5px; outline: none;">
           </div>
           <div style="display: flex; flex-direction: column; justify-content: center; gap: 4px;">
             <div style="display: flex; gap: 4px;">
@@ -7206,11 +7200,11 @@ b;
     function addCategoryEditChildRow() {
       tempEditingChildren.push({
         title: "새 하위 카테고리",
-        en: "New Sub Item"
+        en: ""
       });
       tempEditingAnnotations.push({
         ko: "하위 노드 세부 설명",
-        en: "Sub Node Description"
+        en: ""
       });
       renderCategoryEditChildrenList();
     }
@@ -7815,8 +7809,8 @@ b;
             edge.setAttribute('class', 'child-edge-line');
             edge.setAttribute('x1', cat.x + Math.cos(angleRad) * 66);
             edge.setAttribute('y1', cat.y + Math.sin(angleRad) * 66);
-            edge.setAttribute('x2', cx - Math.cos(angleRad) * 33);
-            edge.setAttribute('y2', cy - Math.sin(angleRad) * 33);
+            edge.setAttribute('x2', cx - Math.cos(angleRad) * 35);
+            edge.setAttribute('y2', cy - Math.sin(angleRad) * 35);
             edge.setAttribute('stroke', cat.color);
             edge.setAttribute('stroke-width', '1.2');
             edge.setAttribute('stroke-dasharray', '2.5,2.5');
@@ -7843,7 +7837,7 @@ b;
             outerCircle.setAttribute('class', 'child-circle-outer');
             outerCircle.setAttribute('cx', cx);
             outerCircle.setAttribute('cy', cy);
-            outerCircle.setAttribute('r', '33');
+            outerCircle.setAttribute('r', '35');
             outerCircle.setAttribute('stroke', cat.color);
             circleNodeG.appendChild(outerCircle);
 
@@ -7852,54 +7846,47 @@ b;
             innerRing.setAttribute('class', 'child-circle-inner-ring');
             innerRing.setAttribute('cx', cx);
             innerRing.setAttribute('cy', cy);
-            innerRing.setAttribute('r', '27.5');
+            innerRing.setAttribute('r', '30');
             innerRing.setAttribute('stroke', cat.color);
             circleNodeG.appendChild(innerRing);
 
-            // 원 내부 텍스트 1: 국문 볼드 타이틀
+            // 원 내부 텍스트: 국문 볼드 타이틀 (수직 중앙 정렬 + 원 내부 자동 피팅)
             const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             titleText.setAttribute('class', 'child-circle-title');
             titleText.setAttribute('x', cx);
-            titleText.setAttribute('y', cy - 3.8);
+            titleText.setAttribute('y', cy);
             titleText.setAttribute('fill', cat.color);
             titleText.textContent = child.title;
             circleNodeG.appendChild(titleText);
 
-            // 원 내부 텍스트 2: 영문 서브타이틀
-            const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            subText.setAttribute('class', 'child-circle-sub');
-            subText.setAttribute('x', cx);
-            subText.setAttribute('y', cy + 5.5);
-            subText.setAttribute('fill', cat.color);
-            subText.textContent = child.en;
-            circleNodeG.appendChild(subText);
-
             childNodesLayer.appendChild(circleNodeG);
 
-            // [주변 세부 주석 텍스트 (Micro Annotation Blocks)]
-            if (cat.annotations && cat.annotations[idx]) {
+            // 원 내부 링(지름 60px)과 글씨가 겹치지 않도록 최대 폭(52px) 기준 자동 축소
+            if (typeof titleText.getComputedTextLength === 'function') {
+              const textLen = titleText.getComputedTextLength();
+              if (textLen > 52) {
+                const fittedSize = Math.max(6.8, (10.5 * 52) / textLen);
+                titleText.style.fontSize = fittedSize.toFixed(2) + 'px';
+              }
+            }
+
+            // [주변 세부 주석 텍스트 (Micro Annotation Blocks)] - 원 외곽(r=35) 바깥에 배치하여 겹침 방지
+            if (cat.annotations && cat.annotations[idx] && cat.annotations[idx].ko) {
               const annoG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
               annoG.setAttribute('class', 'micro-annotation-group');
 
-              const annoX = isLeft ? cx - 26 : cx + 26;
-              const annoY = isTop ? cy - 14 : cy + 18;
+              const annoX = isLeft ? cx - 42 : cx + 42;
+              const annoY = isTop ? cy - 8 : cy + 10;
               const textAnchor = isLeft ? 'end' : 'start';
 
               const koText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
               koText.setAttribute('class', 'micro-anno-ko');
               koText.setAttribute('x', annoX);
               koText.setAttribute('y', annoY);
+              koText.setAttribute('dominant-baseline', 'central');
               koText.setAttribute('text-anchor', textAnchor);
               koText.textContent = cat.annotations[idx].ko;
               annoG.appendChild(koText);
-
-              const enText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-              enText.setAttribute('class', 'micro-anno-en');
-              enText.setAttribute('x', annoX);
-              enText.setAttribute('y', annoY + 7.5);
-              enText.setAttribute('text-anchor', textAnchor);
-              enText.textContent = cat.annotations[idx].en;
-              annoG.appendChild(enText);
 
               childNodesLayer.appendChild(annoG);
             }
