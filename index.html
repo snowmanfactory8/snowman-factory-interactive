@@ -7850,7 +7850,7 @@ b;
             innerRing.setAttribute('stroke', cat.color);
             circleNodeG.appendChild(innerRing);
 
-            // 원 내부 텍스트: 국문 볼드 타이틀 (수직 중앙 정렬 + 원 내부 자동 피팅)
+            // 원 내부 텍스트: 국문 볼드 타이틀 (수직 중앙 정렬 + 원 내부 폭 초과 시 글씨 크기 유지하며 줄바꿈)
             const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             titleText.setAttribute('class', 'child-circle-title');
             titleText.setAttribute('x', cx);
@@ -7861,13 +7861,71 @@ b;
 
             childNodesLayer.appendChild(circleNodeG);
 
-            // 원 내부 링(지름 60px)과 글씨가 겹치지 않도록 최대 폭(52px) 기준 자동 축소
-            if (typeof titleText.getComputedTextLength === 'function') {
-              const textLen = titleText.getComputedTextLength();
-              if (textLen > 52) {
-                const fittedSize = Math.max(6.8, (10.5 * 52) / textLen);
-                titleText.style.fontSize = fittedSize.toFixed(2) + 'px';
+            // 원 내부 링(지름 60px)과 글씨가 겹치지 않도록 최대 폭(46px) 초과 시 폰트 크기 축소 없이 다음 줄로 줄바꿈
+            // (비활성 페이지 display:none 상태에서도 동작하도록 문자 폭 추정 + getComputedTextLength 병행)
+            const measureTitleW = (str) => {
+              let est = 0;
+              for (const ch of Array.from(str || '')) {
+                if (/[가-힣ㄱ-ㅎㅏ-ㅣ\u3000-\u9FFF]/.test(ch)) est += 9.8;
+                else if (ch === ' ') est += 3.0;
+                else if (/[A-ZMW@]/.test(ch)) est += 7.2;
+                else est += 5.5;
               }
+              if (typeof titleText.getComputedTextLength === 'function') {
+                titleText.textContent = str;
+                const domLen = titleText.getComputedTextLength();
+                if (domLen > 0) return Math.max(est, domLen);
+              }
+              return est;
+            };
+
+            const maxLineW = 46;
+            if (measureTitleW(child.title) > maxLineW) {
+              const rawTitle = (child.title || '').trim();
+              const tokens = rawTitle.includes(' ') ? rawTitle.split(/\s+/) : Array.from(rawTitle);
+              const sep = rawTitle.includes(' ') ? ' ' : '';
+              const lines = [];
+              let currentLine = '';
+
+              const pushToken = (tok) => {
+                const candidate = currentLine ? currentLine + sep + tok : tok;
+                if (measureTitleW(candidate) <= maxLineW) {
+                  currentLine = candidate;
+                } else {
+                  if (currentLine) lines.push(currentLine);
+                  if (measureTitleW(tok) > maxLineW && tok.length > 1) {
+                    let part = '';
+                    for (const ch of Array.from(tok)) {
+                      if (measureTitleW(part + ch) <= maxLineW || !part) {
+                        part += ch;
+                      } else {
+                        lines.push(part);
+                        part = ch;
+                      }
+                    }
+                    currentLine = part;
+                  } else {
+                    currentLine = tok;
+                  }
+                }
+              };
+
+              tokens.forEach(pushToken);
+              if (currentLine) lines.push(currentLine);
+
+              titleText.textContent = '';
+              const lineHeight = 13;
+              const startY = cy - ((lines.length - 1) * lineHeight) / 2;
+              lines.forEach((line, lineIdx) => {
+                const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                tspan.setAttribute('x', cx);
+                tspan.setAttribute('y', startY + lineIdx * lineHeight);
+                tspan.setAttribute('dominant-baseline', 'central');
+                tspan.textContent = line;
+                titleText.appendChild(tspan);
+              });
+            } else {
+              titleText.textContent = child.title;
             }
 
             // [주변 세부 주석 텍스트 (Micro Annotation Blocks)] - 원 외곽(r=35) 바깥에 배치하여 겹침 방지
