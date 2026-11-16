@@ -3300,16 +3300,10 @@ b;
     body:not(.admin-mode-active) .admin-obj-delete-btn,
     body:not(.admin-mode-active) .admin-obj-add-btn,
     body:not(.admin-mode-active) .admin-bullet-add-btn,
-    body:not(.admin-mode-active) .divider-cat-select {
+    .divider-cat-select {
       display: none !important;
       visibility: hidden !important;
       pointer-events: none !important;
-    }
-
-    body.admin-mode-active .divider-cat-select {
-      display: inline-block !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
     }
 
     .admin-bullet-add-btn {
@@ -4672,14 +4666,6 @@ b;
               <span class="divider-cat-badge" style="font-size: 10.5px; font-weight: 800; font-family: 'Space Grotesk', monospace; letter-spacing: 1px; color: #38bdf8; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 9px; border-radius: 4px;" spellcheck="false">
                 CATEGORY 01
               </span>
-              <select class="divider-cat-select" onchange="changeDividerCategory(this)" style="display: inline-block; background: rgb(15, 23, 42); border: 1px solid rgb(56, 189, 248); color: rgb(56, 189, 248); font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
-                <option value="bim" selected="">01. BIM (디지털 트윈)</option>
-                <option value="scan">02. 3D 스캐닝 (초정밀 역설계)</option>
-                <option value="xr">03. 공간 컴퓨팅 (XR/AR)</option>
-                <option value="simulation">04. 친환경 에너지 시뮬레이션</option>
-                <option value="consulting">05. 교육 및 DX 컨설팅</option>
-                <option value="rnd">06. 미래건축 기술 R&amp;D</option>
-              </select>
             </div>
             <span style="font-size: 10.5px; font-weight: 700; color: #64748b; font-family: 'Space Grotesk', monospace; letter-spacing: 1px;" spellcheck="false">
               SNOWMAN FACTORY · ARCHITECTURE &amp; BIM
@@ -5040,14 +5026,6 @@ b;
           <div class="divider-category-bar" style="position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span class="divider-cat-badge" style="font-size: 10.5px; font-weight: 800; font-family: 'Space Grotesk', monospace; letter-spacing: 1px; color: #38bdf8; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 9px; border-radius: 4px;" spellcheck="false">CATEGORY 02</span>
-              <select class="divider-cat-select" onchange="changeDividerCategory(this)" style="display: inline-block; background: rgb(15, 23, 42); border: 1px solid rgb(56, 189, 248); color: rgb(56, 189, 248); font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
-                <option value="bim" selected="">01. BIM (디지털 트윈)</option>
-                <option value="scan">02. 3D 스캐닝 (초정밀 역설계)</option>
-                <option value="xr">03. 공간 컴퓨팅 (XR/AR)</option>
-                <option value="simulation">04. 친환경 에너지 시뮬레이션</option>
-                <option value="consulting">05. 교육 및 DX 컨설팅</option>
-                <option value="rnd">06. 미래건축 기술 R&amp;D</option>
-              </select>
             </div>
             <span style="font-size: 10.5px; font-weight: 700; color: #64748b; font-family: 'Space Grotesk', monospace; letter-spacing: 1px;" spellcheck="false">
               SNOWMAN FACTORY · ARCHITECTURE &amp; BIM
@@ -5652,14 +5630,6 @@ b;
           <div class="divider-category-bar" style="position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span class="divider-cat-badge" style="font-size: 10.5px; font-weight: 800; font-family: 'Space Grotesk', monospace; letter-spacing: 1px; color: #38bdf8; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 9px; border-radius: 4px;" spellcheck="false">CATEGORY 06</span>
-              <select class="divider-cat-select" onchange="changeDividerCategory(this)" style="display: inline-block; background: rgb(15, 23, 42); border: 1px solid rgb(56, 189, 248); color: rgb(56, 189, 248); font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
-                <option value="bim" selected="">01. BIM (디지털 트윈)</option>
-                <option value="scan">02. 3D 스캐닝 (초정밀 역설계)</option>
-                <option value="xr">03. 공간 컴퓨팅 (XR/AR)</option>
-                <option value="simulation">04. 친환경 에너지 시뮬레이션</option>
-                <option value="consulting">05. 교육 및 DX 컨설팅</option>
-                <option value="rnd">06. 미래건축 기술 R&amp;D</option>
-              </select>
             </div>
             <span style="font-size: 10.5px; font-weight: 700; color: #64748b; font-family: 'Space Grotesk', monospace; letter-spacing: 1px;" spellcheck="false">
               SNOWMAN FACTORY · ARCHITECTURE &amp; BIM
@@ -6158,12 +6128,14 @@ b;
     // -------------------------------------------------------------
     // 5. 간지 페이지 카테고리 전환 함수 (관리자 모드)
     // -------------------------------------------------------------
-    function changeDividerCategory(selectElem) {
-      const newCat = selectElem.value;
+    function changeDividerCategory(targetOrSelect, forcedCat) {
+      const newCat = forcedCat || (targetOrSelect && targetOrSelect.value);
       const meta = window.CATEGORY_META[newCat];
       if (!meta) return;
 
-      const pageContent = selectElem.closest('.a4-page-content');
+      const pageContent = (targetOrSelect && targetOrSelect.classList && targetOrSelect.classList.contains('a4-page-content'))
+        ? targetOrSelect
+        : (targetOrSelect && targetOrSelect.querySelector ? (targetOrSelect.querySelector('.a4-page-content') || (targetOrSelect.closest && targetOrSelect.closest('.a4-page-content'))) : null);
       if (!pageContent) return;
 
       pageContent.setAttribute('data-category', newCat);
@@ -9878,14 +9850,6 @@ b;
               <span class="divider-cat-badge" style="font-size: 10.5px; font-weight: 800; font-family: 'Space Grotesk', monospace; letter-spacing: 1px; color: #38bdf8; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 9px; border-radius: 4px;">
                 CATEGORY ${meta.num}
               </span>
-              <select class="divider-cat-select" onchange="changeDividerCategory(this)" style="display: ${window.isAdminMode ? 'inline-block' : 'none'}; background: #0f172a; border: 1px solid #38bdf8; color: #38bdf8; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; outline: none; cursor: pointer;">
-                <option value="bim" ${catKey === 'bim' ? 'selected' : ''}>01. BIM (디지털 트윈)</option>
-                <option value="scan" ${catKey === 'scan' ? 'selected' : ''}>02. 3D 스캐닝 (초정밀 역설계)</option>
-                <option value="xr" ${catKey === 'xr' ? 'selected' : ''}>03. 공간 컴퓨팅 (XR/AR)</option>
-                <option value="simulation" ${catKey === 'simulation' ? 'selected' : ''}>04. 친환경 에너지 시뮬레이션</option>
-                <option value="consulting" ${catKey === 'consulting' ? 'selected' : ''}>05. 교육 및 DX 컨설팅</option>
-                <option value="rnd" ${catKey === 'rnd' ? 'selected' : ''}>06. 미래건축 기술 R&amp;D</option>
-              </select>
             </div>
             <span style="font-size: 10.5px; font-weight: 700; color: #64748b; font-family: 'Space Grotesk', monospace; letter-spacing: 1px;">
               SNOWMAN FACTORY · ARCHITECTURE &amp; BIM
