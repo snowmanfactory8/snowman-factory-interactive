@@ -7782,8 +7782,8 @@ b;
           // 2) 가변 N개 하위 원형 노드 및 주변 주석 렌더링 (동심원 둘레 / 노드수 = 360/N 균등 자동 배치)
           const totalChildren = cat.children ? cat.children.length : 0;
           const stepAngle = totalChildren > 0 ? (360 / totalChildren) : 360;
-          // 좌우 대칭 기준 시작 각도: 짝수면 X자 대칭(-90 + step/2), 홀수면 12시 정점 대칭(-90)
-          const startAngle = (totalChildren % 2 === 0) ? (-90 + (stepAngle / 2)) : -90;
+          // 좌우 대칭 기준 시작 각도: 짝수면 좌측 상단(#1)부터 시계방향(-90 - step/2), 홀수면 12시 정점 대칭(-90)
+          const startAngle = (totalChildren % 2 === 0) ? (-90 - (stepAngle / 2)) : -90;
 
           cat.children.forEach((child, idx) => {
             const angleDeg = startAngle + (idx * stepAngle);
