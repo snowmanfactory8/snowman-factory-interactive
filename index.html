@@ -4693,9 +4693,9 @@ b;
             <h2 class="divider-main-title" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px 0; color: #ffffff; letter-spacing: -0.8px;" spellcheck="false">
               BIM (건축정보화모델링)<br></h2>
             <div style="width: 52px; height: 3px; background: linear-gradient(90deg, #38bdf8, #0ea5e9); border-radius: 2px; margin-bottom: 16px;"></div>
-            <p class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">
-              건축·구조·기계·전기 전 분야의 BIM 전환 모델링 및 사전 간섭 100% 자동 검출,&nbsp;</p><div>조달청 시설사업 기준의 공공·민간 고품질 디지털 트윈 인프라를 구축합니다.
-            </div><p spellcheck="false"></p>
+            <div class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">
+              건축·구조·기계·전기 전 분야의 BIM 전환 모델링 및 사전 간섭 100% 자동 검출,<br>조달청 시설사업 기준의 공공·민간 고품질 디지털 트윈 인프라를 구축합니다.
+            </div>
           </div>
 
           <div class="divider-projects-container" style="position: relative; z-index: 5; margin-top: auto; padding-top: 36px; width: 100%;">
@@ -5059,7 +5059,7 @@ b;
             <p class="divider-en-title" style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #38bdf8; text-transform: uppercase; margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif;" spellcheck="false">3D SCANNING &amp; REVERSE ENGINEERING</p>
             <h2 class="divider-main-title" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px 0; color: #ffffff; letter-spacing: -0.8px;" spellcheck="false">3D&nbsp; 스캐닝 &amp; 역설계<br></h2>
             <div style="width: 52px; height: 3px; background: linear-gradient(90deg, #38bdf8, #0ea5e9); border-radius: 2px; margin-bottom: 16px;"></div>
-            <p class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">현장 오차 ±1.2mm 이내의 초정밀 3차원 지상 레이저 스캐닝을 통해 복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</p><div>복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</div><p spellcheck="false"><br></p>
+            <div class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">현장 오차 ±1.2mm 이내의 초정밀 3차원 지상 레이저 스캐닝을 통해 복잡한 배관 및 비정형 구조물을 1:1 역설계하고, 시공 오차를 사전에 검증합니다.</div>
           </div>
 
           <div class="divider-projects-container" style="position: relative; z-index: 5; margin-top: auto; padding-top: 36px; width: 100%;">
@@ -5671,7 +5671,7 @@ b;
             <p class="divider-en-title" style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #38bdf8; text-transform: uppercase; margin: 0 0 10px 0; font-family: 'Space Grotesk', sans-serif;" spellcheck="false">FUTURE ARCHITECTURE RESEARCH &amp;amp; COMPUTATIONAL DESIGN</p>
             <h2 class="divider-main-title" style="font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px 0; color: #ffffff; letter-spacing: -0.8px;" spellcheck="false">연구개발<br></h2>
             <div style="width: 52px; height: 3px; background: linear-gradient(90deg, #38bdf8, #0ea5e9); border-radius: 2px; margin-bottom: 16px;"></div>
-            <p class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">생성형 AI 기반 공간 계획 알고리즘, 로봇 친화형 빌딩 자율주행 경로 BIM 연계, 점군 데이터 자동 객체 세그멘테이션 등 차세대 건축 혁신을 선도합니다.</p>
+            <div class="divider-desc-text" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;" spellcheck="false">생성형 AI 기반 공간 계획 알고리즘, 로봇 친화형 빌딩 자율주행 경로 BIM 연계, 점군 데이터 자동 객체 세그멘테이션 등 차세대 건축 혁신을 선도합니다.</div>
           </div>
 
           <div class="divider-projects-container" style="position: relative; z-index: 5; margin-top: auto; padding-top: 36px; width: 100%;">
@@ -8975,8 +8975,29 @@ b;
         return;
       }
 
+      // [자동 복구] 간지 페이지 설명글(.divider-desc-text)이 Enter로 쪼개져 형제 <div>/<p>로 분리된 경우 하나로 병합
+      sheet.querySelectorAll('.a4-page-divider .divider-desc-text').forEach(descEl => {
+        let next = descEl.nextElementSibling;
+        while (next && (next.tagName === 'DIV' || next.tagName === 'P') && !next.classList.contains('divider-projects-container')) {
+          const text = next.innerHTML.trim();
+          if (text && text !== '<br>') {
+            descEl.innerHTML += '<br>' + text;
+          }
+          const toRemove = next;
+          next = next.nextElementSibling;
+          toRemove.remove();
+        }
+        // <p> 태그인 경우 Enter 시 재분리 방지를 위해 <div>로 변환
+        if (descEl.tagName === 'P') {
+          const divEl = document.createElement('div');
+          Array.from(descEl.attributes).forEach(attr => divEl.setAttribute(attr.name, attr.value));
+          divEl.innerHTML = descEl.innerHTML;
+          descEl.parentNode.replaceChild(divEl, descEl);
+        }
+      });
+
       // 1. 모든 텍스트 엘리먼트에 안전하게 contenteditable="true" 우선 부여
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .divider-desc-text, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 버튼, 컨트롤 제외
@@ -9790,9 +9811,9 @@ b;
               ${meta.title}
             </h2>
             <div style="width: 52px; height: 3px; background: linear-gradient(90deg, #38bdf8, #0ea5e9); border-radius: 2px; margin-bottom: 16px;"></div>
-            <p class="divider-desc-text" contenteditable="${window.isAdminMode ? 'true' : 'false'}" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;">
+            <div class="divider-desc-text" contenteditable="${window.isAdminMode ? 'true' : 'false'}" style="font-size: 13.5px; line-height: 1.7; color: #cbd5e1; margin: 0; font-weight: 400; word-break: keep-all; max-width: 650px;">
               ${meta.desc}
-            </p>
+            </div>
           </div>
 
           <div class="divider-projects-container" style="position: relative; z-index: 5; margin-top: auto; padding-top: 36px; width: 100%;">
