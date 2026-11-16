@@ -1434,6 +1434,22 @@
       height: 17px;
     }
 
+    /* 5컷 (Split 2+3): 상단 2분할 + 하단 3분할 */
+    .legend-matrix-split2-3 {
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 17px 17px;
+      width: 44px;
+    }
+    .legend-matrix-split2-3 .legend-cell {
+      width: 100%;
+      height: 17px;
+    }
+    .legend-matrix-split2-3 .legend-cell:nth-child(1) { grid-column: 1 / span 3; }
+    .legend-matrix-split2-3 .legend-cell:nth-child(2) { grid-column: 4 / span 3; }
+    .legend-matrix-split2-3 .legend-cell:nth-child(3) { grid-column: 1 / span 2; }
+    .legend-matrix-split2-3 .legend-cell:nth-child(4) { grid-column: 3 / span 2; }
+    .legend-matrix-split2-3 .legend-cell:nth-child(5) { grid-column: 5 / span 2; }
+
     /* 2컷 (Split2 Cols): 좌우 2분할 */
     .legend-matrix-split2-cols {
       grid-template-columns: 17px 17px;
@@ -2596,6 +2612,11 @@ b;
     .tp-split2-rows { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; width: 100%; height: 100%; }
     .tp-split2-rows div { background: #cbd5e1; border-radius: 2px; }
 
+    .tp-split2-3 { display: flex; flex-direction: column; gap: 2px; width: 100%; height: 100%; }
+    .tp-split2-3-top { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .tp-split2-3-bottom { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+    .tp-split2-3-top div, .tp-split2-3-bottom div { background: #cbd5e1; border-radius: 2px; }
+
     .tp-minimal-box { display: flex; flex-direction: column; width: 100%; height: 100%; }
     .tp-minimal-top { flex: 1; background: #cbd5e1; }
     .tp-minimal-bottom { height: 20px; background: #0f172a; }
@@ -3713,6 +3734,25 @@ b;
             <div class="panel-card-info">
               <div class="panel-card-title">6. 풀블리드 &amp; 하단 스펙</div>
               <div class="panel-card-desc">화면 85% 전면 고해상도 렌더링 + 하단 네이비 스펙 바</div>
+            </div>
+          </div>
+
+          <!-- 7. 상단 2분할 + 하단 3분할 -->
+          <div class="panel-layout-card" onclick="handleLayoutSelect('project-split2-3')" data-layout="project-split2-3">
+            <div class="panel-card-thumb">
+              <div class="tp-split">
+                <div class="tp-col-left"></div>
+                <div class="tp-col-right">
+                  <div class="tp-split2-3">
+                    <div class="tp-split2-3-top"><div></div><div></div></div>
+                    <div class="tp-split2-3-bottom"><div></div><div></div><div></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-card-info">
+              <div class="panel-card-title">7. 상단 2분할 + 하단 3분할</div>
+              <div class="panel-card-desc">상단 핵심 비교 2컷 + 하단 상세 프로세스 3컷 5분할 구성</div>
             </div>
           </div>
         </div>
@@ -6957,11 +6997,14 @@ b;
             currentLayoutType = 'project-split2-rows';
           } else if (visualPanel.classList.contains('project-split2-cols') || (visualPanel.style.gridTemplateColumns && visualPanel.style.gridTemplateColumns.includes('1fr 1fr'))) {
             currentLayoutType = 'project-split2-cols';
+          } else if (visualPanel.classList.contains('project-split2-3')) {
+            currentLayoutType = 'project-split2-3';
           } else if (visualPanel.classList.contains('project-minimal') || page.querySelector('.project-minimal')) {
             currentLayoutType = 'project-minimal';
           } else {
             const cardCount = visualPanel.querySelectorAll('.media-card').length;
-            if (cardCount === 4) currentLayoutType = 'project-grid2x2';
+            if (cardCount === 5) currentLayoutType = 'project-split2-3';
+            else if (cardCount === 4) currentLayoutType = 'project-grid2x2';
             else if (cardCount === 2) currentLayoutType = 'project-split2-rows';
             else if (cardCount === 1) currentLayoutType = 'project-minimal';
             else currentLayoutType = 'project-classic';
@@ -9446,6 +9489,16 @@ b;
           '현장 실측 스캔 데이터',
           '고정밀 BIM 모델링'
         ];
+      } else if (type.includes('split2-3')) {
+        matrixClass = 'legend-matrix-split2-3';
+        count = 5;
+        defaultCaptions = [
+          '현장 실측 스캔 데이터',
+          '고정밀 BIM 모델링',
+          '설계 간섭 검토',
+          '상세 단면 및 정합성',
+          '최종 성과품 뷰'
+        ];
       } else if (type.includes('minimal')) {
         matrixClass = 'legend-matrix-minimal';
         count = 1;
@@ -9911,6 +9964,41 @@ b;
                 <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i></div>
                 <img src="${getImg(1, defaultImg3)}" alt="${getAlt(1, '우측 이미지')}" class="admin-editable-img" loading="lazy">
                 </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 7. 상단 2분할 + 하단 3분할 (5컷 복합 그리드)
+      if (type === 'project-split2-3') {
+        return `
+          <div class="a4-page-project">
+            ${leftPanelHTML}
+            <div class="project-right-visual project-split2-3" data-layout="project-split2-3" style="display: flex; flex-direction: column; gap: 2px; height: 100%; min-height: 0;">
+              <div class="top-split2-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 52%; min-height: 0;">
+                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '상단 좌측 뷰', '현장 실측 스캔 데이터')">
+                  <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                  <img src="${getImg(0, defaultImg1)}" alt="${getAlt(0, '상단 좌측 이미지')}" class="admin-editable-img" loading="lazy">
+                </div>
+                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '상단 우측 뷰', '고정밀 BIM 모델링')">
+                  <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                  <img src="${getImg(1, defaultImg3)}" alt="${getAlt(1, '상단 우측 이미지')}" class="admin-editable-img" loading="lazy">
+                </div>
+              </div>
+              <div class="bottom-split3-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; height: 48%; min-height: 0;">
+                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '하단 좌측 뷰', '설계 간섭 검토')">
+                  <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                  <img src="${getImg(2, defaultImg2)}" alt="${getAlt(2, '하단 좌측 이미지')}" class="admin-editable-img" loading="lazy">
+                </div>
+                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '하단 중앙 뷰', '상세 단면 및 정합성')">
+                  <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                  <img src="${getImg(3, defaultImg4)}" alt="${getAlt(3, '하단 중앙 이미지')}" class="admin-editable-img" loading="lazy">
+                </div>
+                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '하단 우측 뷰', '최종 성과품 뷰')">
+                  <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                  <img src="${getImg(4, defaultImg1)}" alt="${getAlt(4, '하단 우측 이미지')}" class="admin-editable-img" loading="lazy">
+                </div>
+              </div>
             </div>
           </div>
         `;
