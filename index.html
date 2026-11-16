@@ -2613,8 +2613,8 @@ b;
     .tp-split2-rows div { background: #cbd5e1; border-radius: 2px; }
 
     .tp-split2-3 { display: flex; flex-direction: column; gap: 2px; width: 100%; height: 100%; }
-    .tp-split2-3-top { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-    .tp-split2-3-bottom { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+    .tp-split2-3-top { flex: 7; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .tp-split2-3-bottom { flex: 3; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
     .tp-split2-3-top div, .tp-split2-3-bottom div { background: #cbd5e1; border-radius: 2px; }
 
     .tp-minimal-box { display: flex; flex-direction: column; width: 100%; height: 100%; }
@@ -9975,7 +9975,7 @@ b;
           <div class="a4-page-project">
             ${leftPanelHTML}
             <div class="project-right-visual project-split2-3" data-layout="project-split2-3" style="display: flex; flex-direction: column; gap: 2px; height: 100%; min-height: 0;">
-              <div class="top-split2-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 52%; min-height: 0;">
+              <div class="top-split2-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 70%; min-height: 0;">
                 <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '상단 좌측 뷰', '현장 실측 스캔 데이터')">
                   <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
                   <img src="${getImg(0, defaultImg1)}" alt="${getAlt(0, '상단 좌측 이미지')}" class="admin-editable-img" loading="lazy">
@@ -9985,7 +9985,7 @@ b;
                   <img src="${getImg(1, defaultImg3)}" alt="${getAlt(1, '상단 우측 이미지')}" class="admin-editable-img" loading="lazy">
                 </div>
               </div>
-              <div class="bottom-split3-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; height: 48%; min-height: 0;">
+              <div class="bottom-split3-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; height: 30%; min-height: 0;">
                 <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this.querySelector('img').src, '하단 좌측 뷰', '설계 간섭 검토')">
                   <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
                   <img src="${getImg(2, defaultImg2)}" alt="${getAlt(2, '하단 좌측 이미지')}" class="admin-editable-img" loading="lazy">
