@@ -1674,6 +1674,55 @@ b;
       transform: scale(1.02);
     }
 
+    /* 프로젝트 분할 이미지 맞춤/비례유지 컨트롤 (편집 모드 전용) */
+    .media-fit-bar {
+      display: none;
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      z-index: 25;
+      gap: 3px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+    body.admin-mode-active .media-card .media-fit-bar {
+      display: flex;
+      opacity: 0.78;
+      transition: opacity 0.2s ease;
+    }
+    body.admin-mode-active .media-card:hover .media-fit-bar {
+      opacity: 1;
+    }
+    body:not(.admin-mode-active) .media-fit-bar {
+      display: none !important;
+    }
+    .media-fit-btn {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1.25;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .media-fit-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .media-fit-btn.active {
+      background: #0070f3;
+      color: #ffffff;
+    }
+
     /* Top Hero Card (3D LiDAR Point Cloud Wide - 상단/우측 테두리에 0여백 밀착) */
     .top-hero-card {
       height: 54%;
@@ -9215,7 +9264,58 @@ b;
             applyImageFileToTarget(img, file, '드래그한 이미지가 성공적으로 적용되었습니다.');
           }
         };
+
+        // 4) 분할 화면 내 이미지 맞춤/비례유지/채우기 컨트롤 바인딩 (편집 모드 전용)
+        const mediaCard = img.closest('.media-card');
+        if (mediaCard) {
+          const curFit = img.getAttribute('data-fit') || img.style.objectFit || 'cover';
+          if (curFit === 'contain') {
+            mediaCard.style.background = '#ffffff';
+          }
+          if (isAdminMode && !mediaCard.querySelector('.media-fit-bar')) {
+            const fitBar = document.createElement('div');
+            fitBar.className = 'media-fit-bar';
+            const modes = [
+              { key: 'cover', label: '채우기', tip: '비율 유지·프레임 가득 채움' },
+              { key: 'contain', label: '비례유지', tip: '잘림 없이 전체 비율 유지 맞춤' },
+              { key: 'fill', label: '맞춤', tip: '프레임 크기에 맞게 채움' }
+            ];
+            modes.forEach(m => {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'media-fit-btn' + (curFit === m.key ? ' active' : '');
+              btn.setAttribute('data-fit', m.key);
+              btn.title = m.tip;
+              btn.textContent = m.label;
+              btn.onclick = (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                setMediaCardFit(mediaCard, img, m.key);
+              };
+              fitBar.appendChild(btn);
+            });
+            mediaCard.appendChild(fitBar);
+          }
+        }
       });
+    }
+
+    function setMediaCardFit(card, img, fitMode) {
+      if (!card || !img) return;
+      img.style.objectFit = fitMode;
+      img.setAttribute('data-fit', fitMode);
+      card.style.background = (fitMode === 'contain') ? '#ffffff' : '#0f172a';
+      const bar = card.querySelector('.media-fit-bar');
+      if (bar) {
+        bar.querySelectorAll('.media-fit-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-fit') === fitMode);
+        });
+      }
+      if (typeof saveBrochureChanges === 'function') saveBrochureChanges(false);
+      const labelMap = { cover: '채우기', contain: '비례유지', fill: '맞춤' };
+      if (typeof showAdminToast === 'function') {
+        showAdminToast(`🖼️ 이미지 표시 설정: [${labelMap[fitMode] || fitMode}] 적용됨`);
+      }
     }
 
     function selectTargetImage(img) {
@@ -10210,7 +10310,8 @@ b;
       // 1. 기존 페이지 내 이미지 목록 수집 (로고 제외)
       const existingImgs = Array.from(currentPage.querySelectorAll('img')).map(img => ({
         src: img.getAttribute('src') || img.src,
-        alt: img.getAttribute('alt') || img.alt || ''
+        alt: img.getAttribute('alt') || img.alt || '',
+        fit: img.getAttribute('data-fit') || img.style.objectFit || ''
       })).filter(item => item.src && !item.src.includes('logo.png'));
 
       // 2. 기존 텍스트 및 메타 정보 추출
@@ -10293,6 +10394,19 @@ b;
       }
 
       currentPage.innerHTML = newInner;
+      // 기존 이미지의 맞춤/비례유지 설정 복원
+      if (type.startsWith('project') && existingImgs.length > 0) {
+        const newImgs = Array.from(currentPage.querySelectorAll('.media-card img'));
+        newImgs.forEach((imgEl, idx) => {
+          const fit = existingImgs[idx] && existingImgs[idx].fit;
+          if (fit) {
+            imgEl.style.objectFit = fit;
+            imgEl.setAttribute('data-fit', fit);
+            const card = imgEl.closest('.media-card');
+            if (card && fit === 'contain') card.style.background = '#ffffff';
+          }
+        });
+      }
       if (type === 'divider' || type === 'category-divider') {
         syncDividerProjects(currentPage);
       }
@@ -10775,7 +10889,7 @@ b;
     
     function cleanAdminControls() {
       const sheet = document.getElementById('a4Sheet') || document.body;
-      sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(el => el.remove());
+      sheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .media-fit-bar').forEach(el => el.remove());
       sheet.querySelectorAll('*').forEach(el => {
         if (el.style.outline) el.style.outline = '';
       });
