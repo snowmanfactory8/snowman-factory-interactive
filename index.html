@@ -9415,26 +9415,37 @@ b;
       const db = getProjectDatabase();
 
       sheet.querySelectorAll('.a4-page-project').forEach(page => {
-        let projId = page.getAttribute('data-project-id');
+        const outerPage = page.closest('.a4-page-content');
+        let projId = (outerPage && outerPage.getAttribute('data-project-id')) || page.getAttribute('data-project-id');
         let matchedItem = null;
 
         if (projId) {
           matchedItem = db.find(p => p.id === projId);
         }
 
-        // ID가 없으면 제목으로 매칭
-        if (!matchedItem) {
-          const title = (page.querySelector('.project-hero-title')?.innerText || '').replace(/\s+/g, ' ').trim();
-          matchedItem = db.find(p => title && (p.name.includes(title) || title.includes(p.name)));
-          if (matchedItem) {
-            page.setAttribute('data-project-id', matchedItem.id);
+        const title = (page.querySelector('.project-hero-title')?.innerText || '').replace(/\s+/g, ' ').trim();
+        const titleMatches = (p) => title && p.name && (p.name.replace(/\s+/g, ' ').trim() === title || p.name.includes(title) || title.includes(p.name));
+
+        // ID가 없거나, 템플릿 복제 등으로 제목과 다른 구형 ID가 남아있는 경우 제목 기준으로 DB 재매칭
+        if (!matchedItem || (title && title !== '`' && !titleMatches(matchedItem))) {
+          const byTitle = db.find(titleMatches);
+          if (byTitle) {
+            matchedItem = byTitle;
           }
+        }
+
+        if (matchedItem) {
+          page.setAttribute('data-project-id', matchedItem.id);
+          if (outerPage) outerPage.setAttribute('data-project-id', matchedItem.id);
         }
 
         // 기본 매칭 폴백: p_101
         if (!matchedItem && page.querySelector('.project-top-meta-bar')?.innerText.includes('BIM')) {
           matchedItem = db.find(p => p.id === 'p_101') || db[0];
-          if (matchedItem) page.setAttribute('data-project-id', matchedItem.id);
+          if (matchedItem) {
+            page.setAttribute('data-project-id', matchedItem.id);
+            if (outerPage) outerPage.setAttribute('data-project-id', matchedItem.id);
+          }
         }
 
         if (matchedItem) {
@@ -9511,6 +9522,10 @@ b;
       if (!item) return;
 
       currentPage.setAttribute('data-project-id', item.id);
+      const innerProjectPage = currentPage.querySelector('.a4-page-project');
+      if (innerProjectPage) {
+        innerProjectPage.setAttribute('data-project-id', item.id);
+      }
 
       // 제목 반영
       const titleElem = currentPage.querySelector('.project-hero-title');
@@ -10994,6 +11009,7 @@ b;
               localStorage.setItem('snowman_project_db', JSON.stringify(row.value));
               projectLoadedFromContent = true;
               if (typeof window.syncAllDividers === 'function') window.syncAllDividers();
+              if (typeof window.syncAllProjectPagesWithDb === 'function') window.syncAllProjectPagesWithDb();
               if (typeof window.renderProjectDbTable === 'function') window.renderProjectDbTable();
               console.log('[Supabase] Successfully synced ' + row.value.length + ' projects from brochure_content.projectDatabase');
             }
@@ -11017,12 +11033,16 @@ b;
             category: p.category,
             year: parseInt(p.year, 10) || p.year,
             name: p.name,
+            client: p.client || '',
             desc: p.desc_text
           }));
           window.PROJECT_DATABASE = formatted;
           localStorage.setItem('snowman_project_db', JSON.stringify(formatted));
           if (typeof window.syncAllDividers === 'function') {
             window.syncAllDividers();
+          }
+          if (typeof window.syncAllProjectPagesWithDb === 'function') {
+            window.syncAllProjectPagesWithDb();
           }
           if (typeof window.renderProjectDbTable === 'function') {
             window.renderProjectDbTable();
