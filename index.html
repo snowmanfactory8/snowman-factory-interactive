@@ -3294,15 +3294,22 @@ b;
     }
 
     
-    /* Admin Bullet Action Bar & Delete Bar Button - Hide completely when NOT in admin mode */
+    /* Admin Bullet Action Bar & Delete Bar Button & Divider Category Select - Hide completely when NOT in admin mode */
     body:not(.admin-mode-active) .admin-desc-bullets-action-bar,
     body:not(.admin-mode-active) .admin-obj-del-bar-btn,
     body:not(.admin-mode-active) .admin-obj-delete-btn,
     body:not(.admin-mode-active) .admin-obj-add-btn,
-    body:not(.admin-mode-active) .admin-bullet-add-btn {
+    body:not(.admin-mode-active) .admin-bullet-add-btn,
+    body:not(.admin-mode-active) .divider-cat-select {
       display: none !important;
       visibility: hidden !important;
       pointer-events: none !important;
+    }
+
+    body.admin-mode-active .divider-cat-select {
+      display: inline-block !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
     }
 
     .admin-bullet-add-btn {
@@ -11129,6 +11136,7 @@ b;
       cloneDoc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
       cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img'));
       cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(b => b.remove());
+      cloneDoc.querySelectorAll('.divider-cat-select').forEach(sel => { sel.style.display = 'none'; });
       cloneDoc.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
       });
