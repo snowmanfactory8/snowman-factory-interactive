@@ -9167,18 +9167,125 @@ b;
       if (img) img.classList.add('admin-img-selected');
     }
 
-    // 파일 객체를 대상 이미지에 Base64로 적용하는 공통 함수
-    function applyImageFileToTarget(targetImg, file, successMsg = '이미지가 성공적으로 변경되었습니다.') {
+    const SB_STORAGE_BUCKET = 'brochure-images';
+
+    // 이미지 파일을 적정 해상도(최대 1600px, WebP/JPEG) Blob으로 최적화
+    function compressImageToBlob(fileOrBlob, maxDim = 1600, quality = 0.85) {
+      return new Promise((resolve) => {
+        if (!fileOrBlob || fileOrBlob.type === 'image/svg+xml' || fileOrBlob.type === 'image/gif') {
+          resolve(fileOrBlob);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.naturalWidth || img.width;
+            let h = img.naturalHeight || img.height;
+            if (w > maxDim || h > maxDim) {
+              if (w >= h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            canvas.toBlob((outBlob) => {
+              resolve(outBlob || fileOrBlob);
+            }, 'image/webp', quality);
+          };
+          img.onerror = () => resolve(fileOrBlob);
+          img.src = ev.target.result;
+        };
+        reader.onerror = () => resolve(fileOrBlob);
+        reader.readAsDataURL(fileOrBlob);
+      });
+    }
+
+    // Supabase Storage('brochure-images' 버킷)에 이미지 업로드 후 Public URL 반환
+    async function uploadImageToSupabaseStorage(fileOrBlob, folder = 'uploads') {
+      const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+      if (!client || !client.storage) {
+        throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
+      }
+      const optimizedBlob = await compressImageToBlob(fileOrBlob);
+      const mime = optimizedBlob.type || 'image/webp';
+      const ext = mime.includes('png') ? 'png' : (mime.includes('gif') ? 'gif' : (mime.includes('svg') ? 'svg' : (mime.includes('jpeg') || mime.includes('jpg') ? 'jpg' : 'webp')));
+      const filePath = `${folder}/img_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+      const { error } = await client.storage
+        .from(SB_STORAGE_BUCKET)
+        .upload(filePath, optimizedBlob, { contentType: mime, upsert: true });
+
+      if (error) {
+        throw error;
+      }
+
+      const { data: pubData } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(filePath);
+      if (!pubData || !pubData.publicUrl) {
+        throw new Error('Public URL을 가져올 수 없습니다.');
+      }
+      return pubData.publicUrl;
+    }
+
+    // 페이지 내 기존 Base64 이미지를 Supabase Storage URL로 일괄 이관
+    async function migrateBase64ImagesToSupabaseStorage() {
+      const sheet = document.getElementById('a4Sheet');
+      const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+      if (!sheet || !client || !client.storage) return { migrated: 0, failed: 0 };
+
+      const base64Imgs = Array.from(sheet.querySelectorAll('img[src^="data:image/"]'));
+      if (base64Imgs.length === 0) return { migrated: 0, failed: 0 };
+
+      let migrated = 0;
+      let failed = 0;
+      for (const img of base64Imgs) {
+        try {
+          const resp = await fetch(img.src);
+          const blob = await resp.blob();
+          const publicUrl = await uploadImageToSupabaseStorage(blob, 'migrated');
+          img.src = publicUrl;
+          migrated++;
+        } catch (err) {
+          failed++;
+          console.warn('[Supabase Storage] Base64 image migration skipped:', err?.message || err);
+          // 버킷 미생성 등 구조적 오류 시 반복 실패 방지
+          if (String(err?.message || '').toLowerCase().includes('bucket')) break;
+        }
+      }
+      return { migrated, failed };
+    }
+
+    // 파일 객체를 Supabase Storage에 업로드 후 대상 이미지에 URL로 적용하는 공통 함수
+    async function applyImageFileToTarget(targetImg, file, successMsg = '이미지가 Supabase Storage에 저장되어 적용되었습니다.') {
       if (!targetImg || !file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        targetImg.src = e.target.result;
+      if (typeof showAdminToast === 'function') {
+        showAdminToast('⏳ Supabase Storage에 이미지를 업로드 중입니다...');
+      }
+      try {
+        const publicUrl = await uploadImageToSupabaseStorage(file, 'uploads');
+        targetImg.src = publicUrl;
         saveBrochureChanges(false);
-        showAdminToast(successMsg);
-        // 녹색 선택 테두리 1.5초 후 자연스럽게 제거
+        showAdminToast(successMsg + ' (Storage URL)');
         setTimeout(() => targetImg.classList.remove('admin-img-selected'), 1500);
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.warn('[Supabase Storage] Upload failed, falling back to compressed Data URL:', err);
+        const compressed = await compressImageToBlob(file, 1280, 0.78);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          targetImg.src = e.target.result;
+          saveBrochureChanges(false);
+          showAdminToast('⚠️ Supabase Storage 업로드 실패(' + (err?.message || '버킷/권한 확인 필요') + ') - 임시 압축 이미지로 적용되었습니다.');
+          setTimeout(() => targetImg.classList.remove('admin-img-selected'), 1500);
+        };
+        reader.readAsDataURL(compressed);
+      }
     }
 
     // 파일 탐색기 업로드 처리
@@ -10138,10 +10245,17 @@ b;
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
 
-      // contenteditable 임시 제거본을 저장하지 않고 내부 HTML 그대로 보관
-      localStorage.setItem('snowman_brochure_sheet_v5', sheet.innerHTML);
-      if (showMessage) {
-        showAdminToast('✅ 브라우저에 모든 변경사항이 안전하게 저장되었습니다.');
+      // contenteditable 임시 제거본을 저장하지 않고 내부 HTML 그대로 보관 (용량 초과 시 앱 중단 방지)
+      try {
+        localStorage.setItem('snowman_brochure_sheet_v5', sheet.innerHTML);
+        if (showMessage) {
+          showAdminToast('✅ 브라우저에 모든 변경사항이 안전하게 저장되었습니다.');
+        }
+      } catch (err) {
+        console.warn('[localStorage] Quota exceeded while saving brochure sheet:', err);
+        if (showMessage) {
+          showAdminToast('⚠️ 브라우저 로컬 저장 용량(5MB)을 초과했습니다. Supabase/GitHub 배포로 저장해 주세요.');
+        }
       }
     }
 
@@ -11089,6 +11203,11 @@ b;
       }
 
       try {
+        // 0. 기존 Base64 이미지를 Supabase Storage URL로 자동 이관
+        if (typeof migrateBase64ImagesToSupabaseStorage === 'function') {
+          await migrateBase64ImagesToSupabaseStorage();
+        }
+
         // 1. 로컬 상태 먼저 브라우저 저장
         if (typeof window.saveBrochureChanges === 'function') {
           window.saveBrochureChanges(false);
