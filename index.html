@@ -3794,8 +3794,7 @@ b;
       </div>
       <div class="admin-modal-body">
         <label for="adminPasswordInput">관리자 비밀번호</label>
-        <input type="password" id="adminPasswordInput" placeholder="기본 비밀번호: admin1234">
-        <p class="admin-hint">💡 기본 설정 비밀번호는 <strong>admin1234</strong> 입니다.</p>
+        <input type="password" id="adminPasswordInput" placeholder="비밀번호를 입력하세요">
       </div>
       <div class="admin-modal-footer">
         <button class="admin-modal-btn cancel" onclick="closeAdminLoginModal()">취소</button>
@@ -8922,7 +8921,7 @@ b;
         enableAdminMode();
         showAdminToast('🎉 관리자 편집 모드가 활성화되었습니다.');
       } else {
-        alert('비밀번호가 일치하지 않습니다. (기본 비밀번호: admin1234)');
+        alert('비밀번호가 일치하지 않습니다.');
       }
     }
 
