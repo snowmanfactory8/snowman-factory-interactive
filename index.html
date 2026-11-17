@@ -8306,6 +8306,9 @@ b;
     let currentActiveLightboxCard = null;
 
     function openLightbox(cardOrSrc, fallbackTitle, fallbackDesc) {
+      if (window.event && window.event.target && window.event.target.closest && window.event.target.closest('.media-fit-bar')) {
+        return;
+      }
       if (!imageLightbox || !lightboxImg) return;
 
       let src = '';
@@ -9350,9 +9353,16 @@ b;
           if (curFit === 'contain') {
             mediaCard.style.background = '#ffffff';
           }
-          if (isAdminMode && !mediaCard.querySelector('.media-fit-bar')) {
+          // 복원된 HTML에 이벤트 리스너 없는 구형 .media-fit-bar가 남아있을 수 있으므로 항상 제거 후 재바인딩
+          const staleBar = mediaCard.querySelector('.media-fit-bar');
+          if (staleBar) staleBar.remove();
+
+          if (isAdminMode) {
             const fitBar = document.createElement('div');
             fitBar.className = 'media-fit-bar';
+            fitBar.onclick = (ev) => ev.stopPropagation();
+            fitBar.onmousedown = (ev) => ev.stopPropagation();
+            fitBar.onpointerdown = (ev) => ev.stopPropagation();
             const modes = [
               { key: 'cover', label: '채우기', tip: '비율 유지·프레임 가득 채움' },
               { key: 'contain', label: '비례유지', tip: '잘림 없이 전체 비율 유지 맞춤' },
