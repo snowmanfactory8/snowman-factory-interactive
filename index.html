@@ -8306,13 +8306,14 @@ b;
     let currentActiveLightboxCard = null;
 
     function openLightbox(cardOrSrc, fallbackTitle, fallbackDesc) {
+      const inAdmin = !!(window.isAdminMode || (typeof isAdminMode !== 'undefined' && isAdminMode));
       if (window.event && window.event.target && window.event.target.closest) {
         const t = window.event.target;
         if (t.closest('.media-fit-bar') || t.closest('.media-fit-btn') || t.closest('.media-anim-select')) {
           return;
         }
         // 관리자 편집 모드에서는 돋보기(.media-zoom-btn) 클릭 시에만 상세 라이트박스 열림 허용
-        if (window.isAdminMode && !t.closest('.media-zoom-btn')) {
+        if (inAdmin && !t.closest('.media-zoom-btn')) {
           return;
         }
       }
@@ -8337,6 +8338,10 @@ b;
         if (target && target.closest) {
           cardElem = target.closest('.media-card');
         }
+      }
+
+      if (cardElem && cardElem.dataset && cardElem.dataset.suppressLightbox === '1') {
+        return;
       }
 
       currentActiveLightboxCard = cardElem;
@@ -9305,6 +9310,19 @@ b;
     function bindImageUploadHandlers() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
+
+      if (!sheet.__fitBarGuardAttached) {
+        sheet.__fitBarGuardAttached = true;
+        sheet.addEventListener('click', (ev) => {
+          if (ev.target && ev.target.closest && ev.target.closest('.media-fit-bar')) {
+            const card = ev.target.closest('.media-card');
+            if (card) {
+              card.dataset.suppressLightbox = '1';
+              setTimeout(() => { delete card.dataset.suppressLightbox; }, 100);
+            }
+          }
+        }, true);
+      }
 
       const imgs = sheet.querySelectorAll('img');
       imgs.forEach(img => {
