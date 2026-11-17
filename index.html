@@ -8306,8 +8306,15 @@ b;
     let currentActiveLightboxCard = null;
 
     function openLightbox(cardOrSrc, fallbackTitle, fallbackDesc) {
-      if (window.event && window.event.target && window.event.target.closest && window.event.target.closest('.media-fit-bar')) {
-        return;
+      if (window.event && window.event.target && window.event.target.closest) {
+        const t = window.event.target;
+        if (t.closest('.media-fit-bar') || t.closest('.media-fit-btn') || t.closest('.media-anim-select')) {
+          return;
+        }
+        // 관리자 편집 모드에서는 돋보기(.media-zoom-btn) 클릭 시에만 상세 라이트박스 열림 허용
+        if (window.isAdminMode && !t.closest('.media-zoom-btn')) {
+          return;
+        }
       }
       if (!imageLightbox || !lightboxImg) return;
 
