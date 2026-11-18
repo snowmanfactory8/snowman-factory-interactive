@@ -85,7 +85,11 @@
 
     #intro-screen.hide-intro {
       opacity: 0;
-      pointer-events: none;
+      visibility: hidden;
+      pointer-events: none !important;
+    }
+    #intro-screen.hide-intro * {
+      pointer-events: none !important;
     }
 
     /* WebGL 3D Point Cloud Canvas */
