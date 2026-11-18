@@ -3990,6 +3990,17 @@ b;
               <div class="panel-card-desc">상단 핵심 비교 2컷 + 하단 상세 프로세스 3컷 5분할 구성</div>
             </div>
           </div>
+
+          <!-- 8. 사용자 정의 분할 & 비율 생성기 -->
+          <div class="panel-layout-card" onclick="openCustomLayoutBuilderModal()" data-layout="project-custom" style="border: 1px dashed #38bdf8; background: rgba(56, 189, 248, 0.08);">
+            <div class="panel-card-thumb" style="display: flex; align-items: center; justify-content: center; background: #0b1120; border-color: rgba(56, 189, 248, 0.4);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v6"/><path d="M15 9v6"/><path d="M12 15v6"/></svg>
+            </div>
+            <div class="panel-card-info">
+              <div class="panel-card-title" style="color: #38bdf8;">+ 사용자 정의 분할 &amp; 비율</div>
+              <div class="panel-card-desc">원하는 단수(1~4단)·칸수·비율(%)을 직접 조합해 즉시 적용</div>
+            </div>
+          </div>
         </div>
 
         <!-- 기타 템플릿 (신규 페이지 추가 모드일 때만 표시) -->
@@ -4674,6 +4685,73 @@ b;
   <div id="adminToast" class="admin-toast">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" aria-hidden="true" style="width: 16px; height: 16px;" class="lucide lucide-check-circle"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
     <span id="adminToastText">알림 메시지</span>
+  </div>
+
+  <!-- Custom Project Split Layout Builder Modal -->
+  <div id="customLayoutBuilderModal" class="modal-overlay" style="z-index: 3200; background: rgba(2, 6, 23, 0.82); backdrop-filter: blur(12px);" onclick="if(event.target === this) closeCustomLayoutBuilderModal()">
+    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 14px; width: 680px; max-width: 94vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75); overflow: hidden;" onclick="event.stopPropagation()">
+      <div style="padding: 16px 22px; background: #1e293b; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #ffffff;">사용자 정의 분할 레이아웃 &amp; 비율 생성기</h3>
+          <p style="margin: 3px 0 0; font-size: 11.5px; color: #94a3b8;">분할 방향, 단(행/열) 개수, 각 단의 칸 수와 비율(%)을 자유롭게 설정하세요.</p>
+        </div>
+        <button onclick="closeCustomLayoutBuilderModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 16px;">✕</button>
+      </div>
+      <div style="padding: 18px 22px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px;">
+        <!-- Left: Controls -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px;">
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-bottom: 6px;">1. 분할 기준 방향</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;" id="customLayoutDirBtns">
+                <button type="button" onclick="setCustomLayoutDirection('rows')" data-dir="rows" style="padding: 6px; border-radius: 6px; border: 1px solid #38bdf8; background: #0284c7; color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer;">상하 행 분할</button>
+                <button type="button" onclick="setCustomLayoutDirection('cols')" data-dir="cols" style="padding: 6px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; font-size: 11.5px; font-weight: 700; cursor: pointer;">좌우 열 분할</button>
+              </div>
+            </div>
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px;">
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-bottom: 6px;">2. 단(행/열) 개수</div>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;" id="customLayoutGroupCountBtns">
+                <button type="button" onclick="setCustomLayoutGroupCount(1)" data-cnt="1" style="padding: 6px 0; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; font-size: 11.5px; font-weight: 700; cursor: pointer;">1단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(2)" data-cnt="2" style="padding: 6px 0; border-radius: 6px; border: 1px solid #38bdf8; background: #0284c7; color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer;">2단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(3)" data-cnt="3" style="padding: 6px 0; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; font-size: 11.5px; font-weight: 700; cursor: pointer;">3단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(4)" data-cnt="4" style="padding: 6px 0; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; font-size: 11.5px; font-weight: 700; cursor: pointer;">4단</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 11.5px; font-weight: 800; color: #38bdf8;">3. 단별 비율 &amp; 내부 칸 분할 설정</span>
+              <button type="button" onclick="equalizeAllCustomGroups()" style="background: rgba(56,189,248,0.14); border: 1px solid rgba(56,189,248,0.35); color: #38bdf8; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 5px; cursor: pointer;">단 비율 균등화</button>
+            </div>
+            <div id="customLayoutGroupsContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
+          </div>
+        </div>
+
+        <!-- Right: Live Preview & Saved Presets -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11.5px; font-weight: 800; color: #f8fafc;">실시간 레이아웃 미리보기</span>
+              <span id="customLayoutSummaryBadge" style="font-size: 10.5px; color: #38bdf8; font-weight: 700;">총 5컷</span>
+            </div>
+            <div id="customLayoutLivePreview" style="width: 100%; aspect-ratio: 1.15 / 1; background: #090d16; border: 1px solid #334155; border-radius: 6px; padding: 4px; box-sizing: border-box;"></div>
+          </div>
+
+          <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11.5px; font-weight: 800; color: #f8fafc;">저장된 커스텀 프리셋</span>
+              <button type="button" onclick="saveCustomLayoutPreset()" style="background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.4); color: #34d399; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 5px; cursor: pointer;">+ 현재 구성 저장</button>
+            </div>
+            <div id="customLayoutPresetsList" style="display: flex; flex-direction: column; gap: 5px; max-height: 130px; overflow-y: auto;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 14px 22px; background: #1e293b; border-top: 1px solid #334155; display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" onclick="closeCustomLayoutBuilderModal()" style="background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 8px 16px; border-radius: 7px; font-size: 12.5px; font-weight: 700; cursor: pointer;">취소</button>
+        <button type="button" onclick="applyCustomLayoutToPage()" style="background: #0284c7; border: none; color: #ffffff; padding: 8px 20px; border-radius: 7px; font-size: 12.5px; font-weight: 800; cursor: pointer;">현재 페이지에 레이아웃 적용</button>
+      </div>
+    </div>
   </div>
 
   <!-- Hidden Image File Input for Click-to-Upload -->
@@ -7253,12 +7331,17 @@ b;
           }
         }
 
+        let customSpec = null;
+        if (visualPanel && visualPanel.getAttribute('data-custom-spec')) {
+          try { customSpec = JSON.parse(visualPanel.getAttribute('data-custom-spec')); } catch (e) {}
+        }
+
         const existingLegendEl = leftPanel.querySelector('.project-image-legend');
         const existingCaptions = existingLegendEl 
           ? Array.from(existingLegendEl.querySelectorAll('.legend-item .legend-text')).map(e => e.innerText.trim()).filter(Boolean)
           : [];
 
-        const freshLegendHTML = generateProjectLegendHTML(currentLayoutType, existingCaptions);
+        const freshLegendHTML = generateProjectLegendHTML(currentLayoutType, existingCaptions, customSpec);
         if (existingLegendEl) {
           existingLegendEl.outerHTML = freshLegendHTML;
         } else {
@@ -9849,9 +9932,11 @@ b;
 
     
     // 레이아웃 템플릿별 좌측 하단 이미지 범례(다이어그램 + 캡션) 동적 생성기
-    function generateProjectLegendHTML(layoutType = 'project-classic', existingCaptions = []) {
+    function generateProjectLegendHTML(layoutType = 'project-classic', existingCaptions = [], customSpec = null) {
       const type = (layoutType || '').toLowerCase();
       let matrixClass = 'legend-matrix-classic';
+      let customMatrixStyle = '';
+      let customCellsHTML = '';
       let count = 3;
       let defaultCaptions = [
         '스캔 데이터 ISO',
@@ -9859,7 +9944,34 @@ b;
         '건축/설비 상세 Revit 모델'
       ];
 
-      if (type.includes('grid2x2')) {
+      const resolvedCustom = customSpec || (type.includes('custom') ? window.__currentCustomLayoutSpec : null);
+      if (resolvedCustom && Array.isArray(resolvedCustom.groups) && resolvedCustom.groups.length > 0) {
+        matrixClass = 'legend-matrix-custom';
+        const dir = resolvedCustom.direction === 'cols' ? 'cols' : 'rows';
+        const outerAxis = dir === 'cols' ? 'grid-template-columns' : 'grid-template-rows';
+        const innerAxis = dir === 'cols' ? 'grid-template-rows' : 'grid-template-columns';
+        const outerSizes = resolvedCustom.groups.map(g => `${Math.max(1, Number(g.size) || 1)}fr`).join(' ');
+        customMatrixStyle = `style="display:grid;${outerAxis}:${outerSizes};gap:1.5px;width:44px;height:36px;"`;
+        let seq = 0;
+        customCellsHTML = resolvedCustom.groups.map(g => {
+          const cells = Array.isArray(g.cells) && g.cells.length > 0 ? g.cells : [100];
+          const innerSizes = cells.map(c => `${Math.max(1, Number(c) || 1)}fr`).join(' ');
+          const inner = cells.map(() => {
+            seq++;
+            return `<div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">${seq}</div>`;
+          }).join('');
+          return `<div style="display:grid;${innerAxis}:${innerSizes};gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;">${inner}</div>`;
+        }).join('');
+        count = seq;
+        defaultCaptions = [
+          '현장 실측 스캔 데이터',
+          '고정밀 BIM 모델링',
+          '설계 간섭 검토',
+          '상세 단면 및 정합성',
+          '최종 성과품 뷰',
+          '추가 상세 비주얼'
+        ];
+      } else if (type.includes('grid2x2')) {
         matrixClass = 'legend-matrix-grid2x2';
         count = 4;
         defaultCaptions = [
@@ -9918,9 +10030,11 @@ b;
       }
 
       // 셀 생성
-      let cellsHTML = '';
-      for (let i = 1; i <= count; i++) {
-        cellsHTML += `<div class="legend-cell">${i}</div>`;
+      let cellsHTML = customCellsHTML;
+      if (!cellsHTML) {
+        for (let i = 1; i <= count; i++) {
+          cellsHTML += `<div class="legend-cell">${i}</div>`;
+        }
       }
 
       // 캡션 리스트 생성 (기존 캡션 보존 지원)
@@ -9937,7 +10051,7 @@ b;
 
       return `
         <div class="project-image-legend" data-layout-legend="${type}">
-          <div class="legend-matrix ${matrixClass}">
+          <div class="legend-matrix ${matrixClass}" ${customMatrixStyle}>
             ${cellsHTML}
           </div>
           <div class="legend-list">
@@ -10190,7 +10304,8 @@ b;
         defaults.legend4
       ].filter(Boolean);
 
-      const legendHTML = generateProjectLegendHTML(type, existingCaptions);
+      const customSpec = data.customSpec || (type === 'project-custom' ? window.__currentCustomLayoutSpec : null);
+      const legendHTML = generateProjectLegendHTML(type, existingCaptions, customSpec);
 
       const leftPanelHTML = `
         <div class="project-left-panel">
@@ -10400,6 +10515,43 @@ b;
                   <img src="${getImg(4, defaultImg1)}" alt="${getAlt(4, '하단 우측 이미지')}" class="admin-editable-img" loading="lazy">
                 </div>
               </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 8. 사용자 정의 분할 & 비율 레이아웃 (project-custom)
+      if (type === 'project-custom') {
+        const spec = customSpec || { direction: 'rows', groups: [{ size: 60, cells: [50, 50] }, { size: 40, cells: [33, 34, 33] }] };
+        const dir = spec.direction === 'cols' ? 'cols' : 'rows';
+        const outerAxis = dir === 'cols' ? 'grid-template-columns' : 'grid-template-rows';
+        const innerAxis = dir === 'cols' ? 'grid-template-rows' : 'grid-template-columns';
+        const groups = Array.isArray(spec.groups) && spec.groups.length > 0 ? spec.groups : [{ size: 100, cells: [100] }];
+        const outerSizes = groups.map(g => `${Math.max(1, Number(g.size) || 1)}fr`).join(' ');
+        const fallbackImgs = [defaultImg1, defaultImg3, defaultImg2, defaultImg4];
+        let cellIdx = 0;
+        const groupsHTML = groups.map(g => {
+          const cells = Array.isArray(g.cells) && g.cells.length > 0 ? g.cells : [100];
+          const innerSizes = cells.map(c => `${Math.max(1, Number(c) || 1)}fr`).join(' ');
+          const cardsHTML = cells.map(() => {
+            const idx = cellIdx++;
+            const fallback = fallbackImgs[idx % fallbackImgs.length];
+            const label = `뷰 #${idx + 1}`;
+            return `
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '${label}', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i></div>
+                <img src="${getImg(idx, fallback)}" alt="${getAlt(idx, label)}" class="admin-editable-img" loading="lazy">
+              </div>
+            `;
+          }).join('');
+          return `<div class="custom-split-group" style="display: grid; ${innerAxis}: ${innerSizes}; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">${cardsHTML}</div>`;
+        }).join('');
+        const safeSpecAttr = JSON.stringify(spec).replace(/'/g, '&#39;');
+        return `
+          <div class="a4-page-project">
+            ${leftPanelHTML}
+            <div class="project-right-visual project-custom" data-layout="project-custom" data-custom-spec='${safeSpecAttr}' style="display: grid !important; ${outerAxis}: ${outerSizes} !important; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+              ${groupsHTML}
             </div>
           </div>
         `;
@@ -12215,6 +12367,273 @@ b;
       setTimeout(restoreAfterPrint, 300);
     }
     window.exportBrochureToPdf = exportBrochureToPdf;
+
+    // =============================================================
+    // CUSTOM PROJECT SPLIT LAYOUT & RATIO BUILDER ENGINE
+    // =============================================================
+    window.__currentCustomLayoutSpec = {
+      direction: 'rows',
+      groups: [
+        { size: 70, cells: [50, 50] },
+        { size: 30, cells: [33, 34, 33] }
+      ]
+    };
+
+    function getSavedCustomLayoutPresets() {
+      try {
+        const raw = localStorage.getItem('snowman_custom_layouts_v1');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) {}
+      return [
+        { name: '상단 2분할(70%) + 하단 3분할(30%)', spec: { direction: 'rows', groups: [{ size: 70, cells: [50, 50] }, { size: 30, cells: [33, 34, 33] }] } },
+        { name: '상단 1칸(50%) + 중단 2칸(25%) + 하단 3칸(25%)', spec: { direction: 'rows', groups: [{ size: 50, cells: [100] }, { size: 25, cells: [50, 50] }, { size: 25, cells: [33, 34, 33] }] } },
+        { name: '좌측 메인(65%) + 우측 3단(35%)', spec: { direction: 'cols', groups: [{ size: 65, cells: [100] }, { size: 35, cells: [33, 34, 33] }] } }
+      ];
+    }
+
+    function openCustomLayoutBuilderModal() {
+      const modal = document.getElementById('customLayoutBuilderModal');
+      if (!modal) return;
+
+      // 현재 페이지가 이미 project-custom이면 해당 스펙을 불러옴
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      const curPage = allPages[currentBrochurePage];
+      const visual = curPage ? curPage.querySelector('.project-right-visual[data-custom-spec]') : null;
+      if (visual) {
+        try {
+          const parsed = JSON.parse(visual.getAttribute('data-custom-spec'));
+          if (parsed && Array.isArray(parsed.groups)) {
+            window.__currentCustomLayoutSpec = parsed;
+          }
+        } catch (e) {}
+      }
+
+      renderCustomLayoutBuilder();
+      modal.classList.add('open');
+      modal.style.display = 'flex';
+    }
+
+    function closeCustomLayoutBuilderModal() {
+      const modal = document.getElementById('customLayoutBuilderModal');
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.style.display = 'none';
+    }
+
+    function setCustomLayoutDirection(dir) {
+      window.__currentCustomLayoutSpec.direction = (dir === 'cols') ? 'cols' : 'rows';
+      renderCustomLayoutBuilder();
+    }
+
+    function setCustomLayoutGroupCount(cnt) {
+      const count = Math.max(1, Math.min(4, Number(cnt) || 2));
+      const groups = window.__currentCustomLayoutSpec.groups || [];
+      while (groups.length < count) {
+        groups.push({ size: Math.round(100 / count), cells: [50, 50] });
+      }
+      if (groups.length > count) {
+        groups.length = count;
+      }
+      equalizeAllCustomGroups(false);
+      renderCustomLayoutBuilder();
+    }
+
+    function equalizeAllCustomGroups(rerender = true) {
+      const groups = window.__currentCustomLayoutSpec.groups || [];
+      const n = groups.length || 1;
+      const base = Math.floor(100 / n);
+      groups.forEach((g, idx) => {
+        g.size = (idx === n - 1) ? (100 - base * (n - 1)) : base;
+      });
+      if (rerender) renderCustomLayoutBuilder();
+    }
+
+    function setCustomLayoutGroupSize(gIdx, val) {
+      const groups = window.__currentCustomLayoutSpec.groups || [];
+      if (!groups[gIdx]) return;
+      groups[gIdx].size = Math.max(5, Math.min(95, Number(val) || 10));
+      renderCustomLayoutLivePreviewOnly();
+    }
+
+    function setCustomLayoutCellCount(gIdx, cellCnt) {
+      const groups = window.__currentCustomLayoutSpec.groups || [];
+      if (!groups[gIdx]) return;
+      const count = Math.max(1, Math.min(4, Number(cellCnt) || 1));
+      const base = Math.floor(100 / count);
+      const cells = [];
+      for (let i = 0; i < count; i++) {
+        cells.push(i === count - 1 ? (100 - base * (count - 1)) : base);
+      }
+      groups[gIdx].cells = cells;
+      renderCustomLayoutBuilder();
+    }
+
+    function setCustomLayoutCellWeight(gIdx, cIdx, val) {
+      const groups = window.__currentCustomLayoutSpec.groups || [];
+      if (!groups[gIdx] || !groups[gIdx].cells) return;
+      groups[gIdx].cells[cIdx] = Math.max(5, Math.min(95, Number(val) || 10));
+      renderCustomLayoutLivePreviewOnly();
+    }
+
+    function renderCustomLayoutLivePreviewOnly() {
+      const spec = window.__currentCustomLayoutSpec;
+      const preview = document.getElementById('customLayoutLivePreview');
+      const badge = document.getElementById('customLayoutSummaryBadge');
+      if (!preview || !spec) return;
+
+      const isCols = spec.direction === 'cols';
+      const outerAxis = isCols ? 'grid-template-columns' : 'grid-template-rows';
+      const innerAxis = isCols ? 'grid-template-rows' : 'grid-template-columns';
+      const groups = spec.groups || [];
+      const outerSizes = groups.map(g => `${Math.max(1, Number(g.size) || 1)}fr`).join(' ');
+
+      let seq = 0;
+      const groupsHTML = groups.map((g, gIdx) => {
+        const cells = Array.isArray(g.cells) && g.cells.length ? g.cells : [100];
+        const innerSizes = cells.map(c => `${Math.max(1, Number(c) || 1)}fr`).join(' ');
+        const cellsHTML = cells.map((c) => {
+          seq++;
+          return `
+            <div style="background: linear-gradient(135deg, rgba(2,132,199,0.28), rgba(30,41,59,0.9)); border: 1px solid rgba(56,189,248,0.45); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #f8fafc; font-size: 11px; font-weight: 800; min-width: 0; min-height: 0; overflow: hidden;">
+              <span>#${seq}</span>
+              <span style="font-size: 9px; color: #7dd3fc; font-weight: 600;">${g.size}% · ${c}</span>
+            </div>
+          `;
+        }).join('');
+        return `<div style="display: grid; ${innerAxis}: ${innerSizes}; gap: 4px; width: 100%; height: 100%; min-width: 0; min-height: 0;">${cellsHTML}</div>`;
+      }).join('');
+
+      preview.innerHTML = `<div style="display: grid; ${outerAxis}: ${outerSizes}; gap: 4px; width: 100%; height: 100%;">${groupsHTML}</div>`;
+      if (badge) {
+        badge.textContent = `${isCols ? '좌우' : '상하'} ${groups.length}단 · 총 ${seq}컷`;
+      }
+    }
+
+    function renderCustomLayoutBuilder() {
+      const spec = window.__currentCustomLayoutSpec;
+      if (!spec) return;
+      const isCols = spec.direction === 'cols';
+      const groups = spec.groups || [];
+
+      document.querySelectorAll('#customLayoutDirBtns button').forEach(btn => {
+        const active = btn.getAttribute('data-dir') === spec.direction;
+        btn.style.background = active ? '#0284c7' : '#0f172a';
+        btn.style.borderColor = active ? '#38bdf8' : '#334155';
+        btn.style.color = active ? '#ffffff' : '#cbd5e1';
+      });
+
+      document.querySelectorAll('#customLayoutGroupCountBtns button').forEach(btn => {
+        const active = Number(btn.getAttribute('data-cnt')) === groups.length;
+        btn.style.background = active ? '#0284c7' : '#0f172a';
+        btn.style.borderColor = active ? '#38bdf8' : '#334155';
+        btn.style.color = active ? '#ffffff' : '#cbd5e1';
+      });
+
+      const container = document.getElementById('customLayoutGroupsContainer');
+      if (container) {
+        container.innerHTML = groups.map((g, gIdx) => {
+          const cells = Array.isArray(g.cells) && g.cells.length ? g.cells : [100];
+          const unitLabel = isCols ? `${gIdx + 1}열(기둥)` : `${gIdx + 1}행(단)`;
+          const sizeLabel = isCols ? '너비 비율' : '높이 비율';
+          return `
+            <div style="background: #0f172a; border: 1px solid #334155; border-radius: 7px; padding: 9px 10px; display: flex; flex-direction: column; gap: 7px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                <span style="font-size: 11.5px; font-weight: 800; color: #38bdf8;">${unitLabel}</span>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                  <span style="font-size: 10.5px; color: #94a3b8;">${sizeLabel}:</span>
+                  <input type="number" min="5" max="95" value="${g.size}" oninput="setCustomLayoutGroupSize(${gIdx}, this.value)" style="width: 52px; background: #1e293b; border: 1px solid #475569; color: #fff; font-size: 11.5px; font-weight: 700; padding: 3px 6px; border-radius: 4px; text-align: right;">
+                  <span style="font-size: 10.5px; color: #94a3b8;">%</span>
+                </div>
+                <div style="display: flex; gap: 3px;">
+                  ${[1, 2, 3, 4].map(cCnt => `
+                    <button type="button" onclick="setCustomLayoutCellCount(${gIdx}, ${cCnt})" style="padding: 3px 6px; border-radius: 4px; border: 1px solid ${cells.length === cCnt ? '#38bdf8' : '#334155'}; background: ${cells.length === cCnt ? '#0284c7' : '#1e293b'}; color: ${cells.length === cCnt ? '#fff' : '#94a3b8'}; font-size: 10px; font-weight: 700; cursor: pointer;">${cCnt}칸</button>
+                  `).join('')}
+                </div>
+              </div>
+              ${cells.length > 1 ? `
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.08);">
+                  <span style="font-size: 10px; color: #94a3b8;">칸 비율:</span>
+                  ${cells.map((cWeight, cIdx) => `
+                    <div style="display: flex; align-items: center; gap: 3px;">
+                      <span style="font-size: 10px; color: #64748b;">#${cIdx + 1}</span>
+                      <input type="number" min="5" max="95" value="${cWeight}" oninput="setCustomLayoutCellWeight(${gIdx}, ${cIdx}, this.value)" style="width: 44px; background: #1e293b; border: 1px solid #334155; color: #e2e8f0; font-size: 10.5px; padding: 2px 5px; border-radius: 4px; text-align: right;">
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      renderCustomLayoutLivePreviewOnly();
+      renderCustomLayoutPresetsList();
+    }
+
+    function renderCustomLayoutPresetsList() {
+      const listEl = document.getElementById('customLayoutPresetsList');
+      if (!listEl) return;
+      const presets = getSavedCustomLayoutPresets();
+      listEl.innerHTML = presets.map((p, idx) => `
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 6px 8px;">
+          <button type="button" onclick="applySavedCustomLayoutPreset(${idx})" style="background: none; border: none; color: #e2e8f0; font-size: 11px; font-weight: 600; text-align: left; cursor: pointer; flex: 1; padding: 0;">${p.name}</button>
+          <button type="button" onclick="deleteCustomLayoutPreset(${idx})" title="삭제" style="background: none; border: none; color: #f87171; font-size: 11px; cursor: pointer; padding: 0 4px;">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function saveCustomLayoutPreset() {
+      const spec = window.__currentCustomLayoutSpec;
+      if (!spec) return;
+      const isCols = spec.direction === 'cols';
+      const defaultName = `${isCols ? '좌우' : '상하'} ${spec.groups.map(g => `${g.cells.length}분할(${g.size}%)`).join(' + ')}`;
+      const name = prompt('저장할 커스텀 레이아웃 프리셋 이름을 입력하세요:', defaultName);
+      if (!name) return;
+      const presets = getSavedCustomLayoutPresets();
+      presets.unshift({ name: name.trim(), spec: JSON.parse(JSON.stringify(spec)) });
+      try {
+        localStorage.setItem('snowman_custom_layouts_v1', JSON.stringify(presets));
+      } catch (e) {}
+      renderCustomLayoutPresetsList();
+      if (typeof showAdminToast === 'function') showAdminToast('커스텀 레이아웃 프리셋이 저장되었습니다.');
+    }
+
+    function applySavedCustomLayoutPreset(idx) {
+      const presets = getSavedCustomLayoutPresets();
+      if (!presets[idx] || !presets[idx].spec) return;
+      window.__currentCustomLayoutSpec = JSON.parse(JSON.stringify(presets[idx].spec));
+      renderCustomLayoutBuilder();
+    }
+
+    function deleteCustomLayoutPreset(idx) {
+      const presets = getSavedCustomLayoutPresets();
+      presets.splice(idx, 1);
+      try {
+        localStorage.setItem('snowman_custom_layouts_v1', JSON.stringify(presets));
+      } catch (e) {}
+      renderCustomLayoutPresetsList();
+    }
+
+    function applyCustomLayoutToPage() {
+      closeCustomLayoutBuilderModal();
+      handleLayoutSelect('project-custom');
+    }
+
+    window.openCustomLayoutBuilderModal = openCustomLayoutBuilderModal;
+    window.closeCustomLayoutBuilderModal = closeCustomLayoutBuilderModal;
+    window.setCustomLayoutDirection = setCustomLayoutDirection;
+    window.setCustomLayoutGroupCount = setCustomLayoutGroupCount;
+    window.equalizeAllCustomGroups = equalizeAllCustomGroups;
+    window.setCustomLayoutGroupSize = setCustomLayoutGroupSize;
+    window.setCustomLayoutCellCount = setCustomLayoutCellCount;
+    window.setCustomLayoutCellWeight = setCustomLayoutCellWeight;
+    window.saveCustomLayoutPreset = saveCustomLayoutPreset;
+    window.applySavedCustomLayoutPreset = applySavedCustomLayoutPreset;
+    window.deleteCustomLayoutPreset = deleteCustomLayoutPreset;
+    window.applyCustomLayoutToPage = applyCustomLayoutToPage;
 
   </script>
 
