@@ -6387,8 +6387,38 @@ b;
 ];
 
     // -------------------------------------------------------------
-    // 3. 데이터베이스 로드 및 저장 함수
+    // 3. 데이터베이스 로드, 정렬(년도·분야 순) 및 저장 함수
     // -------------------------------------------------------------
+    const PROJECT_CATEGORY_ORDER = {
+      bim: 1,
+      scan: 2,
+      xr: 3,
+      simulation: 4,
+      consulting: 5,
+      rnd: 6
+    };
+
+    function sortProjectDatabaseList(list) {
+      if (!Array.isArray(list)) return [];
+      return list.sort((a, b) => {
+        // 1차: 년도 내림차순 (최신 연도 우선)
+        const yearA = parseInt(a?.year, 10) || 0;
+        const yearB = parseInt(b?.year, 10) || 0;
+        if (yearB !== yearA) return yearB - yearA;
+
+        // 2차: 분야(카테고리) 순 (01.BIM -> 02.SCAN -> 03.XR -> 04.SIMULATION -> 05.CONSULTING -> 06.RND)
+        const catA = String(a?.category || '').toLowerCase();
+        const catB = String(b?.category || '').toLowerCase();
+        const rankA = PROJECT_CATEGORY_ORDER[catA] || 99;
+        const rankB = PROJECT_CATEGORY_ORDER[catB] || 99;
+        if (rankA !== rankB) return rankA - rankB;
+        if (catA !== catB) return catA.localeCompare(catB, 'ko');
+
+        // 3차: 프로젝트명 가나다/알파벳순
+        return String(a?.name || '').localeCompare(String(b?.name || ''), 'ko');
+      });
+    }
+
     function getProjectDatabase() {
       let list = null;
       if (window.PROJECT_DATABASE && Array.isArray(window.PROJECT_DATABASE)) {
@@ -6409,10 +6439,11 @@ b;
           list = Array.isArray(window.DEFAULT_PROJECT_DB) ? JSON.parse(JSON.stringify(window.DEFAULT_PROJECT_DB)) : [];
         }
       }
-      // 모든 항목에 Client 기본값 보장 (DB 연동)
+      // 모든 항목에 Client 기본값 보장 (DB 연동) 및 년도·분야 순 정렬
       list.forEach(p => {
         if (!p.client) p.client = '사이다건축사사무소';
       });
+      sortProjectDatabaseList(list);
       window.PROJECT_DATABASE = list;
       return list;
     }
@@ -6422,6 +6453,7 @@ b;
         db.forEach(p => {
           if (!p.client) p.client = '사이다건축사사무소';
         });
+        sortProjectDatabaseList(db);
       }
       window.PROJECT_DATABASE = db;
       window.DEFAULT_PROJECT_DB = JSON.parse(JSON.stringify(db));
@@ -6588,8 +6620,8 @@ b;
         return true;
       });
 
-      // 연도 내림차순 정렬
-      filtered.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+      // 년도(내림차순) 및 분야(카테고리) 순 정렬
+      sortProjectDatabaseList(filtered);
 
       if (totalCountElem) totalCountElem.textContent = currentDbEditingList.length;
 
@@ -11865,6 +11897,7 @@ b;
               localStorage.setItem('snowman_node_colors_v1', JSON.stringify(row.value));
               updatedCategory = true;
             } else if (row.key === 'projectDatabase' && Array.isArray(row.value)) {
+              if (typeof sortProjectDatabaseList === 'function') sortProjectDatabaseList(row.value);
               window.PROJECT_DATABASE = row.value;
               window.DEFAULT_PROJECT_DB = JSON.parse(JSON.stringify(row.value));
               localStorage.setItem('snowman_project_db', JSON.stringify(row.value));
@@ -11872,6 +11905,7 @@ b;
               if (typeof window.syncAllDividers === 'function') window.syncAllDividers();
               if (typeof window.syncAllProjectPagesWithDb === 'function') window.syncAllProjectPagesWithDb();
               if (typeof window.renderProjectDbTable === 'function') window.renderProjectDbTable();
+              if (typeof window.renderAdminContextTools === 'function') window.renderAdminContextTools();
               console.log('[Supabase] Successfully synced ' + row.value.length + ' projects from brochure_content.projectDatabase');
             }
           });
@@ -11897,6 +11931,7 @@ b;
             client: p.client || '',
             desc: p.desc_text
           }));
+          if (typeof sortProjectDatabaseList === 'function') sortProjectDatabaseList(formatted);
           window.PROJECT_DATABASE = formatted;
           localStorage.setItem('snowman_project_db', JSON.stringify(formatted));
           if (typeof window.syncAllDividers === 'function') {
@@ -11907,6 +11942,9 @@ b;
           }
           if (typeof window.renderProjectDbTable === 'function') {
             window.renderProjectDbTable();
+          }
+          if (typeof window.renderAdminContextTools === 'function') {
+            window.renderAdminContextTools();
           }
           console.log('[Supabase] Successfully synced ' + formatted.length + ' projects from Cloud DB');
         } else {
