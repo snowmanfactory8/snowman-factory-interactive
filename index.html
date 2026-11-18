@@ -1318,20 +1318,27 @@
     .project-left-panel * {
       pointer-events: auto !important;
     }
-    .project-left-panel [contenteditable="true"],
-    .project-left-panel h2,
-    .project-left-panel p,
-    .project-left-panel span:not(.project-overview-label):not(.overview-year):not(.overview-client),
-    .project-left-panel li,
-    .overview-scope,
-    .overview-scope *,
-    .project-summary-desc,
-    .project-desc-bullets li,
-    .legend-text {
+    body.admin-mode-active .project-left-panel [contenteditable="true"],
+    body.admin-mode-active .project-left-panel p,
+    body.admin-mode-active .project-left-panel span:not(.project-overview-label):not(.overview-year):not(.overview-client),
+    body.admin-mode-active .project-left-panel li,
+    body.admin-mode-active .overview-scope,
+    body.admin-mode-active .overview-scope *,
+    body.admin-mode-active .project-summary-desc,
+    body.admin-mode-active .project-desc-bullets li,
+    body.admin-mode-active .legend-text {
       cursor: text !important;
       user-select: text !important;
       -webkit-user-select: text !important;
       pointer-events: auto !important;
+    }
+
+    body:not(.admin-mode-active) #a4Sheet [contenteditable],
+    body:not(.admin-mode-active) #a4Sheet [contenteditable="true"] {
+      -webkit-user-modify: read-only !important;
+      user-modify: read-only !important;
+      outline: none !important;
+      cursor: default !important;
     }
 
     /* Year & Client 는 DB 연동 전용 (페이지 내 직접 수정 금지) */
@@ -1345,20 +1352,20 @@
       -webkit-user-select: none !important;
       outline: none !important;
     }
-    .overview-year:hover,
-    .overview-client:hover {
+    body.admin-mode-active .overview-year:hover,
+    body.admin-mode-active .overview-client:hover {
       background: rgba(56, 189, 248, 0.08) !important;
       border-radius: 3px !important;
     }
 
-    .project-left-panel [contenteditable="true"]:hover {
+    body.admin-mode-active .project-left-panel [contenteditable="true"]:hover {
       outline: 1.5px dashed rgba(0, 113, 227, 0.45) !important;
       outline-offset: 3px !important;
       background: rgba(0, 113, 227, 0.03) !important;
       border-radius: 4px !important;
     }
 
-    .project-left-panel [contenteditable="true"]:focus {
+    body.admin-mode-active .project-left-panel [contenteditable="true"]:focus {
       outline: 2px solid #0071e3 !important;
       outline-offset: 3px !important;
       background: rgba(0, 113, 227, 0.06) !important;
@@ -7169,7 +7176,11 @@ b;
               if (valElem) {
                 valElem.classList.add('overview-scope');
                 valElem.setAttribute('data-field', 'scope');
-                valElem.setAttribute('contenteditable', 'true');
+                if (window.isAdminMode) {
+                  valElem.setAttribute('contenteditable', 'true');
+                } else {
+                  valElem.removeAttribute('contenteditable');
+                }
               }
             }
           });
@@ -9224,10 +9235,13 @@ b;
       window.changeCurrentPageLayout = changeCurrentPageLayout;
       window.getAllPages = getAllPages;
 
-      // 페이지 전환 시 관리자 모드 상태면 모든 요소 편집 권한 즉시 재바인딩
+      // 페이지 전환 시 관리자 모드 상태면 모든 요소 편집 권한 즉시 재바인딩, 뷰어 모드면 모든 편집 속성 제거
       if (window.isAdminMode) {
         makeElementsEditable();
         bindImageUploadHandlers();
+      } else {
+        makeElementsEditable();
+        if (typeof cleanAdminControls === 'function') cleanAdminControls();
       }
 
       lucide.createIcons();
@@ -9312,6 +9326,15 @@ b;
     function makeElementsEditable() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
+
+      if (!sheet.__viewerInputGuardAttached) {
+        sheet.__viewerInputGuardAttached = true;
+        sheet.addEventListener('beforeinput', (ev) => {
+          if (!window.isAdminMode) {
+            ev.preventDefault();
+          }
+        }, true);
+      }
 
       // [철저한 원칙] 관리자 모드가 아니면 어떠한 편집 권한도 부여하지 않고 모든 contenteditable 제거!
       if (!window.isAdminMode) {
