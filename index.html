@@ -1806,7 +1806,75 @@ b;
       z-index: 6;
       animation: imgAnimScanLine 2.4s linear infinite;
     }
+    @page {
+      size: 297mm 210mm;
+      margin: 0;
+    }
     @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 1123px !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+      }
+      #intro-screen,
+      .motion-topbar,
+      #tocSidePanel,
+      #tocBackdrop,
+      #adminToolbar,
+      #adminToast,
+      #mobileRotateToast,
+      .stage-arrow-btn,
+      .media-fit-bar,
+      .media-zoom-btn,
+      .admin-obj-delete-btn,
+      .admin-obj-add-btn,
+      .admin-bullet-add-btn,
+      .divider-cat-select,
+      .modal-overlay,
+      .image-lightbox-backdrop {
+        display: none !important;
+      }
+      #brochure-viewer,
+      .a4-stage,
+      #a4SheetScaler,
+      #a4Sheet {
+        position: static !important;
+        width: 1123px !important;
+        height: auto !important;
+        max-width: none !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        overflow: visible !important;
+        display: block !important;
+        background: transparent !important;
+      }
+      #a4Sheet > .a4-page-content {
+        display: block !important;
+        width: 1123px !important;
+        height: 794px !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+        position: relative !important;
+        box-sizing: border-box !important;
+      }
+      #a4Sheet > .a4-page-content:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
       .media-card[data-anim] img { animation: none !important; transform: none !important; opacity: 1 !important; }
       .media-card[data-anim="scan-line"]::after { display: none !important; }
     }
@@ -3748,6 +3816,14 @@ b;
           <span class="live-pill">LIVE</span>
         </button>
 
+        <button class="admin-btn" onclick="exportBrochureToPdf()" title="전체 지명원 페이지를 A4 가로 PDF로 출력/저장">
+          <div class="btn-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; color: #f59e0b;"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
+            <span>PDF 출력 (A4 가로)</span>
+          </div>
+          <span class="shortcut-tag">Ctrl+P</span>
+        </button>
+
         <button class="admin-btn" onclick="openGitHubSettingsModal()" title="GitHub 저장소 및 Personal Access Token 설정">
           <div class="btn-left">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="settings" aria-hidden="true" style="width: 15px; height: 15px;" class="lucide lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -4650,6 +4726,9 @@ b;
         </button>
         <button class="tool-icon-btn" title="전체화면" onclick="toggleFullScreen()">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize" aria-hidden="true" style="width: 17px; height: 17px;" class="lucide lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+        </button>
+        <button class="tool-icon-btn" id="btnExportPdf" title="PDF 출력 / 인쇄 (A4 가로 전체 페이지)" onclick="exportBrochureToPdf()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" style="width: 17px; height: 17px;" class="lucide lucide-printer"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
         </button>
         <button class="tool-icon-btn" title="처음 인트로 화면으로" onclick="returnToIntro()">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" aria-hidden="true" style="width: 17px; height: 17px;" class="lucide lucide-home"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
@@ -12068,6 +12147,51 @@ b;
         localStorage.removeItem('snowman_admin_mode');
       } catch (e) {}
     });
+
+    // 전체 지명원 A4 가로 PDF 출력 / 인쇄 엔진
+    async function exportBrochureToPdf() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) {
+        window.print();
+        return;
+      }
+
+      if (typeof showAdminToast === 'function' && window.isAdminMode) {
+        showAdminToast('🖨️ 전체 페이지 PDF 인쇄 화면을 준비 중입니다...');
+      }
+
+      // 1. 모든 lazy 이미지를 eager로 전환하여 빈 이미지 없이 로드 보장
+      const allImgs = Array.from(sheet.querySelectorAll('img'));
+      allImgs.forEach(img => {
+        if (img.getAttribute('loading') === 'lazy') {
+          img.setAttribute('loading', 'eager');
+        }
+        img.loading = 'eager';
+      });
+
+      // 2. 인쇄 중 모든 페이지가 정상 레이아웃으로 계산되도록 임시 표시
+      const pages = Array.from(sheet.querySelectorAll(':scope > .a4-page-content'));
+      const prevDisplays = pages.map(p => p.style.display);
+      pages.forEach(p => { p.style.display = 'block'; });
+
+      // 이미지 디코딩 대기 (최대 1.5초 안전 타임아웃)
+      await Promise.race([
+        Promise.all(allImgs.map(img => (img.complete ? Promise.resolve() : new Promise(res => { img.onload = res; img.onerror = res; })))),
+        new Promise(res => setTimeout(res, 1500))
+      ]);
+
+      const restoreAfterPrint = () => {
+        pages.forEach((p, idx) => { p.style.display = prevDisplays[idx]; });
+        if (typeof updateBrochureUI === 'function') updateBrochureUI();
+        window.removeEventListener('afterprint', restoreAfterPrint);
+      };
+      window.addEventListener('afterprint', restoreAfterPrint);
+
+      window.print();
+      // 일부 브라우저에서 window.print()가 동기 반환된 직후 복원 보장
+      setTimeout(restoreAfterPrint, 300);
+    }
+    window.exportBrochureToPdf = exportBrochureToPdf;
 
   </script>
 
