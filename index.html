@@ -3241,12 +3241,16 @@ b;
       height: 28px !important;
       transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1) !important;
     }
-    .page-step-btn:hover {
+    .page-step-btn:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.14) !important;
       color: #ffffff !important;
     }
-    .page-step-btn:active {
+    .page-step-btn:active:not(:disabled) {
       transform: scale(0.9);
+    }
+    .page-step-btn:disabled {
+      opacity: 0.25 !important;
+      cursor: not-allowed !important;
     }
 
     .page-indicator-text {
@@ -6086,17 +6090,17 @@ b;
 
       <!-- Center Nav -->
       <div class="bottom-center-nav">
-        <button class="page-step-btn" id="btnFirst" onclick="goToPage(0)" title="표지(01)로">
+        <button type="button" class="page-step-btn" id="btnFirst" onclick="goToFirstPage()" title="첫 페이지(표지)로 이동">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>
         </button>
-        <button class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지">
+        <button type="button" class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
 
-        <button class="page-step-btn" id="btnNext" onclick="nextPage()" title="다음 페이지">
+        <button type="button" class="page-step-btn" id="btnNext" onclick="nextPage()" title="다음 페이지">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
         </button>
-        <button class="page-step-btn" id="btnLast" onclick="goToPage(3)" title="끝으로">
+        <button type="button" class="page-step-btn" id="btnLast" onclick="goToLastPage()" title="마지막 페이지로 이동">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-right" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevrons-right"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>
         </button>
       </div>
@@ -8463,31 +8467,66 @@ b;
     }
 
     function goToPage(idx) {
-      if (idx >= 0 && idx < totalBrochurePages) {
-        currentBrochurePage = idx;
-        updateBrochureUI();
-      }
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      if (allPages.length > 0) totalBrochurePages = allPages.length;
+      const targetIdx = Math.max(0, Math.min(totalBrochurePages - 1, Number(idx) || 0));
+      inIntro = false;
+      if (introScreen) introScreen.classList.add('hide-intro');
+      currentBrochurePage = targetIdx;
+      updateBrochureUI();
+    }
+
+    function goToFirstPage() {
+      goToPage(0);
+    }
+
+    function goToLastPage() {
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      if (allPages.length > 0) totalBrochurePages = allPages.length;
+      goToPage(Math.max(0, totalBrochurePages - 1));
     }
 
     function prevPage() {
+      const introHidden = introScreen && introScreen.classList.contains('hide-intro');
+      if (introHidden) inIntro = false;
       if (inIntro) return;
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      if (allPages.length > 0) totalBrochurePages = allPages.length;
       if (currentBrochurePage > 0) {
         currentBrochurePage--;
         updateBrochureUI();
-      } else {
-        // Return to intro if on page 1 and pressing prev
+      } else if (!window.isAdminMode) {
+        // Return to intro if on page 1 and pressing prev in viewer mode
         returnToIntro();
       }
     }
 
     function nextPage() {
+      const introHidden = introScreen && introScreen.classList.contains('hide-intro');
+      if (introHidden) inIntro = false;
       if (inIntro) {
         enterBrochure();
         return;
       }
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      if (allPages.length > 0) totalBrochurePages = allPages.length;
       if (currentBrochurePage < totalBrochurePages - 1) {
         currentBrochurePage++;
         updateBrochureUI();
+      }
+    }
+
+    function goToPrevBrochurePage() {
+      if (currentBrochurePage > 0) {
+        goToPage(currentBrochurePage - 1);
+      }
+    }
+
+    function goToNextBrochurePage() {
+      const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
+      if (allPages.length > 0) totalBrochurePages = allPages.length;
+      if (currentBrochurePage < totalBrochurePages - 1) {
+        goToPage(currentBrochurePage + 1);
       }
     }
 
@@ -9315,11 +9354,25 @@ b;
         }
       }
 
-      // 이전/다음 버튼 비활성화 상태
-      if (btnPrev) btnPrev.disabled = (currentBrochurePage === 0);
-      if (viewerPrevBtn) viewerPrevBtn.disabled = (currentBrochurePage === 0);
-      if (btnNext) btnNext.disabled = (currentBrochurePage === totalBrochurePages - 1);
-      if (viewerNextBtn) viewerNextBtn.disabled = (currentBrochurePage === totalBrochurePages - 1);
+      // 처음/이전/다음/마지막 버튼 비활성화 상태 동기화
+      const btnFirstEl = document.getElementById('btnFirst');
+      const btnPrevEl = document.getElementById('btnPrev');
+      const btnNextEl = document.getElementById('btnNext');
+      const btnLastEl = document.getElementById('btnLast');
+      const isFirstPage = (currentBrochurePage <= 0);
+      const isLastPage = (currentBrochurePage >= totalBrochurePages - 1);
+      if (btnFirstEl) btnFirstEl.disabled = isFirstPage;
+      if (btnPrevEl) btnPrevEl.disabled = isFirstPage;
+      if (viewerPrevBtn) viewerPrevBtn.disabled = isFirstPage;
+      if (btnNextEl) btnNextEl.disabled = isLastPage;
+      if (btnLastEl) btnLastEl.disabled = isLastPage;
+      if (viewerNextBtn) viewerNextBtn.disabled = isLastPage;
+
+      // 목차(TOC) 패널이 열려 있으면 현재 활성 페이지 하이라이트 동기화
+      const tocPanel = document.getElementById('tocSidebarPanel');
+      if (tocPanel && tocPanel.classList.contains('active') && typeof renderTocList === 'function') {
+        renderTocList();
+      }
 
       // 관리자 페이지 인디케이터 업데이트
       const indicator = document.getElementById('adminPageIndicator');
@@ -9327,7 +9380,14 @@ b;
         indicator.textContent = `P.${currentBrochurePage + 1} / ${totalBrochurePages}`;
       }
       window.currentBrochurePage = currentBrochurePage;
+      window.totalBrochurePages = totalBrochurePages;
       window.goToPage = goToPage;
+      window.goToFirstPage = goToFirstPage;
+      window.goToLastPage = goToLastPage;
+      window.prevPage = prevPage;
+      window.nextPage = nextPage;
+      window.goToPrevBrochurePage = goToPrevBrochurePage;
+      window.goToNextBrochurePage = goToNextBrochurePage;
       window.changeCurrentPageLayout = changeCurrentPageLayout;
       window.getAllPages = getAllPages;
 
@@ -12323,6 +12383,7 @@ b;
       }
       loadSavedNodeColors();
       restoreBrochureChanges();
+      updateBrochureUI();
 
       // 부트 시 정적 토스트 잔재 무조건 제거
       const initialToast = document.getElementById('adminToast');
