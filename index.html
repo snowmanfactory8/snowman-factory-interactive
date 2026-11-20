@@ -3666,7 +3666,7 @@ b;
     <footer class="intro-footer">
       <div class="status-hud">
         <div>SYS: <span id="sysStatusText">POINT CLOUD ENGINE ACTIVE</span></div>
-        <div>COORDS: <span id="introCoordDisplay">X: 11.023 | Y: -4.832 | Z: 26.528</span></div>
+        <div>COORDS: <span id="introCoordDisplay">X: 11.171 | Y: -3.898 | Z: 26.813</span></div>
         <div>SCAN RESOLUTION: <span>1mm HIGH PRECISION</span></div>
       </div>
       <div style="font-family: 'Space Grotesk', monospace; font-size: 11px; color: #94a3b8; letter-spacing: 1px;">
@@ -3704,8 +3704,8 @@ b;
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="admin-page-indicator" id="adminPageIndicator">P.17 / 29</span>
-          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">Project</span>
+          <span class="admin-page-indicator" id="adminPageIndicator">P.1 / 29</span>
+          <span id="adminHeaderPageTypeBadge" style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 5px; font-family: &quot;Space Grotesk&quot;, monospace; letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.1); color: rgb(255, 255, 255);">Cover</span>
         </div>
         <button class="nav-arrow-btn" onclick="goToNextBrochurePage()" title="다음 페이지 (▶)">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
@@ -3727,79 +3727,24 @@ b;
         <div class="admin-context-card">
           <div class="admin-context-header">
             <span class="admin-context-badge">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: #ff9f0a; display: inline-block;"></span>
-              <span>Project</span>
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #30d158; display: inline-block;"></span>
+              <span>Cover</span>
             </span>
-            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 17</span>
+            <span style="font-size: 11px; color: var(--apple-label-tertiary); font-weight: 500;">Page 1</span>
           </div>
           <div>
-            <h4 class="admin-context-title">프로젝트 쇼케이스</h4>
-            <p class="admin-context-desc">레이아웃 템플릿(6종) 및 대표 사진/성과 지표 편집</p>
+            <h4 class="admin-context-title">브로슈어 표지</h4>
+            <p class="admin-context-desc">메인 타이틀, 회사 슬로건 및 발행 연도</p>
           </div>
           <div class="admin-context-actions">
             
-          <!-- 프로젝트 DB 연동 UI -->
-          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 3px;">연동된 프로젝트 실적 DB</div>
-          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
-            <select onchange="linkProjectPageToDb(this.value)" style="flex: 1 1 0%; background: rgb(15, 23, 42); border: 0.5px solid rgba(255, 255, 255, 0.22); color: rgb(248, 250, 252); padding: 5px 8px; border-radius: var(--apple-radius-sm); font-size: 11.5px; cursor: pointer; color-scheme: dark;">
-              <option value="p_1794790642642" style="background: #0f172a; color: #f8fafc;">2026 [BIM] 광명 CM병원 BIM 용역</option><option value="p_1794790792956" style="background: #0f172a; color: #f8fafc;">2026 [BIM] 대구청  제1기동대 BIM용역</option><option value="p_1794790834922" style="background: #0f172a; color: #f8fafc;">2026 [BIM] 충청지역본부 청사 건립 설계용역(BIM)</option><option value="p_1794790629594" style="background: #0f172a; color: #f8fafc;">2026 [BIM] 커피그라인더 전시관 BIM 용역</option><option value="p_1794379319132" style="background: #0f172a; color: #f8fafc;">2026 [SCAN] 강화군 제3장학관 3D 스캐닝 및 역설계 용역</option><option value="p_1794379519021" style="background: #0f172a; color: #f8fafc;">2026 [SCAN] 서대문구 구립신가경로당 그린리모델링 역설계 용역</option><option value="p_1794379563067" style="background: #0f172a; color: #f8fafc;">2026 [SCAN] 양주시 보건소 그린리모델링 역설계 용역</option><option value="p_1794208912306" style="background: #0f172a; color: #f8fafc;">2026 [RND] Care-tail 모바일 &amp; 플랫폼 연구 개발</option><option value="p_101" style="background: #0f172a; color: #f8fafc;">2025 [BIM] 담바우 에너지공급센터 BIM 용역</option><option value="p_1794790958077" style="background: #0f172a; color: #f8fafc;">2025 [BIM] 북천안 데이터센터 BIM 용역</option><option value="p_1794790993549" style="background: #0f172a; color: #f8fafc;">2025 [BIM] 영은페이퍼 충무로 사옥 실시 BIM</option><option value="p_1794790978492" style="background: #0f172a; color: #f8fafc;">2025 [BIM] 인천통합보훈회관 건립사업 설계용역</option><option value="p_1794379293390" style="background: #0f172a; color: #f8fafc;">2025 [SCAN] 강화군 제2장학관 3D 스캐닝 및 역설계 용역</option><option value="p_1794379498204" style="background: #0f172a; color: #f8fafc;">2025 [SCAN] 은빛 홍삼 경로당 그린리모델링 역설계 용역</option><option value="p_1794379271471" style="background: #0f172a; color: #f8fafc;">2024 [BIM] 보라매병원 중정 역설계 및 증축공사 실시설계</option><option value="p_1794791093443" style="background: #0f172a; color: #f8fafc;">2024 [BIM] 서림산업 김포공장 신축공사 BIM 용역</option><option value="p_1794791018701" style="background: #0f172a; color: #f8fafc;">2024 [BIM] Neom Spine Concrete Type B BIM용역</option><option value="p_1794791046063" style="background: #0f172a; color: #f8fafc;">2024 [BIM] Post Tower 건립공사 BIM 설계용역</option><option value="p_206" style="background: #0f172a; color: #f8fafc;">2024 [SCAN] 페어필드바이메리어트 호텔 3D 스캔 용역</option><option value="p_301" style="background: #0f172a; color: #f8fafc;">2024 [XR] 현대건설 스마트 건설현장 혼합현실(MR) 시공 가이드 실증</option><option value="p_302" style="background: #0f172a; color: #f8fafc;">2024 [XR] Uncommon Canvas 가상 건축 IP 인터랙티브 메타버스 아카이브</option><option value="p_401" style="background: #0f172a; color: #f8fafc;">2024 [SIMULATION] 춘천 제로에너지 공동주택 단지 일조·음영 및 에너지 효율 해석</option><option value="p_1794209130514" style="background: #0f172a; color: #f8fafc;">2024 [RND] FOM 고밀형 음압병동 설계안 BIM용역</option><option value="p_1794791142948" style="background: #0f172a; color: #f8fafc;">2023 [BIM] 대한항공 엔진정비공장 BIM설계용역</option><option value="p_1794791120649" selected="" style="background: #0f172a; color: #f8fafc;">2023 [BIM] 해성푸드원 식품공장 신축공사 BIM설계용역</option><option value="p_201" style="background: #0f172a; color: #f8fafc;">2023 [SCAN] 보라매병원 대강당 3D 스캔 용역</option><option value="p_303" style="background: #0f172a; color: #f8fafc;">2023 [XR] 해성푸드원 식품 제조 스마트 팩토리 XR 공정 시뮬레이션</option><option value="p_402" style="background: #0f172a; color: #f8fafc;">2023 [SIMULATION] 담바우 산림에너지 자립마을 열원 공급 배관망 유체 유동 해석</option><option value="p_501" style="background: #0f172a; color: #f8fafc;">2023 [CONSULTING] 연성대학교 실내건축과 스마트경영 교육 지원</option><option value="p_1794877352304" style="background: #0f172a; color: #f8fafc;">2022 [BIM] 인천경찰특공대 훈련시설 증축공사 BIM용역</option><option value="p_1794877338272" style="background: #0f172a; color: #f8fafc;">2022 [BIM] 종합실습타운 증축사업 BIM용역</option><option value="p_304" style="background: #0f172a; color: #f8fafc;">2022 [XR] HoloLens 2 기반 복합설비 배관 유지관리 증강현실(AR) 시스템</option><option value="p_403" style="background: #0f172a; color: #f8fafc;">2022 [SIMULATION] 마곡 R&amp;D 센터 외피 열관류율 및 건물에너지소비량 정밀 평가</option><option value="p_1794877297430" style="background: #0f172a; color: #f8fafc;">2021 [BIM] 대구보훈병원 재활센터 건립공사 BIM용역</option><option value="p_1794877316612" style="background: #0f172a; color: #f8fafc;">2021 [BIM] 신동초등학교 이전 신축공사 BIM용역</option><option value="p_305" style="background: #0f172a; color: #f8fafc;">2021 [XR] VR 기반 가상 건축 모델 하우스 품평 인터랙션 시스템</option><option value="p_404" style="background: #0f172a; color: #f8fafc;">2021 [SIMULATION] 송도 스마트 그린 빌딩 탄소배출량 생애주기(LCA) 시뮬레이션</option>
-            </select>
-            <button class="admin-btn" onclick="openProjectDbModal()" title="프로젝트 실적 엑셀 DB 열기" style="padding: 5px 9px; flex-shrink: 0; min-width: 0;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="table" aria-hidden="true" style="width: 13px; height: 13px; color: #38bdf8;" class="lucide lucide-table"><path d="M12 3v18"></path><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path></svg>
-            </button>
+          <div style="background: rgba(255, 255, 255, 0.04); border: 0.5px solid rgba(255, 255, 255, 0.08); border-radius: var(--apple-radius-md); padding: 12px 14px; font-size: 12px; color: var(--apple-label-secondary); line-height: 1.5;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-weight: 600; color: #ffffff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="edit-3" aria-hidden="true" style="width: 13px; height: 13px; color: #30d158;" class="lucide lucide-edit-3"><path d="M13 21h8"></path><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path></svg>
+              <span>직접 편집 가이드</span>
+            </div>
+            화면의 텍스트를 직접 클릭하여 브로슈어 타이틀과 슬로건을 즉시 수정할 수 있습니다.
           </div>
-
-          <div class="admin-divider" style="margin: 4px 0;"></div>
-
-          <div style="font-size: 11px; font-weight: 600; color: var(--apple-label-secondary); margin-bottom: 2px;">프로젝트 내용 및 뱃지 제어</div>
-          
-          <div class="admin-btn-group-2">
-            <button class="admin-btn primary" onclick="addProjectDescBullet()" title="새로운 내용 불릿 항목을 리스트에 즉시 추가">
-              <div class="btn-left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus-circle" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
-                <span>+ 내용 추가</span>
-              </div>
-            </button>
-            <button class="admin-btn danger" onclick="removeProjectDescBullet()" title="프로젝트 내용 항목을 삭제">
-              <div class="btn-left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="minus-circle" aria-hidden="true" style="width: 13px; height: 13px; color: #ff453a;" class="lucide lucide-minus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>
-                <span>- 내용 삭제</span>
-              </div>
-            </button>
-          </div>
-
-          <button class="admin-btn" onclick="toggleProjectAwardBanner()" title="인증/어워드 뱃지 추가 또는 삭제">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 13px; height: 13px; color: #ff9f0a;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>
-              <span>뱃지 제거</span>
-            </div>
-          </button>
-
-          <div class="admin-divider" style="margin: 4px 0;"></div>
-
-          <button class="admin-btn" onclick="showAdminSubview('changeLayout')" title="1열 전면형, 2열 분할형, 3단 그리드형 등 6종 템플릿 중 선택">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layout-template" aria-hidden="true" style="width: 14px; height: 14px; color: #bf5af2;" class="lucide lucide-layout-template"><rect width="18" height="7" x="3" y="3" rx="1"></rect><rect width="9" height="7" x="3" y="14" rx="1"></rect><rect width="5" height="7" x="16" y="14" rx="1"></rect></svg>
-              <span>레이아웃 템플릿 변경 (6종)</span>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
-          </button>
-
-          <button class="admin-btn" onclick="triggerPageImagePicker()" title="현재 프로젝트 페이지의 대표 사진/도면 교체">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="image" aria-hidden="true" style="width: 14px; height: 14px; color: #30d158;" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
-              <span>대표 이미지 교체</span>
-            </div>
-            <span style="font-size: 9.5px; opacity: 0.6;">Upload</span>
-          </button>
-
-          <button class="admin-btn" onclick="openProjectDbModal()" title="전체 프로젝트 DB 관리창 열기">
-            <div class="btn-left">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="database" aria-hidden="true" style="width: 14px; height: 14px; color: var(--apple-label-secondary);" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
-              <span>전체 프로젝트 DB 관리</span>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" style="width: 13px; height: 13px; opacity: 0.5;" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"></path></svg>
-          </button>
         
           </div>
         </div>
@@ -3907,12 +3852,12 @@ b;
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-left" aria-hidden="true" style="width: 13px; height: 13px;" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
             <span>메뉴로 돌아가기</span>
           </button>
-          <span id="subviewLayoutModeBadge" style="font-size: 10px; font-weight: 800; background: rgb(0, 112, 243); color: rgb(255, 255, 255); padding: 2px 7px; border-radius: 4px; font-family: monospace;">추가 모드</span>
+          <span id="subviewLayoutModeBadge" style="font-size: 10px; font-weight: 800; background: rgb(14, 165, 233); color: rgb(255, 255, 255); padding: 2px 7px; border-radius: 4px; font-family: monospace;">변경 모드</span>
         </div>
 
         <div style="margin-bottom: 6px;">
-          <h4 id="subviewLayoutTitle" style="font-size: 14px; font-weight: 800; color: #ffffff; margin: 0 0 2px;">새 페이지 템플릿 &amp; 레이아웃</h4>
-          <p id="subviewLayoutDesc" style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.35;">추가할 레이아웃을 클릭하면 새 페이지가 즉시 생성됩니다.</p>
+          <h4 id="subviewLayoutTitle" style="font-size: 14px; font-weight: 800; color: #ffffff; margin: 0 0 2px;"><span style="color: #38bdf8;">P.9</span> 레이아웃 실시간 변경</h4>
+          <p id="subviewLayoutDesc" style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.35;">원하는 레이아웃을 클릭하면 좌측 브로슈어에 즉시 실시간 반영됩니다.</p>
         </div>
 
         <span class="admin-section-label">PROJECT SHOWCASE (6종)</span>
@@ -3920,7 +3865,7 @@ b;
         <!-- 6 Layout Cards -->
         <div style="display: flex; flex-direction: column; gap: 7px;">
           <!-- 1. 기본형 -->
-          <div class="panel-layout-card active" onclick="handleLayoutSelect('project-classic')" data-layout="project-classic">
+          <div class="panel-layout-card" onclick="handleLayoutSelect('project-classic')" data-layout="project-classic">
             <div class="panel-card-thumb">
               <div class="tp-split">
                 <div class="tp-col-left"></div>
@@ -4036,7 +3981,7 @@ b;
           </div>
 
           <!-- 8. 사용자 정의 분할 & 비율 생성기 -->
-          <div class="panel-layout-card" onclick="openCustomLayoutBuilderModal()" data-layout="project-custom" style="border: 1px dashed #38bdf8; background: rgba(56, 189, 248, 0.08);">
+          <div class="panel-layout-card active" onclick="openCustomLayoutBuilderModal()" data-layout="project-custom" style="border: 1px dashed #38bdf8; background: rgba(56, 189, 248, 0.08);">
             <div class="panel-card-thumb" style="display: flex; align-items: center; justify-content: center; background: #0b1120; border-color: rgba(56, 189, 248, 0.4);">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M3 15h18"></path><path d="M9 3v6"></path><path d="M15 9v6"></path><path d="M12 15v6"></path></svg>
             </div>
@@ -4048,7 +3993,7 @@ b;
         </div>
 
         <!-- 기타 템플릿 (신규 페이지 추가 모드일 때만 표시) -->
-        <div id="subviewOtherTemplatesSection" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.12); display: block;">
+        <div id="subviewOtherTemplatesSection" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.12); display: none;">
           <span class="admin-section-label">OTHER TEMPLATES (기타 템플릿)</span>
           <div style="display: flex; flex-direction: column; gap: 7px;">
             <div class="panel-layout-card" onclick="handleLayoutSelect('divider')" data-layout="divider" style="border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.06);">
@@ -4486,7 +4431,7 @@ b;
   </div>
 
   <!-- Custom Project Split Layout Builder Modal (Apple HIG Glassmorphism) -->
-  <div id="customLayoutBuilderModal" class="modal-overlay" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; z-index: 3200; background: rgba(0, 0, 0, 0.56); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);" onclick="if(event.target === this) closeCustomLayoutBuilderModal()">
+  <div id="customLayoutBuilderModal" class="modal-overlay" style="display: none; position: fixed; inset: 0px; align-items: center; justify-content: center; z-index: 3200; background: rgba(0, 0, 0, 0.56); backdrop-filter: blur(22px) saturate(180%);" onclick="if(event.target === this) closeCustomLayoutBuilderModal()">
     <div style="background: rgba(28, 28, 30, 0.88); backdrop-filter: blur(48px) saturate(190%); -webkit-backdrop-filter: blur(48px) saturate(190%); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px; width: 840px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65), 0 0 1px rgba(255,255,255,0.2); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Pretendard', sans-serif;" onclick="event.stopPropagation()">
       <!-- Header -->
       <div style="padding: 18px 24px; background: rgba(44, 44, 46, 0.45); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;">
@@ -4511,18 +4456,18 @@ b;
             <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px;">
               <div style="font-size: 11px; font-weight: 600; color: #98989d; margin-bottom: 8px; letter-spacing: -0.01em;">1. 분할 기준 방향</div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 9px;" id="customLayoutDirBtns">
-                <button type="button" onclick="setCustomLayoutDirection('rows')" data-dir="rows" style="padding: 7px 8px; border-radius: 7px; border: none; background: #0071e3; color: #ffffff; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">상하 행 분할</button>
-                <button type="button" onclick="setCustomLayoutDirection('cols')" data-dir="cols" style="padding: 7px 8px; border-radius: 7px; border: none; background: transparent; color: #ebebf5; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">좌우 열 분할</button>
+                <button type="button" onclick="setCustomLayoutDirection('rows')" data-dir="rows" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">상하 행 분할</button>
+                <button type="button" onclick="setCustomLayoutDirection('cols')" data-dir="cols" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">좌우 열 분할</button>
               </div>
             </div>
             <!-- 2. Group Count Segmented Control -->
             <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px;">
               <div style="font-size: 11px; font-weight: 600; color: #98989d; margin-bottom: 8px; letter-spacing: -0.01em;">2. 단(행/열) 개수</div>
               <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 9px;" id="customLayoutGroupCountBtns">
-                <button type="button" onclick="setCustomLayoutGroupCount(1)" data-cnt="1" style="padding: 7px 0; border-radius: 7px; border: none; background: transparent; color: #ebebf5; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">1단</button>
-                <button type="button" onclick="setCustomLayoutGroupCount(2)" data-cnt="2" style="padding: 7px 0; border-radius: 7px; border: none; background: #0071e3; color: #ffffff; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">2단</button>
-                <button type="button" onclick="setCustomLayoutGroupCount(3)" data-cnt="3" style="padding: 7px 0; border-radius: 7px; border: none; background: transparent; color: #ebebf5; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">3단</button>
-                <button type="button" onclick="setCustomLayoutGroupCount(4)" data-cnt="4" style="padding: 7px 0; border-radius: 7px; border: none; background: transparent; color: #ebebf5; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;">4단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(1)" data-cnt="1" style="padding: 7px 0px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">1단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(2)" data-cnt="2" style="padding: 7px 0px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">2단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(3)" data-cnt="3" style="padding: 7px 0px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">3단</button>
+                <button type="button" onclick="setCustomLayoutGroupCount(4)" data-cnt="4" style="padding: 7px 0px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">4단</button>
               </div>
             </div>
           </div>
@@ -4533,7 +4478,59 @@ b;
               <span style="font-size: 12px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em;">3. 단별 비율 &amp; 내부 칸 분할 설정</span>
               <button type="button" onclick="equalizeAllCustomGroups()" style="background: rgba(10, 132, 255, 0.16); border: 1px solid rgba(10, 132, 255, 0.35); color: #64d2ff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all 0.18s ease;">단 비율 균등화</button>
             </div>
-            <div id="customLayoutGroupsContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            <div id="customLayoutGroupsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 11px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: nowrap;">
+                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">1행(단)</span>
+                <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">높이</span>
+                  <input id="customGroupSizeRange_0" type="range" min="5" max="95" value="70" oninput="setCustomLayoutGroupSize(0, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
+                  <div style="display: flex; align-items: center; background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 2px 6px;">
+                    <input id="customGroupSizeNum_0" type="number" min="5" max="95" value="70" oninput="setCustomLayoutGroupSize(0, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
+                    <span style="font-size: 10.5px; color: #98989d; margin-left: 2px;">%</span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 3px; background: rgba(118, 118, 128, 0.22); padding: 2px; border-radius: 7px; flex-shrink: 0;">
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 1)" style="padding: 4px 7px; border-radius: 5px; border: none; background: #0071e3; color: #ffffff; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">1칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 2)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">2칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 3)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">3칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 4)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">4칸</button>
+                  
+                </div>
+              </div>
+              
+            </div>
+          
+            <div style="background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 11px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: nowrap;">
+                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">2행(단)</span>
+                <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
+                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">높이</span>
+                  <input id="customGroupSizeRange_1" type="range" min="5" max="95" value="50" oninput="setCustomLayoutGroupSize(1, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
+                  <div style="display: flex; align-items: center; background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 2px 6px;">
+                    <input id="customGroupSizeNum_1" type="number" min="5" max="95" value="50" oninput="setCustomLayoutGroupSize(1, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
+                    <span style="font-size: 10.5px; color: #98989d; margin-left: 2px;">%</span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 3px; background: rgba(118, 118, 128, 0.22); padding: 2px; border-radius: 7px; flex-shrink: 0;">
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(1, 1)" style="padding: 4px 7px; border-radius: 5px; border: none; background: #0071e3; color: #ffffff; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">1칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(1, 2)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">2칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(1, 3)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">3칸</button>
+                  
+                    <button type="button" onclick="setCustomLayoutCellCount(1, 4)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">4칸</button>
+                  
+                </div>
+              </div>
+              
+            </div>
+          </div>
           </div>
         </div>
 
@@ -4542,9 +4539,19 @@ b;
           <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
               <span style="font-size: 12px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em; white-space: nowrap;">실시간 레이아웃 미리보기</span>
-              <span id="customLayoutSummaryBadge" style="font-size: 11px; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap;">총 5컷</span>
+              <span id="customLayoutSummaryBadge" style="font-size: 11px; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap;">상하 2단 · 총 2컷</span>
             </div>
-            <div id="customLayoutLivePreview" style="width: 100%; aspect-ratio: 1.25 / 1; background: rgba(18, 18, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 11px; padding: 6px; box-sizing: border-box; box-shadow: inset 0 2px 8px rgba(0,0,0,0.45);"></div>
+            <div id="customLayoutLivePreview" style="width: 100%; aspect-ratio: 1.25 / 1; background: rgba(18, 18, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 11px; padding: 6px; box-sizing: border-box; box-shadow: inset 0 2px 8px rgba(0,0,0,0.45);"><div style="display: grid; grid-template-rows: 80fr 50fr; gap: 5px; width: 100%; height: 100%;"><div style="display: grid; grid-template-columns: 100fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+            <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
+              <span style="letter-spacing: -0.02em;">#1</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">80% · 100</span>
+            </div>
+          </div><div style="display: grid; grid-template-columns: 100fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+            <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
+              <span style="letter-spacing: -0.02em;">#2</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">50% · 100</span>
+            </div>
+          </div></div></div>
           </div>
 
           <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 10px;">
@@ -4552,7 +4559,22 @@ b;
               <span style="font-size: 12px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em; white-space: nowrap;">저장된 커스텀 프리셋</span>
               <button type="button" onclick="saveCustomLayoutPreset()" style="background: rgba(48, 209, 88, 0.16); border: 1px solid rgba(48, 209, 88, 0.38); color: #30d158; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all 0.18s ease;">+ 현재 구성 저장</button>
             </div>
-            <div id="customLayoutPresetsList" style="display: flex; flex-direction: column; gap: 6px; max-height: 145px; overflow-y: auto; padding-right: 2px;"></div>
+            <div id="customLayoutPresetsList" style="display: flex; flex-direction: column; gap: 6px; max-height: 145px; overflow-y: auto; padding-right: 2px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 9px; padding: 8px 11px; transition: background 0.15s;" onmouseover="this.style.background='rgba(58, 58, 60, 0.65)'" onmouseout="this.style.background='rgba(28, 28, 30, 0.72)'">
+          <button type="button" onclick="applySavedCustomLayoutPreset(0)" style="background: none; border: none; color: #f5f5f7; font-size: 11.5px; font-weight: 600; text-align: left; cursor: pointer; flex: 1; padding: 0; line-height: 1.35; word-break: keep-all;">상단 2분할(70%) + 하단 3분할(30%)</button>
+          <button type="button" onclick="deleteCustomLayoutPreset(0)" title="프리셋 삭제" style="background: rgba(255, 69, 58, 0.14); border: none; color: #ff453a; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</button>
+        </div>
+      
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 9px; padding: 8px 11px; transition: background 0.15s;" onmouseover="this.style.background='rgba(58, 58, 60, 0.65)'" onmouseout="this.style.background='rgba(28, 28, 30, 0.72)'">
+          <button type="button" onclick="applySavedCustomLayoutPreset(1)" style="background: none; border: none; color: #f5f5f7; font-size: 11.5px; font-weight: 600; text-align: left; cursor: pointer; flex: 1; padding: 0; line-height: 1.35; word-break: keep-all;">상단 1칸(50%) + 중단 2칸(25%) + 하단 3칸(25%)</button>
+          <button type="button" onclick="deleteCustomLayoutPreset(1)" title="프리셋 삭제" style="background: rgba(255, 69, 58, 0.14); border: none; color: #ff453a; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</button>
+        </div>
+      
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 9px; padding: 8px 11px; transition: background 0.15s;" onmouseover="this.style.background='rgba(58, 58, 60, 0.65)'" onmouseout="this.style.background='rgba(28, 28, 30, 0.72)'">
+          <button type="button" onclick="applySavedCustomLayoutPreset(2)" style="background: none; border: none; color: #f5f5f7; font-size: 11.5px; font-weight: 600; text-align: left; cursor: pointer; flex: 1; padding: 0; line-height: 1.35; word-break: keep-all;">좌측 메인(65%) + 우측 3단(35%)</button>
+          <button type="button" onclick="deleteCustomLayoutPreset(2)" title="프리셋 삭제" style="background: rgba(255, 69, 58, 0.14); border: none; color: #ff453a; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</button>
+        </div>
+      </div>
           </div>
         </div>
       </div>
@@ -4560,7 +4582,7 @@ b;
       <!-- Footer -->
       <div style="padding: 14px 24px; background: rgba(44, 44, 46, 0.45); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
         <button type="button" onclick="closeCustomLayoutBuilderModal()" style="background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.08); color: #ebebf5; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.18s ease;" onmouseover="this.style.background='rgba(118,118,128,0.36)'" onmouseout="this.style.background='rgba(118,118,128,0.24)'">취소</button>
-        <button type="button" onclick="applyCustomLayoutToPage()" style="background: linear-gradient(180deg, #0a84ff 0%, #0071e3 100%); border: none; color: #ffffff; padding: 9px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 113, 227, 0.45); transition: transform 0.15s ease, filter 0.15s ease;" onmouseover="this.style.filter='brightness(1.08)'" onmouseout="this.style.filter='none'">현재 페이지에 레이아웃 적용</button>
+        <button type="button" onclick="applyCustomLayoutToPage()" style="background: linear-gradient(rgb(10, 132, 255) 0%, rgb(0, 113, 227) 100%); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(255, 255, 255); padding: 9px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: rgba(0, 113, 227, 0.45) 0px 4px 14px; transition: transform 0.15s, filter 0.15s; filter: none;" onmouseover="this.style.filter='brightness(1.08)'" onmouseout="this.style.filter='none'">현재 페이지에 레이아웃 적용</button>
       </div>
     </div>
   </div>
@@ -5362,7 +5384,7 @@ b;
     <main class="a4-stage">
       
       <!-- Side Nav Arrows -->
-      <button class="stage-arrow-btn left" id="viewerPrevBtn" onclick="prevPage()" title="이전 페이지">
+      <button class="stage-arrow-btn left" id="viewerPrevBtn" onclick="prevPage()" title="이전 페이지" disabled="">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 26px; height: 26px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
       </button>
       <button class="stage-arrow-btn right" id="viewerNextBtn" onclick="nextPage()" title="다음 페이지">
@@ -5382,7 +5404,7 @@ b;
         <!-- ============================================================ -->
         <!-- A4 PAGE 2: OBSIDIAN GRAPH SYSTEM (지명원 P.02 & 네트워크 인포그래픽) -->
         <!-- ============================================================ -->
-        <div class="a4-page-content" id="page-1-content" style="display: none;">
+        <div class="a4-page-content" id="page-1-content" style="display: flex;">
           <div class="a4-page-cover">
             
             <div class="cover-center-content">
@@ -5818,6 +5840,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -5841,6 +5960,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6062,6 +6278,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -6085,6 +6398,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6302,6 +6712,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -6325,6 +6832,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6534,6 +7138,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -6557,6 +7258,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6783,6 +7581,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -6811,6 +7706,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6956,7 +7948,7 @@ b;
                 </div><div class="project-overview-row">
                   <span class="project-overview-label">Scope</span>
                   <div class="project-overview-value overview-scope" data-field="scope">
-                    <div spellcheck="false">BIM 모델링</div>
+                    <div spellcheck="false">BIM(모델링)</div><div spellcheck="false">3D scan(정합성 검토)</div><div spellcheck="false">XR</div>
                   </div>
                 </div></div>
               <div class="project-overview-divider"></div>
@@ -7050,15 +8042,9 @@ b;
         
         
         
-        
-        
-        
-        
-        
-        
-        <div class="project-image-legend" data-layout-legend="project-split2-rows">
-          <div class="legend-matrix legend-matrix-split2-rows">
-            <div class="legend-cell">1</div><div class="legend-cell">2</div>
+        <div class="project-image-legend" data-layout-legend="project-custom">
+          <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-columns:60fr 40fr;gap:1.5px;width:44px;height:36px;">
+            <div style="display:grid;grid-template-rows:50fr 50fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div><div style="display:grid;grid-template-rows:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">5</div></div>
           </div>
           <div class="legend-list">
             
@@ -7072,6 +8058,21 @@ b;
             <span class="legend-text" spellcheck="false">고정밀 BIM 모델링</span>
           </div>
         
+          <div class="legend-item">
+            <span class="legend-num">3.</span>
+            <span class="legend-text" spellcheck="false">설계 간섭 검토</span>
+          </div>
+        
+          <div class="legend-item">
+            <span class="legend-num">4.</span>
+            <span class="legend-text" spellcheck="false">상세 단면 및 정합성</span>
+          </div>
+        
+          <div class="legend-item">
+            <span class="legend-num">5.</span>
+            <span class="legend-text" spellcheck="false">최종 성과품 뷰</span>
+          </div>
+        
           </div>
         </div>
       
@@ -7145,23 +8146,35 @@ b;
       
       
       
-      
-      
-      
-      
-      
-      
         </div>
       
-            <div class="project-right-visual project-split2-rows" data-layout="project-split2-rows" style="display: grid; grid-template-rows: 1fr 1fr; gap: 2px;">
-              <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '상단 와이드 실측 뷰', '현장 LiDAR 3차원 점군 데이터', event)">
-                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/point_cloud.png" alt="상단 실측 점군" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                </div>
-              <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '하단 와이드 역설계 뷰', '정밀 역설계 BIM LOD 400 모델', event)">
-                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/mep_bim.png" alt="하단 역설계 모델" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                </div>
+            <div class="project-right-visual project-custom" data-layout="project-custom" data-custom-spec="{&quot;direction&quot;:&quot;cols&quot;,&quot;groups&quot;:[{&quot;size&quot;:60,&quot;cells&quot;:[50,50]},{&quot;size&quot;:40,&quot;cells&quot;:[33,34,33]}]}" style="display: grid !important; grid-template-columns: 60fr 40fr !important; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+              <div class="custom-split-group" style="display: grid; grid-template-rows: 50fr 50fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #1', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156881630_8veyob.webp" alt="상단 실측 점군" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #2', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156918577_d9my94.webp" alt="하단 역설계 모델" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            </div><div class="custom-split-group" style="display: grid; grid-template-rows: 33fr 34fr 33fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #3', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156925611_zz7wil.webp" alt="뷰 #3" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #4', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156930934_8s3lqs.webp" alt="뷰 #4" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #5', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156935962_gwaogz.webp" alt="뷰 #5" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            </div>
             </div>
           </div>
         </div><div class="a4-page-content" id="custom-page-1793970193259" style="display: none;" data-project-id="p_101">
@@ -7222,6 +8235,103 @@ b;
 
           <!-- 4. 좌측 하단 이미지별 설명 범례 (Classic 3컷 연동) -->
           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -8212,6 +9322,103 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         </div>
       
             <div class="project-right-visual">
@@ -8354,6 +9561,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -8377,6 +9681,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -8444,9 +9845,7 @@ b;
               <span class="project-category-badge" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
             </div>
             <h2 class="project-hero-title" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">인천통합보훈회관 건립사업 설계용역<br></h2>
-            <div class="project-award-banner">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">우수 프로젝트 레퍼런스</span>
-            </div>
+            <div class="project-award-banner" style="display: none;"></div>
 
             <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client DB 연동 전용, Scope 페이지 내 직접 작성) -->
             <div class="project-meta-overview">
@@ -8524,25 +9923,50 @@ b;
         
         
         
-        <div class="project-image-legend" data-layout-legend="project-classic">
-          <div class="legend-matrix legend-matrix-classic">
-            <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="project-image-legend" data-layout-legend="project-custom">
+          <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-rows:70fr 30fr;gap:1.5px;width:44px;height:36px;">
+            <div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div></div><div style="display:grid;grid-template-columns:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div></div>
           </div>
           <div class="legend-list">
             
           <div class="legend-item">
             <span class="legend-num">1.</span>
-            <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span>
+            <span class="legend-text" spellcheck="false">현장 실측 스캔 데이터</span>
           </div>
         
           <div class="legend-item">
             <span class="legend-num">2.</span>
-            <span class="legend-text" spellcheck="false">정합성 검토 보고서</span>
+            <span class="legend-text" spellcheck="false">고정밀 BIM 모델링</span>
           </div>
         
           <div class="legend-item">
             <span class="legend-num">3.</span>
-            <span class="legend-text" spellcheck="false">건축/구조 Revit 모델</span>
+            <span class="legend-text" spellcheck="false">설계 간섭 검토</span>
+          </div>
+        
+          <div class="legend-item">
+            <span class="legend-num">4.</span>
+            <span class="legend-text" spellcheck="false">상세 단면 및 정합성</span>
           </div>
         
           </div>
@@ -8582,23 +10006,50 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         </div>
       
-            <div class="project-right-visual project-classic" data-layout="project-classic">
-              <div class="media-card top-hero-card" onclick="openLightbox(this, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼', event)">
-                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/point_cloud.png" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                </div>
-              <div class="bottom-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 46%; min-height: 0;">
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '현장 전경', '시공 및 완공 현장 사진', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/site_photo.png" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, 'MEP 모델링', '기계 설비 배관 모델링', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/mep_bim.png" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
+            <div class="project-right-visual project-custom" data-layout="project-custom" data-custom-spec="{&quot;direction&quot;:&quot;rows&quot;,&quot;groups&quot;:[{&quot;size&quot;:70,&quot;cells&quot;:[100]},{&quot;size&quot;:30,&quot;cells&quot;:[33,34,33]}]}" style="display: grid !important; grid-template-rows: 70fr 30fr !important; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+              <div class="custom-split-group" style="display: grid; grid-template-columns: 100fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #1', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156964039_paywyj.webp" alt="프로젝트 메인 조감도" class="" loading="lazy" data-fit="cover" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" style="object-fit: cover;">
               </div>
+            </div><div class="custom-split-group" style="display: grid; grid-template-columns: 33fr 34fr 33fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #2', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795156991284_1vl37m.webp" alt="현장 전경" class="" loading="lazy" data-fit="contain" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" style="object-fit: contain;">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #3', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157017572_9gbt43.webp" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #4', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157022477_k41hwa.webp" alt="뷰 #4" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
+              </div>
+            </div>
             </div>
           </div>
         </div><div class="a4-page-content" id="custom-page-1794987368320" style="display: none;" data-project-id="p_1794791093443">
@@ -8613,9 +10064,7 @@ b;
               <span class="project-category-badge" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
             </div>
             <h2 class="project-hero-title" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">서림산업 김포공장 신축공사 BIM 용역<br></h2>
-            <div class="project-award-banner">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">우수 프로젝트 레퍼런스</span>
-            </div>
+            <div class="project-award-banner" style="display: none;"></div>
 
             <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client DB 연동 전용, Scope 페이지 내 직접 작성) -->
             <div class="project-meta-overview">
@@ -8692,6 +10141,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -8749,21 +10295,118 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         </div>
       
             <div class="project-right-visual project-classic" data-layout="project-classic">
-              <div class="media-card top-hero-card" onclick="openLightbox(this, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼', event)">
+              <div class="media-card top-hero-card" onclick="openLightbox(this, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼', event)" style="background: rgb(255, 255, 255);">
                 <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/point_cloud.png" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157066871_21obwt.webp" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
                 </div>
               <div class="bottom-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 46%; min-height: 0;">
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '현장 전경', '시공 및 완공 현장 사진', event)">
+                <div class="media-card" style="height: 100%; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '현장 전경', '시공 및 완공 현장 사진', event)">
                   <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/site_photo.png" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+                  <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157075341_sb4m9t.webp" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="contain" style="object-fit: contain;">
                   </div>
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, 'MEP 모델링', '기계 설비 배관 모델링', event)">
+                <div class="media-card" style="height: 100%; position: relative; background: rgb(15, 23, 42);" onclick="openLightbox(this, 'MEP 모델링', '기계 설비 배관 모델링', event)">
                   <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/mep_bim.png" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+                  <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157079784_2upqcj.webp" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="cover" style="object-fit: cover;">
                   </div>
               </div>
             </div>
@@ -8780,9 +10423,7 @@ b;
               <span class="project-category-badge" title="프로젝트 실적 DB 카테고리 연동 항목">BIM</span>
             </div>
             <h2 class="project-hero-title" title="프로젝트 DB 연동 항목 (페이지 직접 수정 불가)">Neom Spine Concrete Type B BIM용역<br></h2>
-            <div class="project-award-banner">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" style="width: 14px; height: 14px; stroke-width: 2.5;" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg><span spellcheck="false">우수 프로젝트 레퍼런스</span>
-            </div>
+            <div class="project-award-banner" style="display: none;"></div>
 
             <!-- 2. Project Overview (순서: Year -> Client -> Scope / Year, Client DB 연동 전용, Scope 페이지 내 직접 작성) -->
             <div class="project-meta-overview">
@@ -8858,25 +10499,36 @@ b;
         
         
         
-        <div class="project-image-legend" data-layout-legend="project-classic">
-          <div class="legend-matrix legend-matrix-classic">
-            <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="project-image-legend" data-layout-legend="project-custom">
+          <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-rows:80fr 50fr;gap:1.5px;width:44px;height:36px;">
+            <div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div></div><div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div>
           </div>
           <div class="legend-list">
             
           <div class="legend-item">
             <span class="legend-num">1.</span>
-            <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span>
+            <span class="legend-text" spellcheck="false">현장 실측 스캔 데이터</span>
           </div>
         
           <div class="legend-item">
             <span class="legend-num">2.</span>
-            <span class="legend-text" spellcheck="false">정합성 검토 보고서</span>
-          </div>
-        
-          <div class="legend-item">
-            <span class="legend-num">3.</span>
-            <span class="legend-text" spellcheck="false">건축/구조 Revit 모델</span>
+            <span class="legend-text" spellcheck="false">고정밀 BIM 모델링</span>
           </div>
         
           </div>
@@ -8914,23 +10566,36 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         </div>
       
-            <div class="project-right-visual project-classic" data-layout="project-classic">
-              <div class="media-card top-hero-card" onclick="openLightbox(this, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼', event)">
-                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/point_cloud.png" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                </div>
-              <div class="bottom-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 46%; min-height: 0;">
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '현장 전경', '시공 및 완공 현장 사진', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/site_photo.png" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, 'MEP 모델링', '기계 설비 배관 모델링', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/mep_bim.png" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
+            <div class="project-right-visual project-custom" data-layout="project-custom" data-custom-spec="{&quot;direction&quot;:&quot;rows&quot;,&quot;groups&quot;:[{&quot;size&quot;:80,&quot;cells&quot;:[100]},{&quot;size&quot;:50,&quot;cells&quot;:[100]}]}" style="display: grid !important; grid-template-rows: 80fr 50fr !important; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+              <div class="custom-split-group" style="display: grid; grid-template-columns: 100fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #1', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157135533_7ulm4y.webp" alt="프로젝트 메인 조감도" class="" loading="lazy" data-fit="cover" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" style="object-fit: cover;">
               </div>
+            </div><div class="custom-split-group" style="display: grid; grid-template-columns: 100fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(255, 255, 255);" onclick="openLightbox(this, '뷰 #2', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795157144777_3tagr2.webp" alt="상단 우측 이미지" class="admin-img-selected" loading="lazy" data-fit="contain" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" style="object-fit: contain;">
+              </div>
+            </div>
             </div>
           </div>
         </div><div class="a4-page-content" id="custom-page-1794987397681" style="display: none;" data-project-id="p_1794791142948">
@@ -9012,6 +10677,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -9057,6 +10819,103 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         </div>
       
             <div class="project-right-visual project-classic" data-layout="project-classic">
@@ -9076,7 +10935,7 @@ b;
               </div>
             </div>
           </div>
-        </div><div class="a4-page-content" id="custom-page-1794987417062" style="display: flex;" data-project-id="p_1794791120649">
+        </div><div class="a4-page-content" id="custom-page-1794987417062" style="display: none;" data-project-id="p_1794791120649">
           <div class="a4-page-project" data-project-id="p_1794791120649">
             
         <div class="project-left-panel">
@@ -9154,6 +11013,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -9177,6 +11133,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -9294,6 +11347,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -9317,6 +11467,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -9432,6 +11679,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -9455,6 +11799,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -9874,6 +12315,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -9897,6 +12435,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -10885,6 +13520,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -10913,6 +13645,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -11943,6 +14772,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -11966,6 +14892,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -12831,6 +15854,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -12859,6 +15979,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -13508,6 +16725,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -13536,6 +16850,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -14136,6 +17547,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-split2-3">
           <div class="legend-matrix legend-matrix-split2-3">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div><div class="legend-cell">5</div>
@@ -14169,6 +17677,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -14752,6 +18357,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -14780,6 +18482,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -15299,6 +19098,103 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-split2-cols">
           <div class="legend-matrix legend-matrix-split2-cols">
             <div class="legend-cell">1</div><div class="legend-cell">2</div>
@@ -15317,6 +19213,103 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -15458,10 +19451,10 @@ b;
 
       <!-- Center Nav -->
       <div class="bottom-center-nav">
-        <button type="button" class="page-step-btn" id="btnFirst" onclick="goToFirstPage()" title="첫 페이지(표지)로 이동">
+        <button type="button" class="page-step-btn" id="btnFirst" onclick="goToFirstPage()" title="첫 페이지(표지)로 이동" disabled="">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>
         </button>
-        <button type="button" class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지">
+        <button type="button" class="page-step-btn" id="btnPrev" onclick="prevPage()" title="이전 페이지" disabled="">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" style="width: 18px; height: 18px;" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
 
