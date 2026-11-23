@@ -25457,10 +25457,15 @@ b;
       allPages.forEach((page, idx) => {
         if (idx === currentBrochurePage) {
           page.style.display = 'flex';
-          // 현재 페이지 내 비디오가 있으면 준비
+          // 현재 페이지 내 비디오가 있으면 준비 (분할 비디오 하이드레이션 포함)
           const vid = page.querySelector('video');
-          if (vid && vid.paused && vid.autoplay) {
-            vid.play().catch(() => {});
+          if (vid) {
+            if (typeof hydrateChunkedVideoElement === 'function') {
+              hydrateChunkedVideoElement(vid);
+            }
+            if (vid.paused && vid.autoplay) {
+              vid.play().catch(() => {});
+            }
           }
         } else {
           page.style.display = 'none';
@@ -27158,6 +27163,20 @@ b;
       cloneSheet.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img', 'admin-img-selected'));
       cloneSheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .media-fit-bar').forEach(b => b.remove());
       cloneSheet.querySelectorAll('.divider-cat-select').forEach(sel => { sel.style.display = 'none'; });
+      cloneSheet.querySelectorAll('video').forEach(vid => {
+        const chunkedSrc = vid.getAttribute('data-chunked-src') || (vid.querySelector('source') && vid.querySelector('source').getAttribute('src')) || '';
+        if (chunkedSrc && (chunkedSrc.includes('#chunked-video') || chunkedSrc.includes('_manifest.json'))) {
+          vid.setAttribute('data-chunked-src', chunkedSrc);
+          vid.removeAttribute('data-hydrated-manifest');
+          vid.removeAttribute('src');
+          let srcEl = vid.querySelector('source');
+          if (!srcEl) {
+            srcEl = document.createElement('source');
+            vid.insertBefore(srcEl, vid.firstChild);
+          }
+          srcEl.setAttribute('src', chunkedSrc);
+        }
+      });
       cloneSheet.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
       });
@@ -28038,6 +28057,81 @@ b;
       }
     }
 
+    const __chunkedVideoBlobCache = new Map();
+
+    function isChunkedVideoUrl(url) {
+      const s = String(url || '').trim();
+      return s.includes('#chunked-video') || s.includes('_manifest.json');
+    }
+
+    async function resolveChunkedVideoToBlobUrl(manifestUrl) {
+      const cleanUrl = String(manifestUrl || '').split('#')[0].trim();
+      if (!cleanUrl) throw new Error('유효하지 않은 분할 비디오 매니페스트 URL입니다.');
+      if (__chunkedVideoBlobCache.has(cleanUrl)) {
+        return __chunkedVideoBlobCache.get(cleanUrl);
+      }
+
+      const promise = (async () => {
+        const res = await fetch(cleanUrl, { cache: 'force-cache' });
+        if (!res.ok) throw new Error(`비디오 매니페스트 로드 실패 (HTTP ${res.status})`);
+        const manifest = await res.json();
+        if (!manifest || !Array.isArray(manifest.chunks) || manifest.chunks.length === 0) {
+          throw new Error('비디오 매니페스트의 청크 정보가 비어 있습니다.');
+        }
+
+        const partBlobs = await Promise.all(
+          manifest.chunks.map(async (chunkUrl, idx) => {
+            const cRes = await fetch(chunkUrl, { cache: 'force-cache' });
+            if (!cRes.ok) throw new Error(`비디오 파트 ${idx + 1} 다운로드 실패 (HTTP ${cRes.status})`);
+            return await cRes.blob();
+          })
+        );
+
+        const combinedBlob = new Blob(partBlobs, { type: manifest.mime || 'video/mp4' });
+        return URL.createObjectURL(combinedBlob);
+      })();
+
+      __chunkedVideoBlobCache.set(cleanUrl, promise);
+      try {
+        return await promise;
+      } catch (err) {
+        __chunkedVideoBlobCache.delete(cleanUrl);
+        throw err;
+      }
+    }
+
+    async function hydrateChunkedVideoElement(videoEl) {
+      if (!videoEl) return;
+      const sourceEl = videoEl.querySelector('source');
+      const rawSrc = videoEl.getAttribute('data-chunked-src')
+        || (sourceEl && sourceEl.getAttribute('src'))
+        || videoEl.getAttribute('src')
+        || '';
+
+      if (!isChunkedVideoUrl(rawSrc)) return;
+      videoEl.setAttribute('data-chunked-src', rawSrc);
+
+      const currentVideoSrc = videoEl.getAttribute('src') || videoEl.src || '';
+      if (currentVideoSrc.startsWith('blob:') && videoEl.getAttribute('data-hydrated-manifest') === rawSrc) {
+        return;
+      }
+
+      try {
+        const blobUrl = await resolveChunkedVideoToBlobUrl(rawSrc);
+        videoEl.setAttribute('data-hydrated-manifest', rawSrc);
+        if (sourceEl) {
+          sourceEl.setAttribute('src', rawSrc);
+        }
+        videoEl.src = blobUrl;
+        videoEl.load();
+        if (videoEl.autoplay || videoEl.hasAttribute('autoplay')) {
+          videoEl.play().catch(() => {});
+        }
+      } catch (err) {
+        console.error('[Chunked Video] Hydrate failed:', err);
+      }
+    }
+
     function updateVideoModalLivePreview() {
       const srcInput = document.getElementById('videoModalSrcInput');
       const posterInput = document.getElementById('videoModalPosterInput');
@@ -28056,14 +28150,21 @@ b;
           <iframe src="${info.src}" style="width: 100%; height: 100%; border: none; background: #000;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         `;
       } else {
+        const isChunked = isChunkedVideoUrl(info.src);
         if (badge) {
-          badge.textContent = info.src.startsWith('http') ? '클라우드 MP4' : '로컬/기본 MP4';
+          badge.textContent = isChunked
+            ? '대용량 클라우드 MP4 (자동 분할)'
+            : (info.src.startsWith('http') ? '클라우드 MP4' : '로컬/기본 MP4');
         }
         previewBox.innerHTML = `
-          <video id="videoModalPreviewPlayer" controls playsinline preload="metadata" crossorigin="anonymous" ${posterVal ? `poster="${posterVal.replace(/"/g, '&quot;')}"` : ''} style="width: 100%; height: 100%; object-fit: ${window.__videoModalFitMode || 'cover'}; background: #000;">
+          <video id="videoModalPreviewPlayer" controls playsinline preload="metadata" crossorigin="anonymous" ${isChunked ? `data-chunked-src="${info.src.replace(/"/g, '&quot;')}"` : ''} ${posterVal ? `poster="${posterVal.replace(/"/g, '&quot;')}"` : ''} style="width: 100%; height: 100%; object-fit: ${window.__videoModalFitMode || 'cover'}; background: #000;">
             <source src="${info.src.replace(/"/g, '&quot;')}" type="${info.mime}">
           </video>
         `;
+        if (isChunked) {
+          const previewVid = document.getElementById('videoModalPreviewPlayer');
+          if (previewVid) hydrateChunkedVideoElement(previewVid);
+        }
       }
     }
 
@@ -28088,7 +28189,7 @@ b;
       let hasLoop = false;
 
       if (video) {
-        currentSrc = video.querySelector('source')?.getAttribute('src') || video.getAttribute('src') || video.src || currentSrc;
+        currentSrc = video.getAttribute('data-chunked-src') || video.querySelector('source')?.getAttribute('src') || video.getAttribute('src') || video.src || currentSrc;
         currentPoster = video.getAttribute('poster') || '';
         currentFit = video.style.objectFit || video.getAttribute('data-fit') || 'cover';
         hasControls = video.hasAttribute('controls') || video.controls;
@@ -28146,35 +28247,117 @@ b;
       const extMatch = (file.name || '').match(/\.([a-zA-Z0-9]+)$/);
       const ext = extMatch ? extMatch[1].toLowerCase() : 'mp4';
       const mime = file.type || (ext === 'webm' ? 'video/webm' : 'video/mp4');
-      const filePath = `videos/vid_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const baseId = `vid_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const filePath = `videos/${baseId}.${ext}`;
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
 
-      if (statusText) statusText.textContent = `⏳ '${file.name}' (${(file.size / (1024 * 1024)).toFixed(1)}MB) 클라우드 업로드 중...`;
+      // Supabase Storage Free Tier 단일 객체 제한(50MB) 우회를 위한 40MB 청크 분할 기준
+      const CHUNK_THRESHOLD_BYTES = 45 * 1024 * 1024;
+      const CHUNK_SIZE_BYTES = 40 * 1024 * 1024;
+
+      async function performChunkedUpload() {
+        const totalChunks = Math.ceil(file.size / CHUNK_SIZE_BYTES);
+        const chunkUrls = [];
+
+        for (let i = 0; i < totalChunks; i++) {
+          const start = i * CHUNK_SIZE_BYTES;
+          const end = Math.min(file.size, start + CHUNK_SIZE_BYTES);
+          const partBlob = file.slice(start, end, 'application/octet-stream');
+          const partPath = `videos/${baseId}_part${String(i).padStart(3, '0')}.bin`;
+
+          if (statusText) {
+            statusText.textContent = `⏳ 대용량 자동 분할 업로드 중 (${i + 1}/${totalChunks} 파트 · 총 ${sizeMB}MB)...`;
+          }
+
+          const { error: partErr } = await client.storage
+            .from(SB_STORAGE_BUCKET)
+            .upload(partPath, partBlob, { contentType: 'application/octet-stream', upsert: true });
+
+          if (partErr) throw partErr;
+
+          const { data: partPub } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(partPath);
+          if (!partPub || !partPub.publicUrl) {
+            throw new Error(`파트 ${i + 1}의 Public URL을 가져올 수 없습니다.`);
+          }
+          chunkUrls.push(partPub.publicUrl);
+        }
+
+        const manifestObj = {
+          version: 1,
+          name: file.name,
+          mime,
+          ext,
+          totalSize: file.size,
+          chunkSize: CHUNK_SIZE_BYTES,
+          chunks: chunkUrls,
+          createdAt: new Date().toISOString()
+        };
+
+        const manifestPath = `videos/${baseId}_manifest.json`;
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+        const { error: mfErr } = await client.storage
+          .from(SB_STORAGE_BUCKET)
+          .upload(manifestPath, manifestBlob, { contentType: 'application/json', upsert: true });
+
+        if (mfErr) throw mfErr;
+
+        const { data: mfPub } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(manifestPath);
+        if (!mfPub || !mfPub.publicUrl) {
+          throw new Error('매니페스트의 Public URL을 가져올 수 없습니다.');
+        }
+
+        return `${mfPub.publicUrl}#chunked-video`;
+      }
+
+      if (statusText) statusText.textContent = `⏳ '${file.name}' (${sizeMB}MB) 클라우드 업로드 중...`;
       if (dropZone) dropZone.style.borderColor = '#38bdf8';
 
       try {
-        const { error } = await client.storage
-          .from(SB_STORAGE_BUCKET)
-          .upload(filePath, file, { contentType: mime, upsert: true });
+        let finalUrl = '';
 
-        if (error) throw error;
+        if (file.size > CHUNK_THRESHOLD_BYTES) {
+          finalUrl = await performChunkedUpload();
+        } else {
+          const { error } = await client.storage
+            .from(SB_STORAGE_BUCKET)
+            .upload(filePath, file, { contentType: mime, upsert: true });
 
-        const { data: pubData } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(filePath);
-        if (!pubData || !pubData.publicUrl) throw new Error('업로드된 비디오의 Public URL을 가져올 수 없습니다.');
+          if (error) {
+            const errMsg = String(error.message || error || '');
+            if (errMsg.toLowerCase().includes('maximum allowed size') || errMsg.toLowerCase().includes('payload too large')) {
+              finalUrl = await performChunkedUpload();
+            } else {
+              throw error;
+            }
+          } else {
+            const { data: pubData } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(filePath);
+            if (!pubData || !pubData.publicUrl) throw new Error('업로드된 비디오의 Public URL을 가져올 수 없습니다.');
+            finalUrl = pubData.publicUrl;
+          }
+        }
 
         const srcInput = document.getElementById('videoModalSrcInput');
-        if (srcInput) srcInput.value = pubData.publicUrl;
-        if (statusText) statusText.textContent = `✅ 업로드 완료: ${file.name}`;
+        if (srcInput) srcInput.value = finalUrl;
+        if (statusText) {
+          statusText.textContent = isChunkedVideoUrl(finalUrl)
+            ? `✅ 대용량 분할 업로드 완료: ${file.name} (${sizeMB}MB)`
+            : `✅ 업로드 완료: ${file.name} (${sizeMB}MB)`;
+        }
         if (dropZone) dropZone.style.borderColor = '#30d158';
 
         updateVideoModalLivePreview();
         if (typeof showAdminToast === 'function') {
-          showAdminToast('🎬 비디오 파일이 Supabase 클라우드에 업로드되었습니다!');
+          showAdminToast(isChunkedVideoUrl(finalUrl)
+            ? `🎬 대용량 비디오(${sizeMB}MB)가 자동 분할되어 클라우드에 업로드되었습니다!`
+            : '🎬 비디오 파일이 Supabase 클라우드에 업로드되었습니다!');
         }
+        return finalUrl;
       } catch (err) {
         console.error('[Video Upload] Failed:', err);
         if (statusText) statusText.textContent = `❌ 업로드 실패: ${err.message || '파일 용량 또는 권한을 확인하세요.'}`;
         if (dropZone) dropZone.style.borderColor = '#ff453a';
         alert('비디오 업로드 중 오류가 발생했습니다: ' + (err.message || err));
+        throw err;
       }
     }
 
@@ -28371,11 +28554,19 @@ b;
         }
         source.setAttribute('src', info.src);
         source.setAttribute('type', info.mime || 'video/mp4');
-        videoEl.src = info.src;
-        try {
-          videoEl.load();
-          if (autoplay) videoEl.play().catch(() => {});
-        } catch (e) {}
+        if (isChunkedVideoUrl(info.src)) {
+          videoEl.setAttribute('data-chunked-src', info.src);
+          videoEl.removeAttribute('src');
+          hydrateChunkedVideoElement(videoEl);
+        } else {
+          videoEl.removeAttribute('data-chunked-src');
+          videoEl.removeAttribute('data-hydrated-manifest');
+          videoEl.src = info.src;
+          try {
+            videoEl.load();
+            if (autoplay) videoEl.play().catch(() => {});
+          } catch (e) {}
+        }
       }
 
       const hud = ensureCinemaHudOverlay(cinemaWrap, currentPage);
@@ -28910,6 +29101,20 @@ b;
       cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img', 'admin-img-selected'));
       cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .admin-obj-ai-bar-btn, .media-fit-bar').forEach(b => b.remove());
       cloneDoc.querySelectorAll('.divider-cat-select').forEach(sel => { sel.style.display = 'none'; });
+      cloneDoc.querySelectorAll('video').forEach(vid => {
+        const chunkedSrc = vid.getAttribute('data-chunked-src') || (vid.querySelector('source') && vid.querySelector('source').getAttribute('src')) || '';
+        if (chunkedSrc && (chunkedSrc.includes('#chunked-video') || chunkedSrc.includes('_manifest.json'))) {
+          vid.setAttribute('data-chunked-src', chunkedSrc);
+          vid.removeAttribute('data-hydrated-manifest');
+          vid.removeAttribute('src');
+          let srcEl = vid.querySelector('source');
+          if (!srcEl) {
+            srcEl = document.createElement('source');
+            vid.insertBefore(srcEl, vid.firstChild);
+          }
+          srcEl.setAttribute('src', chunkedSrc);
+        }
+      });
       cloneDoc.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
       });
