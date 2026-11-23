@@ -4811,6 +4811,122 @@ b;
     </div>
   </div>
 
+  <!-- Video Source, Upload, YouTube & Poster Manager Modal (Apple HIG Dark Glassmorphism) -->
+  <div id="videoSourceModal" class="modal-overlay" style="display: none; position: fixed; inset: 0px; align-items: center; justify-content: center; z-index: 3260; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);" onclick="if(event.target === this) closeVideoSourceModal()">
+    <div style="background: rgba(28, 28, 30, 0.92); backdrop-filter: blur(48px) saturate(190%); -webkit-backdrop-filter: blur(48px) saturate(190%); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px; width: 780px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0, 0, 0, 0.72), 0 0 1px rgba(255,255,255,0.22); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Pretendard', sans-serif;" onclick="event.stopPropagation()">
+      <!-- Header -->
+      <div style="padding: 18px 24px; background: rgba(44, 44, 46, 0.45); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #ff375f, #ff9f0a); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255, 55, 95, 0.4);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7;">비디오 영상 소스 &amp; 재생 설정</h3>
+            <p style="margin: 3px 0 0; font-size: 12px; color: #98989d; letter-spacing: -0.01em;">내 PC 동영상 업로드(Supabase 클라우드), MP4 웹 URL, YouTube/Vimeo 링크 및 포스터 썸네일을 관리합니다.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeVideoSourceModal()" title="닫기" style="background: rgba(118, 118, 128, 0.24); border: none; color: #ebebf5; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;">✕</button>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 18px 24px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px;">
+        <!-- Left Column: Video Source & Poster Controls -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- 1. Video File Upload & URL -->
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 13px; display: flex; flex-direction: column; gap: 9px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 12px; font-weight: 700; color: #f5f5f7;">1. 비디오 영상 소스 (파일 업로드 또는 URL)</span>
+              <button type="button" onclick="setVideoModalPreset('assets/dambau_promo_1080p.mp4')" style="background: rgba(10, 132, 255, 0.16); border: 1px solid rgba(10, 132, 255, 0.35); color: #64d2ff; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; white-space: nowrap;">기본 홍보영상 복원</button>
+            </div>
+
+            <!-- Drag & Drop / File Upload Box -->
+            <div id="videoUploadDropZone" onclick="document.getElementById('adminVideoFileInput').click()" ondragover="event.preventDefault(); this.style.borderColor='#0a84ff'; this.style.background='rgba(10,132,255,0.12)';" ondragleave="this.style.borderColor='rgba(255,255,255,0.16)'; this.style.background='rgba(28,28,30,0.65)';" ondrop="handleVideoModalFileDrop(event)" style="background: rgba(28, 28, 30, 0.65); border: 1.5px dashed rgba(255, 255, 255, 0.16); border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.18s ease;">
+              <div id="videoUploadStatusText" style="font-size: 12px; font-weight: 600; color: #ebebf5;">📁 클릭하거나 동영상 파일(.mp4, .webm, .mov)을 이곳에 드래그하여 업로드</div>
+              <div style="font-size: 10.5px; color: #98989d; margin-top: 3px;">Supabase Storage 클라우드에 업로드되어 모든 PC·모바일에서 즉시 재생됩니다.</div>
+            </div>
+            <input type="file" id="adminVideoFileInput" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;" onchange="handleAdminVideoFileSelect(event)">
+
+            <div>
+              <div style="font-size: 11px; color: #98989d; margin-bottom: 4px;">동영상 파일 경로(.mp4/.webm) 또는 YouTube / Vimeo URL</div>
+              <div style="display: flex; gap: 6px;">
+                <input id="videoModalSrcInput" type="text" placeholder="예: assets/dambau_promo_1080p.mp4 또는 https://youtu.be/..." oninput="updateVideoModalLivePreview()" style="flex: 1; min-width: 0; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 8px; padding: 8px 10px; color: #f5f5f7; font-size: 12px; outline: none;">
+                <button type="button" onclick="updateVideoModalLivePreview()" style="background: rgba(118, 118, 128, 0.28); border: 1px solid rgba(255, 255, 255, 0.1); color: #f5f5f7; padding: 0 11px; border-radius: 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; white-space: nowrap;">미리보기 갱신</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Poster Thumbnail -->
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 13px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+              <span style="font-size: 12px; font-weight: 700; color: #f5f5f7;">2. 포스터(썸네일) 이미지</span>
+              <div style="display: flex; gap: 5px;">
+                <button type="button" onclick="document.getElementById('adminVideoPosterFileInput').click()" style="background: rgba(48, 209, 88, 0.16); border: 1px solid rgba(48, 209, 88, 0.35); color: #30d158; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; white-space: nowrap;">🖼️ 이미지 파일 업로드</button>
+                <button type="button" onclick="captureCurrentVideoFrameAsPoster()" style="background: rgba(191, 90, 242, 0.18); border: 1px solid rgba(191, 90, 242, 0.38); color: #d98ff8; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; white-space: nowrap;">📸 현재 프레임 캡처</button>
+              </div>
+            </div>
+            <input type="file" id="adminVideoPosterFileInput" accept="image/*" style="display: none;" onchange="handleAdminVideoPosterFileSelect(event)">
+            <input id="videoModalPosterInput" type="text" placeholder="포스터 이미지 경로 또는 URL (예: assets/project_01/site_photo.png)" oninput="updateVideoModalLivePreview()" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 8px; padding: 7px 10px; color: #f5f5f7; font-size: 12px; outline: none;">
+          </div>
+
+          <!-- 3. Display & Playback Options -->
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 13px; display: flex; flex-direction: column; gap: 9px;">
+            <span style="font-size: 12px; font-weight: 700; color: #f5f5f7;">3. 화면 비율 &amp; 재생 옵션</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <div style="font-size: 10.5px; color: #98989d; margin-bottom: 5px;">화면 맞춤 (Object-Fit)</div>
+                <div id="videoModalFitBtns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 8px;">
+                  <button type="button" onclick="setVideoModalFitMode('cover')" data-fit="cover" style="padding: 5px 6px; border-radius: 6px; border: none; background: #0071e3; color: #ffffff; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap;">꽉 채우기(Cover)</button>
+                  <button type="button" onclick="setVideoModalFitMode('contain')" data-fit="contain" style="padding: 5px 6px; border-radius: 6px; border: none; background: transparent; color: #ebebf5; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap;">비례유지(Contain)</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 10.5px; color: #98989d; margin-bottom: 5px;">상단 타이틀 오버레이 HUD</div>
+                <div id="videoModalHudBtns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 8px;">
+                  <button type="button" onclick="setVideoModalHudVisible(true)" data-hud="true" style="padding: 5px 6px; border-radius: 6px; border: none; background: #0071e3; color: #ffffff; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap;">오버레이 표시</button>
+                  <button type="button" onclick="setVideoModalHudVisible(false)" data-hud="false" style="padding: 5px 6px; border-radius: 6px; border: none; background: transparent; color: #ebebf5; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap;">오버레이 숨김</button>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 4px;">
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: #ebebf5; cursor: pointer;">
+                <input type="checkbox" id="videoModalControlsChk" checked style="accent-color: #0a84ff;"> 재생 컨트롤 바 표시
+              </label>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: #ebebf5; cursor: pointer;">
+                <input type="checkbox" id="videoModalAutoplayChk" style="accent-color: #0a84ff;"> 페이지 진입 시 자동재생 (음소거)
+              </label>
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: #ebebf5; cursor: pointer;">
+                <input type="checkbox" id="videoModalLoopChk" style="accent-color: #0a84ff;"> 반복 재생 (Loop)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Video Preview -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 13px; flex: 1; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 12px; font-weight: 700; color: #f5f5f7;">실시간 비디오 미리보기</span>
+              <span id="videoModalTypeBadge" style="font-size: 10.5px; font-weight: 600; color: #ff375f; background: rgba(255, 55, 95, 0.16); padding: 2px 8px; border-radius: 999px;">MP4 직접 재생</span>
+            </div>
+            <div id="videoModalPreviewBox" style="width: 100%; aspect-ratio: 16 / 10; background: #000000; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center;">
+              <video id="videoModalPreviewPlayer" controls playsinline style="width: 100%; height: 100%; object-fit: cover; background: #000;"></video>
+            </div>
+            <div style="font-size: 11px; color: #98989d; line-height: 1.45;">
+              • <strong>MP4 / WebM 파일:</strong> 브라우저 내장 플레이어 및 프레임 캡처 지원<br>
+              • <strong>YouTube / Vimeo URL:</strong> 자동으로 고화질 임베드 플레이어로 변환되어 재생됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="padding: 14px 24px; background: rgba(44, 44, 46, 0.45); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+        <button type="button" onclick="closeVideoSourceModal()" style="background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.08); color: #ebebf5; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;">취소</button>
+        <button type="button" onclick="applyVideoSourceModalToPage()" style="background: linear-gradient(180deg, #0a84ff 0%, #0071e3 100%); border: none; color: #ffffff; padding: 9px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 113, 227, 0.45);">현재 페이지에 비디오 적용</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Image File Input for Click-to-Upload -->
   <input type="file" id="adminImageFileInput" accept="image/*" style="display: none;" onchange="handleAdminImageUpload(event)">
 
@@ -26777,9 +26893,26 @@ b;
       } else if (type === 'video') {
         newPageDiv.innerHTML = `
           <div class="a4-page-cinema">
-            <video class="cinema-full-video" controls playsinline>
+            <video class="cinema-full-video" controls preload="metadata" poster="assets/project_01/site_photo.png" playsinline>
               <source src="assets/dambau_promo_1080p.mp4" type="video/mp4">
             </video>
+            <div class="cinema-overlay-top">
+              <div class="cinema-titles-wrap">
+                <div class="cinema-top-meta">
+                  <span class="cinema-index-num" spellcheck="false">PROJECT SHOWCASE • VIDEO</span>
+                </div>
+                <h2 class="cinema-main-title" spellcheck="false">프로젝트 시네마 영상 기록</h2>
+                <div class="cinema-sub-desc" spellcheck="false">
+                  3D LiDAR 정밀 스캐닝 및 BIM 엔지니어링 실증 영상 아카이브
+                </div>
+              </div>
+              <div class="cinema-header-right">
+                <div class="cinema-header-note">
+                  <span class="cinema-rec-dot" spellcheck="false"></span>
+                  <span spellcheck="false">1080P MASTER • DIGITAL TWIN</span>
+                </div>
+              </div>
+            </div>
           </div>
         `;
       } else if (type === 'editorial') {
@@ -26889,9 +27022,26 @@ b;
       } else if (type === 'video') {
         newInner = `
           <div class="a4-page-cinema">
-            <video class="cinema-full-video" controls playsinline>
+            <video class="cinema-full-video" controls preload="metadata" poster="assets/project_01/site_photo.png" playsinline>
               <source src="assets/dambau_promo_1080p.mp4" type="video/mp4">
             </video>
+            <div class="cinema-overlay-top">
+              <div class="cinema-titles-wrap">
+                <div class="cinema-top-meta">
+                  <span class="cinema-index-num" spellcheck="false">PROJECT SHOWCASE • VIDEO</span>
+                </div>
+                <h2 class="cinema-main-title" spellcheck="false">${heroTitle || '프로젝트 시네마 영상 기록'}</h2>
+                <div class="cinema-sub-desc" spellcheck="false">
+                  3D LiDAR 정밀 스캐닝 및 BIM 엔지니어링 실증 영상 아카이브
+                </div>
+              </div>
+              <div class="cinema-header-right">
+                <div class="cinema-header-note">
+                  <span class="cinema-rec-dot" spellcheck="false"></span>
+                  <span spellcheck="false">1080P MASTER • DIGITAL TWIN</span>
+                </div>
+              </div>
+            </div>
           </div>
         `;
       } else if (type === 'editorial') {
@@ -27119,7 +27269,7 @@ b;
       if (!pageEl) return { type: 'general', title: `페이지 ${pageIdx + 1}`, badge: '일반', color: '#8e8e93', desc: '기본 텍스트 및 레이아웃' };
 
       // 0. 미디어 비디오 (Cinema) 페이지 판별
-      if (pageEl.querySelector('video') || pageEl.querySelector('.a4-page-cinema') || pageEl.getAttribute('data-layout') === 'video' || pageEl.getAttribute('data-layout') === 'cinema') {
+      if (pageEl.querySelector('video') || pageEl.querySelector('iframe.cinema-embed-iframe') || pageEl.querySelector('.a4-page-cinema') || pageEl.getAttribute('data-layout') === 'video' || pageEl.getAttribute('data-layout') === 'cinema') {
         return {
           type: 'cinema',
           title: '미디어 비디오 쇼케이스',
@@ -27450,7 +27600,7 @@ b;
       }
     }
 
-    // 도우미 함수: 현재 프로젝트 페이지 대표 이미지 교체 발동
+    // 도우미 함수: 현재 프로젝트 페이지 대표 이미지 또는 비디오 포스터 교체 발동
     function triggerPageImagePicker() {
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
@@ -27458,10 +27608,19 @@ b;
       const firstImg = currentPage.querySelector('img.admin-editable-img') || currentPage.querySelector('img');
       if (firstImg) {
         firstImg.click();
-      } else {
-        const input = document.getElementById('adminImageFileInput');
-        if (input) input.click();
+        return;
       }
+      const videoEl = currentPage.querySelector('video');
+      if (videoEl || currentPage.querySelector('.a4-page-cinema')) {
+        const posterInput = document.getElementById('adminVideoPosterFileInput');
+        if (posterInput) {
+          posterInput.setAttribute('data-direct-page-apply', 'true');
+          posterInput.click();
+          return;
+        }
+      }
+      const input = document.getElementById('adminImageFileInput');
+      if (input) input.click();
     }
 
     // Window 바인딩
@@ -27769,32 +27928,511 @@ b;
     }
 
 
-    // 비디오 소스 교체 함수
-    function promptChangeVideoSource() {
+    // =============================================================
+    // VIDEO SOURCE, UPLOAD, YOUTUBE/VIMEO EMBED & POSTER MANAGER
+    // =============================================================
+    window.__videoModalFitMode = 'cover';
+    window.__videoModalHudVisible = true;
+
+    function parseVideoSourceInfo(rawUrl) {
+      const url = String(rawUrl || '').trim();
+      if (!url) return { type: 'video', src: 'assets/dambau_promo_1080p.mp4', mime: 'video/mp4' };
+
+      // 1. YouTube URL 판별 (watch?v=, youtu.be/, embed/, shorts/)
+      const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,15})/);
+      if (ytMatch && ytMatch[1]) {
+        const vid = ytMatch[1];
+        return {
+          type: 'youtube',
+          videoId: vid,
+          src: `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1`,
+          originalUrl: url
+        };
+      }
+
+      // 2. Vimeo URL 판별
+      const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      if (vimeoMatch && vimeoMatch[1]) {
+        const vid = vimeoMatch[1];
+        return {
+          type: 'vimeo',
+          videoId: vid,
+          src: `https://player.vimeo.com/video/${vid}?title=0&byline=0&portrait=0`,
+          originalUrl: url
+        };
+      }
+
+      // 3. Google Drive 공유 링크 (/file/d/ID/view)
+      const gdriveMatch = url.match(/drive\.google\.com\/file\/d\/([A-Za-z0-9_-]+)/);
+      if (gdriveMatch && gdriveMatch[1]) {
+        return {
+          type: 'iframe',
+          src: `https://drive.google.com/file/d/${gdriveMatch[1]}/preview`,
+          originalUrl: url
+        };
+      }
+
+      // 4. 일반 HTML5 비디오 (.mp4, .webm, .mov, .ogg)
+      const lower = url.toLowerCase().split('?')[0];
+      let mime = 'video/mp4';
+      if (lower.endsWith('.webm')) mime = 'video/webm';
+      else if (lower.endsWith('.ogg') || lower.endsWith('.ogv')) mime = 'video/ogg';
+      else if (lower.endsWith('.mov')) mime = 'video/mp4';
+
+      return { type: 'video', src: url, mime, originalUrl: url };
+    }
+
+    function ensureCinemaHudOverlay(cinemaWrap, currentPage) {
+      if (!cinemaWrap) return null;
+      let hud = cinemaWrap.querySelector('.cinema-overlay-top');
+      if (!hud) {
+        hud = document.createElement('div');
+        hud.className = 'cinema-overlay-top';
+        hud.innerHTML = `
+          <div class="cinema-titles-wrap">
+            <div class="cinema-top-meta">
+              <span class="cinema-index-num" spellcheck="false">PROJECT SHOWCASE • VIDEO</span>
+            </div>
+            <h2 class="cinema-main-title" spellcheck="false">프로젝트 시네마 영상 기록</h2>
+            <div class="cinema-sub-desc" spellcheck="false">
+              3D LiDAR 정밀 스캐닝 및 BIM 엔지니어링 실증 영상 아카이브
+            </div>
+          </div>
+          <div class="cinema-header-right">
+            <div class="cinema-header-note">
+              <span class="cinema-rec-dot" spellcheck="false"></span>
+              <span spellcheck="false">1080P MASTER • DIGITAL TWIN</span>
+            </div>
+          </div>
+        `;
+        cinemaWrap.appendChild(hud);
+      }
+      return hud;
+    }
+
+    function setVideoModalFitMode(mode) {
+      window.__videoModalFitMode = (mode === 'contain') ? 'contain' : 'cover';
+      document.querySelectorAll('#videoModalFitBtns button').forEach(btn => {
+        const active = btn.getAttribute('data-fit') === window.__videoModalFitMode;
+        btn.style.background = active ? '#0071e3' : 'transparent';
+        btn.style.color = active ? '#ffffff' : '#ebebf5';
+      });
+      const previewVid = document.querySelector('#videoModalPreviewBox video');
+      if (previewVid) previewVid.style.objectFit = window.__videoModalFitMode;
+    }
+
+    function setVideoModalHudVisible(visible) {
+      window.__videoModalHudVisible = !!visible;
+      document.querySelectorAll('#videoModalHudBtns button').forEach(btn => {
+        const active = (btn.getAttribute('data-hud') === 'true') === window.__videoModalHudVisible;
+        btn.style.background = active ? '#0071e3' : 'transparent';
+        btn.style.color = active ? '#ffffff' : '#ebebf5';
+      });
+    }
+
+    function setVideoModalPreset(srcUrl) {
+      const srcInput = document.getElementById('videoModalSrcInput');
+      if (srcInput) {
+        srcInput.value = srcUrl;
+        updateVideoModalLivePreview();
+      }
+    }
+
+    function updateVideoModalLivePreview() {
+      const srcInput = document.getElementById('videoModalSrcInput');
+      const posterInput = document.getElementById('videoModalPosterInput');
+      const previewBox = document.getElementById('videoModalPreviewBox');
+      const badge = document.getElementById('videoModalTypeBadge');
+      if (!previewBox || !srcInput) return;
+
+      const info = parseVideoSourceInfo(srcInput.value);
+      const posterVal = (posterInput?.value || '').trim();
+
+      if (info.type === 'youtube' || info.type === 'vimeo' || info.type === 'iframe') {
+        if (badge) {
+          badge.textContent = info.type === 'youtube' ? 'YouTube 임베드' : (info.type === 'vimeo' ? 'Vimeo 임베드' : '클라우드 스트리밍');
+        }
+        previewBox.innerHTML = `
+          <iframe src="${info.src}" style="width: 100%; height: 100%; border: none; background: #000;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        `;
+      } else {
+        if (badge) {
+          badge.textContent = info.src.startsWith('http') ? '클라우드 MP4' : '로컬/기본 MP4';
+        }
+        previewBox.innerHTML = `
+          <video id="videoModalPreviewPlayer" controls playsinline preload="metadata" crossorigin="anonymous" ${posterVal ? `poster="${posterVal.replace(/"/g, '&quot;')}"` : ''} style="width: 100%; height: 100%; object-fit: ${window.__videoModalFitMode || 'cover'}; background: #000;">
+            <source src="${info.src.replace(/"/g, '&quot;')}" type="${info.mime}">
+          </video>
+        `;
+      }
+    }
+
+    function openVideoSourceModal() {
       const allPages = getAllPages();
       const currentPage = allPages[currentBrochurePage];
       if (!currentPage) return;
 
-      const video = currentPage.querySelector('video');
-      if (!video) return;
+      const modal = document.getElementById('videoSourceModal');
+      if (!modal) return;
 
-      const currentSrc = video.querySelector('source')?.getAttribute('src') || video.src || '';
-      const newSrc = prompt('새로운 비디오 파일 경로 또는 웹 URL(mp4)을 입력하세요:', currentSrc);
-      if (newSrc && newSrc.trim()) {
-        let source = video.querySelector('source');
-        if (!source) {
-          source = document.createElement('source');
-          source.type = 'video/mp4';
-          video.appendChild(source);
+      const cinemaWrap = currentPage.querySelector('.a4-page-cinema') || currentPage;
+      const video = cinemaWrap.querySelector('video');
+      const iframe = cinemaWrap.querySelector('iframe.cinema-embed-iframe');
+      const hud = cinemaWrap.querySelector('.cinema-overlay-top');
+
+      let currentSrc = 'assets/dambau_promo_1080p.mp4';
+      let currentPoster = 'assets/project_01/site_photo.png';
+      let currentFit = 'cover';
+      let hasControls = true;
+      let hasAutoplay = false;
+      let hasLoop = false;
+
+      if (video) {
+        currentSrc = video.querySelector('source')?.getAttribute('src') || video.getAttribute('src') || video.src || currentSrc;
+        currentPoster = video.getAttribute('poster') || '';
+        currentFit = video.style.objectFit || video.getAttribute('data-fit') || 'cover';
+        hasControls = video.hasAttribute('controls') || video.controls;
+        hasAutoplay = video.hasAttribute('autoplay') || video.autoplay;
+        hasLoop = video.hasAttribute('loop') || video.loop;
+      } else if (iframe) {
+        currentSrc = iframe.getAttribute('data-original-src') || iframe.getAttribute('src') || '';
+        currentPoster = iframe.getAttribute('data-poster') || '';
+      }
+
+      const hudVisible = hud ? (hud.style.display !== 'none') : true;
+
+      const srcInput = document.getElementById('videoModalSrcInput');
+      const posterInput = document.getElementById('videoModalPosterInput');
+      const controlsChk = document.getElementById('videoModalControlsChk');
+      const autoplayChk = document.getElementById('videoModalAutoplayChk');
+      const loopChk = document.getElementById('videoModalLoopChk');
+      const statusText = document.getElementById('videoUploadStatusText');
+
+      if (srcInput) srcInput.value = currentSrc;
+      if (posterInput) posterInput.value = currentPoster;
+      if (controlsChk) controlsChk.checked = hasControls;
+      if (autoplayChk) autoplayChk.checked = hasAutoplay;
+      if (loopChk) loopChk.checked = hasLoop;
+      if (statusText) statusText.textContent = '📁 클릭하거나 동영상 파일(.mp4, .webm, .mov)을 이곳에 드래그하여 업로드';
+
+      setVideoModalFitMode(currentFit);
+      setVideoModalHudVisible(hudVisible);
+      updateVideoModalLivePreview();
+
+      modal.classList.add('open');
+      modal.style.display = 'flex';
+    }
+
+    function closeVideoSourceModal() {
+      const modal = document.getElementById('videoSourceModal');
+      if (!modal) return;
+      const previewVid = modal.querySelector('video');
+      if (previewVid && typeof previewVid.pause === 'function') previewVid.pause();
+      modal.classList.remove('open');
+      modal.style.display = 'none';
+    }
+
+    async function uploadVideoFileToSupabaseStorage(file) {
+      if (!file) return;
+      const statusText = document.getElementById('videoUploadStatusText');
+      const dropZone = document.getElementById('videoUploadDropZone');
+
+      const client = (typeof getSupabaseClient === 'function') ? getSupabaseClient() : null;
+      if (!client || !client.storage) {
+        alert('Supabase 클라이언트가 초기화되지 않았습니다.');
+        return;
+      }
+
+      const extMatch = (file.name || '').match(/\.([a-zA-Z0-9]+)$/);
+      const ext = extMatch ? extMatch[1].toLowerCase() : 'mp4';
+      const mime = file.type || (ext === 'webm' ? 'video/webm' : 'video/mp4');
+      const filePath = `videos/vid_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+      if (statusText) statusText.textContent = `⏳ '${file.name}' (${(file.size / (1024 * 1024)).toFixed(1)}MB) 클라우드 업로드 중...`;
+      if (dropZone) dropZone.style.borderColor = '#38bdf8';
+
+      try {
+        const { error } = await client.storage
+          .from(SB_STORAGE_BUCKET)
+          .upload(filePath, file, { contentType: mime, upsert: true });
+
+        if (error) throw error;
+
+        const { data: pubData } = client.storage.from(SB_STORAGE_BUCKET).getPublicUrl(filePath);
+        if (!pubData || !pubData.publicUrl) throw new Error('업로드된 비디오의 Public URL을 가져올 수 없습니다.');
+
+        const srcInput = document.getElementById('videoModalSrcInput');
+        if (srcInput) srcInput.value = pubData.publicUrl;
+        if (statusText) statusText.textContent = `✅ 업로드 완료: ${file.name}`;
+        if (dropZone) dropZone.style.borderColor = '#30d158';
+
+        updateVideoModalLivePreview();
+        if (typeof showAdminToast === 'function') {
+          showAdminToast('🎬 비디오 파일이 Supabase 클라우드에 업로드되었습니다!');
         }
-        source.setAttribute('src', newSrc.trim());
-        video.src = newSrc.trim();
-        video.load();
-        if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
-        if (window.showAdminToast) showAdminToast('비디오 소스가 성공적으로 변경되었습니다.');
+      } catch (err) {
+        console.error('[Video Upload] Failed:', err);
+        if (statusText) statusText.textContent = `❌ 업로드 실패: ${err.message || '파일 용량 또는 권한을 확인하세요.'}`;
+        if (dropZone) dropZone.style.borderColor = '#ff453a';
+        alert('비디오 업로드 중 오류가 발생했습니다: ' + (err.message || err));
       }
     }
+
+    function handleAdminVideoFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      uploadVideoFileToSupabaseStorage(file);
+      event.target.value = '';
+    }
+
+    function handleVideoModalFileDrop(event) {
+      event.preventDefault();
+      const dropZone = document.getElementById('videoUploadDropZone');
+      if (dropZone) {
+        dropZone.style.borderColor = 'rgba(255,255,255,0.16)';
+        dropZone.style.background = 'rgba(28,28,30,0.65)';
+      }
+      const file = event.dataTransfer?.files && event.dataTransfer.files[0];
+      if (!file) return;
+      if (file.type.startsWith('image/')) {
+        uploadPosterFileAndApply(file, false);
+      } else {
+        uploadVideoFileToSupabaseStorage(file);
+      }
+    }
+
+    async function uploadPosterFileAndApply(file, directToPage = false) {
+      if (!file) return;
+      if (typeof showAdminToast === 'function') {
+        showAdminToast('⏳ 비디오 포스터 썸네일 이미지를 업로드 중입니다...');
+      }
+      try {
+        const publicUrl = await uploadImageToSupabaseStorage(file, 'posters');
+        const posterInput = document.getElementById('videoModalPosterInput');
+        if (posterInput) posterInput.value = publicUrl;
+        updateVideoModalLivePreview();
+
+        if (directToPage) {
+          const allPages = getAllPages();
+          const currentPage = allPages[currentBrochurePage];
+          const videoEl = currentPage ? currentPage.querySelector('video') : null;
+          if (videoEl) {
+            videoEl.setAttribute('poster', publicUrl);
+            videoEl.poster = publicUrl;
+          }
+          if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+        }
+        if (typeof showAdminToast === 'function') {
+          showAdminToast('🖼️ 비디오 포스터 썸네일이 성공적으로 적용되었습니다.');
+        }
+      } catch (err) {
+        console.error('[Video Poster Upload] Failed:', err);
+        alert('포스터 이미지 업로드 실패: ' + (err.message || err));
+      }
+    }
+
+    function handleAdminVideoPosterFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      const directApply = event.target.getAttribute('data-direct-page-apply') === 'true';
+      event.target.removeAttribute('data-direct-page-apply');
+      if (!file) return;
+      uploadPosterFileAndApply(file, directApply);
+      event.target.value = '';
+    }
+
+    async function captureCurrentVideoFrameAsPoster() {
+      const previewVid = document.querySelector('#videoModalPreviewBox video');
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      const pageVid = currentPage ? currentPage.querySelector('video') : null;
+      const targetVid = (previewVid && previewVid.readyState >= 2) ? previewVid : ((pageVid && pageVid.readyState >= 2) ? pageVid : null);
+
+      if (!targetVid) {
+        alert('프레임을 캡처할 비디오를 먼저 조금 재생하거나 로드해 주세요. (YouTube/Vimeo 임베드는 이미지 파일 업로드를 이용해 주세요)');
+        return;
+      }
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = targetVid.videoWidth || 1280;
+        canvas.height = targetVid.videoHeight || 720;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(targetVid, 0, 0, canvas.width, canvas.height);
+
+        const blob = await new Promise((res, rej) => canvas.toBlob(b => (b ? res(b) : rej(new Error('캔버스 캡처 실패'))), 'image/webp', 0.86));
+        await uploadPosterFileAndApply(blob, false);
+      } catch (err) {
+        console.error('[Frame Capture] Failed:', err);
+        alert('현재 비디오 프레임 캡처 중 오류가 발생했습니다 (외부 도메인 CORS 제한일 경우 이미지 파일 업로드를 사용해 주세요).');
+      }
+    }
+
+    function applyVideoSourceToCurrentPage(rawSrc, options = {}) {
+      const allPages = getAllPages();
+      const currentPage = allPages[currentBrochurePage];
+      if (!currentPage) return;
+
+      let cinemaWrap = currentPage.querySelector('.a4-page-cinema');
+      if (!cinemaWrap) {
+        cinemaWrap = currentPage;
+      }
+
+      const info = parseVideoSourceInfo(rawSrc);
+      const posterUrl = options.poster !== undefined
+        ? String(options.poster || '').trim()
+        : (cinemaWrap.querySelector('video')?.getAttribute('poster') || 'assets/project_01/site_photo.png');
+      const fitMode = options.fitMode || window.__videoModalFitMode || 'cover';
+      const showControls = options.controls !== undefined ? !!options.controls : true;
+      const autoplay = options.autoplay !== undefined ? !!options.autoplay : false;
+      const loop = options.loop !== undefined ? !!options.loop : false;
+      const showHud = options.showHud !== undefined ? !!options.showHud : true;
+
+      // 기존 video 또는 iframe 제거 (HUD 오버레이는 보존)
+      const oldVid = cinemaWrap.querySelector('video');
+      const oldIframe = cinemaWrap.querySelector('iframe.cinema-embed-iframe');
+
+      if (info.type === 'youtube' || info.type === 'vimeo' || info.type === 'iframe') {
+        if (oldVid) oldVid.remove();
+        let embedSrc = info.src;
+        if (info.type === 'youtube') {
+          const params = new URLSearchParams({
+            rel: '0',
+            modestbranding: '1',
+            playsinline: '1',
+            controls: showControls ? '1' : '0',
+            autoplay: autoplay ? '1' : '0',
+            mute: autoplay ? '1' : '0',
+            loop: loop ? '1' : '0'
+          });
+          if (loop && info.videoId) params.set('playlist', info.videoId);
+          embedSrc = `https://www.youtube.com/embed/${info.videoId}?${params.toString()}`;
+        }
+
+        const iframeEl = oldIframe || document.createElement('iframe');
+        iframeEl.className = 'cinema-full-video cinema-embed-iframe';
+        iframeEl.setAttribute('src', embedSrc);
+        iframeEl.setAttribute('data-original-src', info.originalUrl || rawSrc);
+        if (posterUrl) iframeEl.setAttribute('data-poster', posterUrl);
+        iframeEl.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframeEl.setAttribute('allowfullscreen', 'true');
+        iframeEl.style.cssText = 'width: 100%; height: 100%; border: none; background: #000; display: block;';
+        if (!oldIframe) {
+          cinemaWrap.insertBefore(iframeEl, cinemaWrap.firstChild);
+        }
+      } else {
+        if (oldIframe) oldIframe.remove();
+        const videoEl = oldVid || document.createElement('video');
+        if (!oldVid) {
+          videoEl.className = 'cinema-full-video';
+          cinemaWrap.insertBefore(videoEl, cinemaWrap.firstChild);
+        }
+        videoEl.setAttribute('playsinline', '');
+        videoEl.setAttribute('preload', 'metadata');
+        videoEl.style.objectFit = fitMode;
+        videoEl.setAttribute('data-fit', fitMode);
+
+        if (posterUrl) {
+          videoEl.setAttribute('poster', posterUrl);
+          videoEl.poster = posterUrl;
+        } else {
+          videoEl.removeAttribute('poster');
+        }
+
+        if (showControls) {
+          videoEl.setAttribute('controls', '');
+          videoEl.controls = true;
+        } else {
+          videoEl.removeAttribute('controls');
+          videoEl.controls = false;
+        }
+
+        if (autoplay) {
+          videoEl.setAttribute('autoplay', '');
+          videoEl.setAttribute('muted', '');
+          videoEl.autoplay = true;
+          videoEl.muted = true;
+        } else {
+          videoEl.removeAttribute('autoplay');
+          videoEl.autoplay = false;
+        }
+
+        if (loop) {
+          videoEl.setAttribute('loop', '');
+          videoEl.loop = true;
+        } else {
+          videoEl.removeAttribute('loop');
+          videoEl.loop = false;
+        }
+
+        let source = videoEl.querySelector('source');
+        if (!source) {
+          source = document.createElement('source');
+          videoEl.insertBefore(source, videoEl.firstChild);
+        }
+        source.setAttribute('src', info.src);
+        source.setAttribute('type', info.mime || 'video/mp4');
+        videoEl.src = info.src;
+        try {
+          videoEl.load();
+          if (autoplay) videoEl.play().catch(() => {});
+        } catch (e) {}
+      }
+
+      const hud = ensureCinemaHudOverlay(cinemaWrap, currentPage);
+      if (hud) {
+        hud.style.display = showHud ? '' : 'none';
+      }
+
+      if (typeof makeElementsEditable === 'function' && window.isAdminMode) {
+        makeElementsEditable();
+      }
+      if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
+      if (window.showAdminToast) showAdminToast('🎬 비디오 소스 및 재생 설정이 성공적으로 반영되었습니다.');
+    }
+
+    function applyVideoSourceModalToPage() {
+      const srcVal = (document.getElementById('videoModalSrcInput')?.value || '').trim();
+      if (!srcVal) {
+        alert('적용할 비디오 파일 경로 또는 URL을 입력하거나 파일을 업로드해 주세요.');
+        return;
+      }
+      const posterVal = (document.getElementById('videoModalPosterInput')?.value || '').trim();
+      const controls = !!document.getElementById('videoModalControlsChk')?.checked;
+      const autoplay = !!document.getElementById('videoModalAutoplayChk')?.checked;
+      const loop = !!document.getElementById('videoModalLoopChk')?.checked;
+
+      applyVideoSourceToCurrentPage(srcVal, {
+        poster: posterVal,
+        fitMode: window.__videoModalFitMode || 'cover',
+        controls,
+        autoplay,
+        loop,
+        showHud: window.__videoModalHudVisible !== false
+      });
+
+      closeVideoSourceModal();
+    }
+
+    // 비디오 소스 교체 진입 함수 (모달 오픈 및 직접 URL 전달 하위호환 지원)
+    function promptChangeVideoSource(directSrc) {
+      if (typeof directSrc === 'string' && directSrc.trim()) {
+        applyVideoSourceToCurrentPage(directSrc.trim());
+        return;
+      }
+      openVideoSourceModal();
+    }
     window.promptChangeVideoSource = promptChangeVideoSource;
+    window.openVideoSourceModal = openVideoSourceModal;
+    window.closeVideoSourceModal = closeVideoSourceModal;
+    window.setVideoModalFitMode = setVideoModalFitMode;
+    window.setVideoModalHudVisible = setVideoModalHudVisible;
+    window.setVideoModalPreset = setVideoModalPreset;
+    window.updateVideoModalLivePreview = updateVideoModalLivePreview;
+    window.handleAdminVideoFileSelect = handleAdminVideoFileSelect;
+    window.handleVideoModalFileDrop = handleVideoModalFileDrop;
+    window.handleAdminVideoPosterFileSelect = handleAdminVideoPosterFileSelect;
+    window.captureCurrentVideoFrameAsPoster = captureCurrentVideoFrameAsPoster;
+    window.applyVideoSourceModalToPage = applyVideoSourceModalToPage;
 
         window.bindProjectObjectControls = bindProjectObjectControls;
     if (typeof addProjectDescBullet === "function") window.addProjectDescBullet = addProjectDescBullet;
@@ -28287,9 +28925,9 @@ b;
       }
 
       // 4. 모든 모달, 백드롭, 사이드바 열림 상태 완전 닫힘 강제
-      cloneDoc.querySelectorAll('.admin-modal-backdrop, .modal-overlay, #adminLoginModal, #categoryEditModal, #projectDbModal, #addPageModal, #ghSettingsModal, #tocSidebarPanel, #tocBackdrop, #customLayoutBuilderModal, #aiProjectDescModal').forEach(el => {
+      cloneDoc.querySelectorAll('.admin-modal-backdrop, .modal-overlay, #adminLoginModal, #categoryEditModal, #projectDbModal, #addPageModal, #ghSettingsModal, #tocSidebarPanel, #tocBackdrop, #customLayoutBuilderModal, #aiProjectDescModal, #videoSourceModal').forEach(el => {
         el.classList.remove('open', 'active', 'show');
-        if (el.id === 'categoryEditModal' || el.id === 'projectDbModal' || el.id === 'customLayoutBuilderModal' || el.id === 'aiProjectDescModal') {
+        if (el.id === 'categoryEditModal' || el.id === 'projectDbModal' || el.id === 'customLayoutBuilderModal' || el.id === 'aiProjectDescModal' || el.id === 'videoSourceModal') {
           el.style.display = 'none';
         }
       });
