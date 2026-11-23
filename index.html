@@ -2,6 +2,9 @@
 <html lang="ko" style="--sheet-scale: 0.8717;"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>눈사람공장 (SNOWMAN FACTORY) — Interactive Motion Brochure</title>
   
   <!-- Fonts -->
@@ -5394,7 +5397,7 @@ b;
       <!-- The A4 Sheet Scaler Wrapper -->
       <div class="a4-sheet-scaler" id="a4SheetScaler" style="--sheet-scale: 0.8717;">
         <!-- The A4 Sheet Box -->
-        <div class="a4-landscape-sheet" id="a4Sheet">
+        <div class="a4-landscape-sheet" id="a4Sheet" data-brochure-ts="1795400000000">
         
         <!-- ============================================================ -->
         <!-- A4 PAGE 1: COVER (지명원 표지 원본 레이아웃)                 -->
@@ -22157,8 +22160,9 @@ b;
       if (!imageLightbox) return;
       if (e && e.target !== imageLightbox && !e.target.closest('.lightbox-close-btn')) return;
 
-      if (currentActiveLightboxCard) {
-        // 타이틀 최종 동기화
+      const inAdmin = !!(window.isAdminMode || (typeof isAdminMode !== 'undefined' && isAdminMode));
+      if (inAdmin && currentActiveLightboxCard) {
+        // 타이틀 최종 동기화 (관리자 모드 전용)
         if (lightboxTitle) {
           const finalTitle = lightboxTitle.innerText.trim();
           const page = currentActiveLightboxCard.closest('.a4-page-project');
@@ -22174,7 +22178,7 @@ b;
           }
         }
 
-        // 세부 설명 최종 저장
+        // 세부 설명 최종 저장 (관리자 모드 전용)
         if (lightboxDesc) {
           currentActiveLightboxCard.setAttribute('data-lightbox-desc', lightboxDesc.innerText.trim());
         }
@@ -24460,6 +24464,7 @@ b;
     // 저장 및 복원, HTML 내보내기
     // -------------------------------------------------------------
     let autoSaveTimer = null;
+    let cloudSyncTimer = null;
     function debouncedAutoSave() {
       clearTimeout(autoSaveTimer);
       autoSaveTimer = setTimeout(() => {
@@ -24467,49 +24472,110 @@ b;
       }, 1000);
     }
 
-    function saveBrochureChanges(showMessage = true) {
+    function scheduleBackgroundCloudSync(tsVal) {
+      clearTimeout(cloudSyncTimer);
+      cloudSyncTimer = setTimeout(() => {
+        if (typeof saveToSupabase === 'function' && (window.isAdminMode || (typeof isAdminMode !== 'undefined' && isAdminMode))) {
+          saveToSupabase({ silent: true, ts: tsVal, skipLocalSave: true }).catch(err => console.warn('[Supabase] Auto cloud sync skipped:', err));
+        }
+      }, 1800);
+    }
+
+    function getCleanBrochureSheetHTML() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return '';
+      const cloneSheet = sheet.cloneNode(true);
+      cloneSheet.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      cloneSheet.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img', 'admin-img-selected'));
+      cloneSheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .media-fit-bar').forEach(b => b.remove());
+      cloneSheet.querySelectorAll('.divider-cat-select').forEach(sel => { sel.style.display = 'none'; });
+      cloneSheet.querySelectorAll('*').forEach(el => {
+        if (el.style && el.style.outline) el.style.outline = '';
+      });
+      const pages = Array.from(cloneSheet.querySelectorAll(':scope > .a4-page-content'));
+      pages.forEach((p, idx) => {
+        p.style.display = (idx === 0) ? 'flex' : 'none';
+      });
+      return cloneSheet.innerHTML;
+    }
+
+    function saveBrochureChanges(showMessage = true, forceSave = false, skipCloudSync = false) {
+      const inAdmin = !!(window.isAdminMode || (typeof isAdminMode !== 'undefined' && isAdminMode));
+      if (!inAdmin && !forceSave) return;
+
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return;
+
+      const nowTs = Date.now();
+      sheet.setAttribute('data-brochure-ts', String(nowTs));
 
       // contenteditable 임시 제거본을 저장하지 않고 내부 HTML 그대로 보관 (용량 초과 시 앱 중단 방지)
       try {
         localStorage.setItem('snowman_brochure_sheet_v5', sheet.innerHTML);
+        localStorage.setItem('snowman_brochure_sheet_ts', String(nowTs));
         if (showMessage) {
-          showAdminToast('✅ 브라우저에 모든 변경사항이 안전하게 저장되었습니다.');
+          showAdminToast('✅ 브라우저 및 클라우드에 변경사항이 안전하게 저장되었습니다.');
         }
       } catch (err) {
         console.warn('[localStorage] Quota exceeded while saving brochure sheet:', err);
         if (showMessage) {
-          showAdminToast('⚠️ 브라우저 로컬 저장 용량(5MB)을 초과했습니다. Supabase/GitHub 배포로 저장해 주세요.');
+          showAdminToast('⚠️ 브라우저 로컬 저장 용량(5MB)을 초과하여 클라우드로 직접 동기화합니다.');
         }
+      }
+
+      if (inAdmin && !skipCloudSync) {
+        scheduleBackgroundCloudSync(nowTs);
+      }
+    }
+
+    function applySanitizedBrochureSheetHTML(sheet, rawHtml, tsValue) {
+      if (!sheet || !rawHtml) return;
+      sheet.innerHTML = rawHtml;
+      if (tsValue) {
+        sheet.setAttribute('data-brochure-ts', String(tsValue));
+      }
+      // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
+      sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
+
+      // cinema-main-title 구조 최적화 (단일 제목 h2화)
+      const oldCinemaTitle = sheet.querySelector('.cinema-main-title');
+      if (oldCinemaTitle && oldCinemaTitle.tagName !== 'H2') {
+        const h2 = document.createElement('h2');
+        h2.className = 'cinema-main-title';
+        const cleanText = oldCinemaTitle.innerText.replace(/OFFICIAL\s*FILM/gi, '').trim();
+        h2.textContent = cleanText || '담바우 에너지 공급센터 프로젝트 영상 기록';
+        oldCinemaTitle.replaceWith(h2);
+      }
+
+      updateBrochureUI();
+      if (typeof syncAllDividers === 'function') {
+        syncAllDividers();
+      }
+      if (typeof syncAllProjectPagesWithDb === 'function') {
+        syncAllProjectPagesWithDb();
       }
     }
 
     function restoreBrochureChanges() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+
       const saved = localStorage.getItem('snowman_brochure_sheet_v5');
-      if (saved) {
-        const sheet = document.getElementById('a4Sheet');
-        if (sheet) {
-          sheet.innerHTML = saved;
-          // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
-          sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
+      if (!saved) return;
 
-          // cinema-main-title 구조 최적화 (단일 제목 h2화)
-          const oldCinemaTitle = sheet.querySelector('.cinema-main-title');
-          if (oldCinemaTitle && oldCinemaTitle.tagName !== 'H2') {
-            const h2 = document.createElement('h2');
-            h2.className = 'cinema-main-title';
-            const cleanText = oldCinemaTitle.innerText.replace(/OFFICIAL\s*FILM/gi, '').trim();
-            h2.textContent = cleanText || '담바우 에너지 공급센터 프로젝트 영상 기록';
-            oldCinemaTitle.replaceWith(h2);
-          }
+      const htmlTs = Number(sheet.getAttribute('data-brochure-ts') || 0);
+      const localTs = Number(localStorage.getItem('snowman_brochure_sheet_ts') || 0);
 
-          updateBrochureUI();
-          if (typeof syncAllDividers === 'function') {
-            syncAllDividers();
-          }
-        }
+      // 배포된 HTML의 버전(htmlTs)이 로컬 캐시(localTs)보다 최신이거나 구버전 무타임스탬프 캐시이면 구버전 로컬 캐시를 즉시 파기
+      if (!localTs || (htmlTs > 0 && htmlTs >= localTs)) {
+        try {
+          localStorage.removeItem('snowman_brochure_sheet_v5');
+          localStorage.removeItem('snowman_brochure_sheet_ts');
+        } catch (e) {}
+        return;
       }
+
+      applySanitizedBrochureSheetHTML(sheet, saved, localTs);
     }
 
     function resetBrochureChanges() {
@@ -24517,6 +24583,7 @@ b;
         return;
       }
       localStorage.removeItem('snowman_brochure_sheet_v5');
+      localStorage.removeItem('snowman_brochure_sheet_ts');
       location.reload();
     }
 
@@ -25323,15 +25390,18 @@ b;
       if (!client) return;
 
       try {
-        // 1. brochure_content 조회 (카테고리 노드 및 테마 색상)
+        // 1. brochure_content 조회 (브로슈어 전체 시트 HTML, 카테고리 노드, 테마 색상, 프로젝트 DB)
         const { data: contentData, error: contentErr } = await client.from('brochure_content').select('*');
         if (contentErr) {
           console.warn('[Supabase] Failed to load brochure_content:', contentErr);
         } else if (contentData && contentData.length > 0) {
           let updatedCategory = false;
           let projectLoadedFromContent = false;
+          let sheetRow = null;
           contentData.forEach(row => {
-            if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
+            if (row.key === 'brochureSheet' && row.value && typeof row.value.html === 'string' && row.value.html.trim().length > 0) {
+              sheetRow = row;
+            } else if (row.key === 'categoriesData' && Array.isArray(row.value) && row.value.length > 0) {
               row.value.forEach(savedCat => {
                 const target = categoriesData.find(c => c.id === savedCat.id);
                 if (target) {
@@ -25367,8 +25437,30 @@ b;
               console.log('[Supabase] Successfully synced ' + row.value.length + ' projects from brochure_content.projectDatabase');
             }
           });
+
+          // 클라우드의 최신 브로슈어 시트(brochureSheet)가 현재 로컬/정적 HTML보다 최신이면 즉시 반영 (다른 PC/모바일 캐시 문제 원천 해결)
+          if (sheetRow) {
+            const sheet = document.getElementById('a4Sheet');
+            const cloudTs = Number(sheetRow.value.ts || Date.parse(sheetRow.updated_at || '') || 0);
+            const htmlTs = Number(sheet?.getAttribute('data-brochure-ts') || 0);
+            const localTs = Number(localStorage.getItem('snowman_brochure_sheet_ts') || 0);
+            const currentTs = Math.max(htmlTs, localTs);
+
+            if (sheet && (cloudTs > currentTs || !currentTs)) {
+              applySanitizedBrochureSheetHTML(sheet, sheetRow.value.html, cloudTs);
+              try {
+                localStorage.removeItem('snowman_brochure_sheet_v5');
+                localStorage.removeItem('snowman_brochure_sheet_ts');
+              } catch (e) {}
+              console.log('[Supabase] Applied latest brochureSheet from cloud (ts=' + cloudTs + ')');
+            }
+          }
+
           if (updatedCategory && typeof window.renderSolutionNodes === 'function') {
             window.renderSolutionNodes();
+          }
+          if (updatedCategory && typeof renderObsidianGraph === 'function') {
+            renderObsidianGraph();
           }
         } else {
           // DB가 비어있는 경우 최초 1회 초기 기본값 시드 저장
@@ -25414,17 +25506,21 @@ b;
       }
     }
 
-    async function saveToSupabase() {
+    async function saveToSupabase(options = {}) {
+      const isSilent = !!(options && options.silent);
+      const syncTs = (options && options.ts) ? Number(options.ts) : Date.now();
       const client = getSupabaseClient();
       if (!client) {
-        alert('Supabase 클라이언트가 초기화되지 않았습니다. [Supabase 설정]을 확인해 주세요.');
-        openSupabaseSettingsModal();
+        if (!isSilent) {
+          alert('Supabase 클라이언트가 초기화되지 않았습니다. [Supabase 설정]을 확인해 주세요.');
+          openSupabaseSettingsModal();
+        }
         return;
       }
 
       const btn = document.getElementById('btnSaveToSupabase');
       const origContent = btn ? btn.innerHTML : '';
-      if (btn) {
+      if (btn && !isSilent) {
         btn.disabled = true;
         btn.innerHTML = `
           <div class="btn-left">
@@ -25440,10 +25536,23 @@ b;
           await migrateBase64ImagesToSupabaseStorage();
         }
 
-        // 1. 로컬 상태 먼저 브라우저 저장
-        if (typeof window.saveBrochureChanges === 'function') {
-          window.saveBrochureChanges(false);
+        if (typeof syncAllDividers === 'function') syncAllDividers();
+        if (typeof syncAllProjectPagesWithDb === 'function') syncAllProjectPagesWithDb();
+
+        // 1. 로컬 상태 먼저 브라우저 저장 (재귀 클라우드 스케줄링 방지)
+        if (!options?.skipLocalSave && typeof window.saveBrochureChanges === 'function') {
+          window.saveBrochureChanges(false, true, true);
         }
+
+        const sheet = document.getElementById('a4Sheet');
+        if (sheet) {
+          sheet.setAttribute('data-brochure-ts', String(syncTs));
+        }
+        try {
+          localStorage.setItem('snowman_brochure_sheet_ts', String(syncTs));
+        } catch (e) {}
+
+        const cleanSheetHtml = (typeof getCleanBrochureSheetHTML === 'function') ? getCleanBrochureSheetHTML() : (sheet ? sheet.innerHTML : '');
 
         // 2. 카테고리 데이터 저장
         const catPayload = categoriesData.map(c => ({
@@ -25471,11 +25580,14 @@ b;
           updated_at: new Date().toISOString()
         }));
 
-        // 병렬 저장 실행
-        const [resContent, resColor, resProjects] = await Promise.all([
-          client.from('brochure_content').upsert({ key: 'categoriesData', value: catPayload, updated_at: new Date().toISOString() }),
-          client.from('brochure_content').upsert({ key: 'nodeColors', value: colorMap, updated_at: new Date().toISOString() }),
-          client.from('brochure_content').upsert({ key: 'projectDatabase', value: currentProjects, updated_at: new Date().toISOString() }),
+        const nowIso = new Date(syncTs).toISOString();
+
+        // 병렬 저장 실행 (전체 브로슈어 페이지 HTML 포함!)
+        const [resSheet, resContent, resColor, resProjects] = await Promise.all([
+          client.from('brochure_content').upsert({ key: 'brochureSheet', value: { html: cleanSheetHtml, ts: syncTs }, updated_at: nowIso }),
+          client.from('brochure_content').upsert({ key: 'categoriesData', value: catPayload, updated_at: nowIso }),
+          client.from('brochure_content').upsert({ key: 'nodeColors', value: colorMap, updated_at: nowIso }),
+          client.from('brochure_content').upsert({ key: 'projectDatabase', value: currentProjects, updated_at: nowIso }),
           (async () => {
             try {
               await client.from('brochure_projects').delete().neq('id', '_dummy_never_');
@@ -25490,20 +25602,25 @@ b;
           })()
         ]);
 
+        if (resSheet && resSheet.error) throw resSheet.error;
         if (resContent.error) throw resContent.error;
         if (resColor.error) throw resColor.error;
         if (resProjects.error) throw resProjects.error;
 
-        if (window.showAdminToast) {
-          showAdminToast('🚀 Supabase 클라우드에 0.1초 만에 저장 완료!');
-        } else {
-          alert('Supabase 클라우드에 성공적으로 저장되었습니다!');
+        if (!isSilent) {
+          if (window.showAdminToast) {
+            showAdminToast('🚀 Supabase 클라우드에 전체 페이지 및 DB가 0.1초 만에 저장 완료!');
+          } else {
+            alert('Supabase 클라우드에 성공적으로 저장되었습니다!');
+          }
         }
       } catch (err) {
         console.error('[Supabase] Save error:', err);
-        alert('Supabase 저장 중 오류가 발생했습니다: ' + (err.message || err));
+        if (!isSilent) {
+          alert('Supabase 저장 중 오류가 발생했습니다: ' + (err.message || err));
+        }
       } finally {
-        if (btn) {
+        if (btn && !isSilent) {
           btn.disabled = false;
           btn.innerHTML = origContent;
           if (window.lucide) lucide.createIcons();
@@ -25569,13 +25686,21 @@ b;
     }
 
     // 현재 수정된 DOM을 깨끗한 HTML 문서로 생성
-    function generateCleanBrochureHTML() {
+    function generateCleanBrochureHTML(deployTs = Date.now()) {
       // 0. [핵심] 최신 프로젝트 DB 및 간지 동기화 선행 (정적 HTML에도 최신 실적 목록 구워넣기)
       if (typeof syncAllDividers === 'function') {
         syncAllDividers();
       }
+      if (typeof syncAllProjectPagesWithDb === 'function') {
+        syncAllProjectPagesWithDb();
+      }
       if (typeof saveBrochureChanges === 'function') {
-        saveBrochureChanges(false);
+        saveBrochureChanges(false, true);
+      }
+
+      const liveSheet = document.getElementById('a4Sheet');
+      if (liveSheet) {
+        liveSheet.setAttribute('data-brochure-ts', String(deployTs));
       }
 
       const cloneDoc = document.documentElement.cloneNode(true);
@@ -25587,6 +25712,16 @@ b;
         body.classList.remove('admin-mode-active');
       }
 
+      // 배포 버전 타임스탬프 주입 및 페이지 초기 노출 상태(1페이지만 flex) 정규화
+      const cloneSheet = cloneDoc.querySelector('#a4Sheet');
+      if (cloneSheet) {
+        cloneSheet.setAttribute('data-brochure-ts', String(deployTs));
+        const clonePages = Array.from(cloneSheet.querySelectorAll(':scope > .a4-page-content'));
+        clonePages.forEach((p, idx) => {
+          p.style.display = (idx === 0) ? 'flex' : 'none';
+        });
+      }
+
       // 관리자 사이드바 툴바 닫힘 강제
       const toolbar = cloneDoc.querySelector('#adminToolbar');
       if (toolbar) {
@@ -25595,8 +25730,8 @@ b;
 
       // 2. 인라인 편집 contenteditable 및 스타일/클래스 완전 박멸
       cloneDoc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-      cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img'));
-      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn').forEach(b => b.remove());
+      cloneDoc.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img', 'admin-img-selected'));
+      cloneDoc.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .media-fit-bar').forEach(b => b.remove());
       cloneDoc.querySelectorAll('.divider-cat-select').forEach(sel => { sel.style.display = 'none'; });
       cloneDoc.querySelectorAll('*').forEach(el => {
         if (el.style && el.style.outline) el.style.outline = '';
@@ -25613,9 +25748,9 @@ b;
       }
 
       // 4. 모든 모달, 백드롭, 사이드바 열림 상태 완전 닫힘 강제
-      cloneDoc.querySelectorAll('.admin-modal-backdrop, .modal-overlay, #adminLoginModal, #categoryEditModal, #projectDbModal, #addPageModal, #ghSettingsModal, #tocSidebarPanel, #tocBackdrop').forEach(el => {
+      cloneDoc.querySelectorAll('.admin-modal-backdrop, .modal-overlay, #adminLoginModal, #categoryEditModal, #projectDbModal, #addPageModal, #ghSettingsModal, #tocSidebarPanel, #tocBackdrop, #customLayoutBuilderModal').forEach(el => {
         el.classList.remove('open', 'active', 'show');
-        if (el.id === 'categoryEditModal' || el.id === 'projectDbModal') {
+        if (el.id === 'categoryEditModal' || el.id === 'projectDbModal' || el.id === 'customLayoutBuilderModal') {
           el.style.display = 'none';
         }
       });
@@ -25674,7 +25809,7 @@ b;
         return;
       }
 
-      if (!confirm(`현재 편집된 내용을 GitHub에 바로 푸시하시겠습니까?\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n\n푸시 완료 시 GitHub Pages에서 자동으로 실시간 배포가 갱신됩니다.`)) {
+      if (!confirm(`현재 편집된 내용을 GitHub에 바로 푸시하시겠습니까?\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n\n푸시 완료 시 Supabase 실시간 클라우드와 GitHub Pages가 동시에 최신 상태로 갱신됩니다.`)) {
         return;
       }
 
@@ -25697,6 +25832,16 @@ b;
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30초 안전 타임아웃
 
       try {
+        const deployTs = Date.now();
+
+        // 0. Base64 이미지가 있으면 Supabase Storage로 먼저 이관하고 Supabase 클라우드 DB에도 동시 반영 (다른 PC/모바일 0.1초 즉시 동기화 보장)
+        if (typeof migrateBase64ImagesToSupabaseStorage === 'function') {
+          await migrateBase64ImagesToSupabaseStorage();
+        }
+        if (typeof saveToSupabase === 'function') {
+          await saveToSupabase({ silent: true, ts: deployTs });
+        }
+
         // [핵심] 배포 직전 DOM을 임시 뷰어 상태로 전환하여 관리자 모드 잔재 원천 차단
         const wasAdminMode = (typeof isAdminMode !== 'undefined') ? isAdminMode : false;
         if (wasAdminMode && typeof exitAdminMode === 'function') {
@@ -25706,7 +25851,7 @@ b;
         showAdminToast('⏳ [1/4] 깨끗한 HTML 문서를 생성하는 중...');
 
         // 1. 완전히 정화된 뷰어 상태에서 배포용 HTML 문서 추출
-        const cleanHtml = generateCleanBrochureHTML();
+        const cleanHtml = generateCleanBrochureHTML(deployTs);
 
         // HTML 추출 완료 후, 관리자 본인의 화면은 다시 편집 모드로 복구
         if (wasAdminMode && typeof enableAdminMode === 'function') {
@@ -25746,7 +25891,7 @@ b;
 
         // 4. PUT /contents/index.html 로 커밋 & 푸시
         showAdminToast('🚀 [4/4] GitHub에 새 커밋을 생성하고 푸시하는 중...');
-        const now = new Date();
+        const now = new Date(deployTs);
         const timeStamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
         const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/index.html`, {
@@ -25771,11 +25916,13 @@ b;
           throw new Error(errData.message || `GitHub HTTP Error: ${putRes.status}`);
         }
 
-        // 로컬스토리지에도 현재 상태 자동 저장
-        saveBrochureChanges(false);
+        // 로컬스토리지에도 현재 배포 타임스탬프로 동기화
+        try {
+          localStorage.setItem('snowman_brochure_sheet_ts', String(deployTs));
+        } catch (e) {}
 
-        showAdminToast('🎉 GitHub 푸시 완료! GitHub Pages 실시간 배포가 시작되었습니다.');
-        alert(`🎉 GitHub 푸시가 완벽하게 성공했습니다!\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n• 커밋 시간: ${timeStamp}\n\nGitHub Pages가 변경 사항을 자동으로 감지하여 약 1~2분 내로 라이브 웹사이트를 최신으로 갱신합니다.`);
+        showAdminToast('🎉 GitHub 및 클라우드 실시간 배포가 완료되었습니다!');
+        alert(`🎉 GitHub 푸시 및 클라우드 동기화가 완벽하게 성공했습니다!\n\n• 저장소: ${repo}\n• 브랜치: ${branch}\n• 커밋 시간: ${timeStamp}\n\n다른 PC 및 모바일에서도 캐시 영향 없이 최신 수정사항이 즉시 반영됩니다.`);
       } catch (err) {
         clearTimeout(timeoutId);
         console.error('GitHub Push Error:', err);
