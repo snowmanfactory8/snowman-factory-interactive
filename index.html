@@ -3669,7 +3669,7 @@ b;
     <footer class="intro-footer">
       <div class="status-hud">
         <div>SYS: <span id="sysStatusText">POINT CLOUD ENGINE ACTIVE</span></div>
-        <div>COORDS: <span id="introCoordDisplay">X: -2.965 | Y: 2.941 | Z: 28.896</span></div>
+        <div>COORDS: <span id="introCoordDisplay">X: 1.622 | Y: 4.715 | Z: 29.436</span></div>
         <div>SCAN RESOLUTION: <span>1mm HIGH PRECISION</span></div>
       </div>
       <div style="font-family: 'Space Grotesk', monospace; font-size: 11px; color: #94a3b8; letter-spacing: 1px;">
@@ -3922,7 +3922,7 @@ b;
         </div>
 
         <div style="margin-bottom: 6px;">
-          <h4 id="subviewLayoutTitle" style="font-size: 14px; font-weight: 800; color: #ffffff; margin: 0 0 2px;"><span style="color: #38bdf8;">P.5</span> 레이아웃 실시간 변경</h4>
+          <h4 id="subviewLayoutTitle" style="font-size: 14px; font-weight: 800; color: #ffffff; margin: 0 0 2px;"><span style="color: #38bdf8;">P.6</span> 레이아웃 실시간 변경</h4>
           <p id="subviewLayoutDesc" style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.35;">원하는 레이아웃을 클릭하면 좌측 브로슈어에 즉시 실시간 반영됩니다.</p>
         </div>
 
@@ -4522,8 +4522,8 @@ b;
             <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 12px;">
               <div style="font-size: 11px; font-weight: 600; color: #98989d; margin-bottom: 8px; letter-spacing: -0.01em;">1. 분할 기준 방향</div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 9px;" id="customLayoutDirBtns">
-                <button type="button" onclick="setCustomLayoutDirection('rows')" data-dir="rows" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">상하 행 분할</button>
-                <button type="button" onclick="setCustomLayoutDirection('cols')" data-dir="cols" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">좌우 열 분할</button>
+                <button type="button" onclick="setCustomLayoutDirection('rows')" data-dir="rows" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: none;">상하 행 분할</button>
+                <button type="button" onclick="setCustomLayoutDirection('cols')" data-dir="cols" style="padding: 7px 8px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.18s; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">좌우 열 분할</button>
               </div>
             </div>
             <!-- 2. Group Count Segmented Control -->
@@ -4547,20 +4547,20 @@ b;
             <div id="customLayoutGroupsContainer" style="display: flex; flex-direction: column; gap: 10px;">
             <div style="background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 11px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: nowrap;">
-                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">1행(단)</span>
+                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">1열(기둥)</span>
                 <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
-                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">높이</span>
-                  <input id="customGroupSizeRange_0" type="range" min="5" max="95" value="70" oninput="setCustomLayoutGroupSize(0, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
+                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">너비</span>
+                  <input id="customGroupSizeRange_0" type="range" min="5" max="95" value="60" oninput="setCustomLayoutGroupSize(0, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
                   <div style="display: flex; align-items: center; background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 2px 6px;">
-                    <input id="customGroupSizeNum_0" type="number" min="5" max="95" value="70" onchange="setCustomLayoutGroupSize(0, this.value)" oninput="setCustomLayoutGroupSize(0, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
+                    <input id="customGroupSizeNum_0" type="number" min="5" max="95" value="60" onchange="setCustomLayoutGroupSize(0, this.value)" oninput="setCustomLayoutGroupSize(0, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
                     <span style="font-size: 10.5px; color: #98989d; margin-left: 2px;">%</span>
                   </div>
                 </div>
                 <div style="display: flex; gap: 3px; background: rgba(118, 118, 128, 0.22); padding: 2px; border-radius: 7px; flex-shrink: 0;">
                   
-                    <button type="button" onclick="setCustomLayoutCellCount(0, 1)" style="padding: 4px 7px; border-radius: 5px; border: none; background: #0071e3; color: #ffffff; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">1칸</button>
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 1)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">1칸</button>
                   
-                    <button type="button" onclick="setCustomLayoutCellCount(0, 2)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">2칸</button>
+                    <button type="button" onclick="setCustomLayoutCellCount(0, 2)" style="padding: 4px 7px; border-radius: 5px; border: none; background: #0071e3; color: #ffffff; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">2칸</button>
                   
                     <button type="button" onclick="setCustomLayoutCellCount(0, 3)" style="padding: 4px 7px; border-radius: 5px; border: none; background: transparent; color: #98989d; font-size: 10.5px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.15s ease;">3칸</button>
                   
@@ -4569,16 +4569,31 @@ b;
                 </div>
               </div>
               
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.06);">
+                  <span style="font-size: 10.5px; color: #98989d; font-weight: 500; white-space: nowrap;">칸 비율</span>
+                  
+                    <div style="display: flex; align-items: center; gap: 4px; background: rgba(118, 118, 128, 0.18); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; padding: 2px 6px;">
+                      <span style="font-size: 10px; color: #64d2ff; font-weight: 600;">#1</span>
+                      <input id="customCellWeight_0_0" type="number" min="5" max="95" value="50" onchange="setCustomLayoutCellWeight(0, 0, this.value)" oninput="setCustomLayoutCellWeight(0, 0, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11px; font-weight: 600; text-align: right;">
+                    </div>
+                  
+                    <div style="display: flex; align-items: center; gap: 4px; background: rgba(118, 118, 128, 0.18); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; padding: 2px 6px;">
+                      <span style="font-size: 10px; color: #64d2ff; font-weight: 600;">#2</span>
+                      <input id="customCellWeight_0_1" type="number" min="5" max="95" value="50" onchange="setCustomLayoutCellWeight(0, 1, this.value)" oninput="setCustomLayoutCellWeight(0, 1, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11px; font-weight: 600; text-align: right;">
+                    </div>
+                  
+                </div>
+              
             </div>
           
             <div style="background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 11px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: nowrap;">
-                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">2행(단)</span>
+                <span style="font-size: 12px; font-weight: 700; color: #64d2ff; white-space: nowrap; min-width: 54px;">2열(기둥)</span>
                 <div style="display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;">
-                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">높이</span>
-                  <input id="customGroupSizeRange_1" type="range" min="5" max="95" value="30" oninput="setCustomLayoutGroupSize(1, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
+                  <span style="font-size: 10.5px; color: #98989d; white-space: nowrap;">너비</span>
+                  <input id="customGroupSizeRange_1" type="range" min="5" max="95" value="40" oninput="setCustomLayoutGroupSize(1, this.value)" style="flex: 1; min-width: 50px; accent-color: #0a84ff; cursor: pointer; height: 4px;">
                   <div style="display: flex; align-items: center; background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 2px 6px;">
-                    <input id="customGroupSizeNum_1" type="number" min="5" max="95" value="30" onchange="setCustomLayoutGroupSize(1, this.value)" oninput="setCustomLayoutGroupSize(1, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
+                    <input id="customGroupSizeNum_1" type="number" min="5" max="95" value="40" onchange="setCustomLayoutGroupSize(1, this.value)" oninput="setCustomLayoutGroupSize(1, this.value)" style="width: 34px; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: rgb(245, 245, 247); font-size: 11.5px; font-weight: 700; text-align: right;">
                     <span style="font-size: 10.5px; color: #98989d; margin-left: 2px;">%</span>
                   </div>
                 </div>
@@ -4625,27 +4640,32 @@ b;
           <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
               <span style="font-size: 12px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em; white-space: nowrap;">실시간 레이아웃 미리보기</span>
-              <span id="customLayoutSummaryBadge" style="font-size: 11px; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap;">상하 2단 · 총 4컷</span>
+              <span id="customLayoutSummaryBadge" style="font-size: 11px; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap;">좌우 2단 · 총 5컷</span>
             </div>
-            <div id="customLayoutLivePreview" style="width: 100%; aspect-ratio: 1.25 / 1; background: rgba(18, 18, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 11px; padding: 6px; box-sizing: border-box; box-shadow: inset 0 2px 8px rgba(0,0,0,0.45);"><div style="display: grid; grid-template-rows: 70fr 30fr; gap: 5px; width: 100%; height: 100%;"><div style="display: grid; grid-template-columns: 100fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+            <div id="customLayoutLivePreview" style="width: 100%; aspect-ratio: 1.25 / 1; background: rgba(18, 18, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 11px; padding: 6px; box-sizing: border-box; box-shadow: inset 0 2px 8px rgba(0,0,0,0.45);"><div style="display: grid; grid-template-columns: 60fr 40fr; gap: 5px; width: 100%; height: 100%;"><div style="display: grid; grid-template-rows: 60fr 40fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
             <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
               <span style="letter-spacing: -0.02em;">#1</span>
-              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">70% · 100%</span>
-            </div>
-          </div><div style="display: grid; grid-template-columns: 33fr 34fr 33fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
-            <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
-              <span style="letter-spacing: -0.02em;">#2</span>
-              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">30% · 33%</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">60% · 60%</span>
             </div>
           
             <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
+              <span style="letter-spacing: -0.02em;">#2</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">60% · 40%</span>
+            </div>
+          </div><div style="display: grid; grid-template-rows: 33fr 34fr 33fr; gap: 5px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+            <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
               <span style="letter-spacing: -0.02em;">#3</span>
-              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">30% · 34%</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">40% · 33%</span>
             </div>
           
             <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
               <span style="letter-spacing: -0.02em;">#4</span>
-              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">30% · 33%</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">40% · 34%</span>
+            </div>
+          
+            <div style="background: linear-gradient(145deg, rgba(10, 132, 255, 0.24), rgba(44, 44, 46, 0.78)); border: 1px solid rgba(100, 210, 255, 0.38); border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #f5f5f7; font-size: 11.5px; font-weight: 700; min-width: 0; min-height: 0; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);">
+              <span style="letter-spacing: -0.02em;">#5</span>
+              <span style="font-size: 9.5px; color: #64d2ff; font-weight: 600;">40% · 33%</span>
             </div>
           </div></div></div>
           </div>
@@ -4656,7 +4676,7 @@ b;
               <button type="button" onclick="saveCustomLayoutPreset()" style="background: rgba(48, 209, 88, 0.16); border: 1px solid rgba(48, 209, 88, 0.38); color: #30d158; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: all 0.18s ease;">+ 현재 구성 저장</button>
             </div>
             <div id="customLayoutPresetsList" style="display: flex; flex-direction: column; gap: 6px; max-height: 145px; overflow-y: auto; padding-right: 2px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 9px; padding: 8px 11px; transition: background 0.15s ease;" onmouseover="this.style.background='rgba(58, 58, 60, 0.65)'" onmouseout="this.style.background='rgba(28, 28, 30, 0.72)'">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(28, 28, 30, 0.72); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 9px; padding: 8px 11px; transition: background 0.15s;" onmouseover="this.style.background='rgba(58, 58, 60, 0.65)'" onmouseout="this.style.background='rgba(28, 28, 30, 0.72)'">
           <button type="button" onclick="applySavedCustomLayoutPreset(0)" style="background: none; border: none; color: #f5f5f7; font-size: 11.5px; font-weight: 600; text-align: left; cursor: pointer; flex: 1; padding: 0; line-height: 1.35; word-break: keep-all;">상단 2분할(70%) + 하단 3분할(30%)</button>
           <button type="button" onclick="deleteCustomLayoutPreset(0)" title="프리셋 삭제" style="background: rgba(255, 69, 58, 0.14); border: none; color: #ff453a; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</button>
         </div>
@@ -4709,10 +4729,10 @@ b;
         <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
             <span style="font-size: 11px; font-weight: 600; color: #98989d;">현재 페이지 프로젝트 정보</span>
-            <span id="aiProjectMetaBadge" style="font-size: 11px; font-weight: 600; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 2px 8px; border-radius: 999px;">2026 · BIM · 에스파스건축사사무소</span>
+            <span id="aiProjectMetaBadge" style="font-size: 11px; font-weight: 600; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 2px 8px; border-radius: 999px;">2026 · BIM · (주)연우에이치티</span>
           </div>
-          <div id="aiProjectTitlePreview" style="font-size: 14px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em;">대구청 제1기동대 BIM용역</div>
-          <div id="aiProjectScopePreview" style="font-size: 11.5px; color: #ebebf5; opacity: 0.78;">Scope: BIM 전환설계(계획설계)</div>
+          <div id="aiProjectTitlePreview" style="font-size: 14px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em;">광명 CM병원 BIM 용역</div>
+          <div id="aiProjectScopePreview" style="font-size: 11.5px; color: #ebebf5; opacity: 0.78;">Scope: BIM 실시설계</div>
         </div>
 
         <!-- Engine Selector & Custom Focus -->
@@ -5588,7 +5608,7 @@ b;
       <!-- The A4 Sheet Scaler Wrapper -->
       <div class="a4-sheet-scaler" id="a4SheetScaler" style="--sheet-scale: 0.8717;">
         <!-- The A4 Sheet Box -->
-        <div class="a4-landscape-sheet" id="a4Sheet" data-brochure-ts="1795415896806">
+        <div class="a4-landscape-sheet" id="a4Sheet" data-brochure-ts="1795419635423">
         
         <!-- ============================================================ -->
         <!-- A4 PAGE 1: COVER (지명원 표지 원본 레이아웃)                 -->
@@ -5995,6 +6015,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-custom">
           <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-columns:50fr 50fr;gap:1.5px;width:44px;height:36px;">
             <div style="display:grid;grid-template-rows:50fr 50fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div><div style="display:grid;grid-template-rows:33fr 33fr 34fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">5</div></div>
@@ -6028,6 +6054,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6169,6 +6201,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-custom">
           <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-rows:70fr 30fr;gap:1.5px;width:44px;height:36px;">
             <div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div></div><div style="display:grid;grid-template-columns:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div></div>
@@ -6197,6 +6235,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -6272,7 +6316,7 @@ b;
                 </div><div class="project-overview-row">
                   <span class="project-overview-label">Scope</span>
                   <div class="project-overview-value overview-scope" data-field="scope">
-                    <div spellcheck="false">BIM 모델링</div>
+                    <div spellcheck="false">BIM 실시설계</div>
                   </div>
                 </div></div>
               <div class="project-overview-divider"></div>
@@ -6280,17 +6324,15 @@ b;
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc" spellcheck="false">
-                구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
-              </p>
+              <p class="project-summary-desc" spellcheck="false">설계 도서를 기반으로 건축·구조 BIM 모델을 구축하고, 모델 기반의 실시도면 작성 및 설계 내용 정합성 검토 수행</p>
               <ul class="project-desc-bullets">
                 
-                  <li spellcheck="false">Lidar 스캐너를 이용하여 현장 3D 스캔</li>
-                  <li spellcheck="false">CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
-                  <li spellcheck="false">BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
-                  <li spellcheck="false">정합성 오류 검토 보고서 작성</li>
+                  
+                  
+                  
+                  
                 
-              </ul>
+              <li spellcheck="false">설계 도서 기반 건축 BIM 모델 구축</li><li spellcheck="false">구조 부재 및 설계 정보 BIM 모델링</li><li spellcheck="false">BIM 모델 기반 건축·구조 실시도면 작성</li><li spellcheck="false">건축·구조 모델 및 실시도면 정합성 검토</li></ul>
             </div>
           </div>
 
@@ -6301,259 +6343,35 @@ b;
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <div class="project-image-legend" data-layout-legend="project-classic">
-          <div class="legend-matrix legend-matrix-classic">
-            <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
+        <div class="project-image-legend" data-layout-legend="project-custom">
+          <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-columns:60fr 40fr;gap:1.5px;width:44px;height:36px;">
+            <div style="display:grid;grid-template-rows:60fr 40fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div><div style="display:grid;grid-template-rows:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">5</div></div>
           </div>
           <div class="legend-list">
             
           <div class="legend-item">
             <span class="legend-num">1.</span>
-            <span class="legend-text" spellcheck="false">스캔 데이터 ISO</span>
+            <span class="legend-text" spellcheck="false">현장 실측 스캔 데이터</span>
           </div>
         
           <div class="legend-item">
             <span class="legend-num">2.</span>
-            <span class="legend-text" spellcheck="false">정합성 검토 보고서</span>
+            <span class="legend-text" spellcheck="false">고정밀 BIM 모델링</span>
           </div>
         
           <div class="legend-item">
             <span class="legend-num">3.</span>
-            <span class="legend-text" spellcheck="false">건축/구조 Revit 모델</span>
+            <span class="legend-text" spellcheck="false">설계 간섭 검토</span>
+          </div>
+        
+          <div class="legend-item">
+            <span class="legend-num">4.</span>
+            <span class="legend-text" spellcheck="false">상세 단면 및 정합성</span>
+          </div>
+        
+          <div class="legend-item">
+            <span class="legend-num">5.</span>
+            <span class="legend-text" spellcheck="false">최종 성과품 뷰</span>
           </div>
         
           </div>
@@ -6564,257 +6382,35 @@ b;
       
       
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
         </div>
       
-            <div class="project-right-visual project-classic" data-layout="project-classic">
-              <div class="media-card top-hero-card" onclick="openLightbox(this, '프로젝트 메인 조감도', '3D LiDAR 스캔 및 정밀 모델링 비주얼', event)">
-                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 14px; height: 14px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                <img src="assets/project_01/point_cloud.png" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                </div>
-              <div class="bottom-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; height: 46%; min-height: 0;">
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, '현장 전경', '시공 및 완공 현장 사진', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/site_photo.png" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
-                <div class="media-card" style="height: 100%; position: relative;" onclick="openLightbox(this, 'MEP 모델링', '기계 설비 배관 모델링', event)">
-                  <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
-                  <img src="assets/project_01/mep_bim.png" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
-                  </div>
+            <div class="project-right-visual project-custom" data-layout="project-custom" data-custom-spec="{&quot;direction&quot;:&quot;cols&quot;,&quot;groups&quot;:[{&quot;size&quot;:60,&quot;cells&quot;:[60,40]},{&quot;size&quot;:40,&quot;cells&quot;:[33,34,33]}]}" style="display: grid !important; grid-template-columns: 60fr 40fr !important; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0;">
+              <div class="custom-split-group" style="display: grid; grid-template-rows: 60fr 40fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0px; min-height: 0px; position: relative; background: rgb(15, 23, 42);" onclick="openLightbox(this, '뷰 #1', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="https://yfuhblckexnewkzibkuh.supabase.co/storage/v1/object/public/brochure-images/uploads/img_1795417545263_coy57w.webp" alt="프로젝트 메인 조감도" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원" data-fit="cover" style="object-fit: cover;">
               </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #2', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="assets/project_01/site_photo.png" alt="현장 전경" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+              </div>
+            </div><div class="custom-split-group" style="display: grid; grid-template-rows: 33fr 34fr 33fr; gap: 2px; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden;">
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #3', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="assets/project_01/mep_bim.png" alt="MEP 모델링" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #4', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="assets/project_01/mep_detail.png" alt="뷰 #4" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+              </div>
+            
+              <div class="media-card" style="width: 100%; height: 100%; min-width: 0; min-height: 0; position: relative;" onclick="openLightbox(this, '뷰 #5', '프로젝트 상세 비주얼', event)">
+                <div class="media-zoom-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="maximize-2" aria-hidden="true" style="width: 12px; height: 12px;" class="lucide lucide-maximize-2"><path d="M15 3h6v6"></path><path d="m21 3-7 7"></path><path d="m3 21 7-7"></path><path d="M9 21H3v-6"></path></svg></div>
+                <img src="assets/project_01/point_cloud.png" alt="뷰 #5" class="" loading="lazy" title="클릭: 파일 선택 | Ctrl+V: 클립보드 이미지 붙여넣기 | 드래그&amp;드롭 지원">
+              </div>
+            </div>
             </div>
           </div>
         </div><div class="a4-page-content" id="custom-page-1794985622097" style="display: none;" data-project-id="p_1794790629594">
@@ -6857,22 +6453,26 @@ b;
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc" spellcheck="false">
-                구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
-              </p>
+              <p class="project-summary-desc" spellcheck="false">설계 도서를 기반으로 건축·구조 BIM 모델을 구축하고&nbsp;<div>모델 기반 설계 검토 및 실시도면 작성 수행</div></p>
               <ul class="project-desc-bullets">
                 
-                  <li spellcheck="false">Lidar 스캐너를 이용하여 현장 3D 스캔</li>
-                  <li spellcheck="false">CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
-                  <li spellcheck="false">BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토</li>
-                  <li spellcheck="false">정합성 오류 검토 보고서 작성</li>
+                  
+                  
+                  
+                  
                 
-              </ul>
+              <li spellcheck="false">설계 도서 기반 건축·구조 BIM 모델 구축</li><li spellcheck="false">건축·구조 BIM 모델 기반 설계 내용 검토</li><li spellcheck="false">BIM 모델을 활용한 건축·구조 실시도면 작성</li></ul>
             </div>
           </div>
 
           <!-- 4. 좌측 하단 이미지별 설명 범례 (레이아웃 템플릿 연동) -->
           
+        
+        
+        
+        
+        
+        
         
         
         
@@ -7128,6 +6728,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -7692,6 +7298,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -7720,6 +7332,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -8200,6 +7818,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-custom">
           <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-columns:60fr 40fr;gap:1.5px;width:44px;height:36px;">
             <div style="display:grid;grid-template-rows:50fr 50fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div><div style="display:grid;grid-template-rows:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">5</div></div>
@@ -8233,6 +7857,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -8465,6 +8095,12 @@ b;
 
           <!-- 4. 좌측 하단 이미지별 설명 범례 (Classic 3컷 연동) -->
           
+        
+        
+        
+        
+        
+        
         
         
         
@@ -9793,6 +9429,12 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
         </div>
       
             <div class="project-right-visual">
@@ -9900,6 +9542,12 @@ b;
 
           <!-- 4. 좌측 하단 이미지별 설명 범례 (레이아웃 템플릿 연동) -->
           
+        
+        
+        
+        
+        
+        
         
         
         
@@ -10332,6 +9980,12 @@ b;
       
       
       
+      
+      
+      
+      
+      
+      
         </div>
       
             <div class="project-right-visual project-classic" data-layout="project-classic">
@@ -10533,6 +10187,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-custom">
           <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-rows:70fr 30fr;gap:1.5px;width:44px;height:36px;">
             <div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div></div><div style="display:grid;grid-template-columns:33fr 34fr 33fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">3</div><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">4</div></div>
@@ -10561,6 +10221,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -10972,6 +10638,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -10995,6 +10667,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -11393,6 +11071,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-custom">
           <div class="legend-matrix legend-matrix-custom" style="display:grid;grid-template-rows:80fr 50fr;gap:1.5px;width:44px;height:36px;">
             <div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">1</div></div><div style="display:grid;grid-template-columns:100fr;gap:1.5px;width:100%;height:100%;min-width:0;min-height:0;"><div class="legend-cell" style="width:100%;height:100%;min-width:0;min-height:0;font-size:8px;">2</div></div>
@@ -11411,6 +11095,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -11796,6 +11486,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -11819,6 +11515,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -12276,6 +11978,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -12299,6 +12007,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -12754,6 +12468,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -12777,6 +12497,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -13230,6 +12956,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -13253,6 +12985,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -14010,6 +13748,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -14033,6 +13777,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -15359,6 +15109,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -15387,6 +15143,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -16755,6 +16517,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-classic">
           <div class="legend-matrix legend-matrix-classic">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div>
@@ -16778,6 +16546,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -17981,6 +17755,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -18009,6 +17789,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -18996,6 +18782,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -19024,6 +18816,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -19962,6 +19760,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-split2-3">
           <div class="legend-matrix legend-matrix-split2-3">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div><div class="legend-cell">5</div>
@@ -19995,6 +19799,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -20916,6 +20726,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-grid2x2">
           <div class="legend-matrix legend-matrix-grid2x2">
             <div class="legend-cell">1</div><div class="legend-cell">2</div><div class="legend-cell">3</div><div class="legend-cell">4</div>
@@ -20944,6 +20760,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
@@ -21801,6 +21623,12 @@ b;
         
         
         
+        
+        
+        
+        
+        
+        
         <div class="project-image-legend" data-layout-legend="project-split2-cols">
           <div class="legend-matrix legend-matrix-split2-cols">
             <div class="legend-cell">1</div><div class="legend-cell">2</div>
@@ -21819,6 +21647,12 @@ b;
         
           </div>
         </div>
+      
+      
+      
+      
+      
+      
       
       
       
