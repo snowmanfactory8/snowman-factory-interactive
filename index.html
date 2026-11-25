@@ -4715,97 +4715,145 @@ b;
 
   <!-- AI Project Summary & Bullets Auto-Writer Modal (Apple HIG Glassmorphism, Default: Codex CLI) -->
   <div id="aiProjectDescModal" class="modal-overlay" style="display: none; position: fixed; inset: 0px; align-items: center; justify-content: center; z-index: 3250; background: rgba(0, 0, 0, 0.58); backdrop-filter: blur(22px) saturate(180%);" onclick="if(event.target === this) closeAiProjectDescModal()">
-    <div style="background: rgba(28, 28, 30, 0.9); backdrop-filter: blur(48px) saturate(190%); -webkit-backdrop-filter: blur(48px) saturate(190%); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px; width: 720px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0, 0, 0, 0.68), 0 0 1px rgba(255,255,255,0.22); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Pretendard', sans-serif;" onclick="event.stopPropagation()">
+    <div style="background: rgba(28, 28, 30, 0.92); backdrop-filter: blur(48px) saturate(190%); -webkit-backdrop-filter: blur(48px) saturate(190%); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px; width: 760px; max-width: 95vw; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 32px 80px rgba(0, 0, 0, 0.68), 0 0 1px rgba(255,255,255,0.22); overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Pretendard', sans-serif;" onclick="event.stopPropagation()">
       <!-- Header -->
-      <div style="padding: 18px 24px; background: rgba(44, 44, 46, 0.45); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;">
+      <div style="padding: 16px 22px; background: rgba(44, 44, 46, 0.45); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #5e5ce6, #0a84ff); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(94, 92, 230, 0.42);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
           </div>
           <div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
               <h3 style="margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #f5f5f7;">AI 프로젝트 요약 &amp; 수행 내용 자동 작성</h3>
               <span id="aiBridgeStatusBadge" style="font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: rgba(255, 159, 10, 0.16); color: rgb(255, 159, 10); border: 1px solid rgba(255, 159, 10, 0.35);">🟡 로컬 브릿지 오프라인 (자동 폴백 활성)</span>
             </div>
-            <p style="margin: 3px 0 0; font-size: 12px; color: #98989d; letter-spacing: -0.01em;">내 PC의 Codex CLI를 기본 엔진으로 사용하여 프로젝트 설명문과 수행 불릿을 자동 생성합니다.</p>
+            <p style="margin: 3px 0 0; font-size: 11.5px; color: #98989d; letter-spacing: -0.01em;">내 PC의 Codex CLI를 기본 엔진으로 사용하여 프로젝트 맞춤형 설명문, 수행 불릿, 이미지 범례를 생성합니다.</p>
           </div>
         </div>
         <button type="button" onclick="closeAiProjectDescModal()" title="닫기" style="background: rgba(118, 118, 128, 0.24); border: none; color: #ebebf5; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;">✕</button>
       </div>
 
       <!-- Body -->
-      <div style="padding: 18px 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 14px;">
+      <div style="padding: 16px 22px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px;">
         <!-- Target Project Context Card -->
-        <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-            <span style="font-size: 11px; font-weight: 600; color: #98989d;">현재 페이지 프로젝트 정보</span>
-            <span id="aiProjectMetaBadge" style="font-size: 11px; font-weight: 600; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 2px 8px; border-radius: 999px;">2026 · BIM · 노원구청</span>
+        <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 11px 14px; display: flex; flex-direction: column; gap: 5px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 11px; font-weight: 600; color: #98989d;">현재 페이지 프로젝트 컨텍스트</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span id="aiProjectDomainBadge" style="font-size: 10.5px; font-weight: 600; color: #bf5af2; background: rgba(191, 90, 242, 0.16); border: 1px solid rgba(191, 90, 242, 0.32); padding: 2px 8px; border-radius: 999px;">시설·과업 자동 분석</span>
+              <span id="aiProjectMetaBadge" style="font-size: 11px; font-weight: 600; color: #64d2ff; background: rgba(10, 132, 255, 0.16); padding: 2px 8px; border-radius: 999px;">2026 · BIM · 노원구청</span>
+            </div>
           </div>
           <div id="aiProjectTitlePreview" style="font-size: 14px; font-weight: 700; color: #f5f5f7; letter-spacing: -0.01em;">커피그라인더 전시관 BIM 용역</div>
-          <div id="aiProjectScopePreview" style="font-size: 11.5px; color: #ebebf5; opacity: 0.78;">Scope: BIM 전환설계(인테리어) 3D Scan 역설계 / VR 콘텐츠 제작 생성 AI 기반 시각화 및 콘텐츠 제작</div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <div id="aiProjectScopePreview" style="font-size: 11.5px; color: #ebebf5; opacity: 0.82;">Scope: BIM 전환설계(인테리어) 3D Scan 역설계 / VR 콘텐츠 제작 생성 AI 기반 시각화 및 콘텐츠 제작</div>
+            <div id="aiProjectVisualPreview" style="font-size: 11px; color: #98989d;">우측 비주얼 5컷 · 범례 연동됨</div>
+          </div>
         </div>
 
-        <!-- Engine Selector & Custom Focus -->
-        <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 12px;">
-          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 12px;">
-            <div style="font-size: 11px; font-weight: 600; color: #98989d; margin-bottom: 8px;">1. AI 생성 엔진 (CLI)</div>
-            <div id="aiDescEngineBtns" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 9px;">
-              <button type="button" onclick="setAiDescEngine('codex')" data-engine="codex" style="padding: 7px 6px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">Codex CLI</button>
-              <button type="button" onclick="setAiDescEngine('claude')" data-engine="claude" style="padding: 7px 6px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: none;">Claude CLI</button>
-              <button type="button" onclick="setAiDescEngine('smart')" data-engine="smart" style="padding: 7px 6px; border-radius: 7px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: transparent; color: rgb(235, 235, 245); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: none;">내장 즉시생성</button>
+        <!-- Engine Selector, Tone & Bullet Count -->
+        <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 11px;">
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 11px 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div>
+              <div style="font-size: 11px; font-weight: 600; color: #98989d; margin-bottom: 6px;">1. AI 생성 엔진 (CLI)</div>
+              <div id="aiDescEngineBtns" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: rgba(118, 118, 128, 0.24); padding: 3px; border-radius: 9px;">
+                <button type="button" onclick="setAiDescEngine('codex')" data-engine="codex" style="padding: 6px 5px; border-radius: 7px; border: none; background: rgb(0, 113, 227); color: rgb(255, 255, 255); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: rgba(0, 113, 227, 0.4) 0px 2px 8px;">Codex CLI</button>
+                <button type="button" onclick="setAiDescEngine('claude')" data-engine="claude" style="padding: 6px 5px; border-radius: 7px; border: none; background: transparent; color: rgb(235, 235, 245); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: none;">Claude CLI</button>
+                <button type="button" onclick="setAiDescEngine('smart')" data-engine="smart" style="padding: 6px 5px; border-radius: 7px; border: none; background: transparent; color: rgb(235, 235, 245); font-size: 11.5px; font-weight: 600; white-space: nowrap; cursor: pointer; box-shadow: none;">내장 즉시생성</button>
+              </div>
             </div>
-            <div style="margin-top: 7px; font-size: 10.5px; color: #98989d; line-height: 1.35;">
-              기본값: <strong style="color: #64d2ff;">Codex CLI</strong> (`codex exec`) · 브릿지 미실행 시 내장 엔진 자동 폴백
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 2px;">
+              <div style="flex: 1;">
+                <div style="font-size: 10.5px; color: #98989d; margin-bottom: 4px;">문체 스타일</div>
+                <div id="aiDescStyleBtns" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; background: rgba(118, 118, 128, 0.2); padding: 2px; border-radius: 7px;">
+                  <button type="button" onclick="setAiDescStyleMode('standard')" data-style="standard" style="padding: 4px 3px; border-radius: 5px; border: none; background: #5e5ce6; color: #ffffff; font-size: 10.5px; font-weight: 600; cursor: pointer; white-space: nowrap;">표준형</button>
+                  <button type="button" onclick="setAiDescStyleMode('concise')" data-style="concise" style="padding: 4px 3px; border-radius: 5px; border: none; background: transparent; color: #ebebf5; font-size: 10.5px; font-weight: 600; cursor: pointer; white-space: nowrap;">간결형</button>
+                  <button type="button" onclick="setAiDescStyleMode('detailed')" data-style="detailed" style="padding: 4px 3px; border-radius: 5px; border: none; background: transparent; color: #ebebf5; font-size: 10.5px; font-weight: 600; cursor: pointer; white-space: nowrap;">상세형</button>
+                  <button type="button" onclick="setAiDescStyleMode('public')" data-style="public" style="padding: 4px 3px; border-radius: 5px; border: none; background: transparent; color: #ebebf5; font-size: 10.5px; font-weight: 600; cursor: pointer; white-space: nowrap;">공공·조달</button>
+                </div>
+              </div>
+              <div style="width: 104px;">
+                <div style="font-size: 10.5px; color: #98989d; margin-bottom: 4px;">수행 불릿 수</div>
+                <div id="aiDescBulletCountBtns" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: rgba(118, 118, 128, 0.2); padding: 2px; border-radius: 7px;">
+                  <button type="button" onclick="setAiDescBulletCount(3)" data-count="3" style="padding: 4px 0; border-radius: 5px; border: none; background: transparent; color: #ebebf5; font-size: 10.5px; font-weight: 600; cursor: pointer;">3개</button>
+                  <button type="button" onclick="setAiDescBulletCount(4)" data-count="4" style="padding: 4px 0; border-radius: 5px; border: none; background: #0071e3; color: #ffffff; font-size: 10.5px; font-weight: 600; cursor: pointer;">4개</button>
+                  <button type="button" onclick="setAiDescBulletCount(5)" data-count="5" style="padding: 4px 0; border-radius: 5px; border: none; background: transparent; color: #ebebf5; font-size: 10.5px; font-weight: 600; cursor: pointer;">5개</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 12px; display: flex; flex-direction: column; gap: 7px;">
-            <div style="font-size: 11px; font-weight: 600; color: #98989d;">2. 과업 강조 포커스 (선택)</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+          <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 11px 12px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; font-weight: 600; color: #98989d;">2. 과업 강조 포커스 프리셋 (선택)</span>
+              <button type="button" onclick="setAiFocusPreset('')" style="background: none; border: none; color: #64d2ff; font-size: 10.5px; cursor: pointer; padding: 0;">초기화</button>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+              <button type="button" onclick="setAiFocusPreset('계획·실시설계 도서 기반 건축·구조·MEP 전환설계 및 분야별 BIM 모델 구축')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">BIM 전환·실시설계</button>
               <button type="button" onclick="setAiFocusPreset('구조·설비 시공 정합성 검토 및 포인트클라우드 기반 간섭 체크')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">정합성·간섭 검토</button>
-              <button type="button" onclick="setAiFocusPreset('3D 라이다 스캔 기반 역설계 BIM 구축 및 리모델링 실시설계 도면화')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">3D스캔·역설계</button>
-              <button type="button" onclick="setAiFocusPreset('건축·구조·MEP 통합 실시설계 BIM 모델링 및 공종 간 사전 간섭 검토')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">통합 BIM·MEP</button>
+              <button type="button" onclick="setAiFocusPreset('3D 라이다 스캔 기반 역설계 BIM 구축 및 리모델링·용도변경 실시설계 도면화')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">3D스캔·역설계</button>
               <button type="button" onclick="setAiFocusPreset('그린리모델링 에너지 성능 개선을 위한 현황 3D 스캔 및 정밀 도면 작성')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">그린리모델링</button>
+              <button type="button" onclick="setAiFocusPreset('실감형 XR/MR 공간 컴퓨팅 및 디지털 트윈 환경 시뮬레이션 구축')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">XR·시뮬레이션</button>
+              <button type="button" onclick="setAiFocusPreset('실무 중심 BIM·3D 라이다 스캔·역설계·공간 컴퓨팅 실습 교육 및 DX 컨설팅')" style="background: rgba(118,118,128,0.22); border: 1px solid rgba(255,255,255,0.08); color: #ebebf5; font-size: 10.5px; padding: 3px 8px; border-radius: 999px; cursor: pointer; white-space: nowrap;">교육·컨설팅</button>
             </div>
-            <input id="aiDescCustomFocusInput" type="text" placeholder="추가 지시어 입력 (비워두면 프로젝트명·Scope 기반 자동 작성)" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 7px 10px; color: rgb(245, 245, 247); font-size: 12px;">
+            <input id="aiDescCustomFocusInput" type="text" placeholder="추가 지시어 입력 (비워두면 프로젝트명·Scope·범례를 분석해 맞춤형 작성)" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 7px 10px; color: rgb(245, 245, 247); font-size: 12px; margin-top: auto;">
           </div>
         </div>
 
-        <!-- Generate Action Button -->
-        <div style="display: flex; justify-content: flex-end;">
-          <button type="button" id="btnRunAiProjectDesc" onclick="generateAiProjectDescription()" style="background: linear-gradient(135deg, #5e5ce6, #0a84ff); border: none; color: #ffffff; padding: 9px 18px; border-radius: 999px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; box-shadow: 0 4px 14px rgba(10, 132, 255, 0.4);">
-            <span>✨ AI로 문안 자동 생성하기</span>
-          </button>
+        <!-- Generate Action Bar & Candidate Switcher -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: #ebebf5; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="aiIncludeLegendsChk" onchange="toggleAiLegendsEditor(this.checked)" style="accent-color: #0a84ff;">
+              <span>우측 이미지 범례(1~N) 캡션도 함께 추천받기</span>
+            </label>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div id="aiCandidateTabsWrap" style="display: none; align-items: center; gap: 4px; background: rgba(44, 44, 46, 0.75); padding: 3px 6px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.1);"></div>
+            <button type="button" id="btnRunAiProjectDesc" onclick="generateAiProjectDescription()" style="background: linear-gradient(135deg, #5e5ce6, #0a84ff); border: none; color: #ffffff; padding: 8px 18px; border-radius: 999px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; box-shadow: 0 4px 14px rgba(10, 132, 255, 0.4);">
+              <span>✨ AI로 문안 자동 생성하기</span>
+            </button>
+          </div>
         </div>
 
         <!-- Generated Preview & Editable Fields -->
-        <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 13px; padding: 13px 14px; display: flex; flex-direction: column; gap: 10px;">
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
               <label style="font-size: 11.5px; font-weight: 700; color: #64d2ff;">생성된 요약 설명문 (.project-summary-desc)</label>
-              <span style="font-size: 10.5px; color: #98989d;">생성 후 직접 수정 가능</span>
+              <span id="aiSummaryCharCountBadge" style="font-size: 10.5px; color: #98989d;">0자 · 생성 후 직접 수정 가능</span>
             </div>
-            <textarea id="aiGeneratedSummaryInput" rows="2" placeholder="AI가 생성한 요약 설명문이 이곳에 표시됩니다." style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 9px; padding: 9px 11px; color: rgb(245, 245, 247); font-size: 12.5px; line-height: 1.5; resize: vertical; font-family: inherit;"></textarea>
+            <textarea id="aiGeneratedSummaryInput" rows="2" oninput="updateAiGeneratedStats()" placeholder="AI가 생성한 요약 설명문이 이곳에 표시됩니다." style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 9px; padding: 8px 11px; color: rgb(245, 245, 247); font-size: 12.5px; line-height: 1.5; resize: vertical; font-family: inherit;"></textarea>
           </div>
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
               <label style="font-size: 11.5px; font-weight: 700; color: #64d2ff;">생성된 세부 수행 불릿 항목 (줄바꿈으로 구분)</label>
-              <span style="font-size: 10.5px; color: #98989d;">한 줄에 1개 항목</span>
+              <span id="aiBulletsCountBadge" style="font-size: 10.5px; color: #98989d;">0개 항목 · 한 줄에 1개 항목</span>
             </div>
-            <textarea id="aiGeneratedBulletsInput" rows="4" placeholder="• Lidar 스캐너를 이용하여 현장 3D 스캔
+            <textarea id="aiGeneratedBulletsInput" rows="4" oninput="updateAiGeneratedStats()" placeholder="• Lidar 스캐너를 이용하여 현장 3D 스캔
 • CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)
 • BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토
-• 정합성 오류 검토 보고서 작성" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 9px; padding: 9px 11px; color: rgb(245, 245, 247); font-size: 12.5px; line-height: 1.55; resize: vertical; font-family: inherit;"></textarea>
+• 정합성 오류 검토 보고서 작성" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 9px; padding: 8px 11px; color: rgb(245, 245, 247); font-size: 12.5px; line-height: 1.55; resize: vertical; font-family: inherit;"></textarea>
+          </div>
+          <div id="aiGeneratedLegendsSection" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+              <label style="font-size: 11.5px; font-weight: 700; color: #30d158;">생성된 우측 이미지 범례 캡션 (.legend-text)</label>
+              <span style="font-size: 10.5px; color: #98989d;">줄바꿈으로 1번부터 순서대로 적용</span>
+            </div>
+            <textarea id="aiGeneratedLegendsInput" rows="3" placeholder="BIM 모델 ISO
+BIM 모델 ISO (단면)
+평면도
+단면도" style="width: 100%; box-sizing: border-box; background: rgba(28, 28, 30, 0.85); border: 1px solid rgba(48, 209, 88, 0.28); border-radius: 9px; padding: 8px 11px; color: rgb(245, 245, 247); font-size: 12px; line-height: 1.5; resize: vertical; font-family: inherit;"></textarea>
           </div>
         </div>
       </div>
 
       <!-- Footer -->
-      <div style="padding: 14px 24px; background: rgba(44, 44, 46, 0.45); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-        <span id="aiDescFooterHint" style="font-size: 11px; color: #98989d;">로컬 브릿지 실행 파일: <code style="color: #ebebf5;">start_ai_bridge.bat</code></span>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <button type="button" onclick="closeAiProjectDescModal()" style="background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.08); color: #ebebf5; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;">취소</button>
-          <button type="button" onclick="applyAiProjectDescToPage()" style="background: linear-gradient(180deg, #0a84ff 0%, #0071e3 100%); border: none; color: #ffffff; padding: 9px 22px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 113, 227, 0.45);">현재 페이지에 적용</button>
+      <div style="padding: 13px 22px; background: rgba(44, 44, 46, 0.45); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span id="aiDescFooterHint" style="font-size: 11px; color: #98989d;">로컬 브릿지: <code style="color: #ebebf5;">start_ai_bridge.bat</code> · 온라인 배포 시 내장 도메인 AI 자동 작동</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" onclick="closeAiProjectDescModal()" style="background: rgba(118, 118, 128, 0.24); border: 1px solid rgba(255, 255, 255, 0.08); color: #ebebf5; padding: 8px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 600; cursor: pointer;">취소</button>
+          <button type="button" onclick="applyAiProjectDescToPage()" style="background: linear-gradient(180deg, #0a84ff 0%, #0071e3 100%); border: none; color: #ffffff; padding: 8px 20px; border-radius: 999px; font-size: 12.5px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 113, 227, 0.45);">현재 페이지에 적용</button>
         </div>
       </div>
     </div>
@@ -41436,7 +41484,11 @@ b;
     // =============================================================
     const AI_CLI_BRIDGE_URL = 'http://127.0.0.1:8787';
     window.__currentAiDescEngine = 'codex'; // 기본 엔진: codex
+    window.__currentAiDescStyleMode = 'standard'; // 'standard' | 'concise' | 'detailed' | 'public'
+    window.__currentAiDescBulletCount = 4; // 3 | 4 | 5
     window.__aiSmartVariantIndex = 0;
+    window.__aiCandidateHistory = []; // [{ label, engineLabel, summary, bullets, legends }]
+    window.__aiActiveCandidateIdx = -1;
 
     function extractCurrentProjectPageContext() {
       const allPages = (typeof getAllPages === 'function') ? getAllPages() : [];
@@ -41453,9 +41505,18 @@ b;
         .map(li => {
           const clone = li.cloneNode(true);
           clone.querySelectorAll('button, .admin-obj-delete-btn').forEach(b => b.remove());
-          return (clone.innerText || '').trim();
+          return (clone.innerText || '').replace(/\s+/g, ' ').trim();
         })
         .filter(Boolean);
+
+      const legendCaptions = Array.from(curPage.querySelectorAll('.project-image-legend .legend-item .legend-text'))
+        .map(el => (el.innerText || '').replace(/\s+/g, ' ').trim())
+        .filter(Boolean);
+
+      const visualEl = curPage.querySelector('.project-right-visual');
+      const layoutType = visualEl ? (visualEl.getAttribute('data-layout') || 'project-classic') : 'project-classic';
+      const mediaCards = curPage.querySelectorAll('.project-right-visual .media-card');
+      const visualCount = mediaCards.length || legendCaptions.length || 3;
 
       return {
         page: curPage,
@@ -41465,7 +41526,136 @@ b;
         client,
         scope,
         currentSummary,
-        currentBullets
+        currentBullets,
+        legendCaptions,
+        layoutType,
+        visualCount
+      };
+    }
+
+    function detectProjectDomainProfile(ctx, customFocus = '') {
+      const title = (ctx?.projectTitle || '').trim();
+      const cat = (ctx?.category || 'BIM').toUpperCase();
+      const scope = (ctx?.scope || '').trim();
+      const client = (ctx?.client || '').trim();
+      const legendsText = (ctx?.legendCaptions || []).join(' ');
+      const combined = `${title} ${cat} ${scope} ${client} ${legendsText} ${customFocus}`.toLowerCase();
+
+      // 핵심 고유명사(건물/지역/기관명) 추출
+      const cleanSubject = title
+        .replace(/\b(bim|3d\s*scan|3d\s*스캐닝|3d\s*스캔|역설계|설계용역|용역|신축공사|증축공사|건립공사|건립사업|설계안|실시|계획)\b/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim() || title;
+
+      if (combined.includes('그린리모델링') || combined.includes('경로당') || combined.includes('보건소')) {
+        return {
+          key: 'green_remodeling',
+          badge: '🌱 그린리모델링 · 3D 역설계',
+          subject: cleanSubject,
+          facilityLabel: combined.includes('보건소') ? '공공 보건의료시설' : (combined.includes('경로당') ? '노후 노인여가복지시설' : '노후 공공건축물')
+        };
+      }
+      if (combined.includes('장학관') || combined.includes('용도변경') || (combined.includes('역설계') && (combined.includes('스캐닝') || combined.includes('스캔')))) {
+        return {
+          key: 'scan_reverse_bim',
+          badge: '📡 3D LiDAR 스캔 · 역설계 도면화',
+          subject: cleanSubject,
+          facilityLabel: '기존 건축물 및 증·개축 대상 시설'
+        };
+      }
+      if (combined.includes('호텔') || combined.includes('메리어트') || combined.includes('대강당')) {
+        return {
+          key: 'scan_qa_hotel',
+          badge: '🏨 현장 3D 스캔 · 시공 정합성 검증',
+          subject: cleanSubject,
+          facilityLabel: combined.includes('호텔') ? '숙박·객실 타입별 공간' : '대공간 집회·강당 시설'
+        };
+      }
+      if (combined.includes('중정') || (combined.includes('보라매') && combined.includes('증축'))) {
+        return {
+          key: 'hospital_extension_scan',
+          badge: '🏥 의료시설 증축 · 3D 역설계',
+          subject: cleanSubject,
+          facilityLabel: '운영 중인 병원 증축·연결 구역'
+        };
+      }
+      if (combined.includes('병원') || combined.includes('재활센터') || combined.includes('음압병동') || combined.includes('의료')) {
+        return {
+          key: 'medical_bim',
+          badge: '🏥 의료·병원 특화 BIM 엔지니어링',
+          subject: cleanSubject,
+          facilityLabel: '의료·병동 복합 설비 공간'
+        };
+      }
+      if (combined.includes('데이터센터') || combined.includes('에너지공급센터') || combined.includes('담바우')) {
+        return {
+          key: 'datacenter_energy_bim',
+          badge: '⚡ 데이터·에너지 플랜트 통합 BIM',
+          subject: cleanSubject,
+          facilityLabel: '고밀도 설비·에너지 인프라 시설'
+        };
+      }
+      if (combined.includes('기동대') || combined.includes('경찰') || combined.includes('보훈회관') || combined.includes('청사') || combined.includes('실습타운') || combined.includes('초등학교') || client.includes('조달청') || client.includes('구청') || client.includes('군청') || client.includes('교육지원청')) {
+        return {
+          key: 'public_facility_bim',
+          badge: '🏛️ 공공청사·특수시설 BIM 설계',
+          subject: cleanSubject,
+          facilityLabel: '공공청사 및 교육·치안 특수시설'
+        };
+      }
+      if (combined.includes('공장') || combined.includes('대한항공') || combined.includes('엔진정비') || combined.includes('식품') || combined.includes('서림산업') || combined.includes('해성푸드원') || combined.includes('사옥') || combined.includes('tower') || combined.includes('타워') || combined.includes('전시관')) {
+        return {
+          key: 'industrial_commercial_bim',
+          badge: '🏭 산업·업무·문화시설 실시 BIM',
+          subject: cleanSubject,
+          facilityLabel: combined.includes('전시관') ? '문화·전시 복합공간' : (combined.includes('공장') ? '대공간 산업·제조 플랜트' : '업무·상업 복합 건축물')
+        };
+      }
+      if (combined.includes('neom') || combined.includes('네옴') || combined.includes('spine')) {
+        return {
+          key: 'mega_infra_bim',
+          badge: '🌐 글로벌 메가 인프라 BIM',
+          subject: cleanSubject,
+          facilityLabel: '대형 인프라 구조물(Concrete Spine)'
+        };
+      }
+      if (combined.includes('교육') || combined.includes('대학교') || combined.includes('실내건축') || cat.includes('CONSULTING')) {
+        return {
+          key: 'dx_education_consulting',
+          badge: '🎓 산학 DX 실습 교육 · 컨설팅',
+          subject: cleanSubject,
+          facilityLabel: '대학·기관 스마트 건설기술 교육'
+        };
+      }
+      if (combined.includes('일조') || combined.includes('열관류율') || combined.includes('유체') || combined.includes('탄소') || combined.includes('lca') || combined.includes('에너지') || cat.includes('SIMULATION')) {
+        return {
+          key: 'env_simulation',
+          badge: '📊 친환경·에너지 성능 시뮬레이션',
+          subject: cleanSubject,
+          facilityLabel: '친환경 건축물 열·유체·빛 환경'
+        };
+      }
+      if (combined.includes('xr') || combined.includes('mr') || combined.includes('ar') || combined.includes('vr') || combined.includes('hololens') || combined.includes('홀로렌즈') || combined.includes('메타버스') || combined.includes('캔버스') || cat.includes('XR')) {
+        return {
+          key: 'spatial_xr',
+          badge: '🥽 공간 컴퓨팅(XR/MR) · 디지털 트윈',
+          subject: cleanSubject,
+          facilityLabel: '실감형 XR/MR 디지털 트윈 공간'
+        };
+      }
+      if (combined.includes('care-tail') || combined.includes('모바일') || combined.includes('플랫폼') || combined.includes('연구') || cat.includes('R&D') || cat.includes('RND')) {
+        return {
+          key: 'future_rnd',
+          badge: '🔬 디지털 건축 R&D · 플랫폼 개발',
+          subject: cleanSubject,
+          facilityLabel: '차세대 스마트 건축·공간 플랫폼'
+        };
+      }
+      return {
+        key: 'general_bim',
+        badge: '📐 건축·구조·MEP 통합 BIM',
+        subject: cleanSubject,
+        facilityLabel: '건축·구조·설비 통합 설계 대상'
       };
     }
 
@@ -41477,9 +41667,12 @@ b;
         const res = await fetch(`${AI_CLI_BRIDGE_URL}/api/health?_ts=${Date.now()}`, { signal: ctrl.signal });
         clearTimeout(tid);
         if (res.ok) {
-          const data = await res.json();
           if (badge) {
-            badge.textContent = `🟢 로컬 ${window.__currentAiDescEngine === 'claude' ? 'Claude' : 'Codex'} CLI 연결됨`;
+            if (window.__currentAiDescEngine === 'smart') {
+              badge.textContent = '⚡ 내장 도메인 AI 모드 (로컬 브릿지 대기 중)';
+            } else {
+              badge.textContent = `🟢 로컬 ${window.__currentAiDescEngine === 'claude' ? 'Claude' : 'Codex'} CLI 연결됨`;
+            }
             badge.style.background = 'rgba(48, 209, 88, 0.16)';
             badge.style.color = '#30d158';
             badge.style.borderColor = 'rgba(48, 209, 88, 0.35)';
@@ -41489,8 +41682,8 @@ b;
       } catch (e) {}
       if (badge) {
         badge.textContent = window.__currentAiDescEngine === 'smart'
-          ? '⚡ 내장 스마트 AI 모드'
-          : '🟡 로컬 브릿지 오프라인 (자동 폴백 활성)';
+          ? '⚡ 내장 도메인 AI 모드'
+          : '🟡 로컬 브릿지 오프라인 (내장 도메인 AI 자동 작동)';
         badge.style.background = 'rgba(255, 159, 10, 0.16)';
         badge.style.color = '#ff9f0a';
         badge.style.borderColor = 'rgba(255, 159, 10, 0.35)';
@@ -41509,107 +41702,467 @@ b;
       checkAiCliBridgeHealth();
     }
 
+    function setAiDescStyleMode(styleMode) {
+      window.__currentAiDescStyleMode = ['standard', 'concise', 'detailed', 'public'].includes(styleMode) ? styleMode : 'standard';
+      document.querySelectorAll('#aiDescStyleBtns button').forEach(btn => {
+        const active = btn.getAttribute('data-style') === window.__currentAiDescStyleMode;
+        btn.style.background = active ? '#5e5ce6' : 'transparent';
+        btn.style.color = active ? '#ffffff' : '#ebebf5';
+      });
+    }
+
+    function setAiDescBulletCount(count) {
+      const n = [3, 4, 5].includes(Number(count)) ? Number(count) : 4;
+      window.__currentAiDescBulletCount = n;
+      document.querySelectorAll('#aiDescBulletCountBtns button').forEach(btn => {
+        const active = Number(btn.getAttribute('data-count')) === n;
+        btn.style.background = active ? '#0071e3' : 'transparent';
+        btn.style.color = active ? '#ffffff' : '#ebebf5';
+      });
+    }
+
     function setAiFocusPreset(text) {
       const input = document.getElementById('aiDescCustomFocusInput');
       if (input) {
         input.value = text;
-        input.focus();
+        if (text) input.focus();
       }
     }
 
-    function generateSmartFallbackProjectDesc(ctx, customFocus = '') {
-      const title = ctx?.projectTitle || '';
-      const cat = (ctx?.category || 'BIM').toUpperCase();
-      const scope = ctx?.scope || '';
-      const combined = `${title} ${cat} ${scope} ${customFocus}`.toLowerCase();
+    function toggleAiLegendsEditor(show) {
+      const sec = document.getElementById('aiGeneratedLegendsSection');
+      if (sec) {
+        sec.style.display = show ? 'block' : 'none';
+      }
+    }
 
-      const variants = [];
+    function updateAiGeneratedStats() {
+      const sumVal = (document.getElementById('aiGeneratedSummaryInput')?.value || '').trim();
+      const bulVal = (document.getElementById('aiGeneratedBulletsInput')?.value || '').trim();
+      const bulLines = bulVal.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
 
-      if (combined.includes('그린리모델링') || combined.includes('경로당') || combined.includes('보건소')) {
-        variants.push({
-          summary: '노후 건축물의 에너지 성능 개선 및 그린리모델링을 위해 3D 라이다 스캔 기반 현황 정밀 역설계와 실시설계 도면화를 수행',
-          bullets: [
-            'Lidar 스캐너를 이용하여 기존 건축물 내·외부 3D 정밀 스캔',
-            '포인트 클라우드 데이터를 기반으로 현황 BIM 역설계 모델 구축',
-            '외피 단열·창호·설비 개선을 위한 그린리모델링 실시설계 도면 작성',
-            '기존 현황과 리모델링 설계안의 정합성 및 시공 간섭 검토'
-          ]
-        });
+      const sumBadge = document.getElementById('aiSummaryCharCountBadge');
+      if (sumBadge) {
+        const len = sumVal.length;
+        const status = (len >= 38 && len <= 115) ? '적정 분량' : (len > 115 ? '다소 김' : '직접 수정 가능');
+        sumBadge.textContent = `${len}자 (${status}) · 생성 후 직접 수정 가능`;
       }
 
-      if (combined.includes('정합성') || combined.includes('간섭') || combined.includes('중정') || combined.includes('증축')) {
-        variants.push({
-          summary: '구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행',
-          bullets: [
-            'Lidar 스캐너를 이용하여 현장 3D 스캔',
-            'CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)',
-            'BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토',
-            '정합성 오류 검토 보고서 작성'
-          ]
-        });
+      const bulBadge = document.getElementById('aiBulletsCountBadge');
+      if (bulBadge) {
+        bulBadge.textContent = `${bulLines.length}개 항목 · 한 줄에 1개 항목`;
+      }
+    }
+
+    function renderAiCandidateTabs() {
+      const wrap = document.getElementById('aiCandidateTabsWrap');
+      if (!wrap) return;
+      const list = window.__aiCandidateHistory || [];
+      if (list.length === 0) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+        return;
+      }
+      wrap.style.display = 'inline-flex';
+      wrap.innerHTML = list.map((item, idx) => {
+        const active = idx === window.__aiActiveCandidateIdx;
+        return `<button type="button" onclick="selectAiCandidate(${idx})" title="${(item.engineLabel || '').replace(/"/g, '&quot;')}" style="border: none; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; cursor: pointer; background: ${active ? '#0a84ff' : 'transparent'}; color: ${active ? '#ffffff' : '#ebebf5'}; transition: all 0.15s;">${item.label}</button>`;
+      }).join('');
+    }
+
+    function selectAiCandidate(idx) {
+      const list = window.__aiCandidateHistory || [];
+      const item = list[idx];
+      if (!item) return;
+      window.__aiActiveCandidateIdx = idx;
+      const sumInput = document.getElementById('aiGeneratedSummaryInput');
+      const bulInput = document.getElementById('aiGeneratedBulletsInput');
+      const legInput = document.getElementById('aiGeneratedLegendsInput');
+      if (sumInput) sumInput.value = item.summary || '';
+      if (bulInput) bulInput.value = (item.bullets || []).join('\n');
+      if (legInput && Array.isArray(item.legends) && item.legends.length > 0) {
+        legInput.value = item.legends.join('\n');
+      }
+      updateAiGeneratedStats();
+      renderAiCandidateTabs();
+    }
+
+    function adjustSmartOutputForOptions(candidate, ctx, styleMode, targetBulletCount, customFocus) {
+      let summary = candidate.summary;
+      if (customFocus && !summary.includes(customFocus.slice(0, 6))) {
+        summary = `${customFocus.replace(/[.。]+$/g, '').trim()}에 중점을 두어 ${summary}`;
       }
 
-      if (combined.includes('스캔') || combined.includes('스캐닝') || combined.includes('역설계') || cat === 'SCAN') {
-        variants.push({
-          summary: '3D 스캔 데이터를 활용하여 실제 현장을 정밀하게 반영한 BIM 모델을 구축하고 리모델링 계획과 실시설계를 진행',
-          bullets: [
-            '고정밀 3D Lidar 스캐너를 이용한 현장 전 구역 포인트 클라우드 취득',
-            '스캔 데이터 정합 및 오차 검증을 통한 As-Built 역설계 BIM 모델링',
-            '현장 실측 기반 평면·입면·단면 실시설계 도면 작성',
-            '구조·설비 간섭 검토 및 정합성 분석 보고서 도출'
-          ]
-        });
-      }
-
-      if (combined.includes('교육') || combined.includes('컨설팅') || combined.includes('대학') || cat === 'CONSULTING') {
-        variants.push({
-          summary: '실무 중심의 BIM·3D 역설계 엔지니어링 프로세스 전수 및 디지털 전환(DX) 역량 강화를 위한 맞춤형 실습 교육을 수행',
-          bullets: [
-            'Revit 기반 건축·실내건축 BIM 실무 모델링 커리큘럼 설계 및 강의',
-            '3D 라이다 스캔 데이터 정합 및 포인트 클라우드 역설계 실습 진행',
-            '표준 BIM 템플릿·패밀리 라이브러리 구축 및 도면화 가이드 제공',
-            '산학협력 프로젝트 기반 성과물 리뷰 및 실무 적용 컨설팅'
-          ]
-        });
-      }
-
-      if (combined.includes('xr') || combined.includes('메타버스') || combined.includes('가상') || combined.includes('시뮬레이션') || cat === 'XR' || cat === 'SIMULATION') {
-        variants.push({
-          summary: '정밀 BIM 데이터를 기반으로 실감형 공간 컴퓨팅(XR) 및 물리 환경 시뮬레이션을 구축하여 설계·시공 의사결정을 고도화',
-          bullets: [
-            'BIM 모델 경량화 및 실시간 렌더링 엔진 기반 디지털 트윈 공간 구축',
-            '현장 정합형 XR/MR 시각화 및 공정·유지관리 인터랙션 시나리오 구현',
-            '건물 에너지·일조·유체 환경 시뮬레이션을 통한 성능 정밀 검증',
-            '시뮬레이션 분석 데이터 기반 설계 최적화 리포트 도출'
-          ]
-        });
-      }
-
-      // 기본 BIM 실시설계 / 통합 간섭 검토 패턴들
-      variants.push(
-        {
-          summary: '설계 도서를 기반으로 건축·구조·MEP 전 공종 통합 BIM 모델을 구축하고 사전 간섭 검토 및 시공 정합성 확보를 진행',
-          bullets: [
-            '2D CAD 설계 도서 기반 건축·구조·기계·전기 통합 BIM 모델링 수행',
-            '공종 간(건축-구조-MEP) 3차원 간섭 체크 및 설계 오류 사전 해결',
-            '주요 복합 구역 시공성 검토 및 정합성 검토 보고서 작성',
-            'BIM 기반 실시설계 도면 및 수량 산출 데이터 추출'
-          ]
-        },
-        {
-          summary: '고품질 디지털 트윈 및 실시설계 품질 확보를 위해 정밀 BIM 전환 설계와 공종 간 간섭·시공성 검토를 종합 수행',
-          bullets: [
-            '발주처 BIM 적용 지침에 부합하는 LOD 350~400 수준 정밀 모델 구축',
-            '구조체와 설비 배관·덕트 간섭 부위 검출 및 대안 설계 도출',
-            '현장 시공 오차 최소화를 위한 주요 단면 상세 및 정합성 검토',
-            '검토 결과 보고서 및 최종 BIM 성과품 납품'
-          ]
+      if (styleMode === 'concise' && summary.length > 70) {
+        // 간결형: 쉼표 뒤 핵심이나 핵심 절로 압축
+        const parts = summary.split(/,\s*/);
+        if (parts.length > 1 && parts[0].length >= 25) {
+          summary = `${parts[0]} 및 ${parts.slice(1).join(' ')}`;
         }
-      );
+      } else if (styleMode === 'public') {
+        if (!summary.includes('설계 도서') && !summary.includes('발주처') && !summary.includes('기준')) {
+          summary = `발주처 과업 지침 및 설계 도서 기준에 부합하도록 ${summary}`;
+        }
+      } else if (styleMode === 'detailed') {
+        const scopeLabel = (ctx?.scope || '').trim();
+        if (scopeLabel && !summary.toLowerCase().includes(scopeLabel.toLowerCase().slice(0, 4))) {
+          summary = `${summary} (${scopeLabel} 공정 정밀 대응)`;
+        }
+      }
 
-      const pick = variants[window.__aiSmartVariantIndex % variants.length];
+      const pool = Array.isArray(candidate.bullets) ? [...candidate.bullets] : [];
+      const extraPool = [
+        '공종별 설계 오류 및 간섭 검토 보고서 작성',
+        'BIM 모델 기반 평·입·단면 실시설계 도면 추출',
+        '발주처 납품 표준에 맞춘 최종 BIM 성과품 검수',
+        '현장 시공성 및 유지관리 활용을 위한 디지털 데이터 자산화'
+      ];
+      for (const ex of extraPool) {
+        if (pool.length >= targetBulletCount) break;
+        if (!pool.includes(ex)) pool.push(ex);
+      }
+
+      const bullets = pool.slice(0, targetBulletCount);
+      const visualCount = Math.max(1, Number(ctx?.visualCount) || 3);
+      const baseLegends = Array.isArray(candidate.legends) && candidate.legends.length > 0
+        ? candidate.legends
+        : ['BIM 모델 ISO', 'BIM 모델 단면 ISO', '평면도 및 정합성 검토', '단면도 및 간섭 검토', '최종 성과품 뷰', '세부 모델 상세'];
+      const legends = [];
+      for (let i = 0; i < visualCount; i++) {
+        legends.push(baseLegends[i] || `상세 비주얼 #${i + 1}`);
+      }
+
+      return { summary, bullets, legends };
+    }
+
+    function generateSmartFallbackProjectDesc(ctx, customFocus = '', options = {}) {
+      const styleMode = options.styleMode || window.__currentAiDescStyleMode || 'standard';
+      const targetBulletCount = options.targetBulletCount || window.__currentAiDescBulletCount || 4;
+      const profile = detectProjectDomainProfile(ctx, customFocus);
+      const scopeText = (ctx?.scope || '').toLowerCase();
+      const isPlanDesign = scopeText.includes('계획') || scopeText.includes('전환');
+
+      const domainBank = {
+        green_remodeling: [
+          {
+            summary: '그린리모델링 설계를 위해 사전에 3D 스캔을 통한 현장 데이터 취득 및 BIM 역설계 도면화 진행',
+            bullets: [
+              'Lidar 스캐너를 이용하여 기존 건축물 내·외부 현장 3D 스캔',
+              '기존 CAD 도면과 포인트 클라우드 데이터 정합성 검토',
+              '스캔 데이터에 근거하여 외벽·창호 등 주요 부위 BIM 역설계 모델링',
+              '정합성 오류 부위 보정 및 그린리모델링 실시설계 CAD 도면 추출',
+              '에너지 성능 개선 공정을 위한 현황 도서 납품'
+            ],
+            legends: ['스캔 데이터 ISO', 'BIM 모델과 스캔 데이터 정합성 검토', '역설계 평면도', '역설계 단면도', '현장 3D 스캔 사진']
+          },
+          {
+            summary: '노후 공공시설의 에너지 성능 개선 및 그린리모델링을 위해 3D 라이다 스캔 기반 정밀 현황 역설계와 도면 작성 수행',
+            bullets: [
+              '고정밀 3D Lidar 스캐너 기반 실내·외 포인트 클라우드 데이터 수집',
+              '점군 데이터 정합 및 기존 준공 도면과의 치수·형상 오차 분석',
+              '현장 실측 데이터를 반영한 건축 외피 및 실내 공간 BIM 역설계',
+              '리모델링 설계 반영을 위한 평면·입면·단면 CAD 도면화 수행',
+              '현황 정합성 검토 보고서 및 역설계 성과품 작성'
+            ],
+            legends: ['포인트 클라우드 ISO', '지상층 스캔·BIM 정합 검토', '추출 평면도', '추출 입·단면도', '현장 스캔 전경']
+          },
+          {
+            summary: '기존 건축물 현황을 3D 스캔 데이터로 정밀 계측하고 그린리모델링 실시설계의 기준이 되는 역설계 BIM 모델 및 도서 구축',
+            bullets: [
+              '현장 전 구역 3D 레이저 스캐닝 및 포인트 클라우드 통합 정합',
+              '노후 구조체·외피·개구부 실측 치수 기반 BIM 모델 구축',
+              '기존 도서 대비 시공 오차 부위 검출 및 모델링 수정 보완',
+              '그린리모델링 단열·창호 교체 물량 산출용 도면 추출',
+              '설계 정합성 검증 리포트 도출'
+            ],
+            legends: ['3D 스캔 포인트 클라우드', '스캔·CAD 중첩 정합 검토', '건축 역설계 BIM 모델', '실시설계 도면화', '부위별 오차 리포트']
+          }
+        ],
+        scan_reverse_bim: [
+          {
+            summary: '용도변경 및 리모델링 설계를 위해 3D 스캔 데이터 취득과 BIM 역설계를 통한 정밀 도면화 진행',
+            bullets: [
+              'Lidar 스캐너를 이용하여 현장 내·외부 3D 정밀 스캔',
+              '기존 평·단면도 CAD 도서와 스캔 데이터 중첩 정합성 검토',
+              '스캔 데이터에 근거하여 건축 외벽 및 주요 구조 부위 BIM 모델링 진행',
+              'BIM 모델 기반 평·입·단면도 추출 후 실시설계 CAD 도면 작성',
+              '현황 오차 분석 및 역설계 검토 보고서 작성'
+            ],
+            legends: ['스캔 데이터 ISO', '외벽 역설계 BIM 모델', '스캔 데이터 & CAD 정합성 검토', '입면도 추출 및 CAD 작성', '현장 스캔 데이터 뷰']
+          },
+          {
+            summary: '3D 라이다 스캔 데이터를 활용하여 실제 현장 형상을 반영한 As-Built BIM 모델을 구축하고 리모델링 실시설계 도서를 작성',
+            bullets: [
+              '고밀도 3D Lidar 스캐닝을 통한 건물 외피 및 내부 공간 점군 취득',
+              '포인트 클라우드 정합 및 기존 설계 도면과의 부위별 오차 검토',
+              '실측 스캔 데이터를 기반으로 건축·구조 역설계 BIM 모델 구축',
+              '용도변경 인허가 및 실시설계를 위한 정밀 2D CAD 도면 추출',
+              '정합성 검토 결과 정리 및 성과품 납품'
+            ],
+            legends: ['포인트 클라우드 데이터 결합', '역설계 BIM 모델 ISO', '평·단면 CAD 정합 검토', '최종 추출 CAD 도면', '현장 실측 포인트 클라우드']
+          },
+          {
+            summary: '기존 시설물의 정확한 현황 파악을 위해 3D 레이저 스캔과 Scan-to-BIM 역설계를 수행하고 도면 정합성을 확보',
+            bullets: [
+              '현장 3D 스캔 측량 및 다중 스테이션 포인트 클라우드 정합',
+              '기존 CAD 도면 대비 벽체·슬래브·입면 시공 오차 정밀 분석',
+              '스캔 점군 데이터 기반 현황 BIM 모델링 및 간섭 요소 파악',
+              '입면·단면 도면 추출 및 CAD 실시도서 고도화',
+              '역설계 품질 검수 및 정합성 보고서 작성'
+            ],
+            legends: ['스캔 데이터 ISO', '건축 외피 BIM 모델', '평·단면 정합성 비교', '추출 입면·단면 CAD', '정합성 검토 리포트']
+          }
+        ],
+        scan_qa_hotel: [
+          {
+            summary: '현장 3D 스캔을 통해 공간별 실측 데이터를 수집하고 기존 설계 도서와의 정합성 검토를 수행하여 시공 및 리모델링 품질 확보',
+            bullets: [
+              'Lidar 스캐너를 이용하여 주요 공간 및 타입별 현장 3D 스캔',
+              '취득된 포인트 클라우드 스캔 데이터와 CAD 설계 도면 정합성 검토',
+              '실측 데이터 기반 구조·내장 마감 치수 오차 및 간섭 부위 분석',
+              '정합성 검토 결과 보고서 및 보완 도면 자료 작성',
+              '시공 품질 관리를 위한 3D 스캔 디지털 아카이브 구축'
+            ],
+            legends: ['평면도 CAD와 스캔 데이터 비교 검토', '단면도 CAD와 스캔 데이터 비교 검토', '현장 3D 스캔 사진', '포인트 클라우드 ISO', '정합성 검토 리포트']
+          },
+          {
+            summary: '정밀 3D 라이다 스캐닝으로 현장 준공·시공 현황을 실측하고 CAD 도면과의 오차를 사전 검증하여 설계·시공 정합성 확보',
+            bullets: [
+              '고정밀 3D Lidar 스캐너를 활용한 공간별 포인트 클라우드 데이터 취득',
+              '다중 스캔 데이터 결합 및 좌표 정합을 통한 3차원 현황 데이터 구축',
+              '설계 CAD 도면(평면·단면)과 스캔 데이터 중첩 비교 및 오차 검출',
+              '부위별 시공 정합성 검토 리포트 및 시각 자료 도출',
+              '향후 유지관리 및 리모델링 활용을 위한 정합 데이터 납품'
+            ],
+            legends: ['포인트 클라우드 데이터 결합', '3D 스캔 현장 사진', '스캔 데이터 변환 및 정합', 'CAD 중첩 오차 검토', '공간별 스캔 ISO']
+          }
+        ],
+        hospital_extension_scan: [
+          {
+            summary: '구조 시공 및 기존 시설 연결부에서 3D 스캔 기반 현장 정합성 검토를 진행하고 구조·설비 간섭 여부를 현장 데이터 기반으로 정밀 검증',
+            bullets: [
+              'Lidar 스캐너를 이용하여 증축·연결 구역 현장 3D 스캔',
+              'CAD 설계 도면에 근거하여 건축·구조·MEP 통합 BIM 모델링 수행',
+              'BIM 모델과 스캔 데이터(포인트 클라우드) 중첩을 통한 정합성 검토',
+              '구조체와 설비 배관 간섭 및 정합성 오류 검토 보고서 작성',
+              '현장 오차 반영 실시설계 변경 및 시공 가이드 도출'
+            ],
+            legends: ['스캔 데이터 ISO', '정합성 검토 보고서', '건축 BIM 모델', '구조 BIM 모델', 'MEP BIM 모델']
+          },
+          {
+            summary: '병원 증축 및 중정 구역의 시공 정합성 확보를 위해 3D 라이다 스캔과 건축·구조·MEP BIM 정합 분석을 통합 수행',
+            bullets: [
+              '기존 병동 인접부 및 중정 구역 고정밀 3D LiDAR 스캔 수행',
+              '설계 도서 기반 건축·구조·기계·전기(MEP) 통합 BIM 모델 구축',
+              '포인트 클라우드와 BIM 모델 정합을 통한 현장 시공 오차 검출',
+              '공종 간 간섭 및 정합성 오류 검토 보고서 작성',
+              '시공 오차 해소를 위한 설계 보완 안 도출'
+            ],
+            legends: ['현장 실측 스캔 데이터', '스캔·BIM 정합성 검토', '건축·구조 BIM 모델', 'MEP 설비 BIM 모델', '간섭 검토 리포트']
+          }
+        ],
+        medical_bim: [
+          {
+            summary: '설계 도서를 기반으로 의료시설의 건축·구조 BIM 모델을 구축하고, 모델 기반의 실시도면 작성 및 복합 공종 설계 정합성 검토 수행',
+            bullets: [
+              '설계 도서 기반 병원 건축 공간 및 동선 반영 BIM 모델 구축',
+              '구조 부재 및 설계 정보를 반영한 구조 BIM 모델링 수행',
+              '통합 BIM 모델 기반 건축·구조 실시설계 도면 작성',
+              '건축·구조·설비 모델 간 간섭 및 실시도면 정합성 검토',
+              '검토 의견서 및 발주처 기준 BIM 성과품 납품'
+            ],
+            legends: ['BIM 모델 ISO', 'BIM 모델 단면 ISO', '건축·구조 평면도', '상세 단면 및 정합성 검토', '간섭 검토(Navisworks)']
+          },
+          {
+            summary: '병원 시설의 특수 의료 동선과 고밀도 설비 공간을 고려하여 건축·구조·MEP 통합 BIM 모델 구축 및 사전 간섭·정합성 검토를 수행',
+            bullets: [
+              '의료시설 실시설계 도서 기반 건축·구조 정밀 BIM 모델링',
+              '병동·진료부 주요 구간 공종 간(건축-구조-MEP) 3차원 간섭 검토',
+              '설계 오류 사전 검출 및 정합성 확보를 통한 설계 품질 고도화',
+              'BIM 모델 연동을 통한 평·입·단면 실시도면 추출 및 정합 검증',
+              '공종별 정합성 검토 보고서 작성'
+            ],
+            legends: ['통합 BIM 모델 ISO', '병동·진료부 단면 BIM', '구조·설비 간섭 검토', '실시설계 추출 도면', '최종 BIM 성과품 뷰']
+          }
+        ],
+        datacenter_energy_bim: [
+          {
+            summary: '고밀도 설비·에너지 인프라 시설의 시공 품질 확보를 위해 클라우드 협업 기반 건축·구조·MEP 통합 BIM 모델 구축 및 정밀 간섭 검토를 수행',
+            bullets: [
+              'BIM 클라우드 협업 환경 기반 기본·실시설계 단계 건축·구조 BIM 모델링',
+              '대용량 기계·배관·전기(MEP) 설비와 건축·구조 모델 간 3D 간섭검토 수행',
+              '복합 설비 집중 구역의 시공성 검토 및 설계 도서 정합성 확보',
+              '통합 BIM 모델 기반 건축·구조 실시도면 작성 및 물량 데이터 검증',
+              '간섭 검토 리포트 및 디지털 트윈 기반 준공 성과품 구축'
+            ],
+            legends: ['통합 BIM 모델 ISO', '설비·배관 간섭 분석', '평면·단면 실시도면', '구조 BIM 평면도', '현장 정합 완공 뷰']
+          },
+          {
+            summary: '설계 도서와 현장 데이터를 기반으로 건축·구조·복합 설비(MEP) 통합 BIM을 구축하고 배관·구조 간섭 해결 및 실시설계 도면화를 수행',
+            bullets: [
+              '건축·구조·MEP 전 공종 LOD 350~400 수준 정밀 BIM 모델 구축',
+              '기계실·에너지 공급 배관망 및 케이블 트레이 집중 구간 간섭 체크',
+              '설계 오류 및 시공 간섭 해소를 위한 대안 모델링과 정합성 검토',
+              'BIM 모델 기반 주요 평·입·단면 실시설계 도면 추출',
+              '정합성 및 간섭 검토 종합 보고서 작성'
+            ],
+            legends: ['3D 통합 BIM 모델링', 'MEP 간섭 정밀 검출', '건축·구조 실시도면', '포인트 클라우드 정합', '시공 완료 현장 전경']
+          }
+        ],
+        public_facility_bim: [
+          {
+            summary: isPlanDesign
+              ? '계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 공공건축물 설계 의도와 기준을 반영한 분야별 BIM 모델 구축'
+              : '공공청사 건립 기준 및 설계 도서를 기반으로 건축·구조·MEP 통합 BIM 모델을 구축하고 공종 간 사전 간섭 검토와 실시도면 작성을 수행',
+            bullets: isPlanDesign
+              ? [
+                  '계획설계 도서 기반 건축 BIM 모델 구축',
+                  '계획설계 도서 기반 구조 BIM 모델 구축',
+                  '건축·구조 분야 설계 내용 BIM 전환 및 공간 적정성 검토',
+                  '분야별 BIM 모델과 설계 도서 간 정합성 검토',
+                  '공공 BIM 적용 지침에 맞춘 단계별 성과품 도출'
+                ]
+              : [
+                  '실시설계 도서 기반 건축·구조·MEP 분야별 정밀 BIM 모델 구축',
+                  '조달청 및 공공 발주처 BIM 지침에 부합하는 속성·분류체계 입력',
+                  '건축·구조·설비 모델 간 3차원 간섭 검토(Navisworks) 및 오류 보완',
+                  'BIM 모델 기반 평·입·단면 실시설계 도면 추출 및 정합성 검토',
+                  '간섭·정합성 검토 보고서 및 최종 BIM 성과품 납품'
+                ],
+            legends: ['BIM 모델 ISO', 'BIM 모델 ISO (단면)', '평면도', '단면도', '간섭 검토(Navisworks)']
+          },
+          {
+            summary: '발주처 BIM 적용 지침에 맞춰 건축·구조 분야의 정밀 BIM 전환설계를 수행하고 도서 정합성 검토 및 시뮬레이션 데이터를 도출',
+            bullets: [
+              '설계 도서 기반 건축·구조 통합 BIM 모델링 수행',
+              '주요 공간 동선·피난 및 구조 부재 간섭 여부 3차원 검토',
+              '2D 설계 도면과 3D BIM 모델 간 치수·형상 정합성 검증',
+              'BIM 모델로부터 실시도면 및 주요 공사 물량 산출서 추출',
+              '설계 품질 확보를 위한 정합성 검토 보고서 작성'
+            ],
+            legends: ['BIM 모델 ISO', 'BIM 모델 단면 뷰', '간섭 및 동선 시뮬레이션', '수량 산출 및 도면화', '최종 성과품 뷰']
+          }
+        ],
+        industrial_commercial_bim: [
+          {
+            summary: '설계 도서를 기반으로 건축·구조 BIM 모델을 구축하고 모델 기반 설계 정합성 검토 및 실시설계 도면 작성을 종합 수행',
+            bullets: [
+              '설계 도서 기반 건축·구조 정밀 BIM 모델 구축',
+              '대공간 철골·RC 구조 접합부 및 설비 동선 BIM 기반 설계 검토',
+              '공종 간(건축-구조-MEP) 간섭 체크 및 도면 불일치 오류 보완',
+              'BIM 모델을 활용한 건축·구조 평·입·단면 실시도면 작성',
+              '설계 정합성 검토 보고서 및 최종 BIM 도서 납품'
+            ],
+            legends: ['BIM 모델 ISO', '구조·건축 단면 ISO', '실시설계 평면도', '실시설계 단면도', '간섭 검토 리포트']
+          },
+          {
+            summary: '건축·구조·설비 분야의 통합 실시 BIM 전환설계를 통해 시공 전 설계 오류를 사전에 차단하고 고품질 실시설계 도서를 구축',
+            bullets: [
+              '실시설계 CAD 도서에 근거한 건축·구조 통합 BIM 모델링',
+              '주요 층별 구조체와 설비 배관·덕트 간섭 여부 정밀 검토',
+              'BIM 모델과 2D 설계 도서 간 정합성 검토 및 오차 수정',
+              '모델 기반 실시설계 도면 추출 및 시공 상세 검토 자료 작성',
+              '검토 보고서 작성 및 BIM 성과품 구축'
+            ],
+            legends: ['통합 BIM 모델 ISO', '층별 구조·건축 BIM', '공종 간 간섭 검토', '추출 실시도면', '최종 BIM 뷰']
+          }
+        ],
+        mega_infra_bim: [
+          {
+            summary: '글로벌 대형 인프라 구조물의 정밀 설계 품질 확보를 위해 타입별 콘크리트 구조 BIM 모델을 구축하고 파라미터 기반 정합성 검토를 수행',
+            bullets: [
+              '국제 BIM 표준 및 발주처 지침에 맞춘 Concrete Spine 구조 BIM 모델링',
+              '반복 구간 및 복합 단면 타입별 파라메트릭 패밀리·라이브러리 구축',
+              '구조 부재 간 간섭 체크 및 설계 도서 정합성 정밀 검증',
+              'BIM 모델 기반 구조 상세 도면 및 정확한 물량(QTO) 데이터 추출',
+              '글로벌 협업 환경(CDE) 기반 모델 검수 및 성과품 납품'
+            ],
+            legends: ['구조 BIM 모델 ISO', '구간별 단면 상세 BIM', '파라메트릭 타입 모델', '간섭 및 정합성 검토', '추출 도면 및 물량표']
+          }
+        ],
+        dx_education_consulting: [
+          {
+            summary: '산학 협약에 따른 스마트 건설·공간 디지털 전환(BIM, 3D SCAN, AI, 공간 컴퓨팅 XR) 실무 역량 강화 컨설팅 및 실습 강의를 진행',
+            bullets: [
+              'Matterpot 포토그래메트리 및 Leica BLK360·Trimble X7 라이다 스캔 실습 교육',
+              '취득된 3D 스캔 포인트 클라우드 데이터 변환 및 BIM 역설계 실습 진행',
+              '생성형 AI를 활용한 공간 디자인 워크플로우 및 디지털 모델링 강의',
+              'HoloLens 2 기반 공간 컴퓨팅(MR/XR) 체험 및 디지털 트윈 활용 실습',
+              '실무 프로젝트 연계 산출물 리뷰 및 DX 기술 도입 컨설팅'
+            ],
+            legends: ['3D 스캔·역설계 교육 현장', '홀로렌즈 공간 컴퓨팅 체험', '라이다 스캐너 실습', '학생 실습 성과물 뷰']
+          },
+          {
+            summary: '차세대 스마트 건축·실내건축 전문 인력 양성을 위해 3D 라이다 스캐닝, BIM 역설계, AI 공간 디자인 및 XR 기술 통합 실습 교육을 수행',
+            bullets: [
+              '고정밀 3D LiDAR 스캐너(BLK360, Trimble X7) 장비 운용 및 현장 스캔 실습',
+              '포인트 클라우드 정합과 Revit 기반 Scan-to-BIM 역설계 모델링 교육',
+              'AI 기반 공간 기획·시각화 및 스마트 설계 자동화 프로세스 전수',
+              '혼합현실(MR) 디바이스를 활용한 3차원 공간 검수 및 인터랙션 체험',
+              '산학협력 맞춤형 커리큘럼 교재 및 실습 가이드라인 제공'
+            ],
+            legends: ['교육 현장 사진', '홀로렌즈 체험 사진', '3D 스캔 실습', 'BIM 역설계 실습']
+          }
+        ],
+        env_simulation: [
+          {
+            summary: '정밀 BIM 데이터를 기반으로 건축물 일조·열·유체·탄소배출(LCA) 환경 성능을 시뮬레이션하고 정량적 데이터에 기반한 최적 설계 대안을 도출',
+            bullets: [
+              '설계 도서 및 BIM 모델 기반 환경·에너지 시뮬레이션 해석 모델 구축',
+              '일조·음영·외피 열관류율·배관 유체 유동 등 물리 환경 정밀 시뮬레이션 수행',
+              '생애주기 탄소배출량(LCA) 및 건물 에너지 소비 효율 정량 평가',
+              '시뮬레이션 결과 데이터 기반 취약 구간 분석 및 설계 최적화 대안 제시',
+              '환경 성능 종합 평가 보고서 및 시각화 리포트 작성'
+            ],
+            legends: ['환경 시뮬레이션 해석 모델', '일조·열·유동 분포 분석 뷰', '성능 데이터 비교 그래프', '설계 최적화 검토 리포트']
+          }
+        ],
+        spatial_xr: [
+          {
+            summary: '정밀 BIM 및 3D 스캔 데이터를 기반으로 실감형 공간 컴퓨팅(XR/MR) 및 인터랙티브 디지털 트윈을 구축하여 현장 시공·유지관리 의사결정을 고도화',
+            bullets: [
+              'BIM·포인트 클라우드 데이터 경량화 및 실시간 렌더링 엔진 기반 공간 구축',
+              'HoloLens 2·VR 디바이스 연동 현장 1:1 정합형 MR/AR 시공·유지관리 가이드 구현',
+              '가상 공간 내 공정 시뮬레이션, 설계 품평 및 다자간 협업 인터랙션 개발',
+              '현장 실증 테스트를 통한 공간 정합도 검증 및 운용 매뉴얼 구축',
+              '디지털 트윈 아카이브 및 XR 솔루션 성과품 납품'
+            ],
+            legends: ['XR/MR 공간 정합 뷰', '디지털 트윈 인터랙션 화면', '현장 디바이스 실증 사진', '3D 모델 경량화 파이프라인']
+          }
+        ],
+        future_rnd: [
+          {
+            summary: '건축·공간 데이터와 디지털 트윈·모바일 플랫폼 기술을 융합하여 차세대 스마트 공간 관리 및 파라메트릭 설계 자동화 R&D를 수행',
+            bullets: [
+              '3D 공간 데이터 및 BIM 연동 모바일·웹 플랫폼 아키텍처 설계 및 개발',
+              '사용자 중심 공간 정보 시각화 UI/UX 및 실시간 데이터 동기화 모듈 구현',
+              '파라메트릭 알고리즘 기반 모듈러·특수시설 설계 자동화 프로토타입 구축',
+              '파일럿 실증 테스트를 통한 시스템 성능 검증 및 지식재산권(IP) 확보',
+              'R&D 최종 연구 보고서 및 상용화 기술 매뉴얼 작성'
+            ],
+            legends: ['플랫폼 메인 아키텍처 뷰', '모바일·웹 인터페이스 화면', '3D 데이터 연동 모듈', '실증 테스트 및 연구 성과']
+          }
+        ],
+        general_bim: [
+          {
+            summary: '설계 도서를 기반으로 건축·구조·MEP 통합 BIM 모델을 구축하고 공종 간 사전 간섭 검토 및 정합성 검증을 통해 고품질 실시도서를 작성',
+            bullets: [
+              '설계 도서 기반 건축·구조·MEP 공종별 정밀 BIM 모델 구축',
+              '통합 BIM 모델을 활용한 공종 간 3차원 간섭 검토 및 설계 오류 해결',
+              '2D 설계 도면과 3D 모델 간 치수·형상 정합성 검토 수행',
+              'BIM 모델 기반 평·입·단면 실시도면 추출 및 정합성 검토 보고서 작성',
+              '발주처 기준에 부합하는 최종 BIM 성과품 납품'
+            ],
+            legends: ['BIM 모델 ISO', 'BIM 모델 단면 ISO', '건축·구조 평면도', '단면 및 간섭 검토', '최종 성과품 뷰']
+          }
+        ]
+      };
+
+      const candidates = domainBank[profile.key] || domainBank.general_bim;
+      const picked = candidates[window.__aiSmartVariantIndex % candidates.length];
       window.__aiSmartVariantIndex++;
-      return pick;
+
+      return adjustSmartOutputForOptions(picked, ctx, styleMode, targetBulletCount, customFocus);
     }
 
     async function openAiProjectDescModal() {
@@ -41622,19 +42175,38 @@ b;
       const modal = document.getElementById('aiProjectDescModal');
       if (!modal) return;
 
+      const profile = detectProjectDomainProfile(ctx);
       const titleEl = document.getElementById('aiProjectTitlePreview');
+      const domainEl = document.getElementById('aiProjectDomainBadge');
       const metaEl = document.getElementById('aiProjectMetaBadge');
       const scopeEl = document.getElementById('aiProjectScopePreview');
+      const visualEl = document.getElementById('aiProjectVisualPreview');
       const sumInput = document.getElementById('aiGeneratedSummaryInput');
       const bulInput = document.getElementById('aiGeneratedBulletsInput');
+      const legInput = document.getElementById('aiGeneratedLegendsInput');
 
       if (titleEl) titleEl.textContent = ctx.projectTitle;
+      if (domainEl) domainEl.textContent = profile.badge;
       if (metaEl) metaEl.textContent = `${ctx.year} · ${ctx.category.toUpperCase()}${ctx.client ? ' · ' + ctx.client : ''}`;
-      if (scopeEl) scopeEl.textContent = `Scope: ${ctx.scope || 'Design / BIM / 3D Scan'}`;
+      if (scopeEl) scopeEl.textContent = `Scope: ${ctx.scope || 'BIM / 3D Scan'}`;
+      if (visualEl) {
+        const legPreview = ctx.legendCaptions.length > 0 ? ` (${ctx.legendCaptions.slice(0, 3).join(', ')}${ctx.legendCaptions.length > 3 ? ' 등' : ''})` : '';
+        visualEl.textContent = `우측 비주얼 ${ctx.visualCount}컷${legPreview}`;
+      }
       if (sumInput) sumInput.value = ctx.currentSummary || '';
       if (bulInput) bulInput.value = (ctx.currentBullets || []).join('\n');
+      if (legInput) legInput.value = (ctx.legendCaptions || []).join('\n');
+
+      // 현재 페이지가 다른 페이지의 기본 템플릿 문구 그대로인지 확인하여 후보 초기화
+      window.__aiCandidateHistory = [];
+      window.__aiActiveCandidateIdx = -1;
+      renderAiCandidateTabs();
+      updateAiGeneratedStats();
 
       setAiDescEngine(window.__currentAiDescEngine || 'codex');
+      setAiDescStyleMode(window.__currentAiDescStyleMode || 'standard');
+      setAiDescBulletCount(window.__currentAiDescBulletCount || 4);
+
       modal.classList.add('open');
       modal.style.display = 'flex';
     }
@@ -41653,18 +42225,23 @@ b;
       const btn = document.getElementById('btnRunAiProjectDesc');
       const sumInput = document.getElementById('aiGeneratedSummaryInput');
       const bulInput = document.getElementById('aiGeneratedBulletsInput');
+      const legInput = document.getElementById('aiGeneratedLegendsInput');
+      const includeLegends = !!document.getElementById('aiIncludeLegendsChk')?.checked;
       const customFocus = (document.getElementById('aiDescCustomFocusInput')?.value || '').trim();
       const engine = window.__currentAiDescEngine || 'codex';
+      const styleMode = window.__currentAiDescStyleMode || 'standard';
+      const targetBulletCount = window.__currentAiDescBulletCount || 4;
+      const previousSummary = (sumInput?.value || '').trim();
 
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = `<span>⏳ ${engine === 'codex' ? 'Codex CLI' : (engine === 'claude' ? 'Claude CLI' : '스마트 AI')}로 문안 작성 중...</span>`;
+        btn.innerHTML = `<span>⏳ ${engine === 'codex' ? 'Codex CLI' : (engine === 'claude' ? 'Claude CLI' : '내장 도메인 AI')}로 맞춤형 문안 작성 중...</span>`;
       }
 
       try {
         let generated = null;
-        let usedEngineLabel = '내장 스마트 AI';
+        let usedEngineLabel = '내장 도메인 AI';
 
         if (engine === 'codex' || engine === 'claude') {
           const bridgeOk = await checkAiCliBridgeHealth();
@@ -41681,12 +42258,23 @@ b;
                 scope: ctx.scope,
                 currentSummary: ctx.currentSummary,
                 currentBullets: ctx.currentBullets,
-                customFocus
+                legendCaptions: ctx.legendCaptions,
+                visualCount: ctx.visualCount,
+                layoutType: ctx.layoutType,
+                styleMode,
+                targetBulletCount,
+                includeLegends,
+                customFocus,
+                previousSummary
               })
             });
             const data = await res.json();
             if (res.ok && data && data.ok && data.summary && Array.isArray(data.bullets)) {
-              generated = { summary: data.summary, bullets: data.bullets };
+              generated = {
+                summary: data.summary,
+                bullets: data.bullets,
+                legends: Array.isArray(data.legends) ? data.legends : null
+              };
               usedEngineLabel = engine === 'claude' ? 'Claude CLI' : 'Codex CLI';
             } else {
               console.warn('[AI Auto-Writer] CLI Bridge error, falling back to smart engine:', data?.error);
@@ -41695,25 +42283,57 @@ b;
         }
 
         if (!generated) {
-          generated = generateSmartFallbackProjectDesc(ctx, customFocus);
-          usedEngineLabel = (engine === 'smart') ? '내장 스마트 AI' : '내장 스마트 AI (로컬 브릿지 폴백)';
+          generated = generateSmartFallbackProjectDesc(ctx, customFocus, { styleMode, targetBulletCount });
+          usedEngineLabel = (engine === 'smart') ? '내장 도메인 AI' : '내장 도메인 AI (자동 폴백)';
+        } else if (!Array.isArray(generated.legends) || generated.legends.length === 0) {
+          const smartHelper = generateSmartFallbackProjectDesc(ctx, customFocus, { styleMode, targetBulletCount });
+          generated.legends = smartHelper.legends;
         }
 
         if (sumInput) sumInput.value = generated.summary;
         if (bulInput) bulInput.value = generated.bullets.join('\n');
+        if (legInput && Array.isArray(generated.legends) && generated.legends.length > 0) {
+          legInput.value = generated.legends.join('\n');
+        }
+
+        // 후보 히스토리에 저장 (최대 5개 유지)
+        if (!Array.isArray(window.__aiCandidateHistory)) window.__aiCandidateHistory = [];
+        const candNum = window.__aiCandidateHistory.length + 1;
+        window.__aiCandidateHistory.push({
+          label: `후보 ${candNum}`,
+          engineLabel: usedEngineLabel,
+          summary: generated.summary,
+          bullets: [...generated.bullets],
+          legends: Array.isArray(generated.legends) ? [...generated.legends] : []
+        });
+        if (window.__aiCandidateHistory.length > 5) {
+          window.__aiCandidateHistory.shift();
+          window.__aiCandidateHistory.forEach((c, i) => { c.label = `후보 ${i + 1}`; });
+        }
+        window.__aiActiveCandidateIdx = window.__aiCandidateHistory.length - 1;
+        renderAiCandidateTabs();
+        updateAiGeneratedStats();
+
+        if (btn) {
+          btn.innerHTML = '<span>✨ 다른 버전으로 다시 생성하기</span>';
+        }
 
         if (typeof showAdminToast === 'function') {
-          showAdminToast(`✨ [${usedEngineLabel}] 요약 설명문 및 수행 불릿이 생성되었습니다.`);
+          showAdminToast(`✨ [${usedEngineLabel}] 맞춤형 요약 설명문 및 수행 불릿(${generated.bullets.length}개)이 생성되었습니다.`);
         }
       } catch (err) {
         console.error('[AI Auto-Writer] Exception:', err);
-        const fallback = generateSmartFallbackProjectDesc(ctx, customFocus);
+        const fallback = generateSmartFallbackProjectDesc(ctx, customFocus, { styleMode, targetBulletCount });
         if (sumInput) sumInput.value = fallback.summary;
         if (bulInput) bulInput.value = fallback.bullets.join('\n');
+        if (legInput && Array.isArray(fallback.legends)) legInput.value = fallback.legends.join('\n');
+        updateAiGeneratedStats();
       } finally {
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = origHtml;
+          if (!window.__aiCandidateHistory || window.__aiCandidateHistory.length === 0) {
+            btn.innerHTML = origHtml;
+          }
         }
       }
     }
@@ -41722,11 +42342,18 @@ b;
       const ctx = extractCurrentProjectPageContext();
       if (!ctx || !ctx.page) return;
 
-      const sumText = (document.getElementById('aiGeneratedSummaryInput')?.value || '').trim();
+      const sumText = (document.getElementById('aiGeneratedSummaryInput')?.value || '').replace(/\s+/g, ' ').trim();
       const bulletsRaw = (document.getElementById('aiGeneratedBulletsInput')?.value || '').trim();
       const bullets = bulletsRaw
         .split(/\r?\n/)
-        .map(line => line.replace(/^[•·\-\*]\s*/, '').trim())
+        .map(line => line.replace(/^[•·\-\*\d+\.)]\s*/, '').trim())
+        .filter(Boolean);
+
+      const includeLegends = !!document.getElementById('aiIncludeLegendsChk')?.checked;
+      const legendsRaw = (document.getElementById('aiGeneratedLegendsInput')?.value || '').trim();
+      const legends = legendsRaw
+        .split(/\r?\n/)
+        .map(line => line.replace(/^\d+\.\s*/, '').trim())
         .filter(Boolean);
 
       if (!sumText && bullets.length === 0) {
@@ -41734,9 +42361,18 @@ b;
         return;
       }
 
-      const summaryEl = ctx.page.querySelector('.project-summary-desc');
+      let summaryEl = ctx.page.querySelector('.project-summary-desc');
       if (summaryEl && sumText) {
-        summaryEl.textContent = sumText;
+        // <p> 태그인 경우 Enter 줄바꿈 분리 방지를 위해 <div>로 정규화하여 적용
+        if (summaryEl.tagName === 'P') {
+          const divEl = document.createElement('div');
+          Array.from(summaryEl.attributes).forEach(attr => divEl.setAttribute(attr.name, attr.value));
+          divEl.textContent = sumText;
+          summaryEl.parentNode.replaceChild(divEl, summaryEl);
+          summaryEl = divEl;
+        } else {
+          summaryEl.textContent = sumText;
+        }
       }
 
       const bulletsListEl = ctx.page.querySelector('.project-desc-bullets');
@@ -41745,11 +42381,21 @@ b;
         const anchor = bulletsListEl.querySelector('.admin-desc-bullets-action-bar') || bulletsListEl.querySelector('.admin-obj-add-btn');
         bullets.forEach(bText => {
           const li = document.createElement('li');
+          li.setAttribute('spellcheck', 'false');
           li.textContent = bText;
           if (anchor) {
             bulletsListEl.insertBefore(li, anchor);
           } else {
             bulletsListEl.appendChild(li);
+          }
+        });
+      }
+
+      if (includeLegends && legends.length > 0) {
+        const legendTextEls = Array.from(ctx.page.querySelectorAll('.project-image-legend .legend-item .legend-text'));
+        legendTextEls.forEach((el, idx) => {
+          if (legends[idx]) {
+            el.textContent = legends[idx];
           }
         });
       }
@@ -41760,14 +42406,21 @@ b;
       if (typeof bindProjectObjectControls === 'function') bindProjectObjectControls();
       if (typeof debouncedAutoSave === 'function') debouncedAutoSave();
       if (typeof showAdminToast === 'function') {
-        showAdminToast('✅ AI 작성 요약문 및 불릿 항목이 현재 프로젝트 페이지에 적용되었습니다.');
+        showAdminToast(includeLegends
+          ? '✅ AI 작성 요약문·수행 불릿·우측 이미지 범례가 현재 페이지에 적용되었습니다.'
+          : '✅ AI 작성 요약문 및 수행 불릿 항목이 현재 프로젝트 페이지에 적용되었습니다.');
       }
     }
 
     window.openAiProjectDescModal = openAiProjectDescModal;
     window.closeAiProjectDescModal = closeAiProjectDescModal;
     window.setAiDescEngine = setAiDescEngine;
+    window.setAiDescStyleMode = setAiDescStyleMode;
+    window.setAiDescBulletCount = setAiDescBulletCount;
     window.setAiFocusPreset = setAiFocusPreset;
+    window.toggleAiLegendsEditor = toggleAiLegendsEditor;
+    window.updateAiGeneratedStats = updateAiGeneratedStats;
+    window.selectAiCandidate = selectAiCandidate;
     window.generateAiProjectDescription = generateAiProjectDescription;
     window.applyAiProjectDescToPage = applyAiProjectDescToPage;
 

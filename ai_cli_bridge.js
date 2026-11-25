@@ -21,36 +21,60 @@ function buildBrochurePrompt(payload) {
     scope = '',
     currentSummary = '',
     currentBullets = [],
-    customFocus = ''
+    legendCaptions = [],
+    visualCount = 0,
+    layoutType = '',
+    styleMode = 'standard',
+    targetBulletCount = 4,
+    includeLegends = false,
+    customFocus = '',
+    previousSummary = ''
   } = payload || {};
 
+  const styleMap = {
+    standard: '눈사람공장 지명원 표준 스타일 (공백 포함 55~95자 내외의 명확하고 절제된 개조식 요약문 + 18~34자 내외의 핵심 수행 불릿)',
+    concise: '핵심 압축 스타일 (공백 포함 42~68자 내외의 한눈에 읽히는 간결한 요약문 + 15~26자 내외의 단문 불릿)',
+    detailed: '엔지니어링 상세 스타일 (공백 포함 70~110자 내외로 대상 시설물 특성·기술 공종·검토 성과를 구체적으로 기술한 요약문 + 22~38자 내외의 구체적 수행 불릿)',
+    public: '공공·조달 제출 스타일 (발주처·조달청·설계도서 기준 준수, 정합성·간섭 검토 및 납품 성과품의 신뢰성을 강조한 격식 있는 개조식)'
+  };
+
+  const bCount = Math.max(2, Math.min(6, Number(targetBulletCount) || 4));
+
   return [
-    '당신은 건축 BIM·3D 라이다(LiDAR) 스캐닝·역설계·디지털 트윈 전문 기업 "눈사람공장(SNOWMAN FACTORY)"의 지명원(브로슈어) 기술 작문 전문가입니다.',
-    '아래 프로젝트 정보를 바탕으로 프로젝트 소개 페이지 좌측 하단에 들어갈 [요약 설명문(summary)]과 [세부 수행 내용 불릿 리스트(bullets)]를 작성하세요.',
+    '당신은 건축 BIM·3D 라이다(LiDAR) 스캐닝·역설계·디지털 트윈·공간 컴퓨팅(XR) 전문 기업 "눈사람공장(SNOWMAN FACTORY)"의 지명원(브로슈어) 수석 기술 작문가입니다.',
+    '아래 프로젝트의 고유 정보(시설물 용도, 발주처, Scope, 우측 도면/비주얼 구성)를 깊이 분석하여, 해당 프로젝트에 딱 맞는 맞춤형 [요약 설명문(summary)]과 [세부 수행 내용 불릿 리스트(bullets)]' + (includeLegends ? ' 및 [이미지 범례 캡션(legends)]' : '') + '을 작성하세요.',
     '',
-    '[프로젝트 정보]',
+    '[프로젝트 컨텍스트]',
     `- 프로젝트명: ${projectTitle}`,
-    `- 분야(Category): ${category}`,
+    `- 솔루션 분야(Category): ${category}`,
     `- 수행연도: ${year}`,
-    `- 발주처(Client): ${client}`,
-    `- 수행범위(Scope): ${scope}`,
-    currentSummary ? `- 현재 요약문(참고용): ${currentSummary}` : '',
-    Array.isArray(currentBullets) && currentBullets.length ? `- 현재 불릿(참고용): ${currentBullets.join(' / ')}` : '',
-    customFocus ? `- 추가 강조 요청사항: ${customFocus}` : '',
+    `- 발주처(Client): ${client || '미지정'}`,
+    `- 수행범위(Scope): ${scope || 'BIM / 3D Scan'}`,
+    layoutType ? `- 페이지 비주얼 레이아웃: ${layoutType} (우측 이미지 ${visualCount || 3}컷 구성)` : '',
+    Array.isArray(legendCaptions) && legendCaptions.length ? `- 현재 우측 이미지 범례(1~${legendCaptions.length}): ${legendCaptions.join(' | ')}` : '',
+    currentSummary ? `- 현재 페이지 요약문(참고용): ${currentSummary}` : '',
+    Array.isArray(currentBullets) && currentBullets.length ? `- 현재 페이지 불릿(참고용): ${currentBullets.join(' / ')}` : '',
+    previousSummary ? `- 직전 생성본(이 문장과 겹치지 않게 새로운 시각/표현으로 재작성할 것): ${previousSummary}` : '',
+    customFocus ? `- 사용자 추가 강조 지시사항(최우선 반영): ${customFocus}` : '',
     '',
-    '[작성 규칙 - 매우 중요]',
-    '1. summary(요약 설명문): 2~3줄 분량(공백 포함 65~115자 내외)의 간결하고 전문적인 명사형/개조식 종결 문장으로 작성하세요.',
-    '   예시1: "구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행"',
-    '   예시2: "3D 스캔 데이터를 활용하여 실제 현장을 반영한 BIM 모델을 구축하고 리모델링 계획과 실시 설계를 진행"',
-    '   예시3: "설계 도서를 기반으로 건축·구조·MEP 통합 BIM 모델을 구축하고 공종 간 사전 간섭 검토 및 시공 도서를 작성"',
-    '2. bullets(세부 수행 항목): 3개 또는 4개의 핵심 수행 과업을 간결한 개조식 단문(각 항목 18~38자 내외, 앞에 불릿 기호 없이 순수 텍스트만)으로 작성하세요.',
-    '   예시 항목들:',
-    '   - "Lidar 스캐너를 이용하여 현장 3D 스캔"',
-    '   - "CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)"',
-    '   - "BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토"',
-    '   - "정합성 오류 검토 보고서 작성"',
-    '3. 반드시 코드 블록이나 부연 설명 없이 아래 순수 JSON 형식으로만 응답하세요:',
-    '{"summary":"요약 설명문 텍스트","bullets":["수행항목1","수행항목2","수행항목3","수행항목4"]}'
+    '[눈사람공장 실제 지명원 우수 작성 레퍼런스 (어조와 리듬 참고)]',
+    '- 레퍼런스 A (BIM 전환·실시설계): summary="계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 설계 의도를 반영한 분야별 BIM 모델 구축" / bullets=["계획설계 도서 기반 건축 BIM 모델 구축","계획설계 도서 기반 구조 BIM 모델 구축","건축·구조 분야 설계 내용 BIM 전환","분야별 BIM 모델과 설계 도서 정합성 검토"]',
+    '- 레퍼런스 B (클라우드 통합 BIM·간섭검토): summary="BIM 360 클라우드 기반의 작업 환경 내에서 기본/실시설계 단계 건축, 구조 BIM 프로젝트 수행" / bullets=["건축, 구조 BIM 모델링","건축, 구조, MEP BIM 모델의 간섭검토 수행","건축, 구조 실시도면 작성"]',
+    '- 레퍼런스 C (현장 3D 스캔·정합성 검토): summary="구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행" / bullets=["Lidar 스캐너를 이용하여 현장 3D 스캔","CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)","BIM 모델링과 스캔 데이터(포인트 클라우드) 정합을 통해 정합성 검토","정합성 오류 검토 보고서 작성"]',
+    '- 레퍼런스 D (용도변경·그린리모델링 역설계): summary="그린리모델링 설계를 위해 사전에 3D 스캔을 통한 현장 데이터 취득 및 역설계 도면화 진행" / bullets=["Lidar 스캐너를 이용하여 현장 3D 스캔","평·단면도 CAD와 스캔 데이터 정합성 검토","스캔 데이터에 근거하여 건축 외피 및 주요 부위 BIM 역설계","평·입·단면도 추출 및 실시설계 CAD 도면 작성"]',
+    '',
+    '[작성 규칙 - 반드시 준수]',
+    `1. 문체 및 톤앤매너: ${styleMap[styleMode] || styleMap.standard}`,
+    '2. 프로젝트 고유성 반영: 프로젝트명에서 드러나는 시설물 특성(예: 병원/의료시설, 데이터센터, 경찰/기동대/보훈회관/청사 등 공공시설, 공장/산업시설, 호텔/숙박시설, 경로당/보건소 그린리모델링, 장학관/교육시설, 대학 강의/컨설팅, 네옴시티/인프라 등)과 Scope(계획설계/실시설계/전환설계/3D 스캔/역설계/정합성 검토/XR/시뮬레이션)를 문장에 자연스럽게 녹여내세요.',
+    '3. summary(요약 설명문): 마침표(.) 없이 명사형/개조식(예: "...구축", "...수행", "...진행", "...검토")으로 끝나는 1개의 완결된 문장으로 작성하세요. 줄바꿈(\\n)이나 HTML 태그를 넣지 마세요.',
+    `4. bullets(세부 수행 항목): 정확히 ${bCount}개의 항목으로 작성하세요. 각 항목은 앞에 불릿 기호(•, -, 1. 등) 없이 순수 텍스트로만 작성하고, 과업의 흐름(데이터 취득/도서 분석 → 모델링/정합 → 간섭/정합성 검토 → 도면화/보고서/성과품 도출)이 논리적 순서로 이어지게 구성하세요.`,
+    includeLegends
+      ? `5. legends(우측 이미지 범례 캡션): 우측 이미지 ${Math.max(1, Number(visualCount) || 3)}컷에 대응하는 간결한 도면/비주얼 캡션(각 6~18자 내외, 예: "BIM 모델 ISO", "스캔 데이터 & CAD 정합 검토", "건축·구조 단면도", "MEP 간섭 검토(Navisworks)")을 배열로 함께 작성하세요.`
+      : '',
+    '6. 코드 블록(```json)이나 인사말, 부연 설명 없이 오직 아래 순수 JSON 객체 하나만 출력하세요:',
+    includeLegends
+      ? '{"summary":"요약 설명문 텍스트","bullets":["수행항목1","수행항목2"],"legends":["범례1","범례2"]}'
+      : '{"summary":"요약 설명문 텍스트","bullets":["수행항목1","수행항목2","수행항목3","수행항목4"]}'
   ].filter(Boolean).join('\n');
 }
 
@@ -64,10 +88,18 @@ function extractJsonFromText(raw) {
     const candidate = text.slice(firstBrace, lastBrace + 1);
     const parsed = JSON.parse(candidate);
     if (parsed && typeof parsed.summary === 'string' && Array.isArray(parsed.bullets)) {
-      return {
-        summary: parsed.summary.trim(),
-        bullets: parsed.bullets.map(b => String(b || '').replace(/^[•·\-\*]\s*/, '').trim()).filter(Boolean)
+      const out = {
+        summary: parsed.summary.replace(/\s+/g, ' ').trim(),
+        bullets: parsed.bullets
+          .map(b => String(b || '').replace(/^[•·\-\*\d+\.)]\s*/, '').replace(/\s+/g, ' ').trim())
+          .filter(Boolean)
       };
+      if (Array.isArray(parsed.legends)) {
+        out.legends = parsed.legends
+          .map(l => String(l || '').replace(/^\d+\.\s*/, '').trim())
+          .filter(Boolean);
+      }
+      return out;
     }
   }
   throw new Error('JSON 파싱 실패: ' + text.slice(0, 200));
@@ -209,7 +241,7 @@ const server = http.createServer(async (req, res) => {
         const engine = (payload.engine || 'codex').toLowerCase();
         const promptText = buildBrochurePrompt(payload);
 
-        console.log(`[AI Bridge] Generating via [${engine.toUpperCase()}] for project: ${payload.projectTitle || 'Untitled'}`);
+        console.log(`[AI Bridge] Generating via [${engine.toUpperCase()}] for project: ${payload.projectTitle || 'Untitled'} (style=${payload.styleMode || 'standard'}, bullets=${payload.targetBulletCount || 4})`);
         let result;
         if (engine === 'claude') {
           result = await runClaudeCli(promptText);
