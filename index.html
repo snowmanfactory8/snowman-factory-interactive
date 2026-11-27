@@ -1240,13 +1240,21 @@
       margin: 12px 0 10px 0;
     }
 
-    .project-summary-desc {
+    .project-summary-desc,
+    .project-summary-desc div,
+    .project-summary-desc p,
+    .project-summary-desc span,
+    .project-desc-block > div:not(.admin-desc-bullets-action-bar),
+    .project-desc-block > p {
       font-size: 11.5px;
       color: #334155;
       line-height: 1.55;
-      margin: 0 0 10px 0;
       word-break: keep-all;
       font-weight: 450;
+    }
+
+    .project-summary-desc {
+      margin: 0 0 10px 0;
     }
 
     .project-desc-bullets {
@@ -1328,6 +1336,8 @@
     body.admin-mode-active .overview-scope,
     body.admin-mode-active .overview-scope *,
     body.admin-mode-active .project-summary-desc,
+    body.admin-mode-active .project-summary-desc *,
+    body.admin-mode-active .project-desc-block > div:not(.admin-desc-bullets-action-bar),
     body.admin-mode-active .project-desc-bullets li,
     body.admin-mode-active .legend-text {
       cursor: text !important;
@@ -6231,7 +6241,7 @@ BIM 모델 ISO (단면)
       <!-- The A4 Sheet Scaler Wrapper -->
       <div class="a4-sheet-scaler" id="a4SheetScaler" style="--sheet-scale: 0.8717;">
         <!-- The A4 Sheet Box -->
-        <div class="a4-landscape-sheet" id="a4Sheet" data-brochure-ts="1795746518621">
+        <div class="a4-landscape-sheet" id="a4Sheet" data-brochure-ts="1795749999999">
         
         <!-- ============================================================ -->
         <!-- A4 PAGE 1: COVER (지명원 표지 원본 레이아웃)                 -->
@@ -6585,7 +6595,7 @@ BIM 모델 ISO (단면)
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc" spellcheck="false">계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 설계 의도를 반영한 분야별&nbsp;</p><div>BIM 모델 구축</div><p spellcheck="false"></p>
+              <div class="project-summary-desc" spellcheck="false">계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 설계 의도를 반영한 분야별 BIM 모델 구축</div>
               <ul class="project-desc-bullets">
                 
                   
@@ -7968,7 +7978,7 @@ BIM 모델 ISO (단면)
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc" spellcheck="false">계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 설계 의도를 반영한 분야별&nbsp;</p><div>BIM 모델 구축</div><p spellcheck="false"></p>
+              <div class="project-summary-desc" spellcheck="false">계획설계 도서를 기반으로 건축·구조 분야의 BIM 전환설계를 수행하고, 설계 의도를 반영한 분야별 BIM 모델 구축</div>
               <ul class="project-desc-bullets">
                 
                   
@@ -44510,9 +44520,9 @@ BIM 모델 ISO (단면)
           const descBlock = document.createElement('div');
           descBlock.className = 'project-desc-block';
           descBlock.innerHTML = `
-            <p class="project-summary-desc">
+            <div class="project-summary-desc">
               구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행
-            </p>
+            </div>
             <ul class="project-desc-bullets">
               <li>Lidar 스캐너를 이용하여 현장 3D 스캔</li>
               <li>CAD 도면에 근거하여 BIM 모델링 (건축, 구조, MEP 모델)</li>
@@ -44528,6 +44538,31 @@ BIM 모델 ISO (단면)
             const featList = leftPanel.querySelector('.project-features-list');
             if (featList && featList.parentNode) {
               featList.parentNode.insertBefore(descBlock, featList);
+            }
+          }
+        }
+
+        // 2-1. [자동 복구] .project-summary-desc가 <p>에서 Enter로 쪼개져 형제 <div>/<p>로 분리된 경우 하나로 병합하고 <div>로 정규화
+        const descBlockEl = leftPanel.querySelector('.project-desc-block');
+        if (descBlockEl) {
+          let sumEl = descBlockEl.querySelector('.project-summary-desc');
+          if (sumEl) {
+            let next = sumEl.nextElementSibling;
+            while (next && (next.tagName === 'DIV' || next.tagName === 'P') && !next.classList.contains('project-desc-bullets') && !next.classList.contains('admin-desc-bullets-action-bar')) {
+              const text = (next.innerHTML || '').replace(/^(&nbsp;|\s|<br\s*\/?>)+|(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+              if (text) {
+                const baseHtml = (sumEl.innerHTML || '').replace(/(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+                sumEl.innerHTML = baseHtml ? (baseHtml + ' ' + text) : text;
+              }
+              const toRemove = next;
+              next = next.nextElementSibling;
+              toRemove.remove();
+            }
+            if (sumEl.tagName === 'P') {
+              const divEl = document.createElement('div');
+              Array.from(sumEl.attributes).forEach(attr => divEl.setAttribute(attr.name, attr.value));
+              divEl.innerHTML = sumEl.innerHTML;
+              sumEl.parentNode.replaceChild(divEl, sumEl);
             }
           }
         }
@@ -46721,13 +46756,14 @@ BIM 모델 ISO (단면)
         return;
       }
 
-      // [자동 복구] 간지 페이지 설명글(.divider-desc-text)이 Enter로 쪼개져 형제 <div>/<p>로 분리된 경우 하나로 병합
-      sheet.querySelectorAll('.a4-page-divider .divider-desc-text').forEach(descEl => {
+      // [자동 복구] 간지 페이지 설명글(.divider-desc-text) 및 프로젝트 요약 설명글(.project-summary-desc)이 Enter로 쪼개져 형제 <div>/<p>로 분리된 경우 하나로 병합
+      sheet.querySelectorAll('.a4-page-divider .divider-desc-text, .project-desc-block .project-summary-desc').forEach(descEl => {
         let next = descEl.nextElementSibling;
-        while (next && (next.tagName === 'DIV' || next.tagName === 'P') && !next.classList.contains('divider-projects-container')) {
-          const text = next.innerHTML.trim();
-          if (text && text !== '<br>') {
-            descEl.innerHTML += '<br>' + text;
+        while (next && (next.tagName === 'DIV' || next.tagName === 'P') && !next.classList.contains('divider-projects-container') && !next.classList.contains('project-desc-bullets') && !next.classList.contains('admin-desc-bullets-action-bar')) {
+          const text = (next.innerHTML || '').replace(/^(&nbsp;|\s|<br\s*\/?>)+|(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+          if (text) {
+            const baseHtml = (descEl.innerHTML || '').replace(/(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+            descEl.innerHTML = baseHtml ? (baseHtml + (descEl.classList.contains('project-summary-desc') ? ' ' : '<br>') + text) : text;
           }
           const toRemove = next;
           next = next.nextElementSibling;
@@ -46743,7 +46779,7 @@ BIM 모델 ISO (단면)
       });
 
       // 1. 모든 텍스트 엘리먼트에 안전하게 contenteditable="true" 우선 부여
-      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .divider-desc-text, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope div, .project-summary-desc, .project-desc-bullets li, .legend-text, .legend-num';
+      const textTags = 'h1, h2, h3, h4, h5, p, span, li, b, strong, .divider-desc-text, .cinema-main-title, .cinema-title-text, .cinema-sub-desc, .cinema-index-num, .cinema-note-text, .overview-scope div, .project-summary-desc, .project-summary-desc div, .project-desc-block > div:not(.admin-desc-bullets-action-bar), .project-desc-bullets li, .legend-text, .legend-num';
       const elements = sheet.querySelectorAll(textTags);
       elements.forEach(el => {
         // SVG 내부나 버튼, 컨트롤 제외
@@ -47645,9 +47681,9 @@ BIM 모델 ISO (단면)
 
             <!-- 3. Project Description & Bullets (요청 2, 3번 이미지 반영) -->
             <div class="project-desc-block">
-              <p class="project-summary-desc">
+              <div class="project-summary-desc" spellcheck="false">
                 ${defaults.summaryDesc || '구조 시공 완료 후 설계 도서와 현장 정합성 검토 진행, 구조와 설비의 간섭 여부를 현장 데이터 기반으로 검토를 진행'}
-              </p>
+              </div>
               <ul class="project-desc-bullets">
                 ${defaults.descBullets || `
                   <li>Lidar 스캐너를 이용하여 현장 3D 스캔</li>
@@ -48244,10 +48280,37 @@ BIM 모델 ISO (단면)
       }, 1800);
     }
 
+    function sanitizeProjectSummaryDescInContainer(rootEl) {
+      if (!rootEl) return;
+      rootEl.querySelectorAll('.project-desc-block').forEach(descBlockEl => {
+        let sumEl = descBlockEl.querySelector('.project-summary-desc');
+        if (!sumEl) return;
+        let next = sumEl.nextElementSibling;
+        while (next && (next.tagName === 'DIV' || next.tagName === 'P') && !next.classList.contains('project-desc-bullets') && !next.classList.contains('admin-desc-bullets-action-bar')) {
+          const text = (next.innerHTML || '').replace(/^(&nbsp;|\s|<br\s*\/?>)+|(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+          if (text) {
+            const baseHtml = (sumEl.innerHTML || '').replace(/(&nbsp;|\s|<br\s*\/?>)+$/gi, '').trim();
+            sumEl.innerHTML = baseHtml ? (baseHtml + ' ' + text) : text;
+          }
+          const toRemove = next;
+          next = next.nextElementSibling;
+          toRemove.remove();
+        }
+        if (sumEl.tagName === 'P') {
+          const divEl = document.createElement('div');
+          Array.from(sumEl.attributes).forEach(attr => divEl.setAttribute(attr.name, attr.value));
+          divEl.innerHTML = sumEl.innerHTML;
+          sumEl.parentNode.replaceChild(divEl, sumEl);
+        }
+      });
+    }
+
     function getCleanBrochureSheetHTML() {
       const sheet = document.getElementById('a4Sheet');
       if (!sheet) return '';
+      sanitizeProjectSummaryDescInContainer(sheet);
       const cloneSheet = sheet.cloneNode(true);
+      sanitizeProjectSummaryDescInContainer(cloneSheet);
       cloneSheet.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
       cloneSheet.querySelectorAll('.admin-editable-img').forEach(el => el.classList.remove('admin-editable-img', 'admin-img-selected'));
       cloneSheet.querySelectorAll('.admin-obj-delete-btn, .admin-obj-add-btn, .admin-bullet-add-btn, .admin-desc-bullets-action-bar, .admin-obj-del-bar-btn, .media-fit-bar').forEach(b => b.remove());
@@ -48311,6 +48374,7 @@ BIM 모델 ISO (단면)
       if (tsValue) {
         sheet.setAttribute('data-brochure-ts', String(tsValue));
       }
+      sanitizeProjectSummaryDescInContainer(sheet);
       // 구버전 캐시/로컬스토리지 잔재에서 요청된 삭제 객체 클린업
       sheet.querySelectorAll('.cinema-category-badge, .film-badge').forEach(el => el.remove());
 
@@ -50157,10 +50221,12 @@ BIM 모델 ISO (단면)
 
       const liveSheet = document.getElementById('a4Sheet');
       if (liveSheet) {
+        sanitizeProjectSummaryDescInContainer(liveSheet);
         liveSheet.setAttribute('data-brochure-ts', String(deployTs));
       }
 
       const cloneDoc = document.documentElement.cloneNode(true);
+      sanitizeProjectSummaryDescInContainer(cloneDoc);
 
       // 1. [핵심] 관리자 모드 활성 클래스 및 툴바 완전 비활성화 (순수 뷰어 모드로 정화)
       cloneDoc.classList.remove('admin-mode-active');
